@@ -2,7 +2,6 @@ package com.antunmod.pricetag.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
