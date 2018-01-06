@@ -35,4 +35,6 @@
             android:label="Create an account"></activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

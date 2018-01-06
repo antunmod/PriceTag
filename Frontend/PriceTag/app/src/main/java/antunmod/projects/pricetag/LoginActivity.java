@@ -9,6 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,6 +55,31 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent createAnAccountIntent = new Intent(getApplicationContext(), CreateAccountActivity.class);
                 startActivity(createAnAccountIntent);
+            }
+        });
+
+        getAllUsers();
+    }
+
+
+    public void getAllUsers() {
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<User>> call = restServiceClient.getUsers();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                List<User> userList = response.body();
+                String outputString = "";
+                for (User user : userList) {
+                    outputString += user.getName() + " " + user.getEmail() + "\n";
+                }
+                Toast.makeText(getApplicationContext(), outputString, Toast.LENGTH_LONG).show();
+            }
+
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "No users", Toast.LENGTH_SHORT).show();
             }
         });
     }
