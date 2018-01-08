@@ -1,16 +1,32 @@
 package antunmod.projects.pricetag;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,8 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(homeIntent);
+                /*Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(homeIntent);*/
+                getAllUsers();
             }
         });
 
@@ -44,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         textView_forgotYourPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent forgotYourPasswordIntent = new Intent (getApplicationContext(), ForgotYourPasswordActivity.class);
+                Intent forgotYourPasswordIntent = new Intent(getApplicationContext(), ForgotYourPasswordActivity.class);
                 startActivity(forgotYourPasswordIntent);
             }
         });
@@ -57,8 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(createAnAccountIntent);
             }
         });
-
-        getAllUsers();
     }
 
 
@@ -70,10 +85,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 List<User> userList = response.body();
                 String outputString = "";
-                for (User user : userList) {
-                    outputString += user.getName() + " " + user.getEmail() + "\n";
+                Toast.makeText(LoginActivity.this, "Uspješnost: " + (response.isSuccessful()? "+" : "-"), Toast.LENGTH_LONG).show();
+                if (userList != null) {
+                    for (User user : userList) {
+                        outputString += user.getName() + " " + user.getEmail() + "\n";
+                    }
+                    Toast.makeText(getApplicationContext(), outputString, Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(getApplicationContext(), outputString, Toast.LENGTH_LONG).show();
             }
 
 
@@ -82,6 +100,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No users", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
+
 
 }

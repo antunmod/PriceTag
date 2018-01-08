@@ -7,5 +7,5 @@ import com.antunmod.pricetag.model.User;
 
 @Service
 public interface UserRepository extends JpaRepository<User, Long>{
-
+	
 }

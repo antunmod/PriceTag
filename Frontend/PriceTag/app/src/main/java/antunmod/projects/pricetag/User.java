@@ -13,11 +13,11 @@ public class User  implements Serializable {
     private String name;
     private String password;
     private String email;
-    private Date signupDate;
+    private String signupDate;
     private int points;
     private int userType;
 
-    public User(long userId, String name, String password, String email, Date signupDate, int points, int userType) {
+    public User(long userId, String name, String password, String email, String signupDate, int points, int userType) {
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -59,11 +59,11 @@ public class User  implements Serializable {
         this.email = email;
     }
 
-    public Date getSignupDate() {
+    public String getSignupDate() {
         return signupDate;
     }
 
-    public void setSignupDate(Date signupDate) {
+    public void setSignupDate(String signupDate) {
         this.signupDate = signupDate;
     }
 
