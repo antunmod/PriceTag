@@ -58,10 +58,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = editText_username.getText().toString();
                 String password = editText_password.getText().toString();
-                if(username.isEmpty() || password.isEmpty()) {
+                if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Oba polja moraju biti ispunjena!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     loginUser(username, password);
 
                 }
@@ -91,29 +90,25 @@ public class LoginActivity extends AppCompatActivity {
 
     public void loginUser(String username, final String password) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<User> call = restServiceClient.loginUser(username);
+        Call<User> call = restServiceClient.loginUser(username, password);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-                if(user.getName() != null) {
-                    String tmp = password;
-                    if (user.getPassword().equals(password)) {
-                        Intent loginIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                        loginIntent.putExtra("user", user);
-                        startActivity(loginIntent);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Neispravna lozinka.", Toast.LENGTH_LONG).show();
-                    }
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Korisnik s unesenim korisničkim imenom ne postoji!", Toast.LENGTH_SHORT).show();
+                if (user.getName() != null) {
+
+                    Intent loginIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                    loginIntent.putExtra("user", user);
+                    startActivity(loginIntent);
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Korisnik s unesenim korisničkim imenom i lozinkom ne postoji!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.toString() , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

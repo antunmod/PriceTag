@@ -30,11 +30,23 @@ public class UserController {
 //		return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
 //	}
 	
-	@ResponseBody
+	/*@ResponseBody
 	@GetMapping("")
 	public ResponseEntity loginUser (@RequestParam("username") String username) {
 		
 		User user = userRepository.findByUserName(username);
+		if (user==null) {
+            return new ResponseEntity<User>(new User(), HttpStatus.OK);
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}*/
+	
+	@ResponseBody
+	@GetMapping("")
+	public ResponseEntity<User> loginUser (@RequestParam("username") String username, 
+			@RequestParam("password") String password) {
+		
+		User user = userRepository.findByUserNameAndPassword(username, password);
 		if (user==null) {
             return new ResponseEntity<User>(new User(), HttpStatus.OK);
 		}
