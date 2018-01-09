@@ -96,14 +96,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-                String tmp = password;
-                if(user.getPassword().equals(password)) {
-                    Intent loginIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                    loginIntent.putExtra("user", user);
-                    startActivity(loginIntent);
+                if(user.getName() != null) {
+                    String tmp = password;
+                    if (user.getPassword().equals(password)) {
+                        Intent loginIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                        loginIntent.putExtra("user", user);
+                        startActivity(loginIntent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Neispravna lozinka.", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Neispravna lozinka.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Korisnik s unesenim korisničkim imenom ne postoji!", Toast.LENGTH_SHORT).show();
                 }
             }
 

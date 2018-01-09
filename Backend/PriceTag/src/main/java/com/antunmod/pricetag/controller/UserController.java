@@ -36,8 +36,7 @@ public class UserController {
 		
 		User user = userRepository.findByUserName(username);
 		if (user==null) {
-			String error = "Nepostojeci korisnik.";
-            return new ResponseEntity<String>(error, HttpStatus.OK);
+            return new ResponseEntity<User>(new User(), HttpStatus.OK);
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
