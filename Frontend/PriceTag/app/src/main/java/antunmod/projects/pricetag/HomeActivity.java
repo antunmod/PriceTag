@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class HomeActivity extends AppCompatActivity
@@ -23,6 +24,8 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        User user = (User) getIntent().getSerializableExtra("user");
+        Toast.makeText(getApplicationContext(), "Korisnik " + user.getName() + " je u sjednici!", Toast.LENGTH_SHORT).show();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -34,6 +37,10 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         setDefaultFragment(new FindProductForBarcodeFragment());
+
+        Bundle bundle = getIntent().getBundleExtra("user");
+        //User user = (User) bundle;
+        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -38,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_signIn;
     TextView textView_forgotYourPassword;
     TextView textView_CreateAnAccount;
+    EditText editText_username;
+    EditText editText_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +49,22 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        editText_username = (EditText) findViewById(R.id.editText_username);
+        editText_password = (EditText) findViewById(R.id.editText_password);
+
         btn_signIn = (Button) findViewById(R.id.btn_sign_in);
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(homeIntent);*/
-                getAllUsers();
+                String username = editText_username.getText().toString();
+                String password = editText_password.getText().toString();
+                if(username.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Oba polja moraju biti ispunjena!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    loginUser(username, password);
+
+                }
             }
         });
 
@@ -77,7 +89,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void getAllUsers() {
+    public void loginUser(String username, final String password) {
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<User> call = restServiceClient.loginUser(username);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                String tmp = password;
+                if(user.getPassword().equals(password)) {
+                    Intent loginIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                    loginIntent.putExtra("user", user);
+                    startActivity(loginIntent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Neispravna lozinka.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /*public void getAllUsers() {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<User>> call = restServiceClient.getUsers();
         call.enqueue(new Callback<List<User>>() {
@@ -101,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
 
 }

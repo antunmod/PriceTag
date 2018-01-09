@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +24,22 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
+//	@ResponseBody
+//	@GetMapping("")
+//	public ResponseEntity showUserList () {
+//		return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
+//	}
+	
 	@ResponseBody
 	@GetMapping("")
-	public ResponseEntity showUserList () {
-		return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
+	public ResponseEntity loginUser (@RequestParam("username") String username) {
+		
+		User user = userRepository.findByUserName(username);
+		if (user==null) {
+			String error = "Nepostojeci korisnik.";
+            return new ResponseEntity<String>(error, HttpStatus.OK);
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@RequestMapping("/save")

@@ -5,8 +5,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by antun on 1/6/2018.
@@ -14,12 +18,16 @@ import retrofit2.http.Headers;
 
 public interface RestServiceClient {
 
-    //@Headers("Content-Type: application/json")
+    /*@Headers("Content-Type: application/json")
     @GET("users")
-    Call<List<User>> getUsers();
+    Call<List<User>> getUsers();*/
+
+    @Headers("Content-Type: application/json")
+    @GET("users")
+    Call<User> loginUser(@Query("username") String username);
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8001/")
+            .baseUrl("http://192.168.1.4:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 }
