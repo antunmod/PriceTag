@@ -1,5 +1,7 @@
 package antunmod.projects.pricetag;
 
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -38,9 +41,6 @@ public class HomeActivity extends AppCompatActivity
 
         setDefaultFragment(new FindProductForBarcodeFragment());
 
-        Bundle bundle = getIntent().getBundleExtra("user");
-        //User user = (User) bundle;
-        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } 
+        }
     }
 
     @Override
@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -67,12 +67,33 @@ public class HomeActivity extends AppCompatActivity
 
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.menu_logout) {
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(HomeActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(HomeActivity.this);
+            }
+            builder.setTitle("Odjava")
+                    .setMessage("Jeste li sigurni da se želite odjaviti?")
+                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(R.drawable.ic_logout);
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -82,20 +103,20 @@ public class HomeActivity extends AppCompatActivity
 
         FragmentManager manager = getSupportFragmentManager();
 
-        switch(id) {
-            case(R.id.add_categorization):
+        switch (id) {
+            case (R.id.add_categorization):
                 AddCategorizationFragment addCategorizationFragment = new AddCategorizationFragment();
                 manager.beginTransaction().replace(R.id.layout_for_fragment, addCategorizationFragment).commit();
                 break;
-            case(R.id.add_product):
+            case (R.id.add_product):
                 FindProductForBarcodeFragment findProductForBarcodeFragment = new FindProductForBarcodeFragment();
                 manager.beginTransaction().replace(R.id.layout_for_fragment, findProductForBarcodeFragment).commit();
                 break;
-            case(R.id.recent):
+            case (R.id.recent):
                 RecentProductsFragment recentProductsFragment = new RecentProductsFragment();
                 manager.beginTransaction().replace(R.id.layout_for_fragment, recentProductsFragment).commit();
                 break;
-            case(R.id.search):
+            case (R.id.search):
                 SearchFragment searchFragment = new SearchFragment();
                 manager.beginTransaction().replace(R.id.layout_for_fragment, searchFragment).commit();
                 break;

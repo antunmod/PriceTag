@@ -113,31 +113,5 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /*public void getAllUsers() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<User>> call = restServiceClient.getUsers();
-        call.enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                List<User> userList = response.body();
-                String outputString = "";
-                Toast.makeText(LoginActivity.this, "Uspješnost: " + (response.isSuccessful()? "+" : "-"), Toast.LENGTH_LONG).show();
-                if (userList != null) {
-                    for (User user : userList) {
-                        outputString += user.getName() + " " + user.getEmail() + "\n";
-                    }
-                    Toast.makeText(getApplicationContext(), outputString, Toast.LENGTH_LONG).show();
-                }
-            }
-
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "No users", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }*/
-
 
 }
