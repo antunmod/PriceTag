@@ -2,6 +2,8 @@ package antunmod.projects.pricetag;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by antun on 1/6/2018.
@@ -16,6 +18,12 @@ public class User  implements Serializable {
     private String signupDate;
     private int points;
     private int userType;
+
+    public User() {
+        points = 0;
+        userType = 1;
+        signupDate = new SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis());
+    }
 
     public User(long userId, String name, String password, String email, String signupDate, int points, int userType) {
         this.userId = userId;

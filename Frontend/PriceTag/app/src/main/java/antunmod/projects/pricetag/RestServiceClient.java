@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -30,8 +31,12 @@ public interface RestServiceClient {
     @GET("users")
     Call<User> loginUser(@Query("username") String username, @Query("password") String password);
 
+    @Headers("Content-Type: application/json")
+    @POST("users")
+    Call<User> registerUser(@Body User user);
+
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.6:8000/")
+            .baseUrl("http://192.168.1.2:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 }
