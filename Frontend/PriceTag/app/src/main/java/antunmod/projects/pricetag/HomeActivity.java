@@ -1,9 +1,11 @@
 package antunmod.projects.pricetag;
 
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -14,11 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener {
+
+    Button btn_addProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,9 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setDefaultFragment(new FindProductForBarcodeFragment());
+        //Set default fragment
+        setFragment(new FindProductForBarcodeFragment());
+
 
     }
 
@@ -127,7 +135,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public void setDefaultFragment(FindProductForBarcodeFragment findProductForBarcodeFragment) {
+    public void setFragment(FindProductForBarcodeFragment findProductForBarcodeFragment) {
         try {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -143,4 +151,15 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    protected void swapFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.layout_for_fragment, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Toast.makeText(getApplicationContext(), "Tu sam", Toast.LENGTH_SHORT).show();
+    }
 }
