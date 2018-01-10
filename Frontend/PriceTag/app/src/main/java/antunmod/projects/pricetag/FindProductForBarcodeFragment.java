@@ -1,11 +1,8 @@
 package antunmod.projects.pricetag;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +39,7 @@ public class FindProductForBarcodeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String barcode = editText_barcode.getText().toString();
+                final String barcode = editText_barcode.getText().toString();
                 if (barcode.isEmpty()) {
                     Toast.makeText(getContext(), "Unesite barkod", Toast.LENGTH_SHORT).show();
                 } else {
@@ -64,7 +61,15 @@ public class FindProductForBarcodeFragment extends Fragment {
                                         .commit();
 
                             } else {
-                                Toast.makeText(getContext(), "Proizvod s tim barkodom nije pronađen!", Toast.LENGTH_SHORT).show();
+                                Bundle bundle = new Bundle();
+                                productDetails.setBarcode(barcode);
+                                bundle.putSerializable("productDetails", productDetails);
+                                SelectSectorFragment selectSectorFragment = new SelectSectorFragment();
+                                selectSectorFragment.setArguments(bundle);
+                                getFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.layout_for_fragment, selectSectorFragment)
+                                        .commit();
                             }
                         }
 
@@ -84,7 +89,7 @@ public class FindProductForBarcodeFragment extends Fragment {
             }
         });
 
-        editText_barcode = inflatedView.findViewById(R.id.editText_barcode);
+        editText_barcode = inflatedView.findViewById(R.id.editText_find_product_for_barcode);
 
         return inflatedView;
     }

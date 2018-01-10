@@ -39,8 +39,17 @@ public interface RestServiceClient {
     @GET("products")
     Call<ProductDetails> findProductForBarcode(@Query("barcode") String barcode);
 
+    @Headers("Content-Type: application/json")
+    @GET("sizes")
+    Call<List<String>> getSizeValues();
+
+    @Headers("Content-Type: application/json")
+    @GET("sectors")
+    Call<List<String>> getSectors();
+
+
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.4:8001/")
+            .baseUrl("http://192.168.1.3:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

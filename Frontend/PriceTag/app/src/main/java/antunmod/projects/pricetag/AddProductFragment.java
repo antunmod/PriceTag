@@ -1,17 +1,20 @@
 package antunmod.projects.pricetag;
 
 import android.content.Context;
-import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.security.acl.Group;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -81,17 +84,52 @@ public class AddProductFragment extends Fragment {
 
     }
 
-    
+    View inflatedView;
+    Button btn_addPhoto;
+    EditText editText_productName;
+    EditText editText_producer;
+    EditText editText_barcode;
+    EditText editText_size;
+    EditText editText_price;
+    TextView textView_addProduct;
+    ArrayAdapter<String> adapter;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        this.inflatedView = inflater.inflate(R.layout.fragment_add_product, container, false);
+       /* btn_addPhoto = inflatedView.findViewById(R.id.btn_add_photo);
+        editText_productName = inflatedView.findViewById(R.id.editText_product_name);
+        editText_producer = inflatedView.findViewById(R.id.editText_producer);
+        editText_barcode = inflatedView.findViewById(R.id.editText_barcode);
+        editText_size = inflatedView.findViewById(R.id.editText_size);
+        editText_price = inflatedView.findViewById(R.id.editText_price);
+        textView_addProduct = inflatedView.findViewById(R.id.textView_add_product);*/
+
+        if(productDetails!=null) {
 
 
-        return inflater.inflate(R.layout.fragment_add_product, container, false);
+            editText_productName.setText(productDetails.getName());
+            disableInput(editText_productName);
+
+            editText_producer.setText(productDetails.getProducer());
+            disableInput(editText_producer);
+
+            editText_barcode.setText(productDetails.getBarcode());
+            disableInput(editText_barcode);
+
+            editText_size.setText(String.valueOf(productDetails.getSize()));
+            disableInput(editText_size);
+        }
+
+
+        return inflatedView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -133,4 +171,15 @@ public class AddProductFragment extends Fragment {
     }
 
 
+    void disableInput(EditText editText){
+        editText.setInputType(InputType.TYPE_NULL);
+        editText.setTextIsSelectable(false);
+        editText.setBackground(null);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v,int keyCode,KeyEvent event) {
+                return true;  // Blocks input from hardware keyboards.
+            }
+        });
+    }
 }

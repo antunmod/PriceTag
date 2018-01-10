@@ -22,7 +22,7 @@ public interface ProductDetailsRepository extends JpaRepository<ProductDetails, 
 	        "barcode, " +
 	        "photo, " +
 	        "product_size, " +
-	        "product_size_ID, " +
+	        "size_type, " +
 	        "price, " +
 	        "price_change_date, " +
 	        "average_price, " +
@@ -30,7 +30,8 @@ public interface ProductDetailsRepository extends JpaRepository<ProductDetails, 
 	        "FROM product_store LEFT JOIN product ON product_store.product_ID = product.product_ID JOIN " +
 	        "subcategory_product ON product.product_ID = subcategory_product.product_ID JOIN " + 
 	        "category_subcategory ON subcategory_product.subcategory_ID = category_subcategory.subcategory_ID JOIN " +
-	        "sector_category ON category_subcategory.category_ID = sector_category.category_ID " +
+	        "sector_category ON category_subcategory.category_ID = sector_category.category_ID JOIN " +
+	        "product_size ON product_store.product_size_ID = product_size.product_size_ID " +
 	        "WHERE barcode = ?1", nativeQuery=true)
 	ProductDetails findProductForBarcode(String barcode);
 

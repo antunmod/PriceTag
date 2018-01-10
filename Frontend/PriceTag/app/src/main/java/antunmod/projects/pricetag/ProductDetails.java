@@ -21,8 +21,8 @@ public class ProductDetails implements Serializable {
     private String producer;
     private String barcode;
     private String photo;
-    private int size;
-    private int sizeType;
+    private float size;
+    private String sizeType;
     private float price;
     private String priceChangeDate;
     private float averagePrice;
@@ -31,7 +31,7 @@ public class ProductDetails implements Serializable {
     public ProductDetails(long productId, int subcategoryId, int categoryId,
                           int sectorId, int storeId, int userId, String name,
                           String producer, String barcode, String photo,
-                          int size, int sizeType, float price, String priceChangeDate,
+                          int size, String sizeType, float price, String priceChangeDate,
                           float averagePrice, int productUpdates) {
         this.productId = productId;
         this.subcategoryId = subcategoryId;
@@ -134,19 +134,19 @@ public class ProductDetails implements Serializable {
         this.photo = photo;
     }
 
-    public int getSize() {
+    public float getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(float size) {
         this.size = size;
     }
 
-    public int getSizeType() {
+    public String getSizeType() {
         return sizeType;
     }
 
-    public void setSizeType(int sizeType) {
+    public void setSizeType(String sizeType) {
         this.sizeType = sizeType;
     }
 

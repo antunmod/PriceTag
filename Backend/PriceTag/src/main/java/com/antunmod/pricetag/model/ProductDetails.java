@@ -53,8 +53,8 @@ public class ProductDetails implements Serializable {
 	@Column (name = "product_size")
     private int size;
 	
-	@Column (name = "product_size_ID")
-    private int sizeType;
+	@Column (name = "size_type")
+    private String sizeType;
 	
 	@Column (name = "price")
     private float price;
@@ -69,7 +69,7 @@ public class ProductDetails implements Serializable {
     private int productUpdates;
 	
 	public ProductDetails(long productId, int subcategoryId, int categoryId, int sectorId, int storeId, int userId,
-			String name, String producer, String barcode, byte[] photo, int size, int sizeType, float price,
+			String name, String producer, String barcode, byte[] photo, int size, String sizeType, float price,
 			String priceChangeDate, float averagePrice, int productUpdates) {
 		super();
 		this.productId = productId;
@@ -180,11 +180,11 @@ public class ProductDetails implements Serializable {
 		this.size = size;
 	}
 
-	public int getSizeType() {
+	public String getSizeType() {
 		return sizeType;
 	}
 
-	public void setSizeType(int sizeType) {
+	public void setSizeType(String sizeType) {
 		this.sizeType = sizeType;
 	}
 

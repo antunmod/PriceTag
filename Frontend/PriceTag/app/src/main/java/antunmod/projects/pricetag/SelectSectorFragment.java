@@ -9,6 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -28,6 +35,7 @@ public class SelectSectorFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private List<String> sectorList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,7 +69,45 @@ public class SelectSectorFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        getSectorList();
 
+    }
+
+    private void getSectorList() {
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<ProductDetails> call = restServiceClient.findProductForBarcode(barcode);
+        call.enqueue(new Callback<ProductDetails>() {
+            @Override
+            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                ProductDetails productDetails = response.body();
+                if (productDetails.getName() != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("productDetails", productDetails);
+                    AddProductFragment addProductFragment = new AddProductFragment();
+                    addProductFragment.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.layout_for_fragment, addProductFragment)
+                            .commit();
+
+                } else {
+                    Bundle bundle = new Bundle();
+                    productDetails.setBarcode(barcode);
+                    bundle.putSerializable("productDetails", productDetails);
+                    SelectSectorFragment selectSectorFragment = new SelectSectorFragment();
+                    selectSectorFragment.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.layout_for_fragment, selectSectorFragment)
+                            .commit();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetails> call, Throwable t) {
+                Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     ListView listView;
