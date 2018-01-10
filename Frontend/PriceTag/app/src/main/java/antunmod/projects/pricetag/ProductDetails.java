@@ -20,7 +20,7 @@ public class ProductDetails implements Serializable {
     private String name;
     private String producer;
     private String barcode;
-    private byte[] photo;
+    private String photo;
     private int size;
     private int sizeType;
     private float price;
@@ -30,7 +30,7 @@ public class ProductDetails implements Serializable {
 
     public ProductDetails(long productId, int subcategoryId, int categoryId,
                           int sectorId, int storeId, int userId, String name,
-                          String producer, String barcode, byte[] photo,
+                          String producer, String barcode, String photo,
                           int size, int sizeType, float price, String priceChangeDate,
                           float averagePrice, int productUpdates) {
         this.productId = productId;
@@ -126,11 +126,11 @@ public class ProductDetails implements Serializable {
         this.barcode = barcode;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

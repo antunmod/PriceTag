@@ -64,21 +64,22 @@ public class FindProductForBarcodeFragment extends Fragment {
                                         .commit();
 
                             } else {
-
+                                Toast.makeText(getContext(), "Proizvod s tim barkodom nije pronađen!", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ProductDetails> call, Throwable t) {
+                            Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
                         }
                     });
 
 
-                    Fragment fragment = new AddProductFragment();
+                    /*Fragment fragment = new AddProductFragment();
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction transaction = fm.beginTransaction();
                     transaction.replace(R.id.layout_for_fragment, fragment);
-                    transaction.commit();
+                    transaction.commit();*/
                 }
             }
         });

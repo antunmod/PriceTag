@@ -1,32 +1,73 @@
 package com.antunmod.pricetag.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
-public class ProductDetails {
+
+@Entity
+public class ProductDetails implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column (name = "product_store_ID")
 	private long productStoreId;
+	
+	@Column (name = "product_ID")
 	private long productId;
+	
+	@Column (name = "subcategory_ID")
     private int subcategoryId;
+	
+	@Column (name = "category_ID")
     private int categoryId;
+	
+	@Column (name = "sector_ID")
     private int sectorId;
 
+	@Column (name = "store_ID")
     private int storeId;
+	
+	@Column (name = "user_ID")
     private int userId;
-
+	
+	
+	@Column (name = "product_name")
     private String name;
+	
+	@Column (name = "producer")
     private String producer;
+	
+	@Column (name = "barcode")
     private String barcode;
+	
+	@Column (name = "photo")
     private byte[] photo;
+	
+	@Column (name = "product_size")
     private int size;
+	
+	@Column (name = "product_size_ID")
     private int sizeType;
+	
+	@Column (name = "price")
     private float price;
+	
+	@Column (name = "price_change_date")
     private String priceChangeDate;
+	
+	@Column (name = "average_price")
     private float averagePrice;
+	
+	@Column (name = "product_updates")
     private int productUpdates;
-    
+	
 	public ProductDetails(long productId, int subcategoryId, int categoryId, int sectorId, int storeId, int userId,
 			String name, String producer, String barcode, byte[] photo, int size, int sizeType, float price,
 			String priceChangeDate, float averagePrice, int productUpdates) {

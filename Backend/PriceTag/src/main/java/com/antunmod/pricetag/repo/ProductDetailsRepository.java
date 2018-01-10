@@ -30,8 +30,9 @@ public interface ProductDetailsRepository extends JpaRepository<ProductDetails, 
 	        "FROM product_store LEFT JOIN product ON product_store.product_ID = product.product_ID JOIN " +
 	        "subcategory_product ON product.product_ID = subcategory_product.product_ID JOIN " + 
 	        "category_subcategory ON subcategory_product.subcategory_ID = category_subcategory.subcategory_ID JOIN " +
-	        "sector_category ON category_subcategory.category_ID = sector_category.category_ID")
-	ProductDetails findProductForBarcode(ProductDetails productDetails);
+	        "sector_category ON category_subcategory.category_ID = sector_category.category_ID " +
+	        "WHERE barcode = ?1", nativeQuery=true)
+	ProductDetails findProductForBarcode(String barcode);
 
 	
 }

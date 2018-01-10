@@ -1,33 +1,25 @@
 package antunmod.projects.pricetag;
 
 import android.content.Context;
-import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.security.acl.Group;
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddProductFragment.OnFragmentInteractionListener} interface
+ * {@link SelectSectorFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AddProductFragment#newInstance} factory method to
+ * Use the {@link SelectSectorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddProductFragment extends Fragment {
+public class SelectSectorFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,9 +31,7 @@ public class AddProductFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private ProductDetails productDetails;
-
-    public AddProductFragment() {
+    public SelectSectorFragment() {
         // Required empty public constructor
     }
 
@@ -51,11 +41,11 @@ public class AddProductFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AddProductFragment.
+     * @return A new instance of fragment SelectSectorFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddProductFragment newInstance(String param1, String param2) {
-        AddProductFragment fragment = new AddProductFragment();
+    public static SelectSectorFragment newInstance(String param1, String param2) {
+        SelectSectorFragment fragment = new SelectSectorFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,26 +61,29 @@ public class AddProductFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        Bundle bundle = this.getArguments();
-
-        // Set values
-        if(bundle != null) {
-            productDetails = (ProductDetails) bundle.getSerializable("productDetails");
-            Toast.makeText(getContext(), productDetails.getName(), Toast.LENGTH_SHORT).show();
-        }
 
     }
 
-    
+    ListView listView;
+    View inflatedView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        this.inflatedView = inflater.inflate(R.layout.fragment_find_product_for_barcode, container, false);
+        listView = (ListView) inflatedView.findViewById(R.id.listView_sector);
+        String[] items = {"Prvi", "Drugi", "Treći"};
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                items
+        );
 
+        listView.setAdapter(listViewAdapter);
 
-        return inflater.inflate(R.layout.fragment_add_product, container, false);
+        return inflatedView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -131,6 +124,4 @@ public class AddProductFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }

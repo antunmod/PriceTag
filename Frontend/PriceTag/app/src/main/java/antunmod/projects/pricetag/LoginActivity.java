@@ -50,20 +50,20 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        editText_username = (EditText) findViewById(R.id.editText_username);
-        editText_password = (EditText) findViewById(R.id.editText_password);
+        editText_username =  findViewById(R.id.editText_username);
+        editText_password =  findViewById(R.id.editText_password);
 
-        btn_signIn = (Button) findViewById(R.id.btn_sign_in);
+        btn_signIn =  findViewById(R.id.btn_sign_in);
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String username = editText_username.getText().toString();
                 String password = editText_password.getText().toString();
                 if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Oba polja moraju biti ispunjena!", Toast.LENGTH_SHORT).show();
                 } else {
                     loginUser(username, password);
-
                 }
             }
         });

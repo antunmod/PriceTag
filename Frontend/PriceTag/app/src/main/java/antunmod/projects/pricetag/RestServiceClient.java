@@ -40,7 +40,7 @@ public interface RestServiceClient {
     Call<ProductDetails> findProductForBarcode(@Query("barcode") String barcode);
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.2:8000/")
+            .baseUrl("http://192.168.1.4:8001/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
