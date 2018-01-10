@@ -69,11 +69,11 @@ public class SelectSectorFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        getSectorList();
+        //getSectorList();
 
     }
 
-    private void getSectorList() {
+    /*private void getSectorList() {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<ProductDetails> call = restServiceClient.findProductForBarcode(barcode);
         call.enqueue(new Callback<ProductDetails>() {
@@ -108,7 +108,7 @@ public class SelectSectorFragment extends Fragment {
                 Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
     ListView listView;
     View inflatedView;

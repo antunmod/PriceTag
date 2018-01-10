@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -12,6 +13,7 @@ public class SuggestedCategorization implements Serializable{
 	
 	private static final long serialVersionUID = 6798874615378134031L;
 
+	@Id
 	@Column (name = "sector_name")
 	private String sectorName;
 	
