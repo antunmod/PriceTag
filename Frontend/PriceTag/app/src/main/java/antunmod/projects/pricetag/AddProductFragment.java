@@ -39,6 +39,8 @@ public class AddProductFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private ProductDetails productDetails;
+
     public AddProductFragment() {
         // Required empty public constructor
     }
@@ -69,7 +71,14 @@ public class AddProductFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        // Connect to database
+        Bundle bundle = this.getArguments();
+
+        // Set values
+        if(bundle != null) {
+            productDetails = (ProductDetails) bundle.getSerializable("productDetails");
+            Toast.makeText(getContext(), productDetails.getName(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

@@ -6,7 +6,6 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,13 +46,14 @@ public class UserController {
 	@ResponseBody
 	@PostMapping("")
 	public ResponseEntity<User> registerUser(@RequestBody User user) {
+		User savedUser;
 		try {
-			User savedUser = userRepository.save(user);
+			savedUser = userRepository.save(user);
 		} catch (Exception e) {
 			return new ResponseEntity<User>(new User(), HttpStatus.OK);
 		}
 		
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<User>(savedUser, HttpStatus.OK);
 	}
 	
 }

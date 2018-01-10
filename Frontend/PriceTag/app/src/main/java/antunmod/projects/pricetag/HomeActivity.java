@@ -46,7 +46,9 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Set default fragment
-        setFragment(new FindProductForBarcodeFragment());
+        if (savedInstanceState == null) {
+            setFragment(new FindProductForBarcodeFragment());
+        }
 
 
     }

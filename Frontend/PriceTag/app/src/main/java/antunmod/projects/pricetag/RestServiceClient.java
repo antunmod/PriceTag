@@ -35,8 +35,14 @@ public interface RestServiceClient {
     @POST("users")
     Call<User> registerUser(@Body User user);
 
+    @Headers("Content-Type: application/json")
+    @GET("products")
+    Call<ProductDetails> findProductForBarcode(@Query("barcode") String barcode);
+
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.1.2:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
+
 }
