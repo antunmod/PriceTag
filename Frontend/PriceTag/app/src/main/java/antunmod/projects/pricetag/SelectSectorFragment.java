@@ -1,16 +1,19 @@
 package antunmod.projects.pricetag;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,10 +38,10 @@ public class SelectSectorFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private List<String> sectorList;
 
     private OnFragmentInteractionListener mListener;
     private ProductDetails productDetails;
+    private List<Sector> sectorList;
 
     ListView listView;
     View inflatedView;
@@ -77,7 +80,7 @@ public class SelectSectorFragment extends Fragment {
         Bundle bundle = this.getArguments();
 
         // Set values
-        if(bundle != null) {
+        if (bundle != null) {
             productDetails = (ProductDetails) bundle.getSerializable("productDetails");
             Toast.makeText(getContext(), productDetails.getName(), Toast.LENGTH_SHORT).show();
         }
@@ -86,12 +89,20 @@ public class SelectSectorFragment extends Fragment {
 
     private void getSectorList() {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getSectors();
-        call.enqueue(new Callback<List<String>>() {
+        Call<List<Sector>> call = restServiceClient.getSectors();
+        call.enqueue(new Callback<List<Sector>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> stringList= response.body();
-                String[] items = stringList.toArray(new String[0]);
+            public void onResponse(Call<List<Sector>> call, Response<List<Sector>> response) {
+                List<Sector> sectorList = response.body();
+                saveSectorList(sectorList);
+                String[] items = sectorList.toArray(new String[0]);
+
+                if (sectorList != null) {
+                    for (int i = 0; sectorList.get(i) != null; i++) {
+                        items[i] = sectorList.get(i).getSectorName();
+                    }
+                }
+
                 ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(
                         getContext(),
                         android.R.layout.simple_list_item_1,
@@ -99,14 +110,17 @@ public class SelectSectorFragment extends Fragment {
                 );
 
                 listView.setAdapter(listViewAdapter);
-                Toast.makeText(getContext(), "Dosli sektori", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<List<Sector>> call, Throwable t) {
                 Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveSectorList(List<Sector> sectorList) {
+
     }
 
 
@@ -118,7 +132,45 @@ public class SelectSectorFragment extends Fragment {
         this.inflatedView = inflater.inflate(R.layout.fragment_select_sector, container, false);
         listView = inflatedView.findViewById(R.id.listView_sector);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedSector = listView.getItemAtPosition(i).toString();
+                productDetails.setSectorId(sectorList.get(i).getSectorId());
+                goToCategoriesFragment(selectedSector);
+            }
+        });
         return inflatedView;
+    }
+
+    private void goToCategoriesFragment(String selectedSector) {
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getCategoriesForSectorName(selectedSector);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                ArrayList<String> categoriesList = (ArrayList) response.body();
+                if (categoriesList != null && categoriesList.get(0) != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("productDetails", productDetails);
+                    bundle.putStringArrayList("categoriesList", categoriesList);
+                    SelectCategoryFragment selectCategoryFragment = new SelectCategoryFragment();
+                    selectCategoryFragment.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.layout_for_fragment, selectCategoryFragment)
+                            .commit();
+
+                } else {
+                    Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

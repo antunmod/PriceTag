@@ -13,7 +13,7 @@ import com.antunmod.pricetag.model.ProductDetails;
 import com.antunmod.pricetag.repo.ProductDetailsRepository;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/productDetails")
 public class ProductDetailsController {
 	
 	@Autowired

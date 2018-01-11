@@ -45,8 +45,11 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("sectors")
-    Call<List<String>> getSectors();
+    Call<List<Sector>> getSectors();
 
+    @Headers("Content-Type: application/json")
+    @GET("sectors")
+    Call<List<String>> getCategoriesForSectorName(@Query("sectorName") String sectorName);
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.1.3:8000/")

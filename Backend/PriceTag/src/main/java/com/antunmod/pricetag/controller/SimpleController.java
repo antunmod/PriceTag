@@ -66,13 +66,10 @@ public class SimpleController {
 	
 	@ResponseBody
 	@GetMapping("/sectors")
-	public ResponseEntity<List<String>> getSectors() {
-		List<Sector> sectorList = sectorRepository.findAll();
-		List<String> sectorStringList = new ArrayList<String>();
-		for(Sector sector: sectorList) {
-			sectorStringList.add(sector.getSectorName());
-		}
-		return new ResponseEntity<List<String>>(sectorStringList, HttpStatus.OK);
+	public ResponseEntity<List<Sector>> getSectors() {
+		List<Sector> sectorList = new ArrayList<Sector>();
+		sectorList = sectorRepository.findAll();
+		return new ResponseEntity<List<Sector>>(sectorList, HttpStatus.OK);
 	}
 	
 	@ResponseBody
