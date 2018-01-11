@@ -62,9 +62,9 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
 
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count > 1) {
             super.onBackPressed();
         }
     }
