@@ -10,25 +10,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SelectStoreFragment.OnFragmentInteractionListener} interface
+ * {@link SelectStoreLocationFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SelectStoreFragment#newInstance} factory method to
+ * Use the {@link SelectStoreLocationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SelectStoreFragment extends Fragment {
+public class SelectStoreLocationFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,7 +34,7 @@ public class SelectStoreFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SelectStoreFragment() {
+    public SelectStoreLocationFragment() {
         // Required empty public constructor
     }
 
@@ -50,11 +44,11 @@ public class SelectStoreFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SelectStoreFragment.
+     * @return A new instance of fragment SelectStoreLocationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelectStoreFragment newInstance(String param1, String param2) {
-        SelectStoreFragment fragment = new SelectStoreFragment();
+    public static SelectStoreLocationFragment newInstance(String param1, String param2) {
+        SelectStoreLocationFragment fragment = new SelectStoreLocationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,8 +56,8 @@ public class SelectStoreFragment extends Fragment {
         return fragment;
     }
 
-    private List<String> storeList;
-    private String barcode;
+    List<String> storeLocations;
+    String barcode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,87 +71,51 @@ public class SelectStoreFragment extends Fragment {
 
         // Set values
         if (bundle != null) {
-            storeList =  bundle.getStringArrayList("storeList");
+            storeLocations =  bundle.getStringArrayList("storeLocations");
             barcode = bundle.getString("barcode");
         }
     }
 
     private View inflatedView;
-    private ListView listView_store;
+    private ListView listView_storeLocations;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.inflatedView = inflater.inflate(R.layout.fragment_select_store_location, container, false);
 
-        this.inflatedView = inflater.inflate(R.layout.fragment_select_store, container, false);
-        listView_store = inflatedView.findViewById(R.id.listView_store);
+        listView_storeLocations = inflatedView.findViewById(R.id.listView_store_locations);
 
-        listView_store.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView_storeLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedStore = listView_store.getItemAtPosition(i).toString();
                 findStoreLocations(selectedStore);
             }
-        });
-        String[] storeArrayList;
-        if(storeList!=null) {
-            int listSize = storeList.size();
-            storeArrayList = new String[listSize];
+        });*/
+        String[] storeLocationsArrayList;
+        if(storeLocations!=null) {
+            int listSize = storeLocations.size();
+            storeLocationsArrayList = new String[listSize];
 
             for(int i = 0; i<listSize; ++i) {
-                storeArrayList[i] = storeList.get(i);
+                storeLocationsArrayList[i] = storeLocations.get(i);
             }
         }
         else {
-            storeArrayList = new String[0];
+            storeLocationsArrayList = new String[0];
         }
 
 
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
                 getContext(),
                 android.R.layout.simple_list_item_1,
-                storeArrayList
+                storeLocationsArrayList
         );
-        listView_store.setAdapter(listViewAdapter);
+        listView_storeLocations.setAdapter(listViewAdapter);
 
 
         return inflatedView;
-    }
-
-    private void findStoreLocations(String selectedStore) {
-
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getStoreLocations(selectedStore);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> storeLocations = response.body();
-                if (storeLocations != null && storeLocations.size()>0) {
-                    goToSelectStoreLocationFragment(storeLocations);
-                } else {
-                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void goToSelectStoreLocationFragment(List<String> storeLocations) {
-        Bundle bundle = new Bundle();
-        //bundle.putStringArrayList("storeList", (ArrayList) storeList);
-        bundle.putStringArrayList("storeLocations", (ArrayList) storeLocations);
-        bundle.putString("barcode", barcode);
-        SelectStoreLocationFragment selectStoreLocationFragment = new SelectStoreLocationFragment();
-        selectStoreLocationFragment.setArguments(bundle);
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_for_fragment, selectStoreLocationFragment)
-                .addToBackStack("selectStoreFragment")
-                .commit();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

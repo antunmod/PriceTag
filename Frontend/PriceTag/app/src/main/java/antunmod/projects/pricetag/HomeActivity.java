@@ -23,7 +23,8 @@ import android.widget.Toast;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener,
         SelectSectorFragment.OnFragmentInteractionListener, SelectStoreFragment.OnFragmentInteractionListener,
-        SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener{
+        SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener,
+        SelectStoreLocationFragment.OnFragmentInteractionListener {
 
     Button btn_addProduct;
 
@@ -59,6 +60,12 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }
+
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
 

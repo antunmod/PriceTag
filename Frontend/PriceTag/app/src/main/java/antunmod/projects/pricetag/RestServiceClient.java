@@ -55,10 +55,15 @@ public interface RestServiceClient {
     @GET("stores")
     Call<List<String>> getStoreNames();
 
+    @Headers("Content-Type: application/json")
+    @GET("stores/locations")
+    Call<List<String>> getStoreLocations(@Query("storeName") String selectedStore);
+
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.1.3:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
 
 
 }

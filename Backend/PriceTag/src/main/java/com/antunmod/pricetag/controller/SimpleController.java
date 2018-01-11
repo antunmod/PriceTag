@@ -102,4 +102,16 @@ public class SimpleController {
 		return new ResponseEntity<List<String>>(storeStringList, HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@GetMapping("/stores/locations")
+	public ResponseEntity<List<String>> getStoreLocations(@RequestParam("storeName") String storeName) {
+		List<String> storeLocationsList = storeRepository.getStoreLocations(storeName);
+		if(storeLocationsList.isEmpty()) {
+			return new ResponseEntity<List<String>> (new ArrayList<String>(), HttpStatus.OK);
+		}
+		return new ResponseEntity<List<String>> (storeLocationsList, HttpStatus.OK);
+		
+		
+	}
+	
 }

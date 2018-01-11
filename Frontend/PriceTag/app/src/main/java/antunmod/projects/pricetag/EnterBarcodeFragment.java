@@ -87,6 +87,7 @@ public class EnterBarcodeFragment extends Fragment {
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_for_fragment, selectStoreFragment)
+                .addToBackStack("enterBarcodeFragment")
                 .commit();
     }
 
