@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.antunmod.pricetag.model.Sector;
 import com.antunmod.pricetag.model.Size;
+import com.antunmod.pricetag.model.Store;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.CategorySubcategoryRepository;
 import com.antunmod.pricetag.repo.SectorCategoryRepository;
@@ -81,6 +82,24 @@ public class SimpleController {
 			sectorStringList.add(sector.getSectorName());
 		}
 		return new ResponseEntity<List<String>>(sectorStringList, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping("/stores")
+	public ResponseEntity<List<String>> getStoreNames() {
+		List<Store> storeList = storeRepository.findAll();
+		if(storeList==null) {
+			return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.OK);
+		}
+		List<String> storeStringList = new ArrayList<>();
+		for (int i = 0; i<storeList.size(); ++i) {
+			String storeName = storeList.get(i).getStoreName();
+			if(!storeStringList.contains(storeName)) {
+				storeStringList.add(storeName);
+			}
+		}
+		
+		return new ResponseEntity<List<String>>(storeStringList, HttpStatus.OK);
 	}
 	
 }

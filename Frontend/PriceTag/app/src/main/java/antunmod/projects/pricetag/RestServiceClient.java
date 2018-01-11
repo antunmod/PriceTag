@@ -51,6 +51,10 @@ public interface RestServiceClient {
     @GET("sectors")
     Call<List<String>> getCategoriesForSectorName(@Query("sectorName") String sectorName);
 
+    @Headers("Content-Type: application/json")
+    @GET("stores")
+    Call<List<String>> getStoreNames();
+
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.1.3:8000/")
             .addConverterFactory(GsonConverterFactory.create())

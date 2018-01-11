@@ -16,14 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener,
-        SelectSectorFragment.OnFragmentInteractionListener {
+        SelectSectorFragment.OnFragmentInteractionListener, SelectStoreFragment.OnFragmentInteractionListener,
+        SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener{
 
     Button btn_addProduct;
 
@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity
 
         //Set default fragment
         if (savedInstanceState == null) {
-            setFragment(new FindProductForBarcodeFragment());
+            setFragment(new EnterBarcodeFragment());
         }
 
 
@@ -120,7 +120,7 @@ public class HomeActivity extends AppCompatActivity
                 manager.beginTransaction().replace(R.id.layout_for_fragment, addCategorizationFragment).commit();
                 break;
             case (R.id.add_product):
-                FindProductForBarcodeFragment findProductForBarcodeFragment = new FindProductForBarcodeFragment();
+                EnterBarcodeFragment findProductForBarcodeFragment = new EnterBarcodeFragment();
                 manager.beginTransaction().replace(R.id.layout_for_fragment, findProductForBarcodeFragment).commit();
                 break;
             case (R.id.recent):
@@ -138,14 +138,14 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public void setFragment(FindProductForBarcodeFragment findProductForBarcodeFragment) {
+    public void setFragment(EnterBarcodeFragment enterBarcodeFragmetFragment) {
         try {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             if (getSupportFragmentManager().findFragmentById(R.id.layout_for_fragment) == null) {
-                ft.add(R.id.layout_for_fragment, findProductForBarcodeFragment);
+                ft.add(R.id.layout_for_fragment, enterBarcodeFragmetFragment);
             } else {
-                ft.replace(R.id.layout_for_fragment, findProductForBarcodeFragment);
+                ft.replace(R.id.layout_for_fragment, enterBarcodeFragmetFragment);
             }
             ft.addToBackStack(null);
             ft.commit();
