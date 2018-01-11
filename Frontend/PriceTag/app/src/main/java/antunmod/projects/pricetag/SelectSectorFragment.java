@@ -38,6 +38,10 @@ public class SelectSectorFragment extends Fragment {
     private List<String> sectorList;
 
     private OnFragmentInteractionListener mListener;
+    private ProductDetails productDetails;
+
+    ListView listView;
+    View inflatedView;
 
     public SelectSectorFragment() {
         // Required empty public constructor
@@ -69,65 +73,50 @@ public class SelectSectorFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        //getSectorList();
+        getSectorList();
+        Bundle bundle = this.getArguments();
+
+        // Set values
+        if(bundle != null) {
+            productDetails = (ProductDetails) bundle.getSerializable("productDetails");
+            Toast.makeText(getContext(), productDetails.getName(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
-    /*private void getSectorList() {
+    private void getSectorList() {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<ProductDetails> call = restServiceClient.findProductForBarcode(barcode);
-        call.enqueue(new Callback<ProductDetails>() {
+        Call<List<String>> call = restServiceClient.getSectors();
+        call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
-                ProductDetails productDetails = response.body();
-                if (productDetails.getName() != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("productDetails", productDetails);
-                    AddProductFragment addProductFragment = new AddProductFragment();
-                    addProductFragment.setArguments(bundle);
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.layout_for_fragment, addProductFragment)
-                            .commit();
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                List<String> stringList= response.body();
+                String[] items = stringList.toArray(new String[0]);
+                ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(
+                        getContext(),
+                        android.R.layout.simple_list_item_1,
+                        items
+                );
 
-                } else {
-                    Bundle bundle = new Bundle();
-                    productDetails.setBarcode(barcode);
-                    bundle.putSerializable("productDetails", productDetails);
-                    SelectSectorFragment selectSectorFragment = new SelectSectorFragment();
-                    selectSectorFragment.setArguments(bundle);
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.layout_for_fragment, selectSectorFragment)
-                            .commit();
-                }
+                listView.setAdapter(listViewAdapter);
+                Toast.makeText(getContext(), "Dosli sektori", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<ProductDetails> call, Throwable t) {
+            public void onFailure(Call<List<String>> call, Throwable t) {
                 Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
             }
         });
-    }*/
+    }
 
-    ListView listView;
-    View inflatedView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        this.inflatedView = inflater.inflate(R.layout.fragment_find_product_for_barcode, container, false);
-        listView = (ListView) inflatedView.findViewById(R.id.listView_sector);
-        String[] items = {"Prvi", "Drugi", "Treći"};
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                items
-        );
-
-        listView.setAdapter(listViewAdapter);
+        this.inflatedView = inflater.inflate(R.layout.fragment_select_sector, container, false);
+        listView = inflatedView.findViewById(R.id.listView_sector);
 
         return inflatedView;
     }

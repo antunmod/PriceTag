@@ -79,12 +79,6 @@ public class FindProductForBarcodeFragment extends Fragment {
                         }
                     });
 
-
-                    /*Fragment fragment = new AddProductFragment();
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.layout_for_fragment, fragment);
-                    transaction.commit();*/
                 }
             }
         });

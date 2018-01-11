@@ -22,7 +22,8 @@ import android.widget.Toast;
 
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener,
+        SelectSectorFragment.OnFragmentInteractionListener {
 
     Button btn_addProduct;
 
