@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +89,8 @@ public class SelectStoreLocationFragment extends Fragment {
     }
 
     private View inflatedView;
+    List<Sector> sectorList;
+    String selectedStoreAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,7 +102,7 @@ public class SelectStoreLocationFragment extends Fragment {
         listView_storeLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedStoreAddress = listView_storeLocations.getItemAtPosition(i).toString();
+                selectedStoreAddress = listView_storeLocations.getItemAtPosition(i).toString();
                 findProductForBarcodeAndStoreId(selectedStoreAddress);
             }
         });
@@ -193,6 +196,43 @@ public class SelectStoreLocationFragment extends Fragment {
     }
 
     private void goToSelectSector() {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<Sector>> call = restServiceClient.getSectors();
+        call.enqueue(new Callback<List<Sector>>() {
+            @Override
+            public void onResponse(Call<List<Sector>> call, Response<List<Sector>> response) {
+                List<Sector> sectorList = response.body();
+                
+                if(sectorList!=null)
+                    saveSectorListAndGoToSelectSector(sectorList);
+                else {
+                    Toast.makeText(getContext(), "Neuspjelo dohvaćanje sektora. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Sector>> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void saveSectorListAndGoToSelectSector (List<Sector> sectorList) {
+        this.sectorList = sectorList;
+        ProductStore productStore = new ProductStore();
+        productStore.setBarcode(barcode);
+        Bundle bundle = new Bundle();
+        bundle.putString("storeAddress", selectedStoreAddress);
+        bundle.putSerializable("sectorList", (Serializable) sectorList);
+        SelectSectorFragment selectSectorFragment = new SelectSectorFragment();
+        selectSectorFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, selectSectorFragment)
+                .addToBackStack("selectStoreLocation")
+                .commit();
 
     }
 

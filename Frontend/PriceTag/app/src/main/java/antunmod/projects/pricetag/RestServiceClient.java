@@ -50,7 +50,7 @@ public interface RestServiceClient {
     Call<List<Sector>> getSectors();
 
     @Headers("Content-Type: application/json")
-    @GET("sectors")
+    @GET("categories")
     Call<List<String>> getCategoriesForSectorName(@Query("sectorName") String sectorName);
 
     @Headers("Content-Type: application/json")
@@ -74,8 +74,9 @@ public interface RestServiceClient {
     @POST("users/updatePoints")
     Call<Integer> awardPointsToUserForUserId(long userId);
 
+
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.4:8000/")
+            .baseUrl("http://192.168.1.2:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

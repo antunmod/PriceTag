@@ -75,7 +75,7 @@ public class SimpleController {
 	
 	@ResponseBody
 	@GetMapping("/categories")
-	public ResponseEntity<List<String>> getCategoriesForSector(@RequestParam("sectorName") String sectorName) {
+	public ResponseEntity<List<String>> getCategoriesForSectorName(@RequestParam("sectorName") String sectorName) {
 		List<Sector> sectorList = sectorRepository.findAll();
 		List<String> sectorStringList = new ArrayList<String>();
 		for(Sector sector: sectorList) {

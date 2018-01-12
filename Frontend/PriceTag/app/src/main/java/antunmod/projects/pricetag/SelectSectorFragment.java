@@ -41,10 +41,10 @@ public class SelectSectorFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ProductDetails productDetails;
-    private List<Sector> sectorList;
 
     ListView listView;
     View inflatedView;
+    List<Sector> sectorList;
 
     public SelectSectorFragment() {
         // Required empty public constructor
@@ -76,50 +76,13 @@ public class SelectSectorFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        getSectorList();
         Bundle bundle = this.getArguments();
 
         // Set values
         if (bundle != null) {
-            productDetails = (ProductDetails) bundle.getSerializable("productDetails");
-            Toast.makeText(getContext(), productDetails.getName(), Toast.LENGTH_SHORT).show();
+            sectorList = (List<Sector>) bundle.getSerializable("sectorList");
+
         }
-
-    }
-
-    private void getSectorList() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<Sector>> call = restServiceClient.getSectors();
-        call.enqueue(new Callback<List<Sector>>() {
-            @Override
-            public void onResponse(Call<List<Sector>> call, Response<List<Sector>> response) {
-                List<Sector> sectorList = response.body();
-                saveSectorList(sectorList);
-                String[] items = sectorList.toArray(new String[0]);
-
-                if (sectorList != null) {
-                    for (int i = 0; sectorList.get(i) != null; i++) {
-                        items[i] = sectorList.get(i).getSectorName();
-                    }
-                }
-
-                ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(
-                        getContext(),
-                        android.R.layout.simple_list_item_1,
-                        items
-                );
-
-                listView.setAdapter(listViewAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Sector>> call, Throwable t) {
-                Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void saveSectorList(List<Sector> sectorList) {
 
     }
 
@@ -135,11 +98,34 @@ public class SelectSectorFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedSector = listView.getItemAtPosition(i).toString();
+                /*String selectedSector = listView.getItemAtPosition(i).toString();
                 productDetails.setSectorId(sectorList.get(i).getSectorId());
-                goToCategoriesFragment(selectedSector);
+                goToCategoriesFragment(selectedSector);*/
             }
         });
+
+        String[] sectorArrayList;
+        if(sectorList!=null) {
+            int listSize = sectorList.size();
+            sectorArrayList = new String[listSize];
+
+            for(int i = 0; i<listSize; ++i) {
+                sectorArrayList[i] = sectorList.get(i).getSectorName();
+            }
+        }
+        else {
+            sectorArrayList = new String[0];
+        }
+
+
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                sectorArrayList
+        );
+
+        listView.setAdapter(listViewAdapter);
+
         return inflatedView;
     }
 

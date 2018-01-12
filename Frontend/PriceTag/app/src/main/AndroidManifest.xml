@@ -12,7 +12,8 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +23,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="PriceTag"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ForgotYourPasswordActivity"
-            android:label="Forgot your password"/>
+            android:label="Forgot your password"
+            android:screenOrientation="portrait"/>
         <activity android:name=".CreateAccountActivity"
             android:label="Create an account"></activity>
     </application>

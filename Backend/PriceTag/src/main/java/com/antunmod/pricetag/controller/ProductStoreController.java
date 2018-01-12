@@ -31,6 +31,7 @@ public class ProductStoreController {
 		productStore.setPrice(updateProduct.getPrice());
 		productStore.setPriceChangeDate(updateProduct.getPriceChangeDate());
 		productStore.setProductUpdates(productUpdates+1);
+		productStore.setUserId(updateProduct.getUserId());
 
 		ProductStore editedProductStore = productStoreRepository.save(productStore);
 		

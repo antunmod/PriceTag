@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,13 +131,13 @@ public class UpdateProductFragment extends Fragment {
                         updateProductDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                         updateProduct.setPriceChangeDate(updateProductDate);
                         updateProduct.setPrice(newPrice);
+                        updateProduct.setUserId(HomeActivity.user.getUserId());
                         saveUpdatedProduct(updateProduct);
                     }
 
                 }
             }
         });
-
 
 
         return inflatedView;
@@ -171,6 +173,17 @@ public class UpdateProductFragment extends Fragment {
     }
 
     private void goToEnterBarcodeFragment(String toastString) {
+
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        trans.remove(this);
+        trans.commit();
+
+        // Pop enterBarcode, selectStore and selectStoreLocation Back Stack
+        manager.popBackStack();
+        manager.popBackStack();
+        manager.popBackStack();
+
         Bundle bundle = new Bundle();
         bundle.putString("toastString", toastString);
         EnterBarcodeFragment enterBarcodeFragment = new EnterBarcodeFragment();
