@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,4 +33,21 @@ public class UpdateProductController {
 		return new ResponseEntity<UpdateProduct>(updateProduct, HttpStatus.OK);
 	
 	}
+	
+//	@ResponseBody
+//	@PostMapping("/update")
+//	public ResponseEntity<Boolean> saveUpdatedProduct(@RequestBody UpdateProduct updateProduct) {
+//		
+//		UpdateProduct savedProduct = updateProductRepository.saveUpdatedProduct(updateProduct.getProductStoreId(),
+//																				updateProduct.getAveragePrice(),
+//																				updateProduct.getPrice(),
+//																				updateProduct.getPriceChangeDate(),
+//																				updateProduct.getProductUpdates());
+//		
+//		if(savedProduct!=null) {
+//			return new ResponseEntity<Boolean> (false, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<Boolean> (true, HttpStatus.OK);
+//		
+//	}
 }

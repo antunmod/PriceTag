@@ -9,6 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -28,6 +38,10 @@ public class UpdateProductFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private final float BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 0.5;
+    private final float TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 1.5;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,6 +89,7 @@ public class UpdateProductFragment extends Fragment {
     TextView textView_averagePrice;
     EditText editText_newPrice;
     TextView textView_updateProduct;
+    String updateProductDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,11 +106,102 @@ public class UpdateProductFragment extends Fragment {
         String productNameAndSize = updateProduct.getName() + ", " +
                 updateProduct.getSize() + " " + updateProduct.getSizeType();
         textView_productNameAndSize.setText(productNameAndSize);
-        textView_averagePrice.setText(Float.toString(updateProduct.getPrice()));
+        textView_averagePrice.setText(Float.toString(updateProduct.getAveragePrice()) + " kn");
+        
+        textView_updateProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(editText_newPrice.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Unesite novu cijenu proizvoda", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    float newPrice = Float.valueOf(editText_newPrice.getText().toString());
+                    float averagePrice = updateProduct.getAveragePrice();
+                    if(newPrice > TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR*averagePrice ||
+                            newPrice < BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR*averagePrice) {
+                        Toast.makeText(getContext(), "Zbog velike izmjene cijene, proizvod se šalje na potvrdu prije spremanja.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        int productUpdates = updateProduct.getProductUpdates();
+                        averagePrice = averagePrice*productUpdates + newPrice;
+                        averagePrice /= productUpdates+1;
+                        updateProduct.setAveragePrice(averagePrice);
+                        updateProductDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                        updateProduct.setPriceChangeDate(updateProductDate);
+                        updateProduct.setPrice(newPrice);
+                        saveUpdatedProduct(updateProduct);
+                    }
+
+                }
+            }
+        });
 
 
 
         return inflatedView;
+    }
+
+    private void saveUpdatedProduct(UpdateProduct updateProduct) {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Boolean> call = restServiceClient.saveUpdatedProduct(updateProduct);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                boolean productWasSaved = response.body();
+                if (response.body()!=null) {
+                    //awardPointsToUser();
+                    String toastString = "Proizvod " + (productWasSaved? " je ":" nije ") + "spremljen";
+                    if(!productWasSaved) {
+                        Toast.makeText(getContext(), toastString, Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        goToEnterBarcodeFragment(toastString);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void goToEnterBarcodeFragment(String toastString) {
+        Bundle bundle = new Bundle();
+        bundle.putString("toastString", toastString);
+        EnterBarcodeFragment enterBarcodeFragment = new EnterBarcodeFragment();
+        enterBarcodeFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, enterBarcodeFragment)
+                .commit();
+    }
+
+    private void awardPointsToUser() {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Integer> call = restServiceClient.awardPointsToUserForUserId(updateProduct.getUserId());
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Integer numberOfPoints = response.body();
+                if (response.body()!=null) {
+                    Toast.makeText(getContext(), "Dodijeljeno vam je " + numberOfPoints + "bodova.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

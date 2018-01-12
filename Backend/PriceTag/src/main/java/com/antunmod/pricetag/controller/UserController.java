@@ -28,7 +28,6 @@ public class UserController {
 	@GetMapping("")
 	public ResponseEntity<User> loginUser(@RequestParam("username") String username,
 			@RequestParam("password") String password) {
-
 		User user = userRepository.findByUserNameAndPassword(username, password);
 		if (user == null) {
 			return new ResponseEntity<User>(new User(), HttpStatus.OK);
@@ -47,6 +46,22 @@ public class UserController {
 		}
 		
 		return new ResponseEntity<User>(savedUser, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@PostMapping("/awardPoints")
+	public ResponseEntity<Boolean> awardPointsToUserForUserId(@RequestParam("userId") long userId,
+															@RequestParam("points") int points) {
+		User user, savedUser;
+		user = userRepository.findByUserId(userId);
+		
+		user.setPoints(user.getPoints()+points);
+		savedUser = userRepository.save(user);
+		if(savedUser.getPoints()<=user.getPoints()) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 }

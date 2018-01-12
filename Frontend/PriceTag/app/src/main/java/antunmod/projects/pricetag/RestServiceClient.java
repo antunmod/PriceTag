@@ -66,8 +66,16 @@ public interface RestServiceClient {
     Call<UpdateProduct> getUpdateProductForBarcodeAndStoreAddress(@Query("barcode") String barcode,
                                                                   @Query("storeAddress") String storeAddress);
 
+    @Headers("Content-Type: application/json")
+    @POST("productStore/update")
+    Call<Boolean> saveUpdatedProduct (@Body UpdateProduct updateProduct);
+
+    @Headers("Content-Type: application/json")
+    @POST("users/updatePoints")
+    Call<Integer> awardPointsToUserForUserId(long userId);
+
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.2:8000/")
+            .baseUrl("http://192.168.1.4:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

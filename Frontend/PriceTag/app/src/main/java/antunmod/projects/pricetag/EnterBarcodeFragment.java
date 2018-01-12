@@ -75,6 +75,11 @@ public class EnterBarcodeFragment extends Fragment {
 
         editText_barcode = inflatedView.findViewById(R.id.editText_find_product_for_barcode);
 
+        Bundle bundle = this.getArguments();
+        if(bundle!=null) {
+            Toast.makeText(getContext(), bundle.getString("toastString"), Toast.LENGTH_SHORT).show();
+        }
+
         return inflatedView;
     }
 
