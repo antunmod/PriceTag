@@ -1,5 +1,7 @@
 package antunmod.projects.pricetag;
 
+import android.text.style.UpdateAppearance;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,8 +61,13 @@ public interface RestServiceClient {
     @GET("stores/locations")
     Call<List<String>> getStoreLocations(@Query("storeName") String selectedStore);
 
+    @Headers("Content-Type: application/json")
+    @GET("products")
+    Call<UpdateProduct> getUpdateProductForBarcodeAndStoreAddress(@Query("barcode") String barcode,
+                                                                  @Query("storeAddress") String storeAddress);
+
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.3:8000/")
+            .baseUrl("http://192.168.1.2:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

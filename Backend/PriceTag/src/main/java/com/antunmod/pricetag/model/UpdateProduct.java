@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class UpdateProduct implements Serializable{
@@ -18,6 +19,7 @@ public class UpdateProduct implements Serializable{
 	@Column (name = "user_ID")
 	private long userId;
 	
+	@Lob
 	@Column (name = "photo")
 	private byte[] photo;
 	

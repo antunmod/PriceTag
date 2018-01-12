@@ -21,10 +21,10 @@ public class UpdateProductController {
 	
 	@ResponseBody
 	@GetMapping
-	public ResponseEntity<UpdateProduct> findProductForBarcodeAndStoreId(@RequestParam("barcode") String barcode,
-																			@RequestParam("storeId") int storeId) {
+	public ResponseEntity<UpdateProduct> getUpdateProductForBarcodeAndStoreId(@RequestParam("barcode") String barcode,
+																			@RequestParam("storeAddress") String storeAddress) {
 		
-		UpdateProduct updateProduct = updateProductRepository.findProductForBarcodeAndStoreId(barcode, storeId);
+		UpdateProduct updateProduct = updateProductRepository.findProductForBarcodeAndStoreId(barcode, storeAddress);
 		if(updateProduct==null) {
 			return new ResponseEntity<UpdateProduct>(new UpdateProduct(), HttpStatus.OK);
 		}

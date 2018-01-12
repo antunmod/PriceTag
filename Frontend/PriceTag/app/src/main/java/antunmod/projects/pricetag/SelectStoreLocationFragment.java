@@ -10,8 +10,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -58,6 +64,8 @@ public class SelectStoreLocationFragment extends Fragment {
 
     List<String> storeLocations;
     String barcode;
+    private ListView listView_storeLocations;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,10 +82,12 @@ public class SelectStoreLocationFragment extends Fragment {
             storeLocations =  bundle.getStringArrayList("storeLocations");
             barcode = bundle.getString("barcode");
         }
+
+
+
     }
 
     private View inflatedView;
-    private ListView listView_storeLocations;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,13 +96,13 @@ public class SelectStoreLocationFragment extends Fragment {
 
         listView_storeLocations = inflatedView.findViewById(R.id.listView_store_locations);
 
-        /*listView_storeLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView_storeLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedStore = listView_store.getItemAtPosition(i).toString();
-                findStoreLocations(selectedStore);
+                String selectedStoreAddress = listView_storeLocations.getItemAtPosition(i).toString();
+                findProductForBarcodeAndStoreId(selectedStoreAddress);
             }
-        });*/
+        });
         String[] storeLocationsArrayList;
         if(storeLocations!=null) {
             int listSize = storeLocations.size();
@@ -156,4 +166,46 @@ public class SelectStoreLocationFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private  void findProductForBarcodeAndStoreId(String storeAddress) {
+
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<UpdateProduct> call = restServiceClient.getUpdateProductForBarcodeAndStoreAddress(barcode, storeAddress);
+        call.enqueue(new Callback<UpdateProduct>() {
+            @Override
+            public void onResponse(Call<UpdateProduct> call, Response<UpdateProduct> response) {
+                UpdateProduct updateProduct = response.body();
+                if (updateProduct != null && updateProduct.getName()!= null) {
+                    goToUpdateProductFragment(updateProduct);
+
+                } else {
+                    goToSelectSector();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateProduct> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void goToSelectSector() {
+
+    }
+
+    private void goToUpdateProductFragment(UpdateProduct updateProduct) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("updateProduct", updateProduct);
+        UpdateProductFragment updateProductFragment = new UpdateProductFragment();
+        updateProductFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, updateProductFragment)
+                .addToBackStack("selectStoreLocation")
+                .commit();
+    }
+
 }

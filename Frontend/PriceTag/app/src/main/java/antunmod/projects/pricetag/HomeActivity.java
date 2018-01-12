@@ -24,9 +24,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener,
         SelectSectorFragment.OnFragmentInteractionListener, SelectStoreFragment.OnFragmentInteractionListener,
         SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener,
-        SelectStoreLocationFragment.OnFragmentInteractionListener {
-
-    Button btn_addProduct;
+        SelectStoreLocationFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

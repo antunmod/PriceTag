@@ -22,8 +22,9 @@ public interface UpdateProductRepository extends JpaRepository<UpdateProduct, Lo
 			"product_updates, " + 
 			"price_change_date " + 
 			"FROM product_store LEFT JOIN product ON product_store.product_ID = product.product_ID JOIN " + 
-			"product_size ON product_store.product_size_ID = product_size.product_size_ID WHERE " + 
-			"barcode = ?1 AND store_ID = ?2", nativeQuery=true)
-	UpdateProduct findProductForBarcodeAndStoreId(String barcode, int storeId);
+			"product_size ON product_store.product_size_ID = product_size.product_size_ID JOIN " + 
+			"store on product_store.store_ID = store.store_ID WHERE " + 
+			"barcode = ?1 AND store_address = ?2", nativeQuery=true)
+	UpdateProduct findProductForBarcodeAndStoreId(String barcode, String storeAddress);
 	
 }

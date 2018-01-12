@@ -36,13 +36,6 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	@RequestMapping("/save")
-	public String saveUser() {
-		userRepository.save(new User("newUser", "newpass", "example@pricetag.com",
-				new Date(Calendar.getInstance().getTime().getTime()), 0, 1));
-		return "saved";
-	}
-
 	@ResponseBody
 	@PostMapping("")
 	public ResponseEntity<User> registerUser(@RequestBody User user) {
