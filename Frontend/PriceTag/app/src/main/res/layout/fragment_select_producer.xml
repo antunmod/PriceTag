@@ -2,10 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="antunmod.projects.pricetag.SelectStoreFragment">
+    tools:context="antunmod.projects.pricetag.SelectProducerFragment">
+
 
     <ListView
-        android:id="@+id/listView_store"
+        android:id="@+id/listView_producer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

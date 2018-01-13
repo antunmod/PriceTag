@@ -24,7 +24,8 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SelectSectorFragment.OnFragmentInteractionListener,
         SelectStoreFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
         SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener,
-        SelectStoreLocationFragment.OnFragmentInteractionListener {
+        SelectStoreLocationFragment.OnFragmentInteractionListener, SelectProducerFragment.OnFragmentInteractionListener,
+        SelectProductFragment.OnFragmentInteractionListener {
 
     public static User user;
 

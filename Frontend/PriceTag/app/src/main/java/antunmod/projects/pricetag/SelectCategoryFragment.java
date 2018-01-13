@@ -154,7 +154,7 @@ public class SelectCategoryFragment extends Fragment {
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_for_fragment, selectSubcategoryFragment)
-                .addToBackStack("selectSector")
+                .addToBackStack("selectCategory")
                 .commit();
     }
 

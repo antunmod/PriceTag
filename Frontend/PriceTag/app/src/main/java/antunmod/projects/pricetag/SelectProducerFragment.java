@@ -12,23 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SelectSubcategoryFragment.OnFragmentInteractionListener} interface
+ * {@link SelectProducerFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SelectSubcategoryFragment#newInstance} factory method to
+ * Use the {@link SelectProducerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SelectSubcategoryFragment extends Fragment {
+public class SelectProducerFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,11 +34,10 @@ public class SelectSubcategoryFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
     private ProductStore productStore;
-    private List<String> subcategoriesList;
+    private List<String> producerList;
 
-    public SelectSubcategoryFragment() {
+    public SelectProducerFragment() {
         // Required empty public constructor
     }
 
@@ -53,11 +47,11 @@ public class SelectSubcategoryFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SelectSubcategoryFragment.
+     * @return A new instance of fragment SelectProducerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelectSubcategoryFragment newInstance(String param1, String param2) {
-        SelectSubcategoryFragment fragment = new SelectSubcategoryFragment();
+    public static SelectProducerFragment newInstance(String param1, String param2) {
+        SelectProducerFragment fragment = new SelectProducerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,33 +70,35 @@ public class SelectSubcategoryFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if(bundle!=null) {
             productStore = (ProductStore) bundle.getSerializable("productStore");
-            subcategoriesList = bundle.getStringArrayList("subcategoriesList");
+            producerList = bundle.getStringArrayList("producerList");
         }
     }
 
     private View inflatedView;
-    private ListView listView_subcategory;
+    private ListView listView_producer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        inflatedView = inflater.inflate(R.layout.fragment_select_subcategory, container, false);
-        listView_subcategory = inflatedView.findViewById(R.id.listView_subcategory);
-        listView_subcategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        inflatedView = inflater.inflate(R.layout.fragment_select_producer, container, false);
+        listView_producer = inflatedView.findViewById(R.id.listView_producer);
+        listView_producer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedSubcategory = listView_subcategory.getItemAtPosition(i).toString();
-                findProducersForSubcategoryName(selectedSubcategory);
+                String selectedProducer = listView_producer.getItemAtPosition(i).toString();
+                Toast.makeText(getContext(), selectedProducer, Toast.LENGTH_SHORT).show();
+                // findProducersForSubcategoryName(selectedSubcategory);
             }
         });
 
         String[] categoryArrayList;
-        if(subcategoriesList!=null) {
-            int listSize = subcategoriesList.size();
+        if(producerList!=null) {
+            int listSize = producerList.size();
             categoryArrayList = new String[listSize];
 
             for(int i = 0; i<listSize; ++i) {
-                categoryArrayList[i] = subcategoriesList.get(i);
+                categoryArrayList[i] = producerList.get(i);
             }
         }
         else {
@@ -115,48 +111,10 @@ public class SelectSubcategoryFragment extends Fragment {
                 categoryArrayList
         );
 
-        listView_subcategory.setAdapter(listViewAdapter);
+        listView_producer.setAdapter(listViewAdapter);
 
         return inflatedView;
     }
-
-    private void findProducersForSubcategoryName(String subcategoryName) {
-
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getProducersForSubcategoryName(subcategoryName);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> producerList = (ArrayList) response.body();
-                if (subcategoriesList != null) {
-                    goToSelectProducerFragment(producerList);
-
-                } else {
-                    Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private void goToSelectProducerFragment(ArrayList<String> producerList) {
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList("producerList", producerList);
-        bundle.putSerializable("productStore", productStore);
-        SelectProducerFragment selectProducerFragment = new SelectProducerFragment();
-        selectProducerFragment.setArguments(bundle);
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_for_fragment, selectProducerFragment)
-                .addToBackStack("selectSubcategory")
-                .commit();
-    }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

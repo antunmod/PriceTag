@@ -16,6 +16,8 @@ import com.antunmod.pricetag.model.Size;
 import com.antunmod.pricetag.model.Store;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.CategorySubcategoryRepository;
+import com.antunmod.pricetag.repo.ProductRepository;
+import com.antunmod.pricetag.repo.ProductStoreRepository;
 import com.antunmod.pricetag.repo.SectorCategoryRepository;
 import com.antunmod.pricetag.repo.SectorRepository;
 import com.antunmod.pricetag.repo.SizeRepository;
@@ -28,28 +30,34 @@ import com.antunmod.pricetag.repo.SuggestedCategorizationRepository;
 public class SimpleController {
 
 	@Autowired
-	private CategoryRepository categoryRepository;
-	
-	@Autowired
-	private CategorySubcategoryRepository categorySubcategoryRepository;
-	
-	@Autowired
 	private SectorRepository sectorRepository;
 	
 	@Autowired
 	private SectorCategoryRepository sectorCategoryRepository;
 	
 	@Autowired
-	private SizeRepository sizeRepository;
+	private CategoryRepository categoryRepository;
 	
 	@Autowired
-	private StoreRepository storeRepository;
+	private CategorySubcategoryRepository categorySubcategoryRepository;
 	
 	@Autowired
 	private SubcategoryRepository subcategoryRepository;
 	
 	@Autowired
 	private SubcategoryProductRepository subcategoryProductRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
+	
+	@Autowired
+	private ProductStoreRepository productStoreRepository;
+	
+	@Autowired
+	private StoreRepository storeRepository;
+	
+	@Autowired
+	private SizeRepository sizeRepository;
 	
 	@Autowired
 	private SuggestedCategorizationRepository suggestedCategorizationRepository;
@@ -94,6 +102,18 @@ public class SimpleController {
 		}
 		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping("/producers")
+	public ResponseEntity<List<String>> getProducersForSubcategoryName(@RequestParam("subcategoryName") String subcategoryName) {
+		List<String> producerList = productRepository.findAllForSubcategoryName(subcategoryName);
+		if(producerList!=null) {
+			return new ResponseEntity<List<String>>(producerList, HttpStatus.OK);
+
+		}
+		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
+	}
+	
 	
 	@ResponseBody
 	@GetMapping("/stores")
