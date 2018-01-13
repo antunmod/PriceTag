@@ -124,14 +124,14 @@ public class SelectCategoryFragment extends Fragment {
     }
 
     private void findSubcategoriesForCategoryName(String categoryName) {
-       /* RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+       RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getSubcategoriesForCategoryName(categoryName);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> categoriesList = (ArrayList) response.body();
-                if (categoriesList != null && categoriesList.get(0) != null) {
-                    goToSelectCategoryFragment(categoriesList);
+                ArrayList<String> subcategoriesList = (ArrayList) response.body();
+                if (subcategoriesList != null && subcategoriesList.get(0) != null) {
+                    goToSelectSubcategoryFragment(subcategoriesList);
 
                 } else {
                     Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
@@ -142,7 +142,20 @@ public class SelectCategoryFragment extends Fragment {
             public void onFailure(Call<List<String>> call, Throwable t) {
                 Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+    }
+
+    private void goToSelectSubcategoryFragment(ArrayList<String> subcategoriesList) {
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("subcategoriesList", subcategoriesList);
+        bundle.putSerializable("productStore", productStore);
+        SelectSubcategoryFragment selectSubcategoryFragment = new SelectSubcategoryFragment();
+        selectSubcategoryFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, selectSubcategoryFragment)
+                .addToBackStack("selectSector")
+                .commit();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

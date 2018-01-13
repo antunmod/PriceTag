@@ -51,7 +51,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("subcategories")
-    Call<List<String>> getSubcategoriesForCategoryName(String categoryName);
+    Call<List<String>> getSubcategoriesForCategoryName(@Query("categoryName") String categoryName);
 
 
     @Headers("Content-Type: application/json")

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.antunmod.pricetag.model.Category;
 import com.antunmod.pricetag.model.Sector;
 import com.antunmod.pricetag.model.Size;
 import com.antunmod.pricetag.model.Store;
@@ -80,6 +79,17 @@ public class SimpleController {
 		List<String> categoryList = categoryRepository.findAllForSectorName(sectorName);
 		if(categoryList!=null) {
 			return new ResponseEntity<List<String>>(categoryList, HttpStatus.OK);
+
+		}
+		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping("/subcategories")
+	public ResponseEntity<List<String>> getSubcategoriesForCategoryName(@RequestParam("categoryName") String categoryName) {
+		List<String> subcategoryList = subcategoryRepository.findAllForCategoryName(categoryName);
+		if(subcategoryList!=null) {
+			return new ResponseEntity<List<String>>(subcategoryList, HttpStatus.OK);
 
 		}
 		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
