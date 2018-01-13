@@ -12,7 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -36,6 +41,7 @@ public class SelectProducerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ProductStore productStore;
     private List<String> producerList;
+    private String subcategoryName;
 
     public SelectProducerFragment() {
         // Required empty public constructor
@@ -71,11 +77,13 @@ public class SelectProducerFragment extends Fragment {
         if(bundle!=null) {
             productStore = (ProductStore) bundle.getSerializable("productStore");
             producerList = bundle.getStringArrayList("producerList");
+            subcategoryName = bundle.getString("subcategoryName");
         }
     }
 
     private View inflatedView;
     private ListView listView_producer;
+    private Product product = new Product();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,8 +95,7 @@ public class SelectProducerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedProducer = listView_producer.getItemAtPosition(i).toString();
-                Toast.makeText(getContext(), selectedProducer, Toast.LENGTH_SHORT).show();
-                // findProducersForSubcategoryName(selectedSubcategory);
+                findProductsForSubcategoryNameAndProducer(selectedProducer);
             }
         });
 
@@ -114,6 +121,48 @@ public class SelectProducerFragment extends Fragment {
         listView_producer.setAdapter(listViewAdapter);
 
         return inflatedView;
+    }
+
+
+    private void findProductsForSubcategoryNameAndProducer(String producer) {
+        product.setProducer(producer);
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryNameAndProducer(subcategoryName, producer);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                ArrayList<String> productList = (ArrayList) response.body();
+                if (productList != null) {
+                    goToSelectProductFragment(productList);
+
+                } else {
+                    Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void goToSelectProductFragment(ArrayList<String> productList) {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        bundle.putStringArrayList("productList", productList);
+        bundle.putSerializable("productStore", productStore);
+        bundle.putString("subcategoryName", subcategoryName);
+        SelectProductFragment selectProductFragment = new SelectProductFragment();
+        selectProductFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, selectProductFragment)
+                .addToBackStack("selectProducer")
+                .commit();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

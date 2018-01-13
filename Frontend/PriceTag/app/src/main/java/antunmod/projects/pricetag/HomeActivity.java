@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity
         SelectStoreFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
         SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener,
         SelectStoreLocationFragment.OnFragmentInteractionListener, SelectProducerFragment.OnFragmentInteractionListener,
-        SelectProductFragment.OnFragmentInteractionListener {
+        SelectProductFragment.OnFragmentInteractionListener, AddProductFragment.OnFragmentInteractionListener {
 
     public static User user;
 

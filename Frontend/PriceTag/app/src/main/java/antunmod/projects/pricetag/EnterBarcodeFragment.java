@@ -77,7 +77,10 @@ public class EnterBarcodeFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if(bundle!=null) {
-            Toast.makeText(getContext(), bundle.getString("toastString"), Toast.LENGTH_SHORT).show();
+            if (bundle.get("toastString") != null) {
+                Toast.makeText(getContext(), bundle.getString("toastString"), Toast.LENGTH_SHORT).show();
+                bundle.remove("toastString");
+            }
         }
 
         return inflatedView;

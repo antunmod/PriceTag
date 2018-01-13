@@ -7,6 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -26,8 +37,13 @@ public class SelectProductFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private final Integer NOT_FOUND_INTEGER = -1;
 
     private OnFragmentInteractionListener mListener;
+    private ProductStore productStore;
+    private Product product;
+    private List<String> productList;
+    private String subcategoryName;
 
     public SelectProductFragment() {
         // Required empty public constructor
@@ -58,13 +74,98 @@ public class SelectProductFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        Bundle bundle = this.getArguments();
+        if(bundle!=null) {
+            product = (Product) bundle.getSerializable("product");
+            productStore = (ProductStore) bundle.getSerializable("productStore");
+            productList = bundle.getStringArrayList("productList");
+            subcategoryName = bundle.getString("subcategoryName");
+        }
+
+        bundle.putString("subcategoryName", subcategoryName);
+
     }
+
+    private View inflatedView;
+    private ListView listView_product;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_select_product, container, false);
+
+        inflatedView = inflater.inflate(R.layout.fragment_select_product, container, false);
+        listView_product = inflatedView.findViewById(R.id.listView_producer);
+        listView_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedProduct = listView_product.getItemAtPosition(i).toString();
+                findProductIdForProducerAndProductName(selectedProduct);
+            }
+        });
+
+        String[] categoryArrayList;
+        if(productList!=null) {
+            int listSize = productList.size();
+            categoryArrayList = new String[listSize];
+
+            for(int i = 0; i<listSize; ++i) {
+                categoryArrayList[i] = productList.get(i);
+            }
+        }
+        else {
+            categoryArrayList = new String[0];
+        }
+
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                categoryArrayList
+        );
+
+        listView_product.setAdapter(listViewAdapter);
+
+        return inflatedView;
+    }
+
+    private void findProductIdForProducerAndProductName(String productName) {
+
+        product.setProductName(productName);
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Integer> call = restServiceClient.getProductIdForProducerAndProductName(subcategoryName, product.getProducer());
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Integer productId = response.body();
+                if (productId != NOT_FOUND_INTEGER) {
+                    product.setProductId(productId);
+                }
+                goToAddProductFragment();
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    private void goToAddProductFragment() {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        bundle.putSerializable("productStore", productStore);
+        bundle.putString("subcategoryName", subcategoryName);
+        AddProductFragment addProductFragment = new AddProductFragment();
+        addProductFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, addProductFragment)
+                .addToBackStack("selectProduct")
+                .commit();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

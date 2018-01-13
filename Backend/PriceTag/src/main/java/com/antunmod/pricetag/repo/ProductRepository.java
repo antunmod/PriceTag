@@ -15,4 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 			" subcategory_name = ?1", nativeQuery=true)
 	List<String> findAllForSubcategoryName(String subcategoryName);
 	
+	@Query(value = "select producer from product natural join product_store natural join subcategory_product natural join " +
+			"subcategory where subcategory_name = ?1 and producer = ?2", nativeQuery=true)
+	List<String> getProductNamesForSubcategoryNameAndProducer(String subcategoryName, String producer);
+	
 }

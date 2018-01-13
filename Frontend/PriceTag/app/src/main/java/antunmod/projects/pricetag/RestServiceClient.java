@@ -58,6 +58,16 @@ public interface RestServiceClient {
     Call<List<String>> getProducersForSubcategoryName(@Query("subcategoryName") String subcategoryName);
 
     @Headers("Content-Type: application/json")
+    @GET("products/productNames")
+    Call<List<String>> getProductNamesForSubcategoryNameAndProducer(@Query("subcategoryName") String subcategoryName,
+                                                                    @Query("producer") String producer);
+
+    @Headers("Content-Type: application/json")
+    @GET("products/id")
+    Call<Integer> getProductIdForProducerAndProductName(@Query("producer") String producer,
+                                                                    @Query("productName") String productName);
+
+    @Headers("Content-Type: application/json")
     @GET("stores")
     Call<List<String>> getStoreNames();
 
@@ -86,7 +96,7 @@ public interface RestServiceClient {
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.102:8000/")
+            .baseUrl("http://192.168.1.3:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

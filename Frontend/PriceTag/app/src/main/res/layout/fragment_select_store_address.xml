@@ -3,26 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="antunmod.projects.pricetag.SelectStoreFragment">
+    tools:context="antunmod.projects.pricetag.SelectStoreLocationFragment">
 
     <TextView
-        android:id="@+id/textView_select_store"
+        android:id="@+id/textView_select_store_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Odaberite dućan:"
+        android:text="Odaberite adresu dućana:"
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/listView_store"
+        android:id="@+id/listView_store_locations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_select_store" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_select_store_address" />
 
 </android.support.constraint.ConstraintLayout>

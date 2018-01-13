@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -95,7 +94,7 @@ public class SelectStoreLocationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.inflatedView = inflater.inflate(R.layout.fragment_select_store_location, container, false);
+        this.inflatedView = inflater.inflate(R.layout.fragment_select_store_address, container, false);
 
         listView_storeLocations = inflatedView.findViewById(R.id.listView_store_locations);
 
@@ -103,7 +102,7 @@ public class SelectStoreLocationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 selectedStoreAddress = listView_storeLocations.getItemAtPosition(i).toString();
-                findProductForBarcodeAndStoreId(selectedStoreAddress);
+                findProductForBarcodeAndStoreAddress(selectedStoreAddress);
             }
         });
         String[] storeLocationsArrayList;
@@ -170,7 +169,7 @@ public class SelectStoreLocationFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private  void findProductForBarcodeAndStoreId(String storeAddress) {
+    private  void findProductForBarcodeAndStoreAddress(String storeAddress) {
 
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);

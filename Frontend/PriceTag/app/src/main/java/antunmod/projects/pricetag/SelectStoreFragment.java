@@ -131,7 +131,7 @@ public class SelectStoreFragment extends Fragment {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> storeLocations = response.body();
+                ArrayList<String> storeLocations = (ArrayList<String>) response.body();
                 if (storeLocations != null && storeLocations.size()>0) {
                     goToSelectStoreLocationFragment(storeLocations);
                 } else {
@@ -146,10 +146,9 @@ public class SelectStoreFragment extends Fragment {
         });
     }
 
-    private void goToSelectStoreLocationFragment(List<String> storeLocations) {
+    private void goToSelectStoreLocationFragment(ArrayList<String> storeLocations) {
         Bundle bundle = new Bundle();
-        //bundle.putStringArrayList("storeList", (ArrayList) storeList);
-        bundle.putStringArrayList("storeLocations", (ArrayList) storeLocations);
+        bundle.putStringArrayList("storeLocations", storeLocations);
         bundle.putString("barcode", barcode);
         SelectStoreLocationFragment selectStoreLocationFragment = new SelectStoreLocationFragment();
         selectStoreLocationFragment.setArguments(bundle);

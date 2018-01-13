@@ -29,6 +29,8 @@ import com.antunmod.pricetag.repo.SuggestedCategorizationRepository;
 @RestController
 public class SimpleController {
 
+	private final Integer NOT_FOUND_INTEGER = -1;
+	
 	@Autowired
 	private SectorRepository sectorRepository;
 	
@@ -114,6 +116,19 @@ public class SimpleController {
 		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@GetMapping("/products/productNames")
+	public ResponseEntity<List<String>> getProductNamesForSubcategoryNameAndProducer(
+																@RequestParam("subcategoryName") String subcategoryName,
+																@RequestParam("producer") String producer) {
+		List<String> productList = productRepository.getProductNamesForSubcategoryNameAndProducer(subcategoryName, producer);
+		if(productList==null) {
+			return new ResponseEntity<List<String>>(productList, HttpStatus.OK);
+
+		}
+		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
+	}
+	
 	
 	@ResponseBody
 	@GetMapping("/stores")
@@ -150,7 +165,7 @@ public class SimpleController {
 	public ResponseEntity<Integer> getStoreIdForAddress(@RequestParam("storeAddress") String storeAddress) {
 		Integer storeId = storeRepository.findStoreIdForStoreAddress(storeAddress);
 		if(storeId==null) {
-			return new ResponseEntity<Integer> (new Integer(0), HttpStatus.OK);
+			return new ResponseEntity<Integer> (NOT_FOUND_INTEGER, HttpStatus.OK);
 		}
 		return new ResponseEntity<Integer> (storeId, HttpStatus.OK);
 		

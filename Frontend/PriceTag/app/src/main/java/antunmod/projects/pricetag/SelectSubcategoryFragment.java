@@ -120,8 +120,10 @@ public class SelectSubcategoryFragment extends Fragment {
         return inflatedView;
     }
 
-    private void findProducersForSubcategoryName(String subcategoryName) {
+    String subcategoryName;
 
+    private void findProducersForSubcategoryName(String subcategoryName) {
+        this.subcategoryName = subcategoryName;
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getProducersForSubcategoryName(subcategoryName);
         call.enqueue(new Callback<List<String>>() {
@@ -145,9 +147,11 @@ public class SelectSubcategoryFragment extends Fragment {
     }
 
     private void goToSelectProducerFragment(ArrayList<String> producerList) {
+
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("producerList", producerList);
         bundle.putSerializable("productStore", productStore);
+        bundle.putString("subcategoryName", subcategoryName);
         SelectProducerFragment selectProducerFragment = new SelectProducerFragment();
         selectProducerFragment.setArguments(bundle);
         getFragmentManager()
