@@ -13,7 +13,8 @@ CREATE TABLE store(
 	store_ID SERIAL PRIMARY KEY,
 	store_name VARCHAR(30),
 	store_address VARCHAR(30),
-	CONSTRAINT unique_store UNIQUE (store_address)
+	validity SMALLINT,
+	CONSTRAINT unique_store UNIQUE (store_address) -- vjv nece moc bit samo na store_address
 	);
 
 CREATE TABLE sector(
@@ -73,7 +74,7 @@ CREATE TABLE product_store(
 
 	CONSTRAINT unique_product_store UNIQUE (product_ID, store_ID, product_size),
 
-	CONSTRAINT unique_product_store_barcode UNIQUE (barcode),
+	CONSTRAINT unique_product_store_barcode UNIQUE (barcode, store_ID),
 
 	CONSTRAINT fk_product_store_user FOREIGN KEY (user_ID) REFERENCES user (user_ID)
 		ON UPDATE CASCADE

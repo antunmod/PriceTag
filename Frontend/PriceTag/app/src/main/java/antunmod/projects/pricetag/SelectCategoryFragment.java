@@ -7,6 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -28,6 +39,9 @@ public class SelectCategoryFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ProductStore productStore;
+    private List<String> categoriesList;
 
     public SelectCategoryFragment() {
         // Required empty public constructor
@@ -58,13 +72,77 @@ public class SelectCategoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        Bundle bundle = this.getArguments();
+        if(bundle!=null) {
+            productStore = (ProductStore) bundle.getSerializable("productStore");
+            categoriesList = bundle.getStringArrayList("categoriesList");
+        }
+
     }
+
+    private View inflatedView;
+    private ListView listView_category;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_select_category, container, false);
+
+        inflatedView = inflater.inflate(R.layout.fragment_select_category, container, false);
+        listView_category = inflatedView.findViewById(R.id.listView_category);
+        listView_category.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedCategory = listView_category.getItemAtPosition(i).toString();
+                findSubcategoriesForCategoryName(selectedCategory);
+            }
+        });
+
+        String[] categoryArrayList;
+        if(categoriesList!=null) {
+            int listSize = categoriesList.size();
+            categoryArrayList = new String[listSize];
+
+            for(int i = 0; i<listSize; ++i) {
+                categoryArrayList[i] = categoriesList.get(i);
+            }
+        }
+        else {
+            categoryArrayList = new String[0];
+        }
+
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                categoryArrayList
+        );
+
+        listView_category.setAdapter(listViewAdapter);
+
+        return inflatedView;
+    }
+
+    private void findSubcategoriesForCategoryName(String categoryName) {
+       /* RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getSubcategoriesForCategoryName(categoryName);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                ArrayList<String> categoriesList = (ArrayList) response.body();
+                if (categoriesList != null && categoriesList.get(0) != null) {
+                    goToSelectCategoryFragment(categoriesList);
+
+                } else {
+                    Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });*/
     }
 
     // TODO: Rename method, update argument and hook method into UI event

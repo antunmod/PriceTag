@@ -40,11 +40,11 @@ public class SelectSectorFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private ProductDetails productDetails;
 
     ListView listView;
     View inflatedView;
     List<Sector> sectorList;
+    ProductStore productStore;
 
     public SelectSectorFragment() {
         // Required empty public constructor
@@ -81,7 +81,7 @@ public class SelectSectorFragment extends Fragment {
         // Set values
         if (bundle != null) {
             sectorList = (List<Sector>) bundle.getSerializable("sectorList");
-
+            productStore = (ProductStore) bundle.getSerializable("productStore");
         }
 
     }
@@ -98,9 +98,8 @@ public class SelectSectorFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                /*String selectedSector = listView.getItemAtPosition(i).toString();
-                productDetails.setSectorId(sectorList.get(i).getSectorId());
-                goToCategoriesFragment(selectedSector);*/
+                String selectedSector = listView.getItemAtPosition(i).toString();
+                findCategoriesForSectorName(selectedSector);
             }
         });
 
@@ -117,7 +116,6 @@ public class SelectSectorFragment extends Fragment {
             sectorArrayList = new String[0];
         }
 
-
         ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
                 getContext(),
                 android.R.layout.simple_list_item_1,
@@ -129,23 +127,15 @@ public class SelectSectorFragment extends Fragment {
         return inflatedView;
     }
 
-    private void goToCategoriesFragment(String selectedSector) {
+    private void findCategoriesForSectorName(String sectorName) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getCategoriesForSectorName(selectedSector);
+        Call<List<String>> call = restServiceClient.getCategoriesForSectorName(sectorName);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> categoriesList = (ArrayList) response.body();
                 if (categoriesList != null && categoriesList.get(0) != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("productDetails", productDetails);
-                    bundle.putStringArrayList("categoriesList", categoriesList);
-                    SelectCategoryFragment selectCategoryFragment = new SelectCategoryFragment();
-                    selectCategoryFragment.setArguments(bundle);
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.layout_for_fragment, selectCategoryFragment)
-                            .commit();
+                    goToSelectCategoryFragment(categoriesList);
 
                 } else {
                     Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
@@ -157,6 +147,19 @@ public class SelectSectorFragment extends Fragment {
                 Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void goToSelectCategoryFragment(ArrayList<String> categoriesList) {
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("categoriesList", categoriesList);
+        bundle.putSerializable("productStore", productStore);
+        SelectCategoryFragment selectCategoryFragment = new SelectCategoryFragment();
+        selectCategoryFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, selectCategoryFragment)
+                .addToBackStack("selectSector")
+                .commit();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

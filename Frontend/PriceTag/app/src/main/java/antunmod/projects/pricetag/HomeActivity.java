@@ -21,10 +21,10 @@ import android.widget.Toast;
 
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener,
-        SelectSectorFragment.OnFragmentInteractionListener, SelectStoreFragment.OnFragmentInteractionListener,
+        implements NavigationView.OnNavigationItemSelectedListener, SelectSectorFragment.OnFragmentInteractionListener,
+        SelectStoreFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
         SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener,
-        SelectStoreLocationFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener {
+        SelectStoreLocationFragment.OnFragmentInteractionListener {
 
     public static User user;
 

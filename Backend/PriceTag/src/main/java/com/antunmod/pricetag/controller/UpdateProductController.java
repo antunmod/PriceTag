@@ -34,20 +34,4 @@ public class UpdateProductController {
 	
 	}
 	
-//	@ResponseBody
-//	@PostMapping("/update")
-//	public ResponseEntity<Boolean> saveUpdatedProduct(@RequestBody UpdateProduct updateProduct) {
-//		
-//		UpdateProduct savedProduct = updateProductRepository.saveUpdatedProduct(updateProduct.getProductStoreId(),
-//																				updateProduct.getAveragePrice(),
-//																				updateProduct.getPrice(),
-//																				updateProduct.getPriceChangeDate(),
-//																				updateProduct.getProductUpdates());
-//		
-//		if(savedProduct!=null) {
-//			return new ResponseEntity<Boolean> (false, HttpStatus.OK);
-//		}
-//		return new ResponseEntity<Boolean> (true, HttpStatus.OK);
-//		
-//	}
 }

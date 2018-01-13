@@ -183,7 +183,7 @@ public class SelectStoreLocationFragment extends Fragment {
                     goToUpdateProductFragment(updateProduct);
 
                 } else {
-                    goToSelectSector();
+                    findSectors();
                 }
             }
 
@@ -195,7 +195,7 @@ public class SelectStoreLocationFragment extends Fragment {
 
     }
 
-    private void goToSelectSector() {
+    private void findSectors() {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<Sector>> call = restServiceClient.getSectors();
@@ -204,8 +204,10 @@ public class SelectStoreLocationFragment extends Fragment {
             public void onResponse(Call<List<Sector>> call, Response<List<Sector>> response) {
                 List<Sector> sectorList = response.body();
                 
-                if(sectorList!=null)
-                    saveSectorListAndGoToSelectSector(sectorList);
+                if(sectorList!=null) {
+                    saveSectorList(sectorList);
+                    findStoreId();
+                }
                 else {
                     Toast.makeText(getContext(), "Neuspjelo dohvaćanje sektora. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
                 }
@@ -219,12 +221,48 @@ public class SelectStoreLocationFragment extends Fragment {
 
     }
 
-    private void saveSectorListAndGoToSelectSector (List<Sector> sectorList) {
+    ProductStore productStore = new ProductStore();
+
+    private void findStoreId () {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Integer> call = restServiceClient.getStoreIdForAddress(selectedStoreAddress);
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Integer storeId = response.body();
+
+                if(storeId!=null) {
+                    saveStoreIdToProductStore(storeId);
+                    goToSelectSector();
+                }
+                else {
+                    Toast.makeText(getContext(), "Neuspjelo dohvaćanje identifikatora dućana. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+    private void saveStoreIdToProductStore(int storeId) {
+        productStore.setStoreId(storeId);
+    }
+
+    private void saveSectorList(List<Sector> sectorList) {
         this.sectorList = sectorList;
-        ProductStore productStore = new ProductStore();
+    }
+
+    private void goToSelectSector() {
         productStore.setBarcode(barcode);
         Bundle bundle = new Bundle();
-        bundle.putString("storeAddress", selectedStoreAddress);
+        bundle.putSerializable("productStore", productStore);
         bundle.putSerializable("sectorList", (Serializable) sectorList);
         SelectSectorFragment selectSectorFragment = new SelectSectorFragment();
         selectSectorFragment.setArguments(bundle);
@@ -233,7 +271,6 @@ public class SelectStoreLocationFragment extends Fragment {
                 .replace(R.id.layout_for_fragment, selectSectorFragment)
                 .addToBackStack("selectStoreLocation")
                 .commit();
-
     }
 
     private void goToUpdateProductFragment(UpdateProduct updateProduct) {

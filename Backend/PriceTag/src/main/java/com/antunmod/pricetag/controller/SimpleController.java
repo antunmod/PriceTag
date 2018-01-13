@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.antunmod.pricetag.model.Category;
 import com.antunmod.pricetag.model.Sector;
 import com.antunmod.pricetag.model.Size;
 import com.antunmod.pricetag.model.Store;
@@ -76,12 +77,12 @@ public class SimpleController {
 	@ResponseBody
 	@GetMapping("/categories")
 	public ResponseEntity<List<String>> getCategoriesForSectorName(@RequestParam("sectorName") String sectorName) {
-		List<Sector> sectorList = sectorRepository.findAll();
-		List<String> sectorStringList = new ArrayList<String>();
-		for(Sector sector: sectorList) {
-			sectorStringList.add(sector.getSectorName());
+		List<String> categoryList = categoryRepository.findAllForSectorName(sectorName);
+		if(categoryList!=null) {
+			return new ResponseEntity<List<String>>(categoryList, HttpStatus.OK);
+
 		}
-		return new ResponseEntity<List<String>>(sectorStringList, HttpStatus.OK);
+		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
 	}
 	
 	@ResponseBody
@@ -113,5 +114,18 @@ public class SimpleController {
 		
 		
 	}
+	
+	@ResponseBody
+	@GetMapping("/stores/address")
+	public ResponseEntity<Integer> getStoreIdForAddress(@RequestParam("storeAddress") String storeAddress) {
+		Integer storeId = storeRepository.findStoreIdForStoreAddress(storeAddress);
+		if(storeId==null) {
+			return new ResponseEntity<Integer> (new Integer(0), HttpStatus.OK);
+		}
+		return new ResponseEntity<Integer> (storeId, HttpStatus.OK);
+		
+		
+	}
+	
 	
 }

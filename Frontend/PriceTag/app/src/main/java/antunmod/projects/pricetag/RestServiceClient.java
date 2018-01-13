@@ -38,10 +38,6 @@ public interface RestServiceClient {
     Call<User> registerUser(@Body User user);
 
     @Headers("Content-Type: application/json")
-    @GET("products")
-    Call<ProductDetails> findProductForBarcode(@Query("barcode") String barcode);
-
-    @Headers("Content-Type: application/json")
     @GET("sizes")
     Call<List<String>> getSizeValues();
 
@@ -52,6 +48,11 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("categories")
     Call<List<String>> getCategoriesForSectorName(@Query("sectorName") String sectorName);
+
+    @Headers("Content-Type: application/json")
+    @GET("subcategories")
+    Call<List<String>> getSubcategoriesForCategoryName(String categoryName);
+
 
     @Headers("Content-Type: application/json")
     @GET("stores")
@@ -72,14 +73,19 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("users/updatePoints")
-    Call<Integer> awardPointsToUserForUserId(long userId);
+    Call<Integer> awardPointsToUserForUserId(@Query("userId") long userId);
+
+    @Headers("Content-Type: application/json")
+    @GET("stores/address")
+    Call<Integer> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
+
+
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.1.2:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-
 
 
 }

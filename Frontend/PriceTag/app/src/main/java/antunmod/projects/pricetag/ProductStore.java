@@ -1,10 +1,12 @@
 package antunmod.projects.pricetag;
 
+import java.io.Serializable;
+
 /**
  * Created by antun on 1/12/2018.
  */
 
-public class ProductStore {
+public class ProductStore implements Serializable{
 
 
     private long productStoreId;

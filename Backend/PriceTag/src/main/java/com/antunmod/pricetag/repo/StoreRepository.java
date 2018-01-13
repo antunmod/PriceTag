@@ -17,5 +17,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 				"FROM store WHERE " + 
 				"store_name = ?1", nativeQuery=true)
 		List<String> getStoreLocations(String storeName);
+		
+		@Query(value = "SELECT store_ID " + 
+				"FROM store WHERE " + 
+				"store_address = ?1", nativeQuery=true)
+		Integer findStoreIdForStoreAddress(String storeAddress);
 	
 }
