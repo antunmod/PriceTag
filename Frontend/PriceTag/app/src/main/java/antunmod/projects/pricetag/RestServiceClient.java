@@ -68,7 +68,7 @@ public interface RestServiceClient {
                                                                     @Query("productName") String productName);
 
     @Headers("Content-Type: application/json")
-    @GET("sizes")
+    @GET("sizes/sizeValue")
     Call<List<String>> getSizeValuesForProductId(@Query("productId") int productId);
 
     @Headers("Content-Type: application/json")

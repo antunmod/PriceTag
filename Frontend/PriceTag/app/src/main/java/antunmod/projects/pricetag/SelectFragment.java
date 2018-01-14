@@ -35,6 +35,8 @@ public class SelectFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private final Integer NOT_FOUND_INTEGER = -1;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -162,7 +164,7 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCER: findProductsForSubcategoryNameAndProducer(selected);
                 break;
-            case PRODUCT:
+            case PRODUCT: findProductIdForProducerAndProductName(selected);
                 break;
             case SIZE:
                 break;
@@ -380,6 +382,56 @@ public class SelectFragment extends Fragment {
 
     }
 
+    private void findProductIdForProducerAndProductName(String productName) {
+
+        product.setProductName(productName);
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Integer> call = restServiceClient.getProductIdForProducerAndProductName(product.getProducer(), productName);
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Integer productId = response.body();
+                if (productId != NOT_FOUND_INTEGER) {
+                    product.setProductId(productId);
+                    findSizeValuesForProductId();
+                }
+                else
+                    updateFragment(SIZE, new String[0]);
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    private void findSizeValuesForProductId() {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getSizeValuesForProductId(product.getProductId());
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                List<String> sizeList = (ArrayList) response.body();
+                if (sizeList != null) {
+                    saveSizeValues(sizeList);
+                    updateFragment(SIZE, sizeStringArray);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
     private void saveStoreNames(List<String> storeNames) {
         storeStringArray = new String[storeNames.size()];
         for(int i = 0; i < storeNames.size(); ++i) {
@@ -436,6 +488,14 @@ public class SelectFragment extends Fragment {
         for(int i = 0; i < productList.size(); ++i) {
 
             productStringArray[i] = productList.get(i);
+        }
+    }
+
+    private void saveSizeValues (List<String> sizeList) {
+        sizeStringArray = new String[sizeList.size()];
+        for(int i = 0; i < sizeList.size(); ++i) {
+
+            sizeStringArray[i] = sizeList.get(i);
         }
     }
 

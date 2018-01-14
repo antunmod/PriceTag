@@ -70,6 +70,9 @@ public class HomeActivity extends AppCompatActivity
                     super.onBackPressed();
                 }
             }
+            else if (f instanceof UpdateProductFragment) {
+                super.onBackPressed();
+            }
         }
 
 

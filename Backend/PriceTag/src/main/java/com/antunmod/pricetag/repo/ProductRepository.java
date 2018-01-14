@@ -22,8 +22,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	@Query(value = "SELECT product_ID FROM product WHERE producer = ?1 AND product_name = ?2", nativeQuery=true)
 	Integer getProductIdForProducerAndProductName(String producer, String productName);
 	
-	@Query(value = "SELECT product_size, size_type FROM product_store NATURAL JOIN product_size WHERE " + 
-			"product_ID = ?1", nativeQuery=true)
+	@Query(value = "select concat(product_size, ' ', size_type) as size from product_store natural join product_size where" + 
+			"	product_ID = ?1", nativeQuery=true)
 	List<String> getSizeValuesForProductId(int productId);
 	
 }
