@@ -11,12 +11,19 @@ import com.antunmod.pricetag.model.Product;
 @Service
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-	@Query(value = "select producer from product natural join product_store natural join subcategory_product natural join subcategory where " + 
+	@Query(value = "SELECT producer FROM product NATURAL JOIN product_store NATURAL JOIN subcategory_product NATURAL JOIN subcategory WHERE " + 
 			" subcategory_name = ?1", nativeQuery=true)
 	List<String> findAllForSubcategoryName(String subcategoryName);
 	
-	@Query(value = "select product_name from product natural join product_store natural join subcategory_product natural join " +
-			"subcategory where subcategory_name = ?1 and producer = ?2", nativeQuery=true)
+	@Query(value = "SELECT product_name FROM product NATURAL JOIN product_store NATURAL JOIN subcategory_product NATURAL JOIN " +
+			"subcategory WHERE subcategory_name = ?1 and producer = ?2", nativeQuery=true)
 	List<String> getProductNamesForSubcategoryNameAndProducer(String subcategoryName, String producer);
+	
+	@Query(value = "SELECT product_ID FROM product WHERE producer = ?1 AND product_name = ?2", nativeQuery=true)
+	Integer getProductIdForProducerAndProductName(String producer, String productName);
+	
+	@Query(value = "SELECT product_size, size_type FROM product_store NATURAL JOIN product_size WHERE " + 
+			"product_ID = ?1", nativeQuery=true)
+	List<String> getSizeValuesForProductId(int productId);
 	
 }

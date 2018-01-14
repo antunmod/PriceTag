@@ -77,10 +77,13 @@ public class SimpleController {
 	
 	@ResponseBody
 	@GetMapping("/sectors")
-	public ResponseEntity<List<Sector>> getSectors() {
-		List<Sector> sectorList = new ArrayList<Sector>();
-		sectorList = sectorRepository.findAll();
-		return new ResponseEntity<List<Sector>>(sectorList, HttpStatus.OK);
+	public ResponseEntity<List<String>> getSectors() {
+		List<String> sectorList = sectorRepository.getAllSectorNames();
+		if(sectorList!=null) {
+			return new ResponseEntity<List<String>>(sectorList, HttpStatus.OK);
+
+		}
+		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
 	}
 	
 	@ResponseBody
@@ -129,6 +132,30 @@ public class SimpleController {
 		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@GetMapping("/products/productId")
+	public ResponseEntity<Integer> getProductIdForProducerAndProductName(
+																@RequestParam("producer") String producer,
+																@RequestParam("productName") String productName) {
+		Integer productId = productRepository.getProductIdForProducerAndProductName(producer, productName);
+		if(productId!=null) {
+			return new ResponseEntity<Integer>(productId, HttpStatus.OK);
+
+		}
+		return new ResponseEntity<Integer>(new Integer(NOT_FOUND_INTEGER), HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping("/sizes/sizeValue")
+	public ResponseEntity<List<String>> getSizeValuesForProductId(@RequestParam("productId") int productId) {
+		
+		List<String> sizeValues = productRepository.getSizeValuesForProductId(productId);
+		if(sizeValues!=null) {
+			return new ResponseEntity<List<String>>(sizeValues, HttpStatus.OK);
+
+		}
+		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
+	}
 	
 	@ResponseBody
 	@GetMapping("/stores")

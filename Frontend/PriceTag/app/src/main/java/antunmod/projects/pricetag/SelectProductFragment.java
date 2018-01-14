@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -89,12 +90,15 @@ public class SelectProductFragment extends Fragment {
 
     private View inflatedView;
     private ListView listView_product;
+    private TextView textView_store;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         inflatedView = inflater.inflate(R.layout.fragment_select_product, container, false);
+        textView_store = inflatedView.findViewById(R.id.textView_select);
+        textView_store.setText("Trgovina");
         listView_product = inflatedView.findViewById(R.id.listView_product);
         listView_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -132,15 +136,16 @@ public class SelectProductFragment extends Fragment {
 
         product.setProductName(productName);
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Integer> call = restServiceClient.getProductIdForProducerAndProductName(subcategoryName, product.getProducer());
+        Call<Integer> call = restServiceClient.getProductIdForProducerAndProductName(product.getProducer(), product.getProductName());
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 Integer productId = response.body();
                 if (productId != NOT_FOUND_INTEGER) {
                     product.setProductId(productId);
+                    getSizeValuesForProductIdAndGoToSelectSizeFragment();
                 }
-                goToEnterProductSizeFragment();
+                    //goToEnterProductSizeFragment();
             }
 
             @Override
@@ -152,19 +157,43 @@ public class SelectProductFragment extends Fragment {
 
     }
 
-    private void goToEnterProductSizeFragment() {
+
+    private void getSizeValuesForProductIdAndGoToSelectSizeFragment() {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getSizeValuesForProductId(product.getProductId());
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                List<String> sizeList = (ArrayList) response.body();
+                if (sizeList != null) {
+                   // goToSelectProductSizeFragment(sizeList);
+                }
+                Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void goToSelectProductSizeFragment(ArrayList<String> sizeList) {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("product", product);
         bundle.putSerializable("productStore", productStore);
         bundle.putString("subcategoryName", subcategoryName);
-        EnterProductSizeFragment enterProductSizeFragment = new EnterProductSizeFragment();
-        enterProductSizeFragment.setArguments(bundle);
+        bundle.putStringArrayList("sizeList", sizeList);
+        /*SelectProductSizeFragment selectProductSizeFragment = new SelectProductFragment();
+        selectProductSizeFragment.setArguments(bundle);
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.layout_for_fragment, enterProductSizeFragment)
+                .replace(R.id.layout_for_fragment, selectProductSizeFragment)
                 .addToBackStack("selectProduct")
-                .commit();
+                .commit();*/
 
     }
 

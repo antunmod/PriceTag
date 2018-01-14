@@ -16,15 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SelectSectorFragment.OnFragmentInteractionListener,
-        SelectStoreFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
-        SelectCategoryFragment.OnFragmentInteractionListener, SelectSubcategoryFragment.OnFragmentInteractionListener,
-        SelectStoreLocationFragment.OnFragmentInteractionListener, SelectProducerFragment.OnFragmentInteractionListener,
+        implements NavigationView.OnNavigationItemSelectedListener,
+        SelectFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
         SelectProductFragment.OnFragmentInteractionListener, AddProductFragment.OnFragmentInteractionListener,
         EnterProductSizeFragment.OnFragmentInteractionListener {
 
@@ -59,7 +58,22 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        List fragmentList = getSupportFragmentManager().getFragments();
+
+        boolean handled = false;
+        for(Fragment f : (List<Fragment>) fragmentList) {
+            if(f instanceof SelectFragment) {
+                handled = ((SelectFragment)f).onBackPressed();
+
+                if(!handled) {
+                    super.onBackPressed();
+                }
+            }
+        }
+
+
+        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
@@ -68,7 +82,7 @@ public class HomeActivity extends AppCompatActivity
 
         if (count > 1) {
             super.onBackPressed();
-        }
+        }*/
     }
 
     @Override
@@ -173,5 +187,16 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
         Toast.makeText(getApplicationContext(), "Tu sam", Toast.LENGTH_SHORT).show();
+    }
+
+    public interface OnBackPressedListener {
+
+        /**
+         * Callback, which is called if the Back Button is pressed.
+         * Fragments that extend MainFragment can/should override this Method.
+         *
+         * @return true if the App can be closed, false otherwise
+         */
+        boolean onBackPressed();
     }
 }

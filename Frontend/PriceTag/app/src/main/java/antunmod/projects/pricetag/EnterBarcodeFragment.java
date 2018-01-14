@@ -90,11 +90,11 @@ public class EnterBarcodeFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("storeList", (ArrayList) storeList);
         bundle.putString("barcode", barcode);
-        SelectStoreFragment selectStoreFragment = new SelectStoreFragment();
-        selectStoreFragment.setArguments(bundle);
+        SelectFragment selectFragment = new SelectFragment();
+        selectFragment.setArguments(bundle);
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.layout_for_fragment, selectStoreFragment)
+                .replace(R.id.layout_for_fragment, selectFragment)
                 .addToBackStack("enterBarcodeFragment")
                 .commit();
     }
