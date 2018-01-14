@@ -95,7 +95,7 @@ public class SelectProductFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         inflatedView = inflater.inflate(R.layout.fragment_select_product, container, false);
-        listView_product = inflatedView.findViewById(R.id.listView_producer);
+        listView_product = inflatedView.findViewById(R.id.listView_product);
         listView_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -140,7 +140,7 @@ public class SelectProductFragment extends Fragment {
                 if (productId != NOT_FOUND_INTEGER) {
                     product.setProductId(productId);
                 }
-                goToAddProductFragment();
+                goToEnterProductSizeFragment();
             }
 
             @Override
@@ -152,17 +152,17 @@ public class SelectProductFragment extends Fragment {
 
     }
 
-    private void goToAddProductFragment() {
+    private void goToEnterProductSizeFragment() {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("product", product);
         bundle.putSerializable("productStore", productStore);
         bundle.putString("subcategoryName", subcategoryName);
-        AddProductFragment addProductFragment = new AddProductFragment();
-        addProductFragment.setArguments(bundle);
+        EnterProductSizeFragment enterProductSizeFragment = new EnterProductSizeFragment();
+        enterProductSizeFragment.setArguments(bundle);
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.layout_for_fragment, addProductFragment)
+                .replace(R.id.layout_for_fragment, enterProductSizeFragment)
                 .addToBackStack("selectProduct")
                 .commit();
 

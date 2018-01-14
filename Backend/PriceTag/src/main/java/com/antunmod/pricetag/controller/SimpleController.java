@@ -122,7 +122,7 @@ public class SimpleController {
 																@RequestParam("subcategoryName") String subcategoryName,
 																@RequestParam("producer") String producer) {
 		List<String> productList = productRepository.getProductNamesForSubcategoryNameAndProducer(subcategoryName, producer);
-		if(productList==null) {
+		if(productList!=null) {
 			return new ResponseEntity<List<String>>(productList, HttpStatus.OK);
 
 		}
