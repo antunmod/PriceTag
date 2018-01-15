@@ -209,22 +209,28 @@ public class SelectFragment extends Fragment {
         switch(title) {
 
             case STORE: newStoreName = newValue;
-                        storeList.add(newValue);
-                        break;
+                storeList.add(newValue);
+                break;
             case STORE_ADDRESS: newStoreAddress = newValue;
-                        break;
-            case SECTOR:  newSectorName = newValue;
-                        break;
+                storeAddressList.add(newValue);
+                break;
+            case SECTOR: newSectorName = newValue;
+                sectorList.add(newValue);
+                break;
             case CATEGORY:  newCategoryName = newValue;
-                        break;
+                categoryList.add(newValue);
+                break;
             case SUBCATEGORY:  newSubcategoryName = newValue;
-                        break;
+                subcategoryList.add(newValue);
+                break;
             case PRODUCER:  newProducerName = newValue;
-                        break;
+                producerList.add(newValue);
+                break;
             case PRODUCT:  newProductName = newValue;
-                        break;
+                productList.add(newValue);
+                break;
             case SIZE:  newStoreName = newValue;
-                        break;
+                break;
 
         }
         updateListView(newValue);
