@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,7 +26,8 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SelectFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
         SelectProductFragment.OnFragmentInteractionListener, AddProductFragment.OnFragmentInteractionListener,
-        EnterProductSizeFragment.OnFragmentInteractionListener {
+        EnterProductSizeFragment.OnFragmentInteractionListener, PhotoAndPriceFragment.OnFragmentInteractionListener,
+        EnterNewDataFragment.OnFragmentInteractionListener {
 
     public static User user;
 
@@ -37,7 +39,6 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         user = (User) getIntent().getSerializableExtra("user");
-        Toast.makeText(getApplicationContext(), "Korisnik " + user.getName() + " je u sjednici!", Toast.LENGTH_SHORT).show();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,6 +73,9 @@ public class HomeActivity extends AppCompatActivity
             }
             else if (f instanceof UpdateProductFragment) {
                 super.onBackPressed();
+            }
+            else if (f instanceof EnterNewDataFragment) {
+                handled = ((EnterNewDataFragment)f).onBackPressed();
             }
         }
 

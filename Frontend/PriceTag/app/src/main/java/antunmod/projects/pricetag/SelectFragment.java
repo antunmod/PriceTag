@@ -1,6 +1,8 @@
 package antunmod.projects.pricetag;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,23 +49,33 @@ public class SelectFragment extends Fragment {
 
     private List<String> dataList;
 
-    private String[] storeStringArray;
-    private String[] storeAddressStringArray;
-    private String[] sectorStringArray;
-    private String[] categoryStringArray;
-    private String[] subcategoryStringArray;
-    private String[] producerStringArray;
-    private String[] productStringArray;
-    private String[] sizeStringArray;
+    private List<String> storeList;
+    private List<String> storeAddressList;
+    private List<String> sectorList;
+    private List<String> categoryList;
+    private List<String> subcategoryList;
+    private List<String> producerList;
+    private List<String> productList;
+    private List<String> sizeList;
+
+    private String[] tmpStringArray;
 
     private Product product = new Product();
     private UpdateProduct updateProduct = new UpdateProduct();
     private ProductStore productStore = new ProductStore();
 
-    private String barcode;
     String subcategoryName;
     private String title;
-    
+    private String newStoreName;
+    private String newStoreAddress;
+    private String newSectorName;
+    private String newCategoryName;
+    private String newSubcategoryName;
+    private String newProducerName;
+    private String newProductName;
+
+    private String storeName;
+
     private final String STORE = "Trgovina";
     private final String STORE_ADDRESS = "Adresa trgovine";
     private final String SECTOR = "Sektor";
@@ -110,7 +123,7 @@ public class SelectFragment extends Fragment {
         if (bundle != null) {
             dataList =  bundle.getStringArrayList("storeList");
             saveStoreNames(dataList);
-            barcode = bundle.getString("barcode");
+            productStore.setBarcode(bundle.getString("barcode"));
         }
     }
 
@@ -126,7 +139,7 @@ public class SelectFragment extends Fragment {
         this.inflatedView = inflater.inflate(R.layout.fragment_layout_select, container, false);
         
         listView_select = inflatedView.findViewById(R.id.listView_select);
-        textView_select = inflatedView.findViewById(R.id.textView_select);
+        textView_select = inflatedView.findViewById(R.id.textView_new_data);
         
         fab_select = inflatedView.findViewById(R.id.fab_select);
         
@@ -138,9 +151,91 @@ public class SelectFragment extends Fragment {
             }
         });
 
-        updateFragment(STORE, storeStringArray);
+        fab_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddNewDialog(generateDialogName(title));
+            }
+        });
+
+        updateFragment(STORE, storeList);
 
         return inflatedView;
+    }
+
+    private String generateDialogName(String title) {
+
+        if(title.equals(STORE) || title.equals(STORE_ADDRESS) || title.equals(CATEGORY) || title.equals(SUBCATEGORY))
+            return "Nova " + title;
+
+        if(title.equals(SECTOR) || title.equals(PRODUCT) || title.equals(PRODUCER))
+            return "Novi " + title;
+
+        else return title;
+    }
+
+    private void openAddNewDialog(String title) {
+        AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
+        ab.setTitle(title);
+
+        final EditText et = new EditText(getContext());
+        ab.setView(et);
+
+        ab.setPositiveButton("Dodaj", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String newValue = et.getText().toString();
+                if(newValue.isEmpty()) {
+                    Toast.makeText(getContext(), "Unesite vrijednost", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    saveNewValue(newValue.toUpperCase());
+            }
+        });
+
+        ab.setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getContext(), "Nije dodano", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog a = ab.create();
+        a.show();
+    }
+
+    private void saveNewValue(String newValue) {
+
+        switch(title) {
+
+            case STORE: newStoreName = newValue;
+                        storeList.add(newValue);
+                        break;
+            case STORE_ADDRESS: newStoreAddress = newValue;
+                        break;
+            case SECTOR:  newSectorName = newValue;
+                        break;
+            case CATEGORY:  newCategoryName = newValue;
+                        break;
+            case SUBCATEGORY:  newSubcategoryName = newValue;
+                        break;
+            case PRODUCER:  newProducerName = newValue;
+                        break;
+            case PRODUCT:  newProductName = newValue;
+                        break;
+            case SIZE:  newStoreName = newValue;
+                        break;
+
+        }
+        updateListView(newValue);
+
+    }
+
+    private void updateListView(String newElement) {
+
+        ArrayAdapter<String> listViewAdapter = (ArrayAdapter<String>) listView_select.getAdapter();
+        listViewAdapter.notifyDataSetChanged();
+
     }
 
     /*
@@ -166,7 +261,8 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCT: findProductIdForProducerAndProductName(selected);
                 break;
-            case SIZE:
+            case SIZE: //findPhotoForProductIdAndSize(selected);
+                showPhotoAndPriceFragment();
                 break;
         }
         
@@ -183,7 +279,7 @@ public class SelectFragment extends Fragment {
                 ArrayList<String> storeAddresses = (ArrayList<String>) response.body();
                 if (storeAddresses != null && storeAddresses.size()>0) {
                     saveStoreAddresses(storeAddresses);
-                    updateFragment(STORE_ADDRESS, storeAddressStringArray);
+                    updateFragment(STORE_ADDRESS, storeAddressList);
                 } else {
                     Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
                 }
@@ -198,9 +294,8 @@ public class SelectFragment extends Fragment {
 
     private  void findProductForBarcodeAndStoreAddress(final String storeAddress) {
 
-
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<UpdateProduct> call = restServiceClient.getUpdateProductForBarcodeAndStoreAddress(barcode, storeAddress);
+        Call<UpdateProduct> call = restServiceClient.getUpdateProductForBarcodeAndStoreAddress(productStore.getBarcode(), storeAddress);
         call.enqueue(new Callback<UpdateProduct>() {
             @Override
             public void onResponse(Call<UpdateProduct> call, Response<UpdateProduct> response) {
@@ -270,7 +365,7 @@ public class SelectFragment extends Fragment {
 
                 if(storeId!=null) {
                     saveStoreIdToProductStore(storeId);
-                    updateFragment(SECTOR, sectorStringArray);
+                    updateFragment(SECTOR, sectorList);
                 }
                 else {
                     Toast.makeText(getContext(), "Neuspjelo dohvaćanje identifikatora dućana. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
@@ -296,7 +391,7 @@ public class SelectFragment extends Fragment {
                 ArrayList<String> categoriesList = (ArrayList) response.body();
                 if (categoriesList != null) {
                     saveCategoryNames(categoriesList);
-                    updateFragment(CATEGORY, categoryStringArray);
+                    updateFragment(CATEGORY, categoryList);
 
                 } else {
                     Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
@@ -319,7 +414,7 @@ public class SelectFragment extends Fragment {
                 ArrayList<String> subcategoriesList = (ArrayList) response.body();
                 if (subcategoriesList != null) {
                     saveSubcategoryNames(subcategoriesList);
-                    updateFragment(SUBCATEGORY, subcategoryStringArray);
+                    updateFragment(SUBCATEGORY, subcategoryList);
                 } else {
                     Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
                 }
@@ -339,10 +434,10 @@ public class SelectFragment extends Fragment {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> producerList = (ArrayList) response.body();
+                ArrayList<String> producersList = (ArrayList) response.body();
                 if (producerList != null) {
-                    saveProducerNames(producerList);
-                    updateFragment(PRODUCER, producerStringArray);
+                    saveProducerNames(producersList);
+                    updateFragment(PRODUCER, producerList);
 
                 } else {
                     Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
@@ -364,10 +459,10 @@ public class SelectFragment extends Fragment {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> productList = (ArrayList) response.body();
+                ArrayList<String> productsList = (ArrayList) response.body();
                 if (productList != null) {
-                    saveProductNames(productList);
-                    updateFragment(PRODUCT, productStringArray);
+                    saveProductNames(productsList);
+                    updateFragment(PRODUCT, productList);
 
                 } else {
                     Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
@@ -395,8 +490,8 @@ public class SelectFragment extends Fragment {
                     product.setProductId(productId);
                     findSizeValuesForProductId();
                 }
-                else
-                    updateFragment(SIZE, new String[0]);
+                //else
+                    //updateFragment(SIZE, new String[0]);
 
             }
 
@@ -419,7 +514,7 @@ public class SelectFragment extends Fragment {
                 List<String> sizeList = (ArrayList) response.body();
                 if (sizeList != null) {
                     saveSizeValues(sizeList);
-                    updateFragment(SIZE, sizeStringArray);
+                    //updateFragment(SIZE, sizeStringArray);
                 }
             }
 
@@ -431,28 +526,43 @@ public class SelectFragment extends Fragment {
 
     }
 
+    private void findPhotoForProductIdAndSize (String size) {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<String> call = restServiceClient.getPhotoForProductIdAndSize(product.getProductId(), size);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String photo = response.body();
+                if (photo != null) {
+                   // productStore.setPhoto(photo);
+                    showPhotoAndPriceFragment();
+                }
+                else {
+                    showPhotoAndPriceFragment();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
 
     private void saveStoreNames(List<String> storeNames) {
-        storeStringArray = new String[storeNames.size()];
-        for(int i = 0; i < storeNames.size(); ++i) {
-
-            storeStringArray[i] = storeNames.get(i);
-        }
+        storeList = storeNames;
     }
 
     private void saveStoreAddresses(ArrayList<String> storeAddresses) {
-        storeAddressStringArray = new String[storeAddresses.size()];
-        for(int i = 0; i < storeAddresses.size(); ++i) {
-            storeAddressStringArray[i] = storeAddresses.get(i);
-        }
+        storeAddressList = storeAddresses;
     }
 
     private void saveSectorNames(List<String> sectorNames) {
-        sectorStringArray = new String[sectorNames.size()];
-        for(int i = 0; i < sectorNames.size(); ++i) {
-
-            sectorStringArray[i] = sectorNames.get(i);
-        }
+        sectorList = sectorNames;
     }
 
     private void saveStoreIdToProductStore(int storeId) {
@@ -460,63 +570,53 @@ public class SelectFragment extends Fragment {
     }
 
     private void saveCategoryNames(List<String> categoryNames) {
-        categoryStringArray = new String[categoryNames.size()];
-        for(int i = 0; i < categoryNames.size(); ++i) {
-
-            categoryStringArray[i] = categoryNames.get(i);
-        }
+        categoryList = categoryNames;
     }
 
     private void saveSubcategoryNames(List<String> subcategoryNames) {
-        subcategoryStringArray = new String[subcategoryNames.size()];
-        for(int i = 0; i < subcategoryNames.size(); ++i) {
-
-            subcategoryStringArray[i] = subcategoryNames.get(i);
-        }
+        subcategoryList = subcategoryNames;
     }
 
     private void saveProducerNames (List<String> producerList) {
-        producerStringArray = new String[producerList.size()];
-        for(int i = 0; i < producerList.size(); ++i) {
-
-            producerStringArray[i] = producerList.get(i);
-        }
+        this.producerList = producerList;
     }
 
     private void saveProductNames (List<String> productList) {
-        productStringArray = new String[productList.size()];
-        for(int i = 0; i < productList.size(); ++i) {
-
-            productStringArray[i] = productList.get(i);
-        }
+        this.productList = productList;
     }
 
     private void saveSizeValues (List<String> sizeList) {
-        sizeStringArray = new String[sizeList.size()];
-        for(int i = 0; i < sizeList.size(); ++i) {
-
-            sizeStringArray[i] = sizeList.get(i);
-        }
+        this.sizeList = sizeList;
     }
 
-    private void updateFragment(String newTitle, String[] stringArray) {
+    private void updateFragment(String newTitle, List<String> stringList) {
 
         title = newTitle;
         textView_select.setText(newTitle);
-        addValuesToListView(stringArray);
+        addValuesToListView(stringList);
         
     }
 
-    private void addValuesToListView(String[] dataStringArray) {
+    private void addValuesToListView(List<String> stringList) {
 
         ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(
                 getContext(),
                 android.R.layout.simple_list_item_1,
-                dataStringArray
+                stringList
         );
         listView_select.setAdapter(listViewAdapter);
 
     }
+
+    private void showPhotoAndPriceFragment() {
+        PhotoAndPriceFragment photoAndPriceFragment = new PhotoAndPriceFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, photoAndPriceFragment)
+                .addToBackStack("selectProduct")
+                .commit();
+    }
+
 
     /*
     Called on back pressed. The previous list is loaded back in listView and TextView is set to previous value.
@@ -524,24 +624,36 @@ public class SelectFragment extends Fragment {
     public boolean onBackPressed() {
         switch(title) {
 
-            case STORE: return false;
-            case STORE_ADDRESS: updateFragment(STORE, storeStringArray);
+           case STORE: return false;
+            case STORE_ADDRESS: updateFragment(STORE, storeList);
                 break;
-            case SECTOR:  updateFragment(STORE_ADDRESS, storeAddressStringArray);
+            case SECTOR:  updateFragment(STORE_ADDRESS, storeAddressList);
                 break;
-            case CATEGORY:  updateFragment(SECTOR, sectorStringArray);
+            case CATEGORY:  updateFragment(SECTOR, sectorList);
                 break;
-            case SUBCATEGORY:  updateFragment(CATEGORY, categoryStringArray);
+            case SUBCATEGORY:  updateFragment(CATEGORY, categoryList);
                 break;
-            case PRODUCER:  updateFragment(SUBCATEGORY, subcategoryStringArray);
+            case PRODUCER:  updateFragment(SUBCATEGORY, subcategoryList);
                 break;
-            case PRODUCT:  updateFragment(PRODUCER, producerStringArray);
+            case PRODUCT:  updateFragment(PRODUCER, producerList);
                 break;
-            case SIZE:  updateFragment(PRODUCT, productStringArray);
+            case SIZE:  updateFragment(PRODUCT, productList);
                 break;
 
         }
         return true;
+    }
+
+    private void goToEnterNewDataFragment(String title) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        EnterNewDataFragment enterNewDataFragment = new EnterNewDataFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, enterNewDataFragment)
+                .addToBackStack("selectProduct")
+                .commit();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

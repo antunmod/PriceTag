@@ -12,7 +12,7 @@ public class UpdateProduct implements Serializable{
 
     private long userId;
 
-    private String photo;
+    private int photoId;
 
     private String producer;
 
@@ -32,12 +32,12 @@ public class UpdateProduct implements Serializable{
 
     public UpdateProduct(){}
 
-    public UpdateProduct(long productStoreId, long userId, String photo, String producer,
+    public UpdateProduct(long productStoreId, long userId, int photoId, String producer,
                          String name, int size, String sizeType, float price, float averagePrice,
                          int productUpdates, String priceChangeDate) {
         this.productStoreId = productStoreId;
         this.userId = userId;
-        this.photo = photo;
+        this.photoId = photoId;
         this.producer = producer;
         this.name = name;
         this.size = size;
@@ -64,12 +64,12 @@ public class UpdateProduct implements Serializable{
         this.userId = userId;
     }
 
-    public String getPhoto() {
-        return photo;
+    public int getPhotoId() {
+        return photoId;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
     }
 
     public String getProducer() {

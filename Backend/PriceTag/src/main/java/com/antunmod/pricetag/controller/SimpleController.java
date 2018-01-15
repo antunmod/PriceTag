@@ -65,17 +65,6 @@ public class SimpleController {
 	private SuggestedCategorizationRepository suggestedCategorizationRepository;
 	
 	@ResponseBody
-	@GetMapping("/sizes")
-	public ResponseEntity<List<String>> getSizeValues() {
-		List<Size> sizes = sizeRepository.findAll();
-		List<String> sizeList = new ArrayList<String>();
-		for(Size size: sizes) {
-			sizeList.add(size.getSizeType());
-		}
-		return new ResponseEntity<List<String>>(sizeList, HttpStatus.OK);
-	}
-	
-	@ResponseBody
 	@GetMapping("/sectors")
 	public ResponseEntity<List<String>> getSectors() {
 		List<String> sectorList = sectorRepository.getAllSectorNames();
@@ -196,7 +185,17 @@ public class SimpleController {
 		}
 		return new ResponseEntity<Integer> (storeId, HttpStatus.OK);
 		
-		
+	}
+	
+	@ResponseBody
+	@GetMapping("/sizes")
+	public ResponseEntity<List<String>> getSizeValues() {
+		List<Size> sizes = sizeRepository.findAll();
+		List<String> sizeList = new ArrayList<String>();
+		for(Size size: sizes) {
+			sizeList.add(size.getSizeType());
+		}
+		return new ResponseEntity<List<String>>(sizeList, HttpStatus.OK);
 	}
 	
 	

@@ -12,7 +12,7 @@ public interface UpdateProductRepository extends JpaRepository<UpdateProduct, Lo
 	//FIND PRODUCT FOR BARCODE AND STOREID
 	@Query(value = "SELECT product_store_ID, " + 
 			"user_ID, " + 
-			"photo, " + 
+			"photo_ID, " + 
 			"producer, " + 
 			"product_name, " + 
 			"product_size, " + 

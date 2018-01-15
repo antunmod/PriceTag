@@ -97,7 +97,7 @@ public class SelectProductFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         inflatedView = inflater.inflate(R.layout.fragment_select_product, container, false);
-        textView_store = inflatedView.findViewById(R.id.textView_select);
+        textView_store = inflatedView.findViewById(R.id.textView_new_data);
         textView_store.setText("Trgovina");
         listView_product = inflatedView.findViewById(R.id.listView_product);
         listView_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {

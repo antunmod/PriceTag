@@ -68,18 +68,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_average_price" />
 
-    <TextView
-        android:id="@+id/textView_update_product"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:background="@color/colorPrimaryDark"
-        android:gravity="center"
-        android:text="Ažuriraj cijenu"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+
 
     <TextView
         android:id="@+id/textView_producer_definition"
@@ -113,5 +102,18 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_product_name_and_size_definition" />
+
+    <TextView
+        android:id="@+id/textView_update_product"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="Ažuriraj cijenu"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -19,9 +19,8 @@ public class UpdateProduct implements Serializable{
 	@Column (name = "user_ID")
 	private int userId;
 	
-	@Lob
-	@Column (name = "photo")
-	private byte[] photo;
+	@Column (name = "photo_ID")
+	private int photoId;
 	
 	@Column (name = "producer")
 	private String producer;
@@ -52,12 +51,12 @@ public class UpdateProduct implements Serializable{
 		super();
 	}
 
-	public UpdateProduct(long productStoreId, int userId, byte[] photo, String producer, String name, int size,
+	public UpdateProduct(long productStoreId, int userId, int photoId, String producer, String name, int size,
 			String sizeType, float price, float averagePrice, int productUpdates, String priceChangeDate) {
 		super();
 		this.productStoreId = productStoreId;
 		this.userId = userId;
-		this.photo = photo;
+		this.photoId = photoId;
 		this.producer = producer;
 		this.name = name;
 		this.size = size;
@@ -84,12 +83,12 @@ public class UpdateProduct implements Serializable{
 		this.userId = userId;
 	}
 
-	public byte[] getPhoto() {
-		return photo;
+	public int getPhoto() {
+		return photoId;
 	}
 
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
+	public void setPhoto(int photo) {
+		this.photoId = photo;
 	}
 
 	public String getProducer() {

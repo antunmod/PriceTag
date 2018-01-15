@@ -72,6 +72,10 @@ public interface RestServiceClient {
     Call<List<String>> getSizeValuesForProductId(@Query("productId") int productId);
 
     @Headers("Content-Type: application/json")
+    @GET("products/photo")
+    Call<String> getPhotoForProductIdAndSize(@Query("productId") int productId, @Query("size") String size);
+
+    @Headers("Content-Type: application/json")
     @GET("stores")
     Call<List<String>> getStoreNames();
 
