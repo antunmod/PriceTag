@@ -73,6 +73,7 @@ public class SelectFragment extends Fragment {
     private String newSubcategoryName;
     private String newProducerName;
     private String newProductName;
+    private String tmp;
 
     private String storeName;
 
@@ -174,7 +175,7 @@ public class SelectFragment extends Fragment {
         else return title;
     }
 
-    private void openAddNewDialog(String title) {
+    private void openAddNewDialog(final String title) {
         AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
         ab.setTitle(title);
 
@@ -190,6 +191,7 @@ public class SelectFragment extends Fragment {
                 }
                 else
                     saveNewValue(newValue.toUpperCase());
+
             }
         });
 
@@ -206,38 +208,84 @@ public class SelectFragment extends Fragment {
 
     private void saveNewValue(String newValue) {
 
+        String oldValue = "";
+
         switch(title) {
 
-            case STORE: newStoreName = newValue;
+            case STORE:
+                if(newStoreAddress!=null && storeList.contains(newStoreAddress)) {
+                oldValue = newStoreName;
+                storeList.remove(oldValue);
+            }
+                newStoreName = newValue;
                 storeList.add(newValue);
                 break;
-            case STORE_ADDRESS: newStoreAddress = newValue;
+            case STORE_ADDRESS:
+                if(newStoreAddress!=null && storeAddressList.contains(newStoreAddress)) {
+                    oldValue = newStoreAddress;
+                    storeAddressList.remove(oldValue);
+                }
+                newStoreAddress = newValue;
                 storeAddressList.add(newValue);
                 break;
-            case SECTOR: newSectorName = newValue;
+            case SECTOR:
+                if(newSectorName!=null && sectorList.contains(newSectorName)) {
+                    oldValue = newSectorName;
+                    sectorList.remove(oldValue);
+                }
+                newSectorName = newValue;
                 sectorList.add(newValue);
                 break;
-            case CATEGORY:  newCategoryName = newValue;
+            case CATEGORY:
+                if(newCategoryName!=null && categoryList.contains(newCategoryName)) {
+                    oldValue = newCategoryName;
+                    categoryList.remove(oldValue);
+                }
+                newCategoryName = newValue;
                 categoryList.add(newValue);
                 break;
-            case SUBCATEGORY:  newSubcategoryName = newValue;
+            case SUBCATEGORY:
+                if(newSubcategoryName!=null && subcategoryList.contains(newSubcategoryName)) {
+                    oldValue = newSubcategoryName;
+                    subcategoryList.remove(oldValue);
+                }
+                newSubcategoryName = newValue;
                 subcategoryList.add(newValue);
                 break;
-            case PRODUCER:  newProducerName = newValue;
+            case PRODUCER:
+                if(newProducerName!=null && producerList.contains(newProducerName)) {
+                    oldValue = newProducerName;
+                    producerList.remove(oldValue);
+                }
+                newProducerName = newValue;
                 producerList.add(newValue);
                 break;
-            case PRODUCT:  newProductName = newValue;
+            case PRODUCT:
+                if(newProductName!=null && productList.contains(newProductName)) {
+                    oldValue = newProductName;
+                    productList.remove(oldValue);
+                }
+                newProductName = newValue;
                 productList.add(newValue);
                 break;
-            case SIZE:  newStoreName = newValue;
+            case SIZE:
+                if(newCategoryName!=null) {
+                    oldValue = newCategoryName;
+                    categoryList.remove(oldValue);
+                }
+                newStoreName = newValue;
                 break;
 
         }
-        updateListView(newValue);
+        if(!oldValue.isEmpty())
+            Toast.makeText(getContext(), "Prethodno dodana vrijednost " + oldValue + " je zamijenjena sa " + newValue, Toast.LENGTH_SHORT).show();
+
+
+        updateListView();
 
     }
 
-    private void updateListView(String newElement) {
+    private void updateListView() {
 
         ArrayAdapter<String> listViewAdapter = (ArrayAdapter<String>) listView_select.getAdapter();
         listViewAdapter.notifyDataSetChanged();
