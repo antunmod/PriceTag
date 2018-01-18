@@ -301,17 +301,38 @@ public class SelectFragment extends Fragment {
         title = textView_select.getText().toString();
         
         switch (title) {
-            case STORE: findStoreAddresses(selected);
+            case STORE:
+            if(newStoreName!=null && selected.equals(newStoreName))
+                updateFragment(STORE_ADDRESS, storeAddressList = new ArrayList<>());
+            else
+                findStoreAddresses(selected);
                 break;
-            case STORE_ADDRESS: findProductForBarcodeAndStoreAddress(selected);
+            case STORE_ADDRESS:
+                findProductForBarcodeAndStoreAddress(selected);
                 break;
-            case SECTOR: findCategoriesForSectorName(selected);
+            case SECTOR:
+                if(newSectorName!=null && selected.equals(newSectorName))
+                    updateFragment(CATEGORY, categoryList = new ArrayList<>());
+                else
+                    findCategoriesForSectorName(selected);
                 break;
-            case CATEGORY: findSubcategoriesForCategoryName(selected);
+            case CATEGORY:
+                if(newCategoryName!=null && selected.equals(newCategoryName))
+                    updateFragment(SUBCATEGORY, subcategoryList = new ArrayList<>());
+                else
+                    findSubcategoriesForCategoryName(selected);
                 break;
-            case SUBCATEGORY: findProducersForSubcategoryName(selected);
+            case SUBCATEGORY:
+                if(newSubcategoryName!=null && selected.equals(newSubcategoryName))
+                    updateFragment(PRODUCER, producerList = new ArrayList<>());
+                else
+                    findProducersForSubcategoryName(selected);
                 break;
-            case PRODUCER: findProductsForSubcategoryNameAndProducer(selected);
+            case PRODUCER:
+                if(newProducerName!=null && selected.equals(newProducerName))
+                    updateFragment(PRODUCT, productList==null? productList = new ArrayList<>() : productList);
+                else
+                findProductsForSubcategoryNameAndProducer(selected);
                 break;
             case PRODUCT: findProductIdForProducerAndProductName(selected);
                 break;
@@ -489,13 +510,10 @@ public class SelectFragment extends Fragment {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> producersList = (ArrayList) response.body();
-                if (producerList != null) {
+                if (producersList != null)
                     saveProducerNames(producersList);
-                    updateFragment(PRODUCER, producerList);
 
-                } else {
-                    Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
+                updateFragment(PRODUCER, producersList == null? new ArrayList<String>() : producersList);
             }
 
             @Override
@@ -514,13 +532,11 @@ public class SelectFragment extends Fragment {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> productsList = (ArrayList) response.body();
-                if (productList != null) {
+                if (productsList != null)
                     saveProductNames(productsList);
-                    updateFragment(PRODUCT, productList);
 
-                } else {
-                    Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
+                updateFragment(PRODUCT, productsList == null? new ArrayList<String>() : productsList);
+
             }
 
             @Override
