@@ -764,22 +764,13 @@ INSERT INTO product_size (size_type)
 	VALUES ('kom.');
 
 -- PRODUCT
-INSERT INTO PRODUCT(product_name, producer, category_ID, subcategory_ID)
-	VALUES ('Suncokretovo ulje', 'Zvijezda', 9, 36);
-INSERT INTO PRODUCT(product_name, producer, category_ID, subcategory_ID)
-	VALUES ('Šećer kristal bijeli', 'K plus', 9, 37);
+INSERT INTO PRODUCT(product_name, producer)
+	VALUES ('Suncokretovo ulje', 'Zvijezda');
+INSERT INTO PRODUCT(product_name, producer)
+	VALUES ('Šećer kristal bijeli', 'K plus');
 
--- PRODUCT STORE
-INSERT INTO product_store (product_ID, store_ID, user_ID, barcode,
- product_size, product_size_ID, price, price_change_date, average_price)
- 	VALUES (1, 1, 1, 1111111111111, 1, 2, 10.99, '2017-12-04', 11.0335);
-INSERT INTO product_store (product_ID, store_ID, user_ID, barcode,
- product_size, product_size_ID, price, price_change_date, average_price)
- 	VALUES (2, 2, 2, 1111111111112, 1, 1, 5.49, '2018-01-05', 6.25);
-
-INSERT INTO product(barcode, product_name, producer, product_size, product_size_ID,
-	price, store_ID, price_change_date, subcategory_ID, category_ID, user_ID, average_price, product_updates, validity)
-	VALUES(1111111111111, 'Suncokretovo ulje', 'Zvijezda', 1, 2, 10.99, 1, '2017-12-04', 36, 9, 1, 11, 1, TRUE);
-INSERT INTO product(barcode, product_name, producer, product_size, product_size_ID,
- 	price, store_ID, price_change_date, subcategory_ID, category_ID, user_ID, average_price, product_updates, validity)
-	VALUES(1111111111112, 'Šećer kristal bijeli', 'K plus', 1, 1, 5.49, 1, '2017-12-09', 37, 9, 1, 5, 6, TRUE);
+-- SUBCATEGORY PRODUCT
+INSERT INTO subcategory_product(subcategory_ID, product_ID)
+	VALUES (36, 1);
+INSERT INTO subcategory_product(subcategory_ID, product_ID)
+	VALUES (37, 2);
