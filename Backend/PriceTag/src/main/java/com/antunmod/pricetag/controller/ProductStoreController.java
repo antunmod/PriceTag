@@ -42,5 +42,16 @@ public class ProductStoreController {
 		return new ResponseEntity<Boolean> (true, HttpStatus.OK);
 		
 	}
+	
+//	@ResponseBody
+//	@GetMapping("/photo")
+//	public ResponseEntity<List<String>> getPhotoForProductIdAndSize(@RequestParam("productId") int productId,
+//																	@RequestParam("size") String size) {
+//		byte[] photo = productStoreRepository.getPhotoForProductIdAndSize(productId, size);
+//		for(Size size: sizes) {
+//			sizeList.add(size.getSizeType());
+//		}
+//		return new ResponseEntity<List<String>>(new ArrayList<String>(), HttpStatus.OK);
+//	}
 
 }

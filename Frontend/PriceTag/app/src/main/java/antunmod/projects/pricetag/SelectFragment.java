@@ -336,8 +336,8 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCT: findProductIdForProducerAndProductName(selected);
                 break;
-            case SIZE: //findPhotoForProductIdAndSize(selected);
-                showPhotoAndPriceFragment();
+            case SIZE: findPhotoForProductIdAndSize(selected);
+                //showPhotoAndPriceFragment();
                 break;
         }
         
@@ -558,6 +558,7 @@ public class SelectFragment extends Fragment {
                 Integer productId = response.body();
                 if (productId != NOT_FOUND_INTEGER) {
                     product.setProductId(productId);
+                    productStore.setProductId(productId);
                     findSizeValuesForProductId();
                 }
                 //else
@@ -584,8 +585,8 @@ public class SelectFragment extends Fragment {
                 List<String> sizeList = (ArrayList) response.body();
                 if (sizeList != null) {
                     saveSizeValues(sizeList);
-                    //updateFragment(SIZE, sizeStringArray);
                 }
+                updateFragment(SIZE, sizeList!=null? sizeList : new ArrayList<String>());
             }
 
             @Override
@@ -675,11 +676,16 @@ public class SelectFragment extends Fragment {
                 stringList
         );
         listView_select.setAdapter(listViewAdapter);
-
+        if(stringList.isEmpty()) {
+            fab_select.performClick();
+        }
     }
 
     private void showPhotoAndPriceFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("updateProduct", updateProduct);
         PhotoAndPriceFragment photoAndPriceFragment = new PhotoAndPriceFragment();
+        photoAndPriceFragment.setArguments(bundle);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_for_fragment, photoAndPriceFragment)

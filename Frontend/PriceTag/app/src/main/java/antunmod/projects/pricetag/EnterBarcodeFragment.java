@@ -56,7 +56,7 @@ public class EnterBarcodeFragment extends Fragment {
                         public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                             List<String> storeList = response.body();
                             if (storeList != null && storeList.size()>0) {
-                                goToSelectStoreFragment(storeList);
+                                goToSelectFragment(storeList);
 
                             } else {
                                 Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
@@ -86,7 +86,7 @@ public class EnterBarcodeFragment extends Fragment {
         return inflatedView;
     }
 
-    private void goToSelectStoreFragment(List<String> storeList) {
+    private void goToSelectFragment(List<String> storeList) {
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("storeList", (ArrayList) storeList);
         bundle.putString("barcode", barcode);

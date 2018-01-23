@@ -16,5 +16,8 @@ public interface ProductStoreRepository extends JpaRepository<ProductStore, Long
 										int productUpdates);
 	
 	ProductStore findByProductStoreId(long productStoreId);
+
+	/*@Query(value = "", nativeQuery = true)
+	byte[] getPhotoForProductIdAndSize(int productId, String size);*/
 	
 }

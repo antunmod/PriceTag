@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.antunmod.pricetag.model.Sector;
 import com.antunmod.pricetag.model.Size;
 import com.antunmod.pricetag.model.Store;
 import com.antunmod.pricetag.repo.CategoryRepository;
@@ -197,6 +196,8 @@ public class SimpleController {
 		}
 		return new ResponseEntity<List<String>>(sizeList, HttpStatus.OK);
 	}
+	
+	
 	
 	
 }

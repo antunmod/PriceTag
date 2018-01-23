@@ -71,7 +71,8 @@ public class HomeActivity extends AppCompatActivity
                     super.onBackPressed();
                 }
             }
-            else if (f instanceof UpdateProductFragment) {
+            else if (f instanceof UpdateProductFragment ||
+                    f instanceof  PhotoAndPriceFragment) {
                 super.onBackPressed();
             }
             else if (f instanceof EnterNewDataFragment) {

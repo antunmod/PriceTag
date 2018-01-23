@@ -85,10 +85,8 @@ public class PhotoAndPriceFragment extends Fragment {
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_photo_and_price, container, false);
 
-        imageView = inflatedView.findViewById(R.id.imageView_photo);
         editText_price = inflatedView.findViewById(R.id.editText_price);
         textView_add_product = inflatedView.findViewById(R.id.textView_add_product);
-        textView_add_photo = inflatedView.findViewById(R.id.textView_add_photo);
 
         textView_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +95,17 @@ public class PhotoAndPriceFragment extends Fragment {
             }
         });
 
+        textView_add_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(editText_price.getText().toString().isEmpty())
+                    Toast.makeText(getContext(), "Unesite cijenu", Toast.LENGTH_SHORT).show();
+                else {
+
+                }
+            }
+        });
+        
         return inflatedView;
     }
 
