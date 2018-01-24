@@ -329,14 +329,30 @@ public class SelectFragment extends Fragment {
                     findProducersForSubcategoryName(selected);
                 break;
             case PRODUCER:
-                if(newProducerName!=null && selected.equals(newProducerName))
-                    updateFragment(PRODUCT, productList==null? productList = new ArrayList<>() : productList);
-                else
-                findProductsForSubcategoryNameAndProducer(selected);
+                if(newProducerName!=null && selected.equals(newProducerName)) {
+                    product.setProducer(selected);
+                    updateFragment(PRODUCT, productList == null ? productList = new ArrayList<>() : productList);
+
+                }
+                else {
+                    product.setProducer("");
+                    findProductsForSubcategoryNameAndProducer(selected);
+                }
                 break;
-            case PRODUCT: findProductIdForProducerAndProductName(selected);
+            case PRODUCT:
+                if(newProductName!=null && selected.equals(newProductName)) {
+                    product.setProductName(selected);
+                    goToAddProductFragment();
+                }
+                else {
+                    product.setProductName("");
+                    findProductIdForProducerAndProductName(selected);
+                }
+
                 break;
-            case SIZE: findPhotoForProductIdAndSize(selected);
+            case SIZE:
+
+                findPhotoForProductIdAndSize(selected);
                 //showPhotoAndPriceFragment();
                 break;
         }
@@ -693,6 +709,21 @@ public class SelectFragment extends Fragment {
                 .commit();
     }
 
+
+    private void goToAddProductFragment() {
+        Bundle bundle = new Bundle();
+
+        if(!product.getProducer().isEmpty())
+            bundle.putSerializable("product", product);
+        bundle.putSerializable("productStore", productStore);
+        AddProductFragment addProductFragment = new AddProductFragment();
+        addProductFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, addProductFragment)
+                .addToBackStack("selectProduct")
+                .commit();
+    }
 
     /*
     Called on back pressed. The previous list is loaded back in listView and TextView is set to previous value.
