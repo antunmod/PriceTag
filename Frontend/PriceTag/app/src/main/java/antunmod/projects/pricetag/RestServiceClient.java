@@ -39,7 +39,19 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("sizes")
-    Call<List<String>> getSizeValues();
+    Call<List<String>> getSizeTypes();
+
+    @Headers("Content-Type: application/json")
+    @POST("products")
+    Call<Integer> addProduct(@Body Product product);
+
+    @Headers("Content-Type: application/json")
+    @POST("photos")
+    Call<Integer> addPhoto(@Body byte[] photo);
+
+    @Headers("Content-Type: application/json")
+    @POST("productStore")
+    Call<Long> addProductStore(@Body ProductStore productStore);
 
     @Headers("Content-Type: application/json")
     @GET("sectors")
@@ -104,7 +116,7 @@ public interface RestServiceClient {
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.5:8000/")
+            .baseUrl("http://192.168.1.2:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

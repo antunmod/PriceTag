@@ -7,14 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.antunmod.pricetag.model.Size;
+import com.antunmod.pricetag.model.Photo;
+import com.antunmod.pricetag.model.Product;
 import com.antunmod.pricetag.model.Store;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.CategorySubcategoryRepository;
+import com.antunmod.pricetag.repo.PhotoRepository;
 import com.antunmod.pricetag.repo.ProductRepository;
 import com.antunmod.pricetag.repo.ProductStoreRepository;
 import com.antunmod.pricetag.repo.SectorCategoryRepository;
@@ -59,6 +63,9 @@ public class SimpleController {
 	
 	@Autowired
 	private SizeRepository sizeRepository;
+	
+	@Autowired
+	private PhotoRepository photoRepository;
 	
 	@Autowired
 	private SuggestedCategorizationRepository suggestedCategorizationRepository;
@@ -189,14 +196,42 @@ public class SimpleController {
 	@ResponseBody
 	@GetMapping("/sizes")
 	public ResponseEntity<List<String>> getSizeValues() {
-		List<Size> sizes = sizeRepository.findAll();
-		List<String> sizeList = new ArrayList<String>();
-		for(Size size: sizes) {
-			sizeList.add(size.getSizeType());
-		}
-		return new ResponseEntity<List<String>>(sizeList, HttpStatus.OK);
+		List<String> sizeTypeList = sizeRepository.getSizeTypes();
+		if(sizeTypeList==null)
+			return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.OK);
+		return new ResponseEntity<List<String>>(sizeTypeList, HttpStatus.OK);
 	}
 	
+	
+	@ResponseBody
+	@PostMapping("products")
+	public ResponseEntity<Integer> addProduct(@RequestBody Product product) {
+		Product savedProduct;
+
+		savedProduct = productRepository.saveAndFlush(product);
+		
+		return new ResponseEntity<Integer>(savedProduct.getProductId(), HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@PostMapping("photos")
+	public ResponseEntity<Integer> addPhoto(@RequestBody byte[] photoArray) {
+		Photo photo,savedPhoto;
+		photo = new Photo();
+		photo.setPhoto(photoArray);
+		savedPhoto = photoRepository.save(photo);
+		
+		return new ResponseEntity<Integer>(savedPhoto.getPhotoId(), HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping("photo")
+	public ResponseEntity<byte[]> getPhoto(@RequestParam("photoId") int photoId) {
+	
+		byte[] byteArray = photoRepository.getPhotoForPhotoId(photoId);
+		
+		return new ResponseEntity<byte[]>(byteArray, HttpStatus.OK);
+	}
 	
 	
 	

@@ -15,11 +15,11 @@ public class ProductStore implements Serializable{
 
     private int storeId;
 
-    private int userId;
+    private long userId;
 
     private String barcode;
 
-    private byte[] photo;
+    private int photoId;
 
     private float productSize;
 
@@ -36,7 +36,7 @@ public class ProductStore implements Serializable{
     public ProductStore() {
     }
 
-    public ProductStore(long productStoreId, int productId, int storeId, int userId, String barcode, byte[] photo,
+    public ProductStore(long productStoreId, int productId, int storeId, long userId, String barcode, int photoId,
                         float productSize, int productSizeId, float price, String priceChangeDate,
                         float averagePrice, int productUpdates) {
         this.productStoreId = productStoreId;
@@ -44,7 +44,7 @@ public class ProductStore implements Serializable{
         this.storeId = storeId;
         this.userId = userId;
         this.barcode = barcode;
-        this.photo = photo;
+        this.photoId = photoId;
         this.productSize = productSize;
         this.productSizeId = productSizeId;
         this.price = price;
@@ -77,11 +77,11 @@ public class ProductStore implements Serializable{
         this.storeId = storeId;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -93,12 +93,12 @@ public class ProductStore implements Serializable{
         this.barcode = barcode;
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public int getPhotoId() {
+        return photoId;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
     }
 
     public float getProductSize() {

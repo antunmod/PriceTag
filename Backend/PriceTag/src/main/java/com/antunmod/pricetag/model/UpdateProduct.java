@@ -83,12 +83,12 @@ public class UpdateProduct implements Serializable{
 		this.userId = userId;
 	}
 
-	public int getPhoto() {
+	public int getPhotoId() {
 		return photoId;
 	}
 
-	public void setPhoto(int photo) {
-		this.photoId = photo;
+	public void setPhotoId(int photoId) {
+		this.photoId = photoId;
 	}
 
 	public String getProducer() {

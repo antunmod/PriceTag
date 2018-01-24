@@ -33,9 +33,8 @@ public class ProductStore implements Serializable{
 	@Column(name="barcode")
 	private String barcode;
 	
-	@Lob
-	@Column(name="photo")
-	private byte[] photo;
+	@Column(name="photo_ID")
+	private int photoId;
 	
 	@Column(name="product_size")
 	private float productSize;
@@ -63,7 +62,7 @@ public class ProductStore implements Serializable{
 
 
 
-	public ProductStore(long productStoreId, int productId, int storeId, int userId, String barcode, byte[] photo,
+	public ProductStore(long productStoreId, int productId, int storeId, int userId, String barcode, int photoId,
 			float productSize, int productSizeId, float price, String priceChangeDate, float averagePrice,
 			int productUpdates) {
 		super();
@@ -72,7 +71,7 @@ public class ProductStore implements Serializable{
 		this.storeId = storeId;
 		this.userId = userId;
 		this.barcode = barcode;
-		this.photo = photo;
+		this.photoId = photoId;
 		this.productSize = productSize;
 		this.productSizeId = productSizeId;
 		this.price = price;
@@ -143,14 +142,14 @@ public class ProductStore implements Serializable{
 
 
 
-	public byte[] getPhoto() {
-		return photo;
+	public int getPhotoId() {
+		return photoId;
 	}
 
 
 
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
+	public void setPhotoId(int photoId) {
+		this.photoId = photoId;
 	}
 
 

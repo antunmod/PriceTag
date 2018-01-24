@@ -1,6 +1,11 @@
 package antunmod.projects.pricetag;
 
+import android.support.annotation.ArrayRes;
+import android.support.v4.media.MediaMetadataCompat;
+
 import java.io.Serializable;
+
+import retrofit2.http.Part;
 
 /**
  * Created by antun on 1/12/2018.
@@ -32,7 +37,7 @@ public class UpdateProduct implements Serializable{
 
     public UpdateProduct(){}
 
-    public UpdateProduct(long productStoreId, long userId, int photoId, String producer,
+    public UpdateProduct(long productStoreId, long userId, int photo, String producer,
                          String name, int size, String sizeType, float price, float averagePrice,
                          int productUpdates, String priceChangeDate) {
         this.productStoreId = productStoreId;

@@ -27,6 +27,7 @@ public class UpdateProductController {
 																			@RequestParam("storeAddress") String storeAddress) {
 		
 		UpdateProduct updateProduct = updateProductRepository.findProductForBarcodeAndStoreId(barcode, storeAddress);
+		
 		if(updateProduct==null) {
 			return new ResponseEntity<UpdateProduct>(new UpdateProduct(), HttpStatus.OK);
 		}

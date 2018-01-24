@@ -1,6 +1,8 @@
 package antunmod.projects.pricetag;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,6 +90,7 @@ public class UpdateProductFragment extends Fragment {
     }
 
     View inflatedView;
+    ImageView imageView_updateProduct;
     TextView textView_producer;
     TextView textView_productNameAndSize;
     TextView textView_averagePrice;
@@ -104,12 +109,20 @@ public class UpdateProductFragment extends Fragment {
         editText_newPrice = inflatedView.findViewById(R.id.editText_new_price);
         textView_updateProduct = inflatedView.findViewById(R.id.textView_update_product);
 
+        imageView_updateProduct = inflatedView.findViewById(R.id.imageView_update_product);
+
+        setImageView();
+
+
+
         textView_producer.setText(updateProduct.getProducer());
         String productNameAndSize = updateProduct.getName() + ", " +
                 updateProduct.getSize() + " " + updateProduct.getSizeType();
         textView_productNameAndSize.setText(productNameAndSize);
         textView_averagePrice.setText(Float.toString(updateProduct.getAveragePrice()) + " kn");
-        
+
+
+
         textView_updateProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,6 +154,13 @@ public class UpdateProductFragment extends Fragment {
 
 
         return inflatedView;
+    }
+
+    private void setImageView() {
+        /*byte[] imageBytes = updateProduct.getPhoto().getBytes(StandardCharsets.UTF_8);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        imageView_updateProduct.setImageBitmap(bitmap);*/
+
     }
 
     private void saveUpdatedProduct(UpdateProduct updateProduct) {

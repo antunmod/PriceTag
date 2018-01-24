@@ -309,7 +309,6 @@ public class SelectFragment extends Fragment {
     /*
     The following method finds data for the listView according to the title which is currently set.
      */
-    
     private void findListData(String selected) {
         
         title = textView_select.getText().toString();
@@ -612,7 +611,7 @@ public class SelectFragment extends Fragment {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> sizeList = (ArrayList) response.body();
+                List<String> sizeList = response.body();
                 if (sizeList != null) {
                     saveSizeValues(sizeList);
                 }
