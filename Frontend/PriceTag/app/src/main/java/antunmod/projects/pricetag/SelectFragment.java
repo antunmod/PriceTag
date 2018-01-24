@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,9 +189,11 @@ public class SelectFragment extends Fragment {
 
     private void openAddNewDialog(final String title) {
         AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
-        ab.setTitle(title);
 
         final EditText et = new EditText(getContext());
+        et.setHint(title);
+        et.setGravity(Gravity.CENTER);
+        et.setPadding(0, 100, 0, 20);
         ab.setView(et);
 
         ab.setPositiveButton("Dodaj", new DialogInterface.OnClickListener() {
