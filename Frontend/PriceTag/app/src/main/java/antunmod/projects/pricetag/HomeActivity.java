@@ -67,13 +67,15 @@ public class HomeActivity extends AppCompatActivity
             if(f instanceof SelectFragment) {
                 handled = ((SelectFragment)f).onBackPressed();
 
-                if(!handled) {
-                    super.onBackPressed();
-                }
+
+
             }
             else if (f instanceof UpdateProductFragment ||
                     f instanceof  PhotoAndPriceFragment) {
                 super.onBackPressed();
+            }
+            else if (f instanceof AddProductFragment) {
+                getSupportFragmentManager().popBackStack();
             }
             else if (f instanceof EnterNewDataFragment) {
                 handled = ((EnterNewDataFragment)f).onBackPressed();

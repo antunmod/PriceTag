@@ -155,6 +155,15 @@ public class AddProductFragment extends Fragment {
 
     }
 
+    /*public boolean onBackPressed() {
+
+        addProductFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .show(addProductFragment)
+                .commit();
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

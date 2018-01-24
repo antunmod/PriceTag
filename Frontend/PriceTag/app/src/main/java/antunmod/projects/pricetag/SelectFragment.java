@@ -55,7 +55,7 @@ public class SelectFragment extends Fragment {
     private ProductStore productStore = new ProductStore();
 
     String subcategoryName;
-    private String title;
+    private String title = "";
     private String newStoreName;
     private String newStoreAddress;
     private String newSectorName;
@@ -63,7 +63,6 @@ public class SelectFragment extends Fragment {
     private String newSubcategoryName;
     private String newProducerName;
     private String newProductName;
-    private String tmp;
 
     private String storeName;
 
@@ -109,6 +108,8 @@ public class SelectFragment extends Fragment {
             saveStoreNames(dataList);
             productStore.setBarcode(bundle.getString("barcode"));
         }
+
+
     }
 
     private View inflatedView;
@@ -142,9 +143,36 @@ public class SelectFragment extends Fragment {
             }
         });
 
-        updateFragment(STORE, storeList);
+        setFragment();
 
         return inflatedView;
+    }
+
+    private void setFragment() {
+        switch (title) {
+            case STORE_ADDRESS:
+                updateFragment(STORE_ADDRESS, storeAddressList);
+                break;
+            case SECTOR:
+                updateFragment(SECTOR, sectorList);
+                break;
+            case CATEGORY:
+                updateFragment(CATEGORY, categoryList);
+                break;
+            case SUBCATEGORY:
+                updateFragment(SUBCATEGORY, subcategoryList);
+                break;
+            case PRODUCER:
+                updateFragment(PRODUCER, producerList);
+                break;
+            case PRODUCT:
+                updateFragment(PRODUCT, productList);
+                break;
+            default:
+                updateFragment(STORE, storeList);
+
+
+        }
     }
 
     private String generateDialogName(String title) {
@@ -762,6 +790,7 @@ public class SelectFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
