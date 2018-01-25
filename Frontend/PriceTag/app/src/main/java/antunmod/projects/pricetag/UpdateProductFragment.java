@@ -36,18 +36,12 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class UpdateProductFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private final float BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 0.5;
     private final float TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 1.5;
 
+    private byte[] photoByteArray;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,20 +49,11 @@ public class UpdateProductFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UpdateProductFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static UpdateProductFragment newInstance(String param1, String param2) {
         UpdateProductFragment fragment = new UpdateProductFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,14 +63,12 @@ public class UpdateProductFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             updateProduct =  (UpdateProduct) bundle.getSerializable("updateProduct");
+            photoByteArray = (byte[]) bundle.getSerializable("photoByteArray");
         }
     }
 
@@ -112,7 +95,6 @@ public class UpdateProductFragment extends Fragment {
         imageView_updateProduct = inflatedView.findViewById(R.id.imageView_update_product);
 
         setImageView();
-
 
 
         textView_producer.setText(updateProduct.getProducer());
@@ -157,9 +139,9 @@ public class UpdateProductFragment extends Fragment {
     }
 
     private void setImageView() {
-        /*byte[] imageBytes = updateProduct.getPhoto().getBytes(StandardCharsets.UTF_8);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        imageView_updateProduct.setImageBitmap(bitmap);*/
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(photoByteArray, 0, photoByteArray.length);
+        imageView_updateProduct.setImageBitmap(bitmap);
 
     }
 

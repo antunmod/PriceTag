@@ -225,7 +225,7 @@ public class SimpleController {
 	}
 	
 	@ResponseBody
-	@GetMapping("photo")
+	@GetMapping("photos/photo")
 	public ResponseEntity<byte[]> getPhoto(@RequestParam("photoId") int photoId) {
 	
 		byte[] byteArray = photoRepository.getPhotoForPhotoId(photoId);

@@ -101,6 +101,10 @@ public interface RestServiceClient {
                                                                   @Query("storeAddress") String storeAddress);
 
     @Headers("Content-Type: application/json")
+    @GET("photos/photo")
+    Call<byte[]> getPhotoByteArray(@Query("photoId") int photoId);
+
+    @Headers("Content-Type: application/json")
     @POST("productStore/update")
     Call<Boolean> saveUpdatedProduct (@Body UpdateProduct updateProduct);
 
@@ -116,7 +120,7 @@ public interface RestServiceClient {
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.2:8000/")
+            .baseUrl("http://192.168.1.7:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

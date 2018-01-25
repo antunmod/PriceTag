@@ -55,7 +55,7 @@ public class SelectFragment extends Fragment {
     private UpdateProduct updateProduct = new UpdateProduct();
     private ProductStore productStore = new ProductStore();
 
-    String subcategoryName;
+    private String subcategoryName;
     private String title = "";
     private String newStoreName;
     private String newStoreAddress;
@@ -64,8 +64,6 @@ public class SelectFragment extends Fragment {
     private String newSubcategoryName;
     private String newProducerName;
     private String newProductName;
-
-    private String storeName;
 
     private final String STORE = "Trgovina";
     private final String STORE_ADDRESS = "Adresa trgovine";
@@ -405,7 +403,9 @@ public class SelectFragment extends Fragment {
             public void onResponse(Call<UpdateProduct> call, Response<UpdateProduct> response) {
                 UpdateProduct updateProduct = response.body();
                 if (updateProduct != null && updateProduct.getName()!= null) {
-                    goToUpdateProductFragment(updateProduct);
+                    saveUpdateProduct(updateProduct);
+                    getPhotoByteArray();
+
 
                 } else {
                     findSectors(storeAddress);
@@ -420,8 +420,35 @@ public class SelectFragment extends Fragment {
 
     }
 
-    private void goToUpdateProductFragment(UpdateProduct updateProduct) {
+    private void saveUpdateProduct(UpdateProduct updateProduct) {
+        this.updateProduct = updateProduct;
+    }
+
+    private void getPhotoByteArray() {
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<byte[]> call = restServiceClient.getPhotoByteArray(updateProduct.getPhotoId());
+        call.enqueue(new Callback<byte[]>() {
+            @Override
+            public void onResponse(Call<byte[]> call, Response<byte[]> response) {
+                byte[] photoByteArray = response.body();
+                if (photoByteArray!=null && photoByteArray.length>0) {
+                    goToUpdateProductFragment(photoByteArray);
+
+                } else {
+                    Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<byte[]> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void goToUpdateProductFragment(byte[] photoByteArray) {
         Bundle bundle = new Bundle();
+        bundle.putSerializable("photoByteArray", photoByteArray);
         bundle.putSerializable("updateProduct", updateProduct);
         UpdateProductFragment updateProductFragment = new UpdateProductFragment();
         updateProductFragment.setArguments(bundle);

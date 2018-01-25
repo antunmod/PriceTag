@@ -28,19 +28,23 @@ public class ProductStoreController {
 		int productUpdates = updateProduct.getProductUpdates();
 		
 		ProductStore productStore = productStoreRepository.findByProductStoreId(updateProduct.getProductStoreId());
-		productStore.setAveragePrice(updateProduct.getAveragePrice());
+		
+		float averagePrice = updateProduct.getAveragePrice()*productUpdates + updateProduct.getPrice();
+		averagePrice /= ++productUpdates;
+		
+		productStore.setAveragePrice(averagePrice);
 		productStore.setPrice(updateProduct.getPrice());
 		productStore.setPriceChangeDate(updateProduct.getPriceChangeDate());
-		productStore.setProductUpdates(productUpdates+1);
+		productStore.setProductUpdates(productUpdates);
 		productStore.setUserId(updateProduct.getUserId());
 
 		ProductStore editedProductStore = productStoreRepository.save(productStore);
 		
 		if(productUpdates==editedProductStore.getProductUpdates()) {
-			return new ResponseEntity<Boolean> (false, HttpStatus.OK);
+			return new ResponseEntity<Boolean> (true, HttpStatus.OK);
 		}
 		
-		return new ResponseEntity<Boolean> (true, HttpStatus.OK);
+		return new ResponseEntity<Boolean> (false, HttpStatus.OK);
 		
 	}
 	
