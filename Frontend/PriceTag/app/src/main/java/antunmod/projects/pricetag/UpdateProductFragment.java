@@ -183,8 +183,6 @@ public class UpdateProductFragment extends Fragment {
 
         // Pop enterBarcode, selectStore and selectStoreLocation Back Stack
         manager.popBackStack();
-        manager.popBackStack();
-        manager.popBackStack();
 
         Bundle bundle = new Bundle();
         bundle.putString("toastString", toastString);

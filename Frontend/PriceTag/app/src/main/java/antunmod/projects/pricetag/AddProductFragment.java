@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -301,7 +303,7 @@ public class AddProductFragment extends Fragment {
                 Long productStoreId = response.body();
 
                 if (productStoreId!=null) {
-                    //goToEnterBarcodeFragment();
+                    goToEnterBarcodeFragment();
                 } else {
                     Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
                 }
@@ -324,9 +326,26 @@ public class AddProductFragment extends Fragment {
 
     }
 
-    private void goToEnterBarcodeFramgent() {
+    private void goToEnterBarcodeFragment() {
 
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        trans.remove(this);
+        trans.commit();
 
+        // Pop selectFrament
+        manager.popBackStack();
+
+        String toastString = "Uspješno ste dodali proizvod  " + product.getProductName();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("toastString", toastString);
+        EnterBarcodeFragment enterBarcodeFragment = new EnterBarcodeFragment();
+        enterBarcodeFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, enterBarcodeFragment)
+                .commit();
 
     }
 
