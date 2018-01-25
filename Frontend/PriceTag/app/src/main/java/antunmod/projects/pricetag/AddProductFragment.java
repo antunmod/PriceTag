@@ -49,6 +49,7 @@ public class AddProductFragment extends Fragment {
     private static final float MAX_SIZE_VALUE = (float) 50.0;
     private static final float MAX_PRICE_VALUE = (float) 10000.0;
     private static final int NON_EXISTING_PRODUCT_ID = 0;
+    private static final int FIRST_PRODUCT_UPDATE = 1;
 
     private Product product;
     private ProductStore productStore;
@@ -287,6 +288,7 @@ public class AddProductFragment extends Fragment {
         productStore.setProductSizeId(spinner_size.getSelectedItemPosition()+1);
         productStore.setUserId(HomeActivity.user.getUserId());
         productStore.setPriceChangeDate(getDateString());
+        productStore.setProductUpdates(FIRST_PRODUCT_UPDATE);
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Long> call = restServiceClient.addProductStore(productStore);

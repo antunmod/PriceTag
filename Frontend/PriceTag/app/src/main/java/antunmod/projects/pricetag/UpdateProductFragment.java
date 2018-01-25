@@ -121,7 +121,7 @@ public class UpdateProductFragment extends Fragment {
                     else {
                         int productUpdates = updateProduct.getProductUpdates();
                         averagePrice = averagePrice*productUpdates + newPrice;
-                        averagePrice /= productUpdates+1;
+                        averagePrice /= ++productUpdates;
                         updateProduct.setAveragePrice(averagePrice);
                         updateProductDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                         updateProduct.setPriceChangeDate(updateProductDate);

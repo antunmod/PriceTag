@@ -19,6 +19,8 @@ public class ProductStore implements Serializable{
 
     private String barcode;
 
+    private String productDescription;
+
     private int photoId;
 
     private float productSize;
@@ -33,17 +35,17 @@ public class ProductStore implements Serializable{
 
     private int productUpdates;
 
-    public ProductStore() {
-    }
+    public ProductStore() {}
 
-    public ProductStore(long productStoreId, int productId, int storeId, long userId, String barcode, int photoId,
-                        float productSize, int productSizeId, float price, String priceChangeDate,
-                        float averagePrice, int productUpdates) {
+    public ProductStore(long productStoreId, int productId, int storeId, long userId, String barcode,
+                        String productDescription, int photoId, float productSize, int productSizeId,
+                        float price, String priceChangeDate, float averagePrice, int productUpdates) {
         this.productStoreId = productStoreId;
         this.productId = productId;
         this.storeId = storeId;
         this.userId = userId;
         this.barcode = barcode;
+        this.productDescription = productDescription;
         this.photoId = photoId;
         this.productSize = productSize;
         this.productSizeId = productSizeId;
@@ -91,6 +93,14 @@ public class ProductStore implements Serializable{
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
     public int getPhotoId() {

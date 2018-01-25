@@ -26,9 +26,12 @@ public class UpdateProductController {
 	public ResponseEntity<UpdateProduct> getUpdateProductForBarcodeAndStoreId(@RequestParam("barcode") String barcode,
 																			@RequestParam("storeAddress") String storeAddress) {
 		
-		UpdateProduct updateProduct = updateProductRepository.findProductForBarcodeAndStoreId(barcode, storeAddress);
+		UpdateProduct updateProduct = updateProductRepository.findProductForBarcodeAndStoreAddress(barcode, storeAddress);
 		
 		if(updateProduct==null) {
+			
+			//updateProduct = updateProductRepository.findProductForBarcode(barcode);
+			
 			return new ResponseEntity<UpdateProduct>(new UpdateProduct(), HttpStatus.OK);
 		}
 		return new ResponseEntity<UpdateProduct>(updateProduct, HttpStatus.OK);

@@ -33,6 +33,9 @@ public class ProductStore implements Serializable{
 	@Column(name="barcode")
 	private String barcode;
 	
+	@Column (name="product_description")
+	private String productDesctiption;
+	
 	@Column(name="photo_ID")
 	private int photoId;
 	
@@ -62,15 +65,16 @@ public class ProductStore implements Serializable{
 
 
 
-	public ProductStore(long productStoreId, int productId, int storeId, int userId, String barcode, int photoId,
-			float productSize, int productSizeId, float price, String priceChangeDate, float averagePrice,
-			int productUpdates) {
+	public ProductStore(long productStoreId, int productId, int storeId, int userId, String barcode,
+			String productDesctiption, int photoId, float productSize, int productSizeId, float price,
+			String priceChangeDate, float averagePrice, int productUpdates) {
 		super();
 		this.productStoreId = productStoreId;
 		this.productId = productId;
 		this.storeId = storeId;
 		this.userId = userId;
 		this.barcode = barcode;
+		this.productDesctiption = productDesctiption;
 		this.photoId = photoId;
 		this.productSize = productSize;
 		this.productSizeId = productSizeId;
@@ -138,6 +142,18 @@ public class ProductStore implements Serializable{
 
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
+	}
+
+
+
+	public String getProductDesctiption() {
+		return productDesctiption;
+	}
+
+
+
+	public void setProductDesctiption(String productDesctiption) {
+		this.productDesctiption = productDesctiption;
 	}
 
 
@@ -224,12 +240,7 @@ public class ProductStore implements Serializable{
 		this.productUpdates = productUpdates;
 	}
 
+	
 
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-	
-	
+		
 }

@@ -28,10 +28,7 @@ public class ProductStoreController {
 		
 		ProductStore productStore = productStoreRepository.findByProductStoreId(updateProduct.getProductStoreId());
 		
-		float averagePrice = updateProduct.getAveragePrice()*productUpdates + updateProduct.getPrice();
-		averagePrice /= ++productUpdates;
-		
-		productStore.setAveragePrice(averagePrice);
+		productStore.setAveragePrice(updateProduct.getAveragePrice());
 		productStore.setPrice(updateProduct.getPrice());
 		productStore.setPriceChangeDate(updateProduct.getPriceChangeDate());
 		productStore.setProductUpdates(productUpdates);

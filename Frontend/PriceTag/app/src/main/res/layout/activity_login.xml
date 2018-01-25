@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/holo_green_dark"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -71,7 +71,7 @@
         android:layout_marginTop="10dp"
         android:text="Zaboravljena lozinka?"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_green_dark"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -85,7 +85,7 @@
         android:layout_marginTop="10dp"
         android:text="Registriraj se"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_green_dark"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
