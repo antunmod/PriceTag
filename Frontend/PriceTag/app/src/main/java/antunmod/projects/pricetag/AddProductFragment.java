@@ -54,20 +54,12 @@ public class AddProductFragment extends Fragment {
     private ProductStore productStore;
     private byte[] photo;
     boolean pictureSet = false;
+    private String subcategoryName;
 
     public AddProductFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddProductFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AddProductFragment newInstance(String param1, String param2) {
         AddProductFragment fragment = new AddProductFragment();
         Bundle args = new Bundle();
@@ -85,6 +77,7 @@ public class AddProductFragment extends Fragment {
         if (bundle != null) {
             product = (Product) bundle.getSerializable("product");
             productStore =  (ProductStore) bundle.getSerializable("productStore");
+            subcategoryName = bundle.getString("subcategoryName");
         }
 
     }
@@ -303,7 +296,7 @@ public class AddProductFragment extends Fragment {
                 Long productStoreId = response.body();
 
                 if (productStoreId!=null) {
-                    goToEnterBarcodeFragment();
+                    addSubcategoryProduct();
                 } else {
                     Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
                 }
@@ -324,6 +317,29 @@ public class AddProductFragment extends Fragment {
 
         return dateFormat.format(date);
 
+    }
+
+    private void addSubcategoryProduct() {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Boolean> call = restServiceClient.addSubcategoryProduct(subcategoryName, productStore.getProductId());
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Boolean saved = response.body();
+
+                if (saved!=null) {
+                    goToEnterBarcodeFragment();
+                } else {
+                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void goToEnterBarcodeFragment() {

@@ -756,6 +756,7 @@ public class SelectFragment extends Fragment {
         if(!product.getProducer().isEmpty())
             bundle.putSerializable("product", product);
         bundle.putSerializable("productStore", productStore);
+        bundle.putString("subcategoryName", subcategoryName);
         AddProductFragment addProductFragment = new AddProductFragment();
         addProductFragment.setArguments(bundle);
         getFragmentManager()

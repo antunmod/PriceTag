@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.antunmod.pricetag.model.ProductStore;
 import com.antunmod.pricetag.model.UpdateProduct;
-import com.antunmod.pricetag.model.User;
 import com.antunmod.pricetag.repo.ProductStoreRepository;
 
 @RestController
@@ -54,6 +53,7 @@ public class ProductStoreController {
 		ProductStore savedProductStore;
 		
 		savedProductStore = productStoreRepository.saveAndFlush(productStore);
+		
 		
 		
 		return new ResponseEntity<Long>(savedProductStore.getProductStoreId(), HttpStatus.OK);

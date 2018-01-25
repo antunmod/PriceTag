@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.antunmod.pricetag.model.Photo;
 import com.antunmod.pricetag.model.Product;
 import com.antunmod.pricetag.model.Store;
+import com.antunmod.pricetag.model.SubcategoryProduct;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.CategorySubcategoryRepository;
 import com.antunmod.pricetag.repo.PhotoRepository;
@@ -231,6 +232,20 @@ public class SimpleController {
 		byte[] byteArray = photoRepository.getPhotoForPhotoId(photoId);
 		
 		return new ResponseEntity<byte[]>(byteArray, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@PostMapping("subcategoryProduct")
+	public ResponseEntity<Boolean> addSubcategoryProduct(@RequestParam("subcategoryName") String subcategoryName,
+															@RequestParam("productId") int productId) {
+		Integer subcategoryId = subcategoryProductRepository.getSubcategoryIdForSubcategoryName(subcategoryName);
+		SubcategoryProduct subcategoryProduct = new SubcategoryProduct();
+		subcategoryProduct.setProductId(productId);
+		subcategoryProduct.setSubcategoryId(subcategoryId);
+		
+		subcategoryProductRepository.save(subcategoryProduct);
+		
+		return new ResponseEntity<Boolean>(new Boolean(true), HttpStatus.OK);
 	}
 	
 	

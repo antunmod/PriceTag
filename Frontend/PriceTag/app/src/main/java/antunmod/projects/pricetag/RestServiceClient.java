@@ -105,6 +105,11 @@ public interface RestServiceClient {
     Call<byte[]> getPhotoByteArray(@Query("photoId") int photoId);
 
     @Headers("Content-Type: application/json")
+    @POST("subcategoryProduct")
+    Call<Boolean> addSubcategoryProduct(@Query("subcategoryName") String subcategoryName,
+                                        @Query("productId") int productId);
+
+    @Headers("Content-Type: application/json")
     @POST("productStore/update")
     Call<Boolean> saveUpdatedProduct (@Body UpdateProduct updateProduct);
 
