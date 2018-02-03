@@ -59,7 +59,7 @@ CREATE TABLE category_unvalidated(
 
 CREATE TABLE photo (
 	photo_ID SERIAL PRIMARY KEY,
-	photo BLOB
+	photo LONGBLOB
 	);
 
 CREATE TABLE sector_category(
@@ -90,34 +90,45 @@ CREATE TABLE product(
 	);
 
 
-CREATE TABLE product_store(
-	product_store_ID SERIAL PRIMARY KEY,
+CREATE TABLE product_specific(
+	product_specific_ID SERIAL PRIMARY KEY,
 	product_ID BIGINT UNSIGNED NOT NULL,
+	
+	barcode VARCHAR(15) NOT NULL,
+	product_description VARCHAR(30),
+	photo_ID BIGINT UNSIGNED NOT NULL,
+	product_size DECIMAL(4,2) NOT NULL,
+	product_size_ID BIGINT UNSIGNED NOT NULL,
+
+	CONSTRAINT unique_product_specific UNIQUE (product_ID, product_size),
+
+	CONSTRAINT fk_product_specific_photo FOREIGN KEY (photo_ID) REFERENCES photo (photo_ID)
+		ON UPDATE CASCADE,
+	
+	CONSTRAINT fk_product_specific_product FOREIGN KEY (product_ID) REFERENCES product (product_ID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	
+	CONSTRAINT fk_product_store_product_size FOREIGN KEY (product_size_ID) REFERENCES product_size(product_size_ID)
+	);
+
+CREATE TABLE product_store (
+	product_store_ID SERIAL PRIMARY KEY,
+	product_specific_ID BIGINT UNSIGNED NOT NULL,
 	store_ID BIGINT UNSIGNED NOT NULL,
 	user_ID BIGINT UNSIGNED NOT NULL,
-	barcode BIGINT NOT NULL,
-	photo_ID BIGINT UNSIGNED NOT NULL,
-	product_size INTEGER NOT NULL,
-	product_size_ID BIGINT UNSIGNED NOT NULL,
 	price DECIMAL(7,2) NOT NULL,
 	price_change_date DATE NOT NULL,
 	average_price DECIMAL(7,2),
-	product_updates BIGINT DEFAULT 0,
+	product_updates BIGINT DEFAULT 1,
 
-	CONSTRAINT unique_product_store UNIQUE (product_ID, store_ID, product_size),
+	CONSTRAINT unique_product_store UNIQUE (product_specific_ID, store_ID),
 
-	CONSTRAINT fk_product_store_photo FOREIGN KEY (photo_ID) REFERENCES photo (photo_ID)
-		ON UPDATE CASCADE,
-	CONSTRAINT fk_product_store_user FOREIGN KEY (user_ID) REFERENCES user (user_ID)
-		ON UPDATE CASCADE,
-	CONSTRAINT fk_product_store_product FOREIGN KEY (product_ID) REFERENCES product (product_ID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
 	CONSTRAINT fk_product_store_store FOREIGN KEY (store_ID) REFERENCES store (store_ID)
 		ON UPDATE CASCADE,
-
-	CONSTRAINT fk_product_store_product_size FOREIGN KEY (product_size_ID) REFERENCES product_size(product_size_ID)
-	);
+	CONSTRAINT fk_product_store_user FOREIGN KEY (user_ID) REFERENCES user (user_ID)
+		ON UPDATE CASCADE
+);
 
 CREATE TABLE category_subcategory(
 	category_subcategory_ID SERIAL PRIMARY KEY,

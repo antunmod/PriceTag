@@ -98,14 +98,14 @@ public class PhotoAndPriceFragment extends Fragment {
         textView_add_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editText_price.getText().toString().isEmpty())
+                if (editText_price.getText().toString().isEmpty())
                     Toast.makeText(getContext(), "Unesite cijenu", Toast.LENGTH_SHORT).show();
                 else {
 
                 }
             }
         });
-        
+
         return inflatedView;
     }
 
@@ -120,7 +120,7 @@ public class PhotoAndPriceFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
 
                 Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                if(bmp.getHeight()>bmp.getWidth()) {
+                if (bmp.getHeight() > bmp.getWidth()) {
                     Toast.makeText(getContext(), "Orijentacija slike mora biti horizontalna!", Toast.LENGTH_SHORT).show();
                     return;
                 }

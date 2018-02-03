@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by antun on 1/11/2018.
  */
 
-public class Sector implements Serializable{
+public class Sector implements Serializable {
 
     private int sectorId;
     private String sectorName;

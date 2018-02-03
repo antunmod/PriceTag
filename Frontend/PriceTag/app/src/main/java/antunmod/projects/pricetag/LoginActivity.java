@@ -31,10 +31,10 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        editText_username =  findViewById(R.id.editText_username);
-        editText_password =  findViewById(R.id.editText_password);
+        editText_username = findViewById(R.id.editText_username);
+        editText_password = findViewById(R.id.editText_password);
 
-        btn_signIn =  findViewById(R.id.btn_sign_in);
+        btn_signIn = findViewById(R.id.btn_sign_in);
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REGISTER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REGISTER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             User createdUser = (User) data.getSerializableExtra("user");
             Toast.makeText(getApplicationContext(), "Račun s korisničkim imenom " + createdUser.getName() + " je registriran!", Toast.LENGTH_SHORT).show();
         }

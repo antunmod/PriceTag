@@ -12,9 +12,7 @@ import com.antunmod.pricetag.model.Category;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 	@Query(value = "SELECT category_name FROM sector NATURAL JOIN sector_category NATURAL JOIN category "
-			+ "WHERE sector_name = ?1", nativeQuery=true)
+			+ "WHERE sector_name = ?1", nativeQuery = true)
 	List<String> findAllForSectorName(String sectorName);
-	
-	
-	
+
 }

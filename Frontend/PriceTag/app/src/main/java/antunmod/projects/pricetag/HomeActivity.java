@@ -63,23 +63,20 @@ public class HomeActivity extends AppCompatActivity
         List fragmentList = getSupportFragmentManager().getFragments();
 
         boolean handled = false;
-        for(Fragment f : (List<Fragment>) fragmentList) {
-            if(f instanceof SelectFragment) {
-                handled = ((SelectFragment)f).onBackPressed();
+        for (Fragment f : (List<Fragment>) fragmentList) {
+            if (f instanceof SelectFragment) {
+                handled = ((SelectFragment) f).onBackPressed();
 
-                if(!handled)
+                if (!handled)
                     super.onBackPressed();
 
-            }
-            else if (f instanceof UpdateProductFragment ||
-                    f instanceof  PhotoAndPriceFragment) {
+            } else if (f instanceof UpdateProductFragment ||
+                    f instanceof PhotoAndPriceFragment) {
                 super.onBackPressed();
-            }
-            else if (f instanceof AddProductFragment) {
+            } else if (f instanceof AddProductFragment) {
                 getSupportFragmentManager().popBackStack();
-            }
-            else if (f instanceof EnterNewDataFragment) {
-                handled = ((EnterNewDataFragment)f).onBackPressed();
+            } else if (f instanceof EnterNewDataFragment) {
+                handled = ((EnterNewDataFragment) f).onBackPressed();
             }
         }
 

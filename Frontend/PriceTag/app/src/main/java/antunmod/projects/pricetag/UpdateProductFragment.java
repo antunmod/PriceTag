@@ -67,8 +67,9 @@ public class UpdateProductFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            updateProduct =  (UpdateProduct) bundle.getSerializable("updateProduct");
-            photoByteArray = (byte[]) bundle.getSerializable("photoByteArray");
+            updateProduct = (UpdateProduct) bundle.getSerializable("updateProduct");
+            Byte[] photoObjectPhotoArray = (Byte[]) bundle.getSerializable("photoByteArray");
+            setBytePhotoArray(photoObjectPhotoArray);
         }
     }
 
@@ -104,26 +105,23 @@ public class UpdateProductFragment extends Fragment {
         textView_averagePrice.setText(Float.toString(updateProduct.getAveragePrice()) + " kn");
 
 
-
         textView_updateProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editText_newPrice.getText().toString().isEmpty()) {
+                if (editText_newPrice.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Unesite novu cijenu proizvoda", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     float newPrice = Float.valueOf(editText_newPrice.getText().toString());
                     float averagePrice = updateProduct.getAveragePrice();
-                    if(newPrice > TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR*averagePrice ||
-                            newPrice < BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR*averagePrice) {
+                    if (newPrice > TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR * averagePrice ||
+                            newPrice < BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR * averagePrice) {
                         Toast.makeText(getContext(), "Zbog velike izmjene cijene, proizvod se šalje na potvrdu prije spremanja.", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         int productUpdates = updateProduct.getProductUpdates();
-                        averagePrice = averagePrice*productUpdates + newPrice;
+                        averagePrice = averagePrice * productUpdates + newPrice;
                         averagePrice /= ++productUpdates;
                         updateProduct.setAveragePrice(averagePrice);
-                        updateProductDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                        updateProductDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
                         updateProduct.setPriceChangeDate(updateProductDate);
                         updateProduct.setPrice(newPrice);
                         updateProduct.setUserId(HomeActivity.user.getUserId());
@@ -153,13 +151,12 @@ public class UpdateProductFragment extends Fragment {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 boolean productWasSaved = response.body();
-                if (response.body()!=null) {
+                if (response.body() != null) {
                     //awardPointsToUser();
-                    String toastString = "Proizvod " + (productWasSaved? " je ":" nije ") + "spremljen";
-                    if(!productWasSaved) {
+                    String toastString = "Proizvod " + (productWasSaved ? " je " : " nije ") + "spremljen";
+                    if (!productWasSaved) {
                         Toast.makeText(getContext(), toastString, Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         goToEnterBarcodeFragment(toastString);
                     }
                 } else {
@@ -172,6 +169,14 @@ public class UpdateProductFragment extends Fragment {
                 Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setBytePhotoArray(Byte[] byteObjectPhotoArray) {
+        int j = 0;
+
+        photoByteArray = new byte[byteObjectPhotoArray.length];
+        for (Byte b : byteObjectPhotoArray)
+            photoByteArray[j++] = b;
     }
 
     private void goToEnterBarcodeFragment(String toastString) {
@@ -202,7 +207,7 @@ public class UpdateProductFragment extends Fragment {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 Integer numberOfPoints = response.body();
-                if (response.body()!=null) {
+                if (response.body() != null) {
                     Toast.makeText(getContext(), "Dodijeljeno vam je " + numberOfPoints + "bodova.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();

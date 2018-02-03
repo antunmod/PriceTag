@@ -77,7 +77,7 @@ public class SelectProductFragment extends Fragment {
         }
 
         Bundle bundle = this.getArguments();
-        if(bundle!=null) {
+        if (bundle != null) {
             product = (Product) bundle.getSerializable("product");
             productStore = (ProductStore) bundle.getSerializable("productStore");
             productList = bundle.getStringArrayList("productList");
@@ -109,15 +109,14 @@ public class SelectProductFragment extends Fragment {
         });
 
         String[] categoryArrayList;
-        if(productList!=null) {
+        if (productList != null) {
             int listSize = productList.size();
             categoryArrayList = new String[listSize];
 
-            for(int i = 0; i<listSize; ++i) {
+            for (int i = 0; i < listSize; ++i) {
                 categoryArrayList[i] = productList.get(i);
             }
-        }
-        else {
+        } else {
             categoryArrayList = new String[0];
         }
 
@@ -145,7 +144,7 @@ public class SelectProductFragment extends Fragment {
                     product.setProductId(productId);
                     getSizeValuesForProductIdAndGoToSelectSizeFragment();
                 }
-                    //goToEnterProductSizeFragment();
+                //goToEnterProductSizeFragment();
             }
 
             @Override
@@ -167,7 +166,7 @@ public class SelectProductFragment extends Fragment {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 List<String> sizeList = (ArrayList) response.body();
                 if (sizeList != null) {
-                   // goToSelectProductSizeFragment(sizeList);
+                    // goToSelectProductSizeFragment(sizeList);
                 }
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
             }

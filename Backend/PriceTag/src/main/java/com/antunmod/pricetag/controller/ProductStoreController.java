@@ -31,7 +31,7 @@ public class ProductStoreController {
 		productStore.setAveragePrice(updateProduct.getAveragePrice());
 		productStore.setPrice(updateProduct.getPrice());
 		productStore.setPriceChangeDate(updateProduct.getPriceChangeDate());
-		productStore.setProductUpdates(productUpdates);
+		productStore.setProductUpdates(++productUpdates);
 		productStore.setUserId(updateProduct.getUserId());
 
 		ProductStore editedProductStore = productStoreRepository.save(productStore);
@@ -49,9 +49,7 @@ public class ProductStoreController {
 	public ResponseEntity<Long> addProductStore(@RequestBody ProductStore productStore) {
 		ProductStore savedProductStore;
 		
-		savedProductStore = productStoreRepository.saveAndFlush(productStore);
-		
-		
+		savedProductStore = productStoreRepository.save(productStore);
 		
 		return new ResponseEntity<Long>(savedProductStore.getProductStoreId(), HttpStatus.OK);
 	}

@@ -10,23 +10,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="sector")
-public class Sector implements Serializable{
+@Table(name = "sector")
+public class Sector implements Serializable {
 
-	/**
-	 * auto generated serialVersionUID
-	 */
 	private static final long serialVersionUID = 3939596959105641323L;
 
 	@Id
-	@Column (name = "sector_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "sector_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int sectorId;
-	
-	@Column (name = "sector_name")
+
+	@Column(name = "sector_name")
 	private String sectorName;
-	
-	public Sector() {}
+
+	public Sector() {
+	}
 
 	public Sector(int sectorId, String sectorName) {
 		super();
@@ -53,7 +51,5 @@ public class Sector implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
+
 }

@@ -9,26 +9,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="product_size")
-public class Size implements Serializable{
+@Table(name = "product_size")
+public class Size implements Serializable {
 
-	/**
-	 * auto generated serialVersionUID
-	 */
 	private static final long serialVersionUID = -8253125849154997846L;
 
 	@Id
-	@Column (name="product_size_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "product_size_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productSizeId;
-	
-	@Column (name = "size_type")
+
+	@Column(name = "size_type")
 	private String sizeType;
 
-	public Size() {}
-	
+	public Size() {
+	}
+
 	public Size(int productSizeId, String sizeType) {
 		super();
 		this.productSizeId = productSizeId;
@@ -54,8 +51,5 @@ public class Size implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-	
+
 }

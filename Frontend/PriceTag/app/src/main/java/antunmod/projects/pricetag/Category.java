@@ -6,13 +6,14 @@ import java.io.Serializable;
  * Created by antun on 1/12/2018.
  */
 
-public class Category implements Serializable{
+public class Category implements Serializable {
 
     private int categoryId;
 
     private String categoryName;
 
-    public Category() {}
+    public Category() {
+    }
 
     public Category(int categoryId, String categoryName) {
         super();

@@ -1,7 +1,5 @@
 package com.antunmod.pricetag.repo;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -13,6 +11,5 @@ public interface SubcategoryProductRepository extends JpaRepository<SubcategoryP
 
 	@Query(value = "SELECT subcategory_ID FROM subcategory where subcategory_name = ?1 ", nativeQuery = true)
 	Integer getSubcategoryIdForSubcategoryName(String subcategoryName);
-	
-	
+
 }

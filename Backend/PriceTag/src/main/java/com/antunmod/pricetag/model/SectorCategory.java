@@ -10,23 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="sector_category")
-public class SectorCategory implements Serializable{
+@Table(name = "sector_category")
+public class SectorCategory implements Serializable {
 
 	private static final long serialVersionUID = -639765082915541192L;
 
 	@Id
-	@Column (name = "sector_category_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "sector_category_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int sectorCategoryId;
-	
-	@Column (name = "sector_ID")
+
+	@Column(name = "sector_ID")
 	private int sectorId;
-	
-	@Column (name = "category_ID")
+
+	@Column(name = "category_ID")
 	private int categoryId;
-	
-	public SectorCategory() {}
+
+	public SectorCategory() {
+	}
 
 	public SectorCategory(int sectorCategoryId, int sectorId, int categoryId) {
 		super();
@@ -63,9 +64,4 @@ public class SectorCategory implements Serializable{
 		return serialVersionUID;
 	}
 
-	
-
-	
-	
-	
 }

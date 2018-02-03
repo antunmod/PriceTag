@@ -10,24 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="store")
-public class Store implements Serializable{
+@Table(name = "store")
+public class Store implements Serializable {
 
-	
 	private static final long serialVersionUID = -36312600639842865L;
 
 	@Id
-	@Column (name = "store_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "store_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int storeId;
-	
-	@Column (name = "store_name")
+
+	@Column(name = "store_name")
 	private String storeName;
-	
-	@Column (name = "store_address")
+
+	@Column(name = "store_address")
 	private String storeAddress;
-	
-	public Store() {}
+
+	public Store() {
+	}
 
 	public Store(int storeId, String storeName, String storeAddress) {
 		super();
@@ -64,6 +64,4 @@ public class Store implements Serializable{
 		return serialVersionUID;
 	}
 
-	
-	
 }

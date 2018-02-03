@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 import com.antunmod.pricetag.model.SuggestedCategorization;
 
 @Service
-public interface SuggestedCategorizationRepository extends JpaRepository<SuggestedCategorization, String>{
+public interface SuggestedCategorizationRepository extends JpaRepository<SuggestedCategorization, String> {
 
 }

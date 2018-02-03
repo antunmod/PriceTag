@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.antunmod.pricetag.model.Sector;
 
-
 @Service
-public interface SectorRepository extends JpaRepository<Sector, Long>{
+public interface SectorRepository extends JpaRepository<Sector, Long> {
 
 	@Query(value = "SELECT sector_name FROM sector", nativeQuery = true)
 	List<String> getAllSectorNames();
-	
+
 }

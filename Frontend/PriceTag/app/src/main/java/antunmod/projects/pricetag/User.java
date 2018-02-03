@@ -9,9 +9,9 @@ import java.util.Calendar;
  * Created by antun on 1/6/2018.
  */
 
-public class User  implements Serializable {
+public class User implements Serializable {
 
-    private long userId;
+    private int userId;
     private String name;
     private String password;
     private String email;
@@ -25,7 +25,7 @@ public class User  implements Serializable {
         signupDate = new SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis());
     }
 
-    public User(long userId, String name, String password, String email, String signupDate, int points, int userType) {
+    public User(int userId, String name, String password, String email, String signupDate, int points, int userType) {
         this.userId = userId;
         this.name = name;
         this.password = password;
@@ -35,11 +35,11 @@ public class User  implements Serializable {
         this.userType = userType;
     }
 
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

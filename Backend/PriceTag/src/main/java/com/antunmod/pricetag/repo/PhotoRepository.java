@@ -8,6 +8,6 @@ import com.antunmod.pricetag.model.Photo;
 public interface PhotoRepository extends JpaRepository<Photo, Long>{
 
 	@Query(value = "SELECT photo FROM photo WHERE photo_ID = ?1", nativeQuery=true)
-	byte[] getPhotoForPhotoId(int photoId);
+	Byte[] getPhotoForPhotoId(int photoId);
 	
 }

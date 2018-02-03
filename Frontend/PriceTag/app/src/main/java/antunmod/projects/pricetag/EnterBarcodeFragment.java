@@ -55,7 +55,7 @@ public class EnterBarcodeFragment extends Fragment {
                         @Override
                         public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                             List<String> storeList = response.body();
-                            if (storeList != null && storeList.size()>0) {
+                            if (storeList != null && storeList.size() > 0) {
                                 goToSelectFragment(storeList);
 
                             } else {
@@ -76,7 +76,7 @@ public class EnterBarcodeFragment extends Fragment {
         editText_barcode = inflatedView.findViewById(R.id.editText_find_product_for_barcode);
 
         Bundle bundle = this.getArguments();
-        if(bundle!=null) {
+        if (bundle != null) {
             if (bundle.get("toastString") != null) {
                 Toast.makeText(getContext(), bundle.getString("toastString"), Toast.LENGTH_SHORT).show();
                 bundle.remove("toastString");

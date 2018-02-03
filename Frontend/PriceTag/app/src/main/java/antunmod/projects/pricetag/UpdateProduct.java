@@ -11,7 +11,7 @@ import retrofit2.http.Part;
  * Created by antun on 1/12/2018.
  */
 
-public class UpdateProduct implements Serializable{
+public class UpdateProduct implements Serializable {
 
     private long productStoreId;
 
@@ -23,7 +23,7 @@ public class UpdateProduct implements Serializable{
 
     private String name;
 
-    private int size;
+    private float size;
 
     private String sizeType;
 
@@ -35,10 +35,11 @@ public class UpdateProduct implements Serializable{
 
     private String priceChangeDate;
 
-    public UpdateProduct(){}
+    public UpdateProduct() {
+    }
 
-    public UpdateProduct(long productStoreId, long userId, int photo, String producer,
-                         String name, int size, String sizeType, float price, float averagePrice,
+    public UpdateProduct(long productStoreId, long userId, int photoId, String producer,
+                         String name, float size, String sizeType, float price, float averagePrice,
                          int productUpdates, String priceChangeDate) {
         this.productStoreId = productStoreId;
         this.userId = userId;
@@ -93,11 +94,11 @@ public class UpdateProduct implements Serializable{
         this.name = name;
     }
 
-    public int getSize() {
+    public float getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(float size) {
         this.size = size;
     }
 

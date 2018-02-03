@@ -50,22 +50,18 @@ public class CreateAccountActivity extends AppCompatActivity {
         String password = editText_password.getText().toString();
         String passwordRetype = editText_passwordRetype.getText().toString();
         String email = editText_email.getText().toString();
-        if(username.isEmpty() ||password.isEmpty() || passwordRetype.isEmpty() || email.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty() || passwordRetype.isEmpty() || email.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Sva polja moraju biti ispunjena!", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if(!username.matches("[a-zA-Z0-9]*")) {
+        } else if (!username.matches("[a-zA-Z0-9]*")) {
             Toast.makeText(getApplicationContext(), "Korisničko ime smije sadržavati samo slova i brojeve!", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if (!email.contains("@") || sqlInjectionTest(email)) {
+        } else if (!email.contains("@") || sqlInjectionTest(email)) {
             Toast.makeText(getApplicationContext(), "Neispravan email!", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if (sqlInjectionTest(password)) {
+        } else if (sqlInjectionTest(password)) {
             Toast.makeText(getApplicationContext(), "Lozinka sadrži neispravne znakove!", Toast.LENGTH_SHORT).show();
-        }
-        else if (!password.equals(passwordRetype)) {
+        } else if (!password.equals(passwordRetype)) {
             Toast.makeText(getApplicationContext(), "Lozinka i ponovljena lozinka nisu jednake!", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -97,7 +93,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     private boolean sqlInjectionTest(String string) {
         return string.contains(";") || string.contains("\"") || string.contains(")");
     }

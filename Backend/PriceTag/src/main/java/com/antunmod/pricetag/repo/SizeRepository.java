@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.antunmod.pricetag.model.Size;
 
-public interface SizeRepository extends JpaRepository<Size, Long>{
-	
+public interface SizeRepository extends JpaRepository<Size, Long> {
+
 	@Query(value = "SELECT size_type FROM product_size", nativeQuery = true)
 	List<String> getSizeTypes();
-	
+
 }

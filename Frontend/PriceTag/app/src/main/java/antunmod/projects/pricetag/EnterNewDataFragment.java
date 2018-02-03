@@ -77,7 +77,7 @@ public class EnterNewDataFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
-        if(bundle!=null) {
+        if (bundle != null) {
             title = bundle.getString("title");
         }
     }
@@ -103,10 +103,9 @@ public class EnterNewDataFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String text = editText_new_data.getText().toString();
-                if(text.isEmpty()) {
+                if (text.isEmpty()) {
                     Toast.makeText(getContext(), "Unesite naziv!", Toast.LENGTH_SHORT).show();
-                }
-                else
+                } else
                     proceed(text);
             }
         });

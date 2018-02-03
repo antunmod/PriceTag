@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
 @Entity
 public class UpdateProduct implements Serializable{
@@ -29,7 +28,7 @@ public class UpdateProduct implements Serializable{
 	private String name;
 	
 	@Column (name = "product_size")
-	private int size;
+	private float size;
 	
 	@Column (name = "size_type")
     private String sizeType;
@@ -51,7 +50,7 @@ public class UpdateProduct implements Serializable{
 		super();
 	}
 
-	public UpdateProduct(long productStoreId, int userId, int photoId, String producer, String name, int size,
+	public UpdateProduct(long productStoreId, int userId, int photoId, String producer, String name, float size,
 			String sizeType, float price, float averagePrice, int productUpdates, String priceChangeDate) {
 		super();
 		this.productStoreId = productStoreId;
@@ -107,11 +106,11 @@ public class UpdateProduct implements Serializable{
 		this.name = name;
 	}
 
-	public int getSize() {
+	public float getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(float size) {
 		this.size = size;
 	}
 

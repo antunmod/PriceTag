@@ -8,22 +8,23 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="suggested_categorization")
-public class SuggestedCategorization implements Serializable{
-	
+@Table(name = "suggested_categorization")
+public class SuggestedCategorization implements Serializable {
+
 	private static final long serialVersionUID = 6798874615378134031L;
 
 	@Id
-	@Column (name = "sector_name")
+	@Column(name = "sector_name")
 	private String sectorName;
-	
-	@Column (name = "category_name")
+
+	@Column(name = "category_name")
 	private String categoryName;
-	
-	@Column (name = "subcategory_name")
+
+	@Column(name = "subcategory_name")
 	private String subcategoryName;
-	
-	public SuggestedCategorization() {}
+
+	public SuggestedCategorization() {
+	}
 
 	public SuggestedCategorization(String sectorName, String categoryName, String subcategoryName) {
 		super();
@@ -60,5 +61,4 @@ public class SuggestedCategorization implements Serializable{
 		return serialVersionUID;
 	}
 
-	
 }

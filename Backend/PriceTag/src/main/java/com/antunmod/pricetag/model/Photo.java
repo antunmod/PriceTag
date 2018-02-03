@@ -10,17 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="photo")
-public class Photo implements Serializable{
+@Table(name = "photo")
+public class Photo implements Serializable {
 
 	private static final long serialVersionUID = 2963303535006478944L;
-	
+
 	@Id
-	@Column (name = "photo_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "photo_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int photoId;
-	
-	@Column (name = "photo")
+
+	@Column(name = "photo")
 	private byte[] photo;
 
 	public Photo() {
@@ -48,8 +48,5 @@ public class Photo implements Serializable{
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
-	
-	
-	
-	
+
 }

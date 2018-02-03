@@ -10,26 +10,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="subcategory")
-public class Subcategory implements Serializable{
+@Table(name = "subcategory")
+public class Subcategory implements Serializable {
 
-
-
-	/**
-	 * auto generated serialVersionUID
-	 */
 	private static final long serialVersionUID = 6907531712848342215L;
-	
 
 	@Id
-	@Column (name = "subcategory_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "subcategory_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int subcategoryId;
-	
-	@Column (name = "subcategory_name")
+
+	@Column(name = "subcategory_name")
 	private String subcategoryName;
-	
-	public Subcategory() {}
+
+	public Subcategory() {
+	}
 
 	public Subcategory(int subcategoryId, String subcategoryName) {
 		super();
@@ -56,7 +51,5 @@ public class Subcategory implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
+
 }

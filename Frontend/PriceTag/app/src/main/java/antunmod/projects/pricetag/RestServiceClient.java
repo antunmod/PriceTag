@@ -2,6 +2,9 @@ package antunmod.projects.pricetag;
 
 import android.text.style.UpdateAppearance;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,7 +46,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("products")
-    Call<Integer> addProduct(@Body Product product);
+    Call<Boolean> addProduct(@Body AddProduct addProduct);
 
     @Headers("Content-Type: application/json")
     @POST("photos")
@@ -77,7 +80,7 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("products/productId")
     Call<Integer> getProductIdForProducerAndProductName(@Query("producer") String producer,
-                                                                    @Query("productName") String productName);
+                                                        @Query("productName") String productName);
 
     @Headers("Content-Type: application/json")
     @GET("sizes/sizeValue")
@@ -86,6 +89,11 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("products/photo")
     Call<String> getPhotoForProductIdAndSize(@Query("productId") int productId, @Query("size") String size);
+
+    @Headers("Content-Type: application/json")
+    @GET("subcategories/id")
+    Call<Integer> getSubcategoryIdForCategoryAndSubcategoryName(@Query("categoryName") String categoryName,
+                                                                @Query("subcategoryName") String subcategoryName);
 
     @Headers("Content-Type: application/json")
     @GET("stores")
@@ -102,7 +110,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("photos/photo")
-    Call<byte[]> getPhotoByteArray(@Query("photoId") int photoId);
+    Call<Byte[]> getPhotoByteArray(@Query("photoId") int photoId);
 
     @Headers("Content-Type: application/json")
     @POST("subcategoryProduct")
@@ -111,7 +119,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("productStore/update")
-    Call<Boolean> saveUpdatedProduct (@Body UpdateProduct updateProduct);
+    Call<Boolean> saveUpdatedProduct(@Body UpdateProduct updateProduct);
 
     @Headers("Content-Type: application/json")
     @POST("users/updatePoints")
@@ -122,10 +130,8 @@ public interface RestServiceClient {
     Call<Integer> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
 
 
-
-
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.4:8000/")
+            .baseUrl("http://192.168.1.6:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

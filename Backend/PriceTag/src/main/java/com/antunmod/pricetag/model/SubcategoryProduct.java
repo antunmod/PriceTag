@@ -10,23 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="subcategory_product")
-public class SubcategoryProduct implements Serializable{
+@Table(name = "subcategory_product")
+public class SubcategoryProduct implements Serializable {
 
 	private static final long serialVersionUID = -6823809475104904608L;
 
 	@Id
-	@Column (name = "subcategory_product_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "subcategory_product_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int subcategoryProductId;
-	
-	@Column (name = "subcategory_ID")
+
+	@Column(name = "subcategory_ID")
 	private int subcategoryId;
-	
-	@Column (name = "product_ID")
+
+	@Column(name = "product_ID")
 	private int productId;
-	
-	public SubcategoryProduct() {}
+
+	public SubcategoryProduct() {
+	}
 
 	public SubcategoryProduct(int subcategoryProductId, int subcategoryId, int productId) {
 		super();
@@ -63,6 +64,4 @@ public class SubcategoryProduct implements Serializable{
 		return serialVersionUID;
 	}
 
-	
-	
 }

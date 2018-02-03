@@ -10,51 +10,52 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="product")
+@Table(name = "product")
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = -2721891796273863721L;
-	
+
 	@Id
-	@Column (name = "product_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "product_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
-	
-	@Column (name = "product_name")
-    private String productName;
-	
-	@Column (name = "producer")
-    private String producer;
 
-    public Product() {}
+	@Column(name = "product_name")
+	private String productName;
 
-    public Product(int productId, String productName, String producer) {
-        this.productId = productId;
-        this.productName = productName;
-        this.producer = producer;
-    }
+	@Column(name = "producer")
+	private String producer;
 
-    public int getProductId() {
-        return productId;
-    }
+	public Product() {
+	}
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+	public Product(int productId, String productName, String producer) {
+		this.productId = productId;
+		this.productName = productName;
+		this.producer = producer;
+	}
 
-    public String getProductName() {
-        return productName;
-    }
+	public int getProductId() {
+		return productId;
+	}
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
-    public String getProducer() {
-        return producer;
-    }
+	public String getProductName() {
+		return productName;
+	}
 
-    public void setProducer(String producer) {
-        this.producer = producer;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProducer() {
+		return producer;
+	}
+
+	public void setProducer(String producer) {
+		this.producer = producer;
+	}
 }

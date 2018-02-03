@@ -11,36 +11,34 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
-public class User implements Serializable{
-	
+@Table(name = "user")
+public class User implements Serializable {
+
 	private static final long serialVersionUID = 8234325017646826418L;
 
 	@Id
-	@Column (name = "user_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "user_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userId;
-	
-	@Column (name = "user_name")
+
+	@Column(name = "user_name")
 	private String name;
-	
-	@Column (name = "user_password")
+
+	@Column(name = "user_password")
 	private String password;
-	
-	@Column (name = "user_mail")
+
+	@Column(name = "user_mail")
 	private String email;
-	
-	@Column (name = "signup_date")
+
+	@Column(name = "signup_date")
 	private Date signupDate;
-	
-	@Column (name = "points")
+
+	@Column(name = "points")
 	private int points;
-	
-	@Column (name = "user_type_ID")
+
+	@Column(name = "user_type_ID")
 	private int userType;
 
-	
-	
 	public User() {
 		super();
 	}
@@ -110,6 +108,5 @@ public class User implements Serializable{
 	public void setUserType(int userType) {
 		this.userType = userType;
 	}
-	
-	
+
 }

@@ -10,20 +10,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="category")
-public class Category implements Serializable{
+@Table(name = "category")
+public class Category implements Serializable {
 
 	private static final long serialVersionUID = -1004611976928679970L;
 
 	@Id
-	@Column (name = "category_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "category_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int categoryId;
-	
-	@Column (name = "category_name")
+
+	@Column(name = "category_name")
 	private String categoryName;
-	
-	public Category() {}
+
+	public Category() {
+	}
 
 	public Category(int categoryId, String categoryName) {
 		super();
@@ -50,7 +51,5 @@ public class Category implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
+
 }

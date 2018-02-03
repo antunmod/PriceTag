@@ -64,7 +64,7 @@ public class EnterProductSizeFragment extends Fragment {
         }
 
         Bundle bundle = this.getArguments();
-        if(bundle!=null) {
+        if (bundle != null) {
             product = (Product) bundle.getSerializable("product");
             productStore = (ProductStore) bundle.getSerializable("productStore");
             subcategoryName = bundle.getString("subcategoryName");

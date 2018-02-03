@@ -1,75 +1,68 @@
 package antunmod.projects.pricetag;
 
-import java.io.Serializable;
-
 /**
- * Created by antun on 1/12/2018.
+ * Created by antun on 2/3/2018.
  */
 
-public class ProductStore implements Serializable {
+public class AddProduct {
 
-
-    private long productStoreId;
-
-    private int productId;
-
+    private String productName;
+    private String producer;
+    private byte[] photo;
     private int storeId;
-
     private long userId;
-
     private String barcode;
-
     private String productDescription;
-
-    private int photoId;
-
     private float productSize;
-
     private int productSizeId;
-
     private float price;
-
     private String priceChangeDate;
-
     private float averagePrice;
+    private int subcategoryId;
 
-    private int productUpdates;
-
-    public ProductStore() {
+    public AddProduct() {
     }
 
-    public ProductStore(long productStoreId, int productId, int storeId, long userId, String barcode,
-                        String productDescription, int photoId, float productSize, int productSizeId,
-                        float price, String priceChangeDate, float averagePrice, int productUpdates) {
-        this.productStoreId = productStoreId;
-        this.productId = productId;
+    public AddProduct(String productName, String producer, byte[] photo, int storeId,
+                      long userId, String barcode, String productDescription, float productSize,
+                      int productSizeId, float price, String priceChangeDate, float averagePrice, int subcategoryId) {
+        this.productName = productName;
+        this.producer = producer;
+        this.photo = photo;
         this.storeId = storeId;
         this.userId = userId;
         this.barcode = barcode;
         this.productDescription = productDescription;
-        this.photoId = photoId;
         this.productSize = productSize;
         this.productSizeId = productSizeId;
         this.price = price;
         this.priceChangeDate = priceChangeDate;
         this.averagePrice = averagePrice;
-        this.productUpdates = productUpdates;
+        this.subcategoryId = subcategoryId;
     }
 
-    public long getProductStoreId() {
-        return productStoreId;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProductStoreId(long productStoreId) {
-        this.productStoreId = productStoreId;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public int getProductId() {
-        return productId;
+    public String getProducer() {
+        return producer;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     public int getStoreId() {
@@ -102,14 +95,6 @@ public class ProductStore implements Serializable {
 
     public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
-    }
-
-    public int getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
     }
 
     public float getProductSize() {
@@ -152,11 +137,11 @@ public class ProductStore implements Serializable {
         this.averagePrice = averagePrice;
     }
 
-    public int getProductUpdates() {
-        return productUpdates;
+    public int getSubcategoryId() {
+        return subcategoryId;
     }
 
-    public void setProductUpdates(int productUpdates) {
-        this.productUpdates = productUpdates;
+    public void setSubcategoryId(int subcategoryId) {
+        this.subcategoryId = subcategoryId;
     }
 }
