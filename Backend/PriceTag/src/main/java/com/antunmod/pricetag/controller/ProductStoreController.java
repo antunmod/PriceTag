@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.antunmod.pricetag.model.ProductStore;
 import com.antunmod.pricetag.model.UpdateProduct;
+import com.antunmod.pricetag.model.database.ProductStore;
 import com.antunmod.pricetag.repo.ProductStoreRepository;
 
 @RestController
@@ -27,7 +27,7 @@ public class ProductStoreController {
 		int productUpdates = updateProduct.getProductUpdates();
 		
 		ProductStore productStore = productStoreRepository.findByProductStoreId(updateProduct.getProductStoreId());
-		
+		/*
 		productStore.setAveragePrice(updateProduct.getAveragePrice());
 		productStore.setPrice(updateProduct.getPrice());
 		productStore.setPriceChangeDate(updateProduct.getPriceChangeDate());
@@ -38,7 +38,7 @@ public class ProductStoreController {
 		
 		if(productUpdates==editedProductStore.getProductUpdates()) {
 			return new ResponseEntity<Boolean> (true, HttpStatus.OK);
-		}
+		}*/
 		
 		return new ResponseEntity<Boolean> (false, HttpStatus.OK);
 		

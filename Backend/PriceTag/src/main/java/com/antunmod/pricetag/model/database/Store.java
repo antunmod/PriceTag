@@ -1,4 +1,4 @@
-package com.antunmod.pricetag.model;
+package com.antunmod.pricetag.model.database;
 
 import java.io.Serializable;
 
@@ -23,9 +23,6 @@ public class Store implements Serializable {
 	@Column(name = "store_name")
 	private String storeName;
 
-	@Column(name = "store_address")
-	private String storeAddress;
-
 	public Store() {
 	}
 
@@ -33,7 +30,6 @@ public class Store implements Serializable {
 		super();
 		this.storeId = storeId;
 		this.storeName = storeName;
-		this.storeAddress = storeAddress;
 	}
 
 	public int getStoreId() {
@@ -50,14 +46,6 @@ public class Store implements Serializable {
 
 	public void setStoreName(String storeName) {
 		this.storeName = storeName;
-	}
-
-	public String getStoreAddress() {
-		return storeAddress;
-	}
-
-	public void setStoreAddress(String storeAddress) {
-		this.storeAddress = storeAddress;
 	}
 
 	public static long getSerialversionuid() {

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import com.antunmod.pricetag.model.Category;
+import com.antunmod.pricetag.model.database.Category;
 
 @Service
 public interface CategoryRepository extends JpaRepository<Category, Long> {

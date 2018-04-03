@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.antunmod.pricetag.model.AddProduct;
 import com.antunmod.pricetag.model.Photo;
-import com.antunmod.pricetag.model.Product;
-import com.antunmod.pricetag.model.ProductSpecific;
-import com.antunmod.pricetag.model.ProductStore;
-import com.antunmod.pricetag.model.Store;
-import com.antunmod.pricetag.model.SubcategoryProduct;
+import com.antunmod.pricetag.model.database.Product;
+import com.antunmod.pricetag.model.database.ProductSpecific;
+import com.antunmod.pricetag.model.database.ProductStore;
+import com.antunmod.pricetag.model.database.Store;
+import com.antunmod.pricetag.model.database.SubcategoryProduct;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.CategorySubcategoryRepository;
 import com.antunmod.pricetag.repo.PhotoRepository;

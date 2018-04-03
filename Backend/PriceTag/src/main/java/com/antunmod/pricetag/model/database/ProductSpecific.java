@@ -1,4 +1,4 @@
-package com.antunmod.pricetag.model;
+package com.antunmod.pricetag.model.database;
 
 import java.io.Serializable;
 
@@ -29,9 +29,12 @@ public class ProductSpecific implements Serializable {
 	@Column(name = "product_description")
 	private String productDesctiption;
 
-	@Column(name = "photo_ID")
+	@Column(name = "thumbnail_ID")
 	private int photoId;
 
+	@Column (name = "photo_URI")
+	private String photoURI;
+	
 	@Column(name = "product_size")
 	private float productSize;
 
@@ -43,13 +46,14 @@ public class ProductSpecific implements Serializable {
 	}
 
 	public ProductSpecific(int productSpecificId, int productId, String barcode, String productDesctiption, int photoId,
-			float productSize, int productSizeId) {
+			String photoURI, float productSize, int productSizeId) {
 		super();
 		this.productSpecificId = productSpecificId;
 		this.productId = productId;
 		this.barcode = barcode;
 		this.productDesctiption = productDesctiption;
 		this.photoId = photoId;
+		this.photoURI = photoURI;
 		this.productSize = productSize;
 		this.productSizeId = productSizeId;
 	}
@@ -112,6 +116,14 @@ public class ProductSpecific implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getPhotoURI() {
+		return photoURI;
+	}
+
+	public void setPhotoURI(String photoURI) {
+		this.photoURI = photoURI;
 	}
 	
 	

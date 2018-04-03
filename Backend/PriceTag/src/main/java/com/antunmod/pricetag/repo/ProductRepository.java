@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import com.antunmod.pricetag.model.Product;
+import com.antunmod.pricetag.model.database.Product;
 
 @Service
 public interface ProductRepository extends JpaRepository<Product, Long>{
@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	@Query(value = "SELECT product_ID FROM product WHERE producer = ?1 AND product_name = ?2", nativeQuery=true)
 	Integer getProductIdForProducerAndProductName(String producer, String productName);
 	
-	@Query(value = "select concat(product_size, ' ', size_type) as size from product_store natural join product_size where" + 
+	@Query(value = "select concat(product_size, ' ', size_type) as size from product_specific natural join product_size where" + 
 			"	product_ID = ?1", nativeQuery=true)
 	List<String> getSizeValuesForProductId(int productId);
 	

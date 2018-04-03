@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.antunmod.pricetag.model.User;
+import com.antunmod.pricetag.model.database.User;
 import com.antunmod.pricetag.repo.UserRepository;
 
 @RestController

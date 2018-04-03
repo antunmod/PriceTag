@@ -1,4 +1,4 @@
-package com.antunmod.pricetag.model;
+package com.antunmod.pricetag.model.database;
 
 import java.io.Serializable;
 import java.sql.Date;

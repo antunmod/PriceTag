@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import com.antunmod.pricetag.model.User;
+import com.antunmod.pricetag.model.database.User;
 
 @Service
 public interface UserRepository extends JpaRepository<User, Long> {

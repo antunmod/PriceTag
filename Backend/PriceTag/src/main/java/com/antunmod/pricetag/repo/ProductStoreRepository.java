@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import com.antunmod.pricetag.model.ProductStore;
+import com.antunmod.pricetag.model.database.ProductStore;
 
 @Service
 public interface ProductStoreRepository extends JpaRepository<ProductStore, Long> {
