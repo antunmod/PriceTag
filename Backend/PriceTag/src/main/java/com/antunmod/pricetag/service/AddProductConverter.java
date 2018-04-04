@@ -1,6 +1,6 @@
 package com.antunmod.pricetag.service;
 
-import com.antunmod.pricetag.model.AddProduct;
+import com.antunmod.pricetag.model.AddProduct2;
 import com.antunmod.pricetag.model.Photo;
 import com.antunmod.pricetag.model.database.Product;
 import com.antunmod.pricetag.model.database.ProductSpecific;
@@ -10,7 +10,7 @@ public class AddProductConverter {
 
 	private static final int FIRST_PRODUCT_UPDATE = 1;
 
-	public static Product createProductFromAddProduct(AddProduct addProduct) {
+	public static Product createProductFromAddProduct(AddProduct2 addProduct) {
 
 		Product product = new Product();
 		
@@ -20,7 +20,7 @@ public class AddProductConverter {
 		return product;
 	}
 
-	public static Photo createPhotoFromAddProduct(AddProduct addProduct) {
+	public static Photo createPhotoFromAddProduct(AddProduct2 addProduct) {
 
 		Photo photo = new Photo();
 		
@@ -29,7 +29,7 @@ public class AddProductConverter {
 		return photo;
 	}
 
-	public static ProductSpecific createProductSpecificFromAddProduct(AddProduct addProduct) {
+	public static ProductSpecific createProductSpecificFromAddProduct(AddProduct2 addProduct) {
 		
 		ProductSpecific productSpecific = new ProductSpecific();
 		
@@ -41,7 +41,7 @@ public class AddProductConverter {
 		return productSpecific;
 	}
 
-	public static ProductStore createProductStoreFromAddProduct(AddProduct addProduct) {
+	public static ProductStore createProductStoreFromAddProduct(AddProduct2 addProduct) {
 
 		ProductStore productStore = new ProductStore();
 		/*

@@ -1,6 +1,6 @@
 package com.antunmod.pricetag.model;
 
-public class AddProduct {
+public class AddProduct2 {
 
 	private String productName;
 	private String producer;
@@ -15,7 +15,7 @@ public class AddProduct {
 	private String priceChangeDate;
 	private int subcategoryId;
 
-	public AddProduct() {
+	public AddProduct2() {
 		super();
 	}
 

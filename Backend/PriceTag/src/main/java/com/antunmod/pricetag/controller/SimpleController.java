@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.antunmod.pricetag.model.AddProduct;
+import com.antunmod.pricetag.model.AddProduct2;
 import com.antunmod.pricetag.model.Photo;
 import com.antunmod.pricetag.model.database.Product;
 import com.antunmod.pricetag.model.database.ProductSpecific;
@@ -227,7 +227,7 @@ public class SimpleController {
 
 	@ResponseBody
 	@PostMapping("products")
-	public ResponseEntity<Boolean> addProduct(@RequestBody AddProduct addProduct) {
+	public ResponseEntity<Boolean> addProduct(@RequestBody AddProduct2 addProduct) {
 
 		Product product = AddProductConverter.createProductFromAddProduct(addProduct);
 		Product savedProduct = productRepository.save(product);
