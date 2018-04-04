@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * The class User represents a user. 
+ */
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
@@ -19,7 +22,7 @@ public class User implements Serializable {
 	@Id
 	@Column(name = "user_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long userId;
+	private short userId;
 
 	@Column(name = "user_name")
 	private String name;
@@ -33,17 +36,22 @@ public class User implements Serializable {
 	@Column(name = "signup_date")
 	private Date signupDate;
 
+	/*
+	 * Users number of points which are used for checking user activity. A certain
+	 * amount of points per week is mandatory in order to be able to search through
+	 * the database. Points are received by adding or updating products.
+	 */
 	@Column(name = "points")
-	private int points;
+	private short points;
 
+	/*
+	 * References the user_type table serial id that determines whether a user is a
+	 * regular user or an admin.
+	 */
 	@Column(name = "user_type_ID")
-	private int userType;
+	private byte userType;
 
-	public User() {
-		super();
-	}
-
-	public User(String name, String password, String email, Date signupDate, int points, int userType) {
+	public User(String name, String password, String email, Date signupDate, short points, byte userType) {
 		super();
 		this.name = name;
 		this.password = password;
@@ -53,60 +61,12 @@ public class User implements Serializable {
 		this.userType = userType;
 	}
 
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getSignupDate() {
-		return signupDate;
-	}
-
-	public void setSignupDate(Date signupDate) {
-		this.signupDate = signupDate;
-	}
-
-	public int getPoints() {
+	public short getPoints() {
 		return points;
 	}
 
-	public void setPoints(int points) {
+	public void setPoints(short points) {
 		this.points = points;
-	}
-
-	public int getUserType() {
-		return userType;
-	}
-
-	public void setUserType(int userType) {
-		this.userType = userType;
 	}
 
 }

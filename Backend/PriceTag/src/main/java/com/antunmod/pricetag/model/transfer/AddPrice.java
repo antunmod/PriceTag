@@ -8,11 +8,11 @@ package com.antunmod.pricetag.model.transfer;
  */
 
 public class AddPrice {
-	
+
 	private short productSpecificId;
 	private short storeSpecificId;
 	private short userId;
 	private float price;
 	private AddStoreSpecificProductStore a;
-	
+
 }

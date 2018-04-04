@@ -9,6 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents a subcategory in the product hierarchy. Subcategories are on the lowest level of that hierarchy.
+ * 
+ * Examples of subcategories (in Supermarkets in Beverages):
+ * 		- Beer
+ * 		- Wine
+ * 		- Strong alcoholic beverages
+ */
 @Entity
 @Table(name = "subcategory")
 public class Subcategory implements Serializable {
@@ -22,34 +30,5 @@ public class Subcategory implements Serializable {
 
 	@Column(name = "subcategory_name")
 	private String subcategoryName;
-
-	public Subcategory() {
-	}
-
-	public Subcategory(int subcategoryId, String subcategoryName) {
-		super();
-		this.subcategoryId = subcategoryId;
-		this.subcategoryName = subcategoryName;
-	}
-
-	public int getSubcategoryId() {
-		return subcategoryId;
-	}
-
-	public void setSubcategoryId(int subcategoryId) {
-		this.subcategoryId = subcategoryId;
-	}
-
-	public String getSubcategoryName() {
-		return subcategoryName;
-	}
-
-	public void setSubcategoryName(String subcategoryName) {
-		this.subcategoryName = subcategoryName;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 }

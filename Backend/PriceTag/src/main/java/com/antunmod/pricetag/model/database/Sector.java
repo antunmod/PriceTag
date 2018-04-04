@@ -9,6 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents a sector in the product hierarchy. Sectors are on the highest level of that hierarchy.
+ * 
+ * Examples of sectors:
+ * 		- Supermarkets
+ * 		- Kiosks
+ */
 @Entity
 @Table(name = "sector")
 public class Sector implements Serializable {
@@ -22,34 +29,5 @@ public class Sector implements Serializable {
 
 	@Column(name = "sector_name")
 	private String sectorName;
-
-	public Sector() {
-	}
-
-	public Sector(int sectorId, String sectorName) {
-		super();
-		this.sectorId = sectorId;
-		this.sectorName = sectorName;
-	}
-
-	public int getSectorId() {
-		return sectorId;
-	}
-
-	public void setSectorId(int sectorId) {
-		this.sectorId = sectorId;
-	}
-
-	public String getSectorName() {
-		return sectorName;
-	}
-
-	public void setSectorName(String sectorName) {
-		this.sectorName = sectorName;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 }

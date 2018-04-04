@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents a product in a subcategory.
+ */
 @Entity
 @Table(name = "subcategory_product")
 public class SubcategoryProduct implements Serializable {
@@ -20,48 +23,16 @@ public class SubcategoryProduct implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int subcategoryProductId;
 
+	/*
+	 * References a subcategory.
+	 */
 	@Column(name = "subcategory_ID")
 	private int subcategoryId;
 
+	/*
+	 * References a product by a producer.
+	 */
 	@Column(name = "product_ID")
 	private int productId;
-
-	public SubcategoryProduct() {
-	}
-
-	public SubcategoryProduct(int subcategoryProductId, int subcategoryId, int productId) {
-		super();
-		this.subcategoryProductId = subcategoryProductId;
-		this.subcategoryId = subcategoryId;
-		this.productId = productId;
-	}
-
-	public int getSubcategoryProductId() {
-		return subcategoryProductId;
-	}
-
-	public void setSubcategoryProductId(int subcategoryProductId) {
-		this.subcategoryProductId = subcategoryProductId;
-	}
-
-	public int getSubcategoryId() {
-		return subcategoryId;
-	}
-
-	public void setSubcategoryId(int subcategoryId) {
-		this.subcategoryId = subcategoryId;
-	}
-
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 }

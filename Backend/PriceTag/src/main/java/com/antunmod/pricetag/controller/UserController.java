@@ -45,10 +45,11 @@ public class UserController {
 		return new ResponseEntity<User>(savedUser, HttpStatus.OK);
 	}
 
+	/*
 	@ResponseBody
 	@PostMapping("/awardPoints")
 	public ResponseEntity<Boolean> awardPointsToUserForUserId(@RequestParam("userId") long userId,
-			@RequestParam("points") int points) {
+			@RequestParam("points") short points) {
 		User user, savedUser;
 		user = userRepository.findByUserId(userId);
 
@@ -59,6 +60,6 @@ public class UserController {
 		}
 
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-	}
+	}*/
 
 }

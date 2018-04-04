@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents a price update of a specific product in a specific store.
+ */
 @Entity
 @Table(name = "price")
 public class Price implements Serializable{
@@ -20,11 +23,14 @@ public class Price implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int priceId;
 	
+	/*
+	 * References a specific product in a specific store.
+	 */
 	@Column(name = "product_store_ID")
-	private int productStoreId;
+	private short productStoreId;
 	
 	@Column (name = "user_ID")
-	private int userId;
+	private short userId;
 	
 	@Column (name = "price")
 	private float price;
@@ -32,73 +38,13 @@ public class Price implements Serializable{
 	@Column (name = "price_change_date")
 	private String productChangeDate;
 	
+	/*
+	 * Validity specifies the validity of the price. It is used for calculating user rating.
+	The price is valid (1) when added. When the new price is reported as invalid by another user and
+	approved as invalid by an admin, its value is changed to invalid (0) and the product price is set to
+	the last valid price.
+	 */
 	@Column (name = "validity")
 	private byte validity;
-
-	public Price() {
-		super();
-	}
-
-	public Price(int priceId, int productStoreId, int userId, float price, String productChangeDate, byte validity) {
-		super();
-		this.priceId = priceId;
-		this.productStoreId = productStoreId;
-		this.userId = userId;
-		this.price = price;
-		this.productChangeDate = productChangeDate;
-		this.validity = validity;
-	}
-
-	public int getPriceId() {
-		return priceId;
-	}
-
-	public void setPriceId(int priceId) {
-		this.priceId = priceId;
-	}
-
-	public int getProductStoreId() {
-		return productStoreId;
-	}
-
-	public void setProductStoreId(int productStoreId) {
-		this.productStoreId = productStoreId;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
-	}
-
-	public String getProductChangeDate() {
-		return productChangeDate;
-	}
-
-	public void setProductChangeDate(String productChangeDate) {
-		this.productChangeDate = productChangeDate;
-	}
-
-	public byte getValidity() {
-		return validity;
-	}
-
-	public void setValidity(byte validity) {
-		this.validity = validity;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 }

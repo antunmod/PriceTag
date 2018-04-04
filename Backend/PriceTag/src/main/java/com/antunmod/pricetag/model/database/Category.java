@@ -9,6 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents a category in the product hierarchy. Categories are on the second level of that hierarchy.
+ * 
+ * Examples of categories (in Supermarkets):
+ * 		- Beverages
+ * 		- Frozen foods
+ */
 @Entity
 @Table(name = "category")
 public class Category implements Serializable {
@@ -18,38 +25,9 @@ public class Category implements Serializable {
 	@Id
 	@Column(name = "category_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int categoryId;
+	private byte categoryId;
 
 	@Column(name = "category_name")
 	private String categoryName;
-
-	public Category() {
-	}
-
-	public Category(int categoryId, String categoryName) {
-		super();
-		this.categoryId = categoryId;
-		this.categoryName = categoryName;
-	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 }

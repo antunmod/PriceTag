@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents the store name.
+ */
 @Entity
 @Table(name = "store")
 public class Store implements Serializable {
@@ -18,38 +21,15 @@ public class Store implements Serializable {
 	@Id
 	@Column(name = "store_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int storeId;
+	private byte storeId;
 
 	@Column(name = "store_name")
 	private String storeName;
 
-	public Store() {
-	}
-
-	public Store(int storeId, String storeName, String storeAddress) {
+	public Store(byte storeId, String storeName, String storeAddress) {
 		super();
 		this.storeId = storeId;
 		this.storeName = storeName;
-	}
-
-	public int getStoreId() {
-		return storeId;
-	}
-
-	public void setStoreId(int storeId) {
-		this.storeId = storeId;
-	}
-
-	public String getStoreName() {
-		return storeName;
-	}
-
-	public void setStoreName(String storeName) {
-		this.storeName = storeName;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }

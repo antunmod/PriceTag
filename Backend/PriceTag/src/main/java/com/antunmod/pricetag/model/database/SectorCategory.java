@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents a category in a sector.
+ */
 @Entity
 @Table(name = "sector_category")
 public class SectorCategory implements Serializable {
@@ -18,50 +21,18 @@ public class SectorCategory implements Serializable {
 	@Id
 	@Column(name = "sector_category_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int sectorCategoryId;
+	private byte sectorCategoryId;
 
+	/*
+	 * References a sector.
+	 */
 	@Column(name = "sector_ID")
-	private int sectorId;
+	private byte sectorId;
 
+	/*
+	 * References a category.
+	 */
 	@Column(name = "category_ID")
-	private int categoryId;
-
-	public SectorCategory() {
-	}
-
-	public SectorCategory(int sectorCategoryId, int sectorId, int categoryId) {
-		super();
-		this.sectorCategoryId = sectorCategoryId;
-		this.sectorId = sectorId;
-		this.categoryId = categoryId;
-	}
-
-	public int getSectorCategoryId() {
-		return sectorCategoryId;
-	}
-
-	public void setSectorCategoryId(int sectorCategoryId) {
-		this.sectorCategoryId = sectorCategoryId;
-	}
-
-	public int getSectorId() {
-		return sectorId;
-	}
-
-	public void setSectorId(int sectorId) {
-		this.sectorId = sectorId;
-	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	private byte categoryId;
 
 }

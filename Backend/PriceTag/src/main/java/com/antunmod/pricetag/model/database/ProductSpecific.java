@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents specifics of a product. It is neccessary for differentiating between different sizes of the 
+ * same product (product with the same name and producer).
+ */
 @Entity
 @Table(name = "product_specific")
 public class ProductSpecific implements Serializable {
@@ -18,10 +22,13 @@ public class ProductSpecific implements Serializable {
 	@Id
 	@Column(name = "product_specific_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int productSpecificId;
+	private short productSpecificId;
 
+	/*
+	 * This variable references product_ID in product table.
+	 */
 	@Column(name = "product_ID")
-	private int productId;
+	private short productId;
 
 	@Column(name = "barcode")
 	private String barcode;
@@ -29,103 +36,17 @@ public class ProductSpecific implements Serializable {
 	@Column(name = "product_description")
 	private String productDesctiption;
 
-	@Column(name = "thumbnail_ID")
-	private int photoId;
-
-	@Column (name = "photo_URI")
+	/*
+	 * Contains location of the folder which contains ProductSpecific thumbnail and
+	 * photo.
+	 */
+	@Column(name = "photo_URI")
 	private String photoURI;
-	
+
 	@Column(name = "product_size")
 	private float productSize;
 
 	@Column(name = "product_size_ID")
-	private int productSizeId;
-	
-	public ProductSpecific() {
-		super();
-	}
-
-	public ProductSpecific(int productSpecificId, int productId, String barcode, String productDesctiption, int photoId,
-			String photoURI, float productSize, int productSizeId) {
-		super();
-		this.productSpecificId = productSpecificId;
-		this.productId = productId;
-		this.barcode = barcode;
-		this.productDesctiption = productDesctiption;
-		this.photoId = photoId;
-		this.photoURI = photoURI;
-		this.productSize = productSize;
-		this.productSizeId = productSizeId;
-	}
-
-	public int getProductSpecificId() {
-		return productSpecificId;
-	}
-
-	public void setProductSpecificId(int productSpecificId) {
-		this.productSpecificId = productSpecificId;
-	}
-
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-	public String getBarcode() {
-		return barcode;
-	}
-
-	public void setBarcode(String barcode) {
-		this.barcode = barcode;
-	}
-
-	public String getProductDesctiption() {
-		return productDesctiption;
-	}
-
-	public void setProductDesctiption(String productDesctiption) {
-		this.productDesctiption = productDesctiption;
-	}
-
-	public int getPhotoId() {
-		return photoId;
-	}
-
-	public void setPhotoId(int photoId) {
-		this.photoId = photoId;
-	}
-
-	public float getProductSize() {
-		return productSize;
-	}
-
-	public void setProductSize(float productSize) {
-		this.productSize = productSize;
-	}
-
-	public int getProductSizeId() {
-		return productSizeId;
-	}
-
-	public void setProductSizeId(int productSizeId) {
-		this.productSizeId = productSizeId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public String getPhotoURI() {
-		return photoURI;
-	}
-
-	public void setPhotoURI(String photoURI) {
-		this.photoURI = photoURI;
-	}
-	
-	
+	private byte productSizeId;
 
 }

@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents product names and their producers.
+ */
 @Entity
 @Table(name = "product")
 public class Product implements Serializable {
@@ -18,44 +21,15 @@ public class Product implements Serializable {
 	@Id
 	@Column(name = "product_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int productId;
+	private short productId;
+
+	/*
+	 * References producer_ID in producer table
+	 */
+	@Column(name = "producer_ID")
+	private short producerId;
 
 	@Column(name = "product_name")
 	private String productName;
 
-	@Column(name = "producer")
-	private String producer;
-
-	public Product() {
-	}
-
-	public Product(int productId, String productName, String producer) {
-		this.productId = productId;
-		this.productName = productName;
-		this.producer = producer;
-	}
-
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public String getProducer() {
-		return producer;
-	}
-
-	public void setProducer(String producer) {
-		this.producer = producer;
-	}
 }

@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * This class represents a product in a specific store.
+ */
 @Entity
 @Table(name = "product_store")
 public class ProductStore implements Serializable {
@@ -19,50 +22,17 @@ public class ProductStore implements Serializable {
 	@Column(name = "product_store_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productStoreId;
-
+	
+	/*
+	 * References a specific product from product_specific table.
+	 */
 	@Column(name = "product_specific_ID")
-	private int productSpecificId;
+	private short productSpecificId;
 
-	@Column(name = "store_location_ID")
-	private int storeLocationId;
-
-	public ProductStore() {
-		super();
-	}
-
-	public ProductStore(long productStoreId, int productSpecificId, int storeLocationId) {
-		super();
-		this.productStoreId = productStoreId;
-		this.productSpecificId = productSpecificId;
-		this.storeLocationId = storeLocationId;
-	}
-	
-	public long getProductStoreId() {
-		return productStoreId;
-	}
-
-	public void setProductStoreId(long productStoreId) {
-		this.productStoreId = productStoreId;
-	}
-
-	public int getProductSpecificId() {
-		return productSpecificId;
-	}
-
-	public void setProductSpecificId(int productSpecificId) {
-		this.productSpecificId = productSpecificId;
-	}
-	
-	public int getStoreLocationId() {
-		return storeLocationId;
-	}
-
-	public void setStoreLocationId(int storeLocationId) {
-		this.storeLocationId = storeLocationId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	/*
+	 * References a specific store from store_specific table.
+	 */
+	@Column(name = "store_specific_ID")
+	private short storeSpecificId;
 
 }
