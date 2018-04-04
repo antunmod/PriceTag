@@ -11,382 +11,388 @@ INSERT INTO user (user_name, user_password, user_mail, signup_date, user_type_ID
 	VALUES ('regularUser', 'regularPassword', 'regular@gmail.com', '2017-12-09', 1);	
 
 -- STORE
-INSERT INTO store (store_name, store_address)
-	VALUES ('KONZUM', 'Britanski trg 12');
-INSERT INTO store (store_name, store_address)
-	VALUES ('KONZUM', 'Trg Ante Starčevića 1');
-INSERT INTO store (store_name, store_address)
-	VALUES ('SPAR', 'Jurišićeva ulica 13');
+INSERT INTO store (store_name)
+	VALUES ('KONZUM');
+INSERT INTO store (store_name)
+	VALUES ('SPAR');
+
+-- STORE LOCATION
+INSERT INTO store_specific(store_ID, store_address)
+	VALUES (1, 'Britanski trg 12');
+INSERT INTO store_specific(store_ID, store_address)
+	VALUES (1, 'Trg Ante Starčevića 1');
+INSERT INTO store_specific(store_ID, store_address)
+	VALUES (2, 'Jurišićeva ulica 13');
 
 -- SECTOR
 INSERT INTO sector (sector_name)
-	VALUES ('SUPERMARKETI');
+	VALUES ('Supermarketi');
 
 -- CATEGORY
 INSERT INTO category (category_name)
-	VALUES ('VINOTEKA');
+	VALUES ('Vinoteka');
 INSERT INTO category (category_name)
-	VALUES ('VOĆE I POVRĆE');
+	VALUES ('Voće i povrće');
 INSERT INTO category (category_name)
-	VALUES ('MLIJEČNI PROIZVODI I JAJA');
+	VALUES ('Mliječni proizvodi i jaja');
 INSERT INTO category (category_name)
-	VALUES ('PEKARNICA');
+	VALUES ('Pekarnica');
 INSERT INTO category (category_name)
-	VALUES ('DELIKATESA');
+	VALUES ('Delikatesa');
 INSERT INTO category (category_name)
-	VALUES ('MESNICA');
+	VALUES ('Mesnica');
 INSERT INTO category (category_name)
-	VALUES ('RIBARNICA');
+	VALUES ('Ribarnica');
 INSERT INTO category (category_name)
-	VALUES ('PIĆA');
+	VALUES ('Pića');
 INSERT INTO category (category_name)
-	VALUES ('PRIPRREMA JELA');
+	VALUES ('Priprema jela');
 INSERT INTO category (category_name)
-	VALUES ('TJESTENINA, RIŽA, NJOKI, TORTILJE');
+	VALUES ('Tjestenina, riža, njoki, tortilje');
 INSERT INTO category (category_name)
-	VALUES ('UMACI I ZAČINI');
+	VALUES ('Umaci i začini');
 INSERT INTO category (category_name)
-	VALUES ('KONZERVIRANO, JUHE, GOTOVA JELA');
+	VALUES ('Konzervirano, juhe, gotova jela');
 INSERT INTO category (category_name)
-	VALUES ('PRIPREMA KOLAČA');
+	VALUES ('Priprema kolača');
 INSERT INTO category (category_name)
-	VALUES ('PAHULJICE, NAMAZI, KAVE, ČAJEVI');
+	VALUES ('Pahuljice, namazi, kave, čajevi');
 INSERT INTO category (category_name)
-	VALUES ('ZDRAVI KUTAK');
+	VALUES ('Zdravi kutak');
 INSERT INTO category (category_name)
-	VALUES ('SLATKIŠI I GRICKALICE');
+	VALUES ('Slatkiši i grickalice');
 INSERT INTO category (category_name)
-	VALUES ('SMRZNUTA HRANA');
+	VALUES ('Smrznuta hrana');
 INSERT INTO category (category_name)
-	VALUES ('BEBE I MAME');
+	VALUES ('Bebe i mame');
 INSERT INTO category (category_name)
-	VALUES ('IGRAČKE');
+	VALUES ('Igračke');
 INSERT INTO category (category_name)
-	VALUES ('ČIŠĆENJE I POSPREMANJE');
+	VALUES ('Čišćenje i pospremanje');
 INSERT INTO category (category_name)
-	VALUES ('NJEGA I HIGIJENA');
+	VALUES ('Njega i higijena');
 INSERT INTO category (category_name)
-	VALUES ('KUĆANSKE POTREPŠTINE');
+	VALUES ('Kućanske potrepštine');
 INSERT INTO category (category_name)
-	VALUES ('POSUĐE');
+	VALUES ('Posuđe');
 INSERT INTO category (category_name)
-	VALUES ('KUĆNI LJUBIMCI');
+	VALUES ('Kućni ljubimci');
 INSERT INTO category (category_name)
-	VALUES ('PARTY ASORTIMAN');
+	VALUES ('Party asortiman');
 INSERT INTO category (category_name)
-	VALUES ('ŠKOLA, URED, KNJIGE ZA DJECU');
+	VALUES ('Škola, ured, knjige za djecu');
 
 -- SUBCATEGORY
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('CRNA VINA');
+	VALUES ('Crna vina');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BIJELA VINA');
+	VALUES ('Bijela vina');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ROSE I DESERTNA VINA');
+	VALUES ('Rose i desertna vina');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PJENUŠCI');
+	VALUES ('Pjenušci');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('OSTALO');
+	VALUES ('Ostalo');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VOĆE');
+	VALUES ('Voće');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('POVRĆE');
+	VALUES ('Povrće');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SUHO VOĆE I POVRĆE, ORAŠASTO');
+	VALUES ('Suho voće i povrće, orašasto');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SMRZNUTO VOĆE I POVRĆE');
+	VALUES ('Smrznuto voće i povrće');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ZAČINSKO BILJE');
+	VALUES ('Začinsko bilje');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MLIJEKO');
+	VALUES ('Mlijeko');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SIREVI');
+	VALUES ('Sirevi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('JAJA');
+	VALUES ('Jaja');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('JOGURT I OSTALO');
+	VALUES ('Jogurt i ostalo');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VRHNJE');
+	VALUES ('Vrhnje');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MARGARIN, MASLAC, MAST');
+	VALUES ('Margarin, maslac, mast');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NAMAZI');
+	VALUES ('Namazi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MLIJEČNI DESERTI');
+	VALUES ('Mliječni deserti');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SVJEŽI KRUH');
+	VALUES ('Svježi kruh');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PAKIRANI KRUH');
+	VALUES ('Pakirani kruh');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('DVOPEK I TOAST');
+	VALUES ('Dvopek i toast');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('TIJESTA I KVASCI');
+	VALUES ('Tijestai kvasci');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MLINCI I MRVICE');
+	VALUES ('Mlinci i mrvice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KOLAČI');
+	VALUES ('Kolači');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MESNA DELIKATESA');
+	VALUES ('Mesna delikatesa');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('HRENOVKE I KOBASICE');
+	VALUES ('Hrenovke i kobasice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SIREVI');
+	VALUES ('Sirevi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SPECIJALITETI');
+	VALUES ('Specijaliteti');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PLATE');
+	VALUES ('Plate');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PILETINA I PURETINA');
+	VALUES ('Piletina i puretina');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SVINJETINA, JUNETINA, OSTALO');
+	VALUES ('Svinjetina, junetina, ostalo');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BEZALKOHOLNA');
+	VALUES ('Bezalkoholna');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PIVO');
+	VALUES ('Pivo');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VINO');
+	VALUES ('Vino');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('JAKA ALKOHOLNA');
+	VALUES ('Jaka alkoholna');
 INSERT INTO subcategory (subcategory_name)
 
-	VALUES ('ULJA');
+	VALUES ('Ulja');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ŠEĆER I UMJETNA SLADILA');
+	VALUES ('Šećer i umjetna sladila');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BRAŠNO');
+	VALUES ('Brašno');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('OCAT I DRESINZI');
+	VALUES ('Ocat i dresinzi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KAŠE I KRUPICE');
+	VALUES ('Kaše i krupice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SOL');
+	VALUES ('Sol');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('INTERNACIONALNA KUHINJA');
+	VALUES ('Internacionalna kuhinja');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('TJESTENINA');
+	VALUES ('Tjestenina');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('RIŽA');
+	VALUES ('Riža');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NJOKI');
+	VALUES ('Njoki');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('TORTILJE');
+	VALUES ('Tortilje');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PROIZVODI OD RAJČICE');
+	VALUES ('Proizvodi od rajčice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KEČAP, SENF, MAJONEZA');
+	VALUES ('Kečap, senf, majoneza');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('UMACI');
+	VALUES ('Umaci');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ZAČINI I MJEŠAVINE');
+	VALUES ('Začini i mješavine');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('RIBLJE KONZERVE');
+	VALUES ('Riblje konzerve');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('POVRĆE');
+	VALUES ('Povrće');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PROIZVODI OD RAJČICE');
+	VALUES ('Proizvodi od rajčice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PAŠTETE I MESNI PROIZVODI');
+	VALUES ('Paštete i mesni proizvodi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('JUHE');
+	VALUES ('Juhe');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('GOTOVA JELA');
+	VALUES ('Gotova jela');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KOMPOTI');
+	VALUES ('Kompoti');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('AJVARI I OSTALO');
+	VALUES ('Ajvari i ostalo');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('GOTOVE SMJESE I MJEŠAVINE');
+	VALUES ('Gotove smjese i mješavine');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SASTOJCI');
+	VALUES ('Sastojci');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('DESERTI');
+	VALUES ('Deserti');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PRIBOR ZA IZRADU KOLAČA');
+	VALUES ('Pribor za izradu kolača');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KAVE');
+	VALUES ('Kave');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NAMAZI');
+	VALUES ('Namazi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PAHULJICE');
+	VALUES ('Pahuljice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ČAJEVI');
+	VALUES ('Čajevi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ČOKOLADNI NAPITCI');
+	VALUES ('Čokoladni napitci');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NAMIRNICE ZA PRIPREMU');
+	VALUES ('Namirnice za pripremu');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NAPITCI');
+	VALUES ('Napitci');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SOKOVI');
+	VALUES ('Sokovi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KRUH, NAMAZI, DELIKATESA');
+	VALUES ('Kruh, namazi, delikatesa');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MUESLI, PAHULJICE, KAŠE');
+	VALUES ('Muesli, pahuljice, kaše');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SLATKIŠI I GRICKALICE');
+	VALUES ('Slatkiši i grickalice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SUHO VOĆE I ORAŠASTO');
+	VALUES ('Suho voće i orašasto');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('DESERTI, VRHNJA, VOĆNE KAŠICE');
+	VALUES ('Deserti, vrhnja, voćne kašice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ČAJEVI I KAVE');
+	VALUES ('Čajevi i kave');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VITAMINI I MINERALI');
+	VALUES ('Vitamini i minerali');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BEZ GLUTENA');
+	VALUES ('Bez glutena');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('EKO');
+	VALUES ('Eko');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KEKSI');
+	VALUES ('Keksi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('GRICKALICE');
+	VALUES ('Grickalice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ČOKOLADE');
+	VALUES ('Čokolade');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BOMBONJERE');
+	VALUES ('Bombonjere');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SNACKOVI');
+	VALUES ('Snackovi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BOMBONI, LIZALICE, ŽVAKAĆE GUME');
+	VALUES ('Bomboni, lizalice, žvakaće gume');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VOĆE I POVRĆE');
+	VALUES ('Voće i povrće');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('RIBA I PLODOVI MORA');
+	VALUES ('Riba i plodovi mora');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('TIJESTO I PRIPRAVCI OD TIJESTA');
+	VALUES ('Tijesto i pripravci od tijesta');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('JELA OD MESA I POVRĆA');
+	VALUES ('Jela od mesa i povrća');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PIZZE');
+	VALUES ('Pizze');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SLADOLEDI I DESERTI');
+	VALUES ('Sladoledi i deseri');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('DJEČJA HRANA');
+	VALUES ('Dječja hrana');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PELENE I VLAŽNE MARAMICE');
+	VALUES ('Pelene i vlažne maramice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('DJEČJA NJEGA I HIGIJENA');
+	VALUES ('Dječja njega i higijena');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('DETERDŽENTI I OMEKŠIVAČI');
+	VALUES ('Deterdženti i omekšivaći');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BOČICE, DUDE, PRIBOR');
+	VALUES ('Bočice, dude, pribor');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PRVE IGRAČKE');
+	VALUES ('Prve igračke');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ZA MAME');
+	VALUES ('Za mame');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PRVE IGRAČKE');
+	VALUES ('Prve igračke');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('IGRAČKE ZA DJEVOJČICE');
+	VALUES ('Igračke za djevojčice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('IGRAČKE ZA DJEČAKE');
+	VALUES ('Igračke za dječake');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('DRUŠTVENE IGRE, KREATIVNI SETOVI, OSTALO');
+	VALUES ('Društvene igre, kreativni setovi, ostalo');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SLIKOVNICE');
+	VALUES ('Slikovnice');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PRANJE RUBLJA');
+	VALUES ('Pranje rublje');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PRANJE POSUĐA');
+	VALUES ('Pranje posuđa');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SREDSTVA ZA ČIŠĆENJE');
+	VALUES ('Sredstva za čišćenje');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VREĆICE I FILTERI ZA USISAVAČE');
+	VALUES ('Vrećice i filteri za usisavače');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PRIBOR ZA ČIŠĆENJE');
+	VALUES ('Pribor za čišćenje');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NJEGA OBUĆE');
+	VALUES ('Njega obuće');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('HIGIJENSKI PROIZVODI');
+	VALUES ('Higijenski proizvodi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NJEGA TIJELA');
+	VALUES ('Njega tijela');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NJEGA ZUBI');
+	VALUES ('Njega zubi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NJEGA KOSE');
+	VALUES ('Njega kose');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('NJEGA LICA');
+	VALUES ('Njega lica');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BRIJANJE I DEPILACIJA');
+	VALUES ('Brijanje i depilacija');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('POKLON SETOVI');
+	VALUES ('Poklon setovi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PARFEMI');
+	VALUES ('Parfemi');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PAPIRNATI PROIZVODI');
+	VALUES ('Papirnati proizvodi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KUĆANSKI TEKSTIL');
+	VALUES ('Kućanski tekstil');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('OSVJEŽIVAČI PROSTORA');
+	VALUES ('Osvježivaći prostora');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MALI KUĆANSKI APARATI');
+	VALUES ('Mali kućanski aparati');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VREĆICE');
+	VALUES ('Vrećice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MASNI PAPIR, FOLIJE, ALU POSUDE');
+	VALUES ('Masni papir, folije, alu posude');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('INSPEKTICIDI I REPELENTI');
+	VALUES ('Insekticidi i repelenti');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('LAMPIONI I SVIJEĆE');
+	VALUES ('Lampioni i svijeće');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BATERIJE I ŽARULJE');
+	VALUES ('Baterije i žarulje');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('VREĆICE I FILTERI ZA USISAVAČE');
+	VALUES ('Vrećice i filteri za usisavače');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('OSTALE POTREPŠTINE');
+	VALUES ('Ostale potrepštine');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('TAVE, LONCI, POSUDE ZA PEČENJE');
+	VALUES ('Tave, lonci, posude za pečenje');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PLASTIČNE I STAKLENE POSUDE');
+	VALUES ('Plastične i staklene posude');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KUHINJSKA POMAGALA');
+	VALUES ('Kuhinjska pomagala');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ČAŠE, VRČEVI, SERVISI, OSTALO');
+	VALUES ('Čaše, vrčevi, servisi, ostalo');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('PSI');
+	VALUES ('Psi');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('MAČKE');
+	VALUES ('Mačke');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('OSTALI LJUBIMCI');
+	VALUES ('Ostali ljubimci');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ČAŠE, TANJURI, PRIBOR ZA JELO');
+	VALUES ('Čaše, tanjuri, pribor za jelo');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SALVETE');
+	VALUES ('Salvete');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('SVIJEĆE, BALONI, UKRASI');
+	VALUES ('Svijeće, baloni, ukrasi');
 
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('BILJEŽNICE');
+	VALUES ('Bilježnice');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ŠKOLSKE TORBE I RUKSACI');
+	VALUES ('Školske torbe i ruksaci');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('ŠKOLSKI PRIBOR');
+	VALUES ('Školski pribor');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('URED');
+	VALUES ('Ured');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('KNJIGE ZA DJECU');
+	VALUES ('Knjige za djecu');
 
 -- sector_category
 INSERT INTO sector_category (sector_ID, category_ID)
@@ -757,17 +763,53 @@ INSERT INTO category_subcategory (category_ID, subcategory_ID)
 
 -- PRODUCT SIZE
 INSERT INTO product_size (size_type)
+	VALUES ('g');
+INSERT INTO product_size (size_type)
 	VALUES ('kg');
+INSERT INTO product_size (size_type)
+	VALUES ('ml');
 INSERT INTO product_size (size_type)
 	VALUES ('l');
 INSERT INTO product_size (size_type)
 	VALUES ('kom.');
 
+-- PRODUCER
+INSERT INTO producer (producer_name)
+	VALUES ('Zvijezda');
+INSERT INTO producer (producer_name)
+	VALUES ('K plus');
+
 -- PRODUCT
-INSERT INTO PRODUCT(product_name, producer)
-	VALUES ('Suncokretovo ulje', 'Zvijezda');
-INSERT INTO PRODUCT(product_name, producer)
-	VALUES ('Šećer kristal bijeli', 'K plus');
+INSERT INTO product(product_name, producer_ID)
+	VALUES ('Suncokretovo ulje', 1);
+INSERT INTO product(product_name, producer_ID)
+	VALUES ('Šećer kristal bijeli', 2);
+
+-- PRODUCT SPECIFIC
+-- treba vratit not null ogranicenje na thumbnail i photo uri
+INSERT INTO product_specific(product_ID, barcode, product_size, product_size_ID)
+	VALUES (1, '1234567890123', 1, 4);
+INSERT INTO product_specific(product_ID, barcode, product_size, product_size_ID)
+	VALUES (1, '1234567890124', 700, 3);
+INSERT INTO product_specific(product_ID, barcode, product_size, product_size_ID)
+	VALUES (2, '2234567890124', 500, 1);
+
+-- PRODUCT STORE
+INSERT INTO product_store(product_specific_ID, store_specific_ID)
+	VALUES (1, 1);
+INSERT INTO product_store(product_specific_ID, store_specific_ID)
+	VALUES (2, 1);
+INSERT INTO product_store(product_specific_ID, store_specific_ID)
+	VALUES (3, 2);
+
+-- PRICE
+INSERT INTO price(product_store_ID, user_ID, price, price_change_date)
+	VALUES (1, 1, 9.15, '2018-03-27');
+INSERT INTO price(product_store_ID, user_ID, price, price_change_date)
+	VALUES (2, 2, 6, '2018-03-27');
+INSERT INTO price(product_store_ID, user_ID, price, price_change_date)
+	VALUES (3, 1, 4, '2018-03-27');
+
 
 -- SUBCATEGORY PRODUCT
 INSERT INTO subcategory_product(subcategory_ID, product_ID)
