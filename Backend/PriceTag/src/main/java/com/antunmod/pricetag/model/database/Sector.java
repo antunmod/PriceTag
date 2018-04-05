@@ -25,9 +25,12 @@ public class Sector implements Serializable {
 	@Id
 	@Column(name = "sector_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int sectorId;
+	private byte sectorId;
 
 	@Column(name = "sector_name")
 	private String sectorName;
 
+	public String getSectorName() {
+		return sectorName;
+	}
 }

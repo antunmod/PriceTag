@@ -9,6 +9,8 @@ import com.antunmod.pricetag.model.database.SubcategoryProduct;
 @Service
 public interface SubcategoryProductRepository extends JpaRepository<SubcategoryProduct, Short> {
 
+	SubcategoryProduct findByProductId (Short productId);
+	
 	@Query(value = "SELECT subcategory_ID FROM subcategory where subcategory_name = ?1 ", nativeQuery = true)
 	Integer getSubcategoryIdForSubcategoryName(String subcategoryName);
 

@@ -30,4 +30,7 @@ public class Category implements Serializable {
 	@Column(name = "category_name")
 	private String categoryName;
 
+	public String getCategoryName() {
+		return categoryName;
+	}
 }

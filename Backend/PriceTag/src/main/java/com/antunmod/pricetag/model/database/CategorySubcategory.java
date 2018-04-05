@@ -35,4 +35,8 @@ public class CategorySubcategory implements Serializable {
 	@Column(name = "subcategory_ID")
 	private short subcategoryId;
 
+	public byte getCategoryId() {
+		return categoryId;
+	}
+	
 }

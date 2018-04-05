@@ -35,9 +35,15 @@ public class SubcategoryProduct implements Serializable {
 	@Column(name = "product_ID")
 	private short productId;
 
+	public SubcategoryProduct() {}
+	
 	public SubcategoryProduct(short subcategoryId, short productId) {
 		this.subcategoryId = subcategoryId;
 		this.productId = productId;
+	}
+	
+	public short getSubcategoryId() {
+		return subcategoryId;
 	}
 
 	

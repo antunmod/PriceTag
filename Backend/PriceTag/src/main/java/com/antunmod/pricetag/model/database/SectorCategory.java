@@ -35,4 +35,8 @@ public class SectorCategory implements Serializable {
 	@Column(name = "category_ID")
 	private byte categoryId;
 
+	public byte getSectorId() {
+		return sectorId;
+	}
+	
 }
