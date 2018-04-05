@@ -36,11 +36,13 @@ public class StoreSpecific implements Serializable {
 		super();
 	}
 
-	public StoreSpecific(short storeSpecificId, byte storeId, String storeAddress) {
-		super();
-		this.storeSpecificId = storeSpecificId;
+	public StoreSpecific(byte storeId, String storeAddress) {
 		this.storeId = storeId;
 		this.storeAddress = storeAddress;
+	}
+	
+	public short getStoreSpecificId() {
+		return storeSpecificId;
 	}
 
 }

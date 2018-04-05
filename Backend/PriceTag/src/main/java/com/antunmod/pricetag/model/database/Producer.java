@@ -14,15 +14,23 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "producer")
-public class Producer implements Serializable{
+public class Producer implements Serializable {
 
 	private static final long serialVersionUID = -4967406054049231127L;
-	
+
 	@Id
 	@Column(name = "producer_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private short producerId;
-	
+
 	@Column(name = "producer_name")
 	private String producerName;
+	
+	public Producer(String producerName) {
+		this.producerName = producerName;
+	}
+	
+	public short getProducerId() {
+		return producerId;
+	}
 }

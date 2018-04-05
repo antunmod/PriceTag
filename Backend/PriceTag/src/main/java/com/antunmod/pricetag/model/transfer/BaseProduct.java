@@ -11,10 +11,47 @@ package com.antunmod.pricetag.model.transfer;
 public class BaseProduct {
 
 	private String barcode;
+	private short userId;
+	private float price;
 	private String productDescription;
-	private String thumbnailURL;
-	private String photoURL;
+	private String photoURI;
 	private float productSize;
 	private byte productSizeId;
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public String getProductDescription() {
+		return productDescription;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
+	}
+
+	public String getPhotoURI() {
+		return photoURI;
+	}
+
+	public float getProductSize() {
+		return productSize;
+	}
+
+	public byte getProductSizeId() {
+		return productSizeId;
+	}
+
+	public short getUserId() {
+		return userId;
+	}
+
+	public float getPrice() {
+		return price;
+	}
 
 }

@@ -13,10 +13,28 @@ package com.antunmod.pricetag.model.transfer;
  */
 
 public class AddProducer {
-	
+
 	private BaseProduct baseProduct;
 	private String producerName;
 	private String productName;
 	private short storeSpecificId;
 	private short subcategoryId;
+
+	public AddProducer(BaseProduct baseProduct, String producerName, String productName, short storeSpecificId,
+			short subcategoryId) {
+		super();
+		this.baseProduct = baseProduct;
+		this.producerName = producerName;
+		this.productName = productName;
+		this.storeSpecificId = storeSpecificId;
+		this.subcategoryId = subcategoryId;
+	}
+
+	public String getProducerName() {
+		return producerName;
+	}
+
+	public AddProduct toAddProduct(short producerId) {
+		return new AddProduct(baseProduct, producerId, productName, storeSpecificId, subcategoryId);
+	}
 }

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.antunmod.pricetag.model.transfer.BaseProduct;
+
 /*
  * This class represents specifics of a product. It is neccessary for differentiating between different sizes of the 
  * same product (product with the same name and producer).
@@ -48,5 +50,19 @@ public class ProductSpecific implements Serializable {
 
 	@Column(name = "product_size_ID")
 	private byte productSizeId;
+
+	public ProductSpecific(BaseProduct baseProduct, short productId) {
+		this.productId = productId;
+		this.barcode = baseProduct.getBarcode();
+		this.productDesctiption = baseProduct.getProductDescription();
+		this.photoURI = baseProduct.getPhotoURI();
+		this.productSize = baseProduct.getProductSize();
+		this.productSizeId = baseProduct.getProductSizeId();
+
+	}
+
+	public short getProductSpecificId() {
+		return productSpecificId;
+	}
 
 }

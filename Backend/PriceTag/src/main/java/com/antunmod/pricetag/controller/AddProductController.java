@@ -1,5 +1,6 @@
 package com.antunmod.pricetag.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import com.antunmod.pricetag.model.transfer.AddStoreSpecificProducer;
 import com.antunmod.pricetag.model.transfer.AddStoreSpecificProduct;
 import com.antunmod.pricetag.model.transfer.AddStoreSpecificProductSpecific;
 import com.antunmod.pricetag.model.transfer.AddStoreSpecificProductStore;
+import com.antunmod.pricetag.service.AddProductService;
 
 /*
  * This is a Controller class for adding data to database.
@@ -27,174 +29,149 @@ import com.antunmod.pricetag.model.transfer.AddStoreSpecificProductStore;
 @RequestMapping("/add")
 public class AddProductController {
 
+	private AddProductService addProductService;
+	
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- product_specific
-	 * 		- product_store
-	 * 		- price
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: product_specific, product_store, price
 	 */
 	@ResponseBody
 	@PostMapping("/productSpecific")
 	public ResponseEntity<Boolean> addProductSpecific(@RequestBody AddProductSpecific addProductSpecific) {
-		return new saveProductSpecific(addProductSpecific);
+		Boolean success = addProductService.saveProductSpecific(addProductSpecific);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- product
-	 * ¸	- product_specific
-	 * 		- product_store
-	 * 		- price
-	 * 		- subcategory_product
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: product, product_specific, product_store, price, 
+	 * subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/product")
 	public ResponseEntity<Boolean> addProduct(@RequestBody AddProduct addProduct) {
-		return new saveProduct(addProduct);
+		Boolean success = addProductService.saveProduct(addProduct);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- producer
-	 * 		- product
-	 * ¸	- product_specific
-	 * 		- product_store
-	 * 		- price
-	 * 		- subcategory_product
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: producer, product, product_specific, product_store, price, 
+	 * subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/producer")
 	public ResponseEntity<Boolean> addProducer(@RequestBody AddProducer addProducer) {
-		return new saveProducer(addProducer);
+		Boolean success = addProductService.saveProducer(addProducer);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store_specific
-	 * 		- product_specific
-	 * 		- product_store
-	 * 		- price
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store_specific, product_specific, product_store, price
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProductSpecific")
 	public ResponseEntity<Boolean> addStoreSpecificProductSpecific(
 			@RequestBody AddStoreSpecificProductSpecific addStoreSpecificProductSpecific) {
-		return new saveStoreSpecificProductSpecific(addStoreSpecificProductSpecific);
+		Boolean success = addProductService.saveStoreSpecificProductSpecific(addStoreSpecificProductSpecific);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store_specific
-	 * 		- product
-	 * 		- product_specific
-	 * 		- product_store
-	 * 		- price
-	 * 		- subcategory_product
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store_specific, product, product_specific, product_store, 
+	 * price, subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProduct")
 	public ResponseEntity<Boolean> addStoreSpecificProduct(
 			@RequestBody AddStoreSpecificProduct addStoreSpecificProduct) {
-		return new saveStoreSpecificProduct(addStoreSpecificProduct);
+		Boolean success = addProductService.saveStoreSpecificProduct(addStoreSpecificProduct);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store_specific
-	 * 		- producer
-	 * 		- product
-	 * 		- product_specific
-	 * 		- product_store
-	 * 		- price
-	 * 		- subcategory_product
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store_specific, producer, product, product_specific, 
+	 * product_store, price, subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProducer")
 	public ResponseEntity<Boolean> addStoreSpecificProducer(
 			@RequestBody AddStoreSpecificProducer addStoreSpecificProducer) {
-		return new saveStoreSpecificProducer(addStoreSpecificProducer);
+		Boolean success = addProductService.saveStoreSpecificProducer(addStoreSpecificProducer);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store
-	 * 		- store_specific
-	 * 		- product_specific
-	 * 		- product_store
-	 * 		- price
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store, store_specific, product_specific, product_store, price
 	 */
 	@ResponseBody
 	@PostMapping("/storeProductSpecific")
-	public ResponseEntity<Boolean> addStoreProductSpecific(@RequestBody AddStoreProductSpecific addStoreProductSpecific) {
-		return new saveStoreProductSpecific(addStoreProductSpecific);
+	public ResponseEntity<Boolean> addStoreProductSpecific(
+			@RequestBody AddStoreProductSpecific addStoreProductSpecific) {
+		Boolean success = addProductService.saveStoreProductSpecific(addStoreProductSpecific);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store
-	 * 		- store_specific
-	 * 		- product
-	 * 		- product_specific
-	 * 		- product_store
-	 * 		- price
-	 * 		- subcategory_product
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store, store_specific, product, product_specific, 
+	 * product_store, price, subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/storeProduct")
 	public ResponseEntity<Boolean> addStoreProduct(@RequestBody AddStoreProduct addStoreProduct) {
-		return new saveStoreProduct(addStoreProduct);
+		Boolean success = addProductService.saveStoreProduct(addStoreProduct);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store
-	 * 		- store_specific
-	 * 		- producer
-	 * 		- product
-	 * 		- product_specific
-	 * 		- product_store
-	 * 		- price
-	 * 		- subcategory_product
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store, store_specific, producer, product, product_specific, 
+	 * product_store, price, subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/storeProducer")
 	public ResponseEntity<Boolean> addStoreProducer(@RequestBody AddStoreProducer addStoreProducer) {
-		return new saveStoreProducer(addStoreProducer);
+		Boolean success = addProductService.saveStoreProducer(addStoreProducer);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- price
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: price
 	 */
 	@ResponseBody
 	@PostMapping("/price")
 	public ResponseEntity<Boolean> addPrice(@RequestBody AddPrice addPrice) {
-		return new savePrice(addPrice);
+		Boolean success = addProductService.savePrice(addPrice);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store_specific
-	 * 		- product_specific
-	 * 		- price
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store_specific, product_specific, price
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProductStore")
-	public ResponseEntity<Boolean> addStoreSpecificProductStore(@RequestBody AddStoreSpecificProductStore addStoreSpecificProductStore) {
-		return new saveStoreSpecificProductStore(addStoreSpecificProductStore);
+	public ResponseEntity<Boolean> addStoreSpecificProductStore(
+			@RequestBody AddStoreSpecificProductStore addStoreSpecificProductStore) {
+		Boolean success = addProductService.saveStoreSpecificProductStore(addStoreSpecificProductStore);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 	/*
-	 * This mapping will result in addition of entries to the following tables in database:
-	 * 		- store
-	 * 		- store_specific
-	 * 		- product_specific
-	 * 		- price
+	 * This mapping will result in addition of entries to the following tables in
+	 * database: store, store_specific, product_specific, price
 	 */
 	@ResponseBody
 	@PostMapping("/storeProductStore")
 	public ResponseEntity<Boolean> addStoreProductStore(@RequestBody AddStoreProductStore addStoreProductStore) {
-		return new saveStoreProductStore(addStoreProductStore);
+		Boolean success = addProductService.saveStoreProductStore(addStoreProductStore);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 
 }

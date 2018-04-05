@@ -11,10 +11,24 @@ package com.antunmod.pricetag.model.transfer;
  */
 
 public class AddStoreSpecificProductSpecific {
-	
+
 	private BaseProduct baseProduct;
 	private short productId;
 	private byte storeId;
 	private String storeAddress;
+
+	public byte getStoreId() {
+		return storeId;
+	}
+
+	public String getStoreAddress() {
+		return storeAddress;
+	}
+
+	public AddProductSpecific toAddProductSpecific(short storeSpecificId) {
+		return new AddProductSpecific(baseProduct, productId, storeSpecificId);
+	}
+
+	
 	
 }

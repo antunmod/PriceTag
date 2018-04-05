@@ -21,8 +21,8 @@ public class ProductStore implements Serializable {
 	@Id
 	@Column(name = "product_store_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long productStoreId;
-	
+	private short productStoreId;
+
 	/*
 	 * References a specific product from product_specific table.
 	 */
@@ -34,5 +34,15 @@ public class ProductStore implements Serializable {
 	 */
 	@Column(name = "store_specific_ID")
 	private short storeSpecificId;
+
+	public ProductStore(short productSpecificId, short storeSpecificId) {
+		super();
+		this.productSpecificId = productSpecificId;
+		this.storeSpecificId = storeSpecificId;
+	}
+
+	public short getProductStoreId() {
+		return productStoreId;
+	}
 
 }
