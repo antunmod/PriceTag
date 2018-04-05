@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 import com.antunmod.pricetag.model.database.Producer;
 
 @Service
-public interface ProducerRepository extends JpaRepository<Producer, Long> {
+public interface ProducerRepository extends JpaRepository<Producer, Short> {
 
 }

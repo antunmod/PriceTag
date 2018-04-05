@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.antunmod.pricetag.model.database.Category;
 
 @Service
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Byte> {
 
 	@Query(value = "SELECT category_name FROM sector NATURAL JOIN sector_category NATURAL JOIN category "
 			+ "WHERE sector_name = ?1", nativeQuery = true)

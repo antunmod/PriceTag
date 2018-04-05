@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 import com.antunmod.pricetag.model.database.StoreSpecific;
 
 @Service
-public interface StoreSpecificRepository extends JpaRepository<StoreSpecific, Long> {
+public interface StoreSpecificRepository extends JpaRepository<StoreSpecific, Short> {
 
 }

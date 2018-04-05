@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.antunmod.pricetag.model.database.ProductSpecific;
 
-public interface ProductSpecificRepository extends JpaRepository<ProductSpecific, Long>{
+public interface ProductSpecificRepository extends JpaRepository<ProductSpecific, Short>{
 
 }

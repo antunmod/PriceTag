@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 import com.antunmod.pricetag.model.database.CategorySubcategory;
 
 @Service
-public interface CategorySubcategoryRepository extends JpaRepository<CategorySubcategory, Long> {
+public interface CategorySubcategoryRepository extends JpaRepository<CategorySubcategory, Short> {
 
 }
