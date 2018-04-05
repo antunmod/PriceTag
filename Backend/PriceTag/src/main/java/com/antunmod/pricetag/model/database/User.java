@@ -51,6 +51,8 @@ public class User implements Serializable {
 	@Column(name = "user_type_ID")
 	private byte userType;
 
+	public User() {}
+	
 	public User(String name, String password, String email, Date signupDate, short points, byte userType) {
 		super();
 		this.name = name;

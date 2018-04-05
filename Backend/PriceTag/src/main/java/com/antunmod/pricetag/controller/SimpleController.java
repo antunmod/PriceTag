@@ -7,22 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.antunmod.pricetag.model.AddProduct2;
-import com.antunmod.pricetag.model.Photo;
-import com.antunmod.pricetag.model.database.Product;
-import com.antunmod.pricetag.model.database.ProductSpecific;
-import com.antunmod.pricetag.model.database.ProductStore;
 import com.antunmod.pricetag.model.database.Store;
-import com.antunmod.pricetag.model.database.SubcategoryProduct;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.CategorySubcategoryRepository;
-import com.antunmod.pricetag.repo.PhotoRepository;
 import com.antunmod.pricetag.repo.ProductRepository;
 import com.antunmod.pricetag.repo.ProductSpecificRepository;
 import com.antunmod.pricetag.repo.ProductStoreRepository;
@@ -32,8 +23,6 @@ import com.antunmod.pricetag.repo.SizeRepository;
 import com.antunmod.pricetag.repo.StoreRepository;
 import com.antunmod.pricetag.repo.SubcategoryProductRepository;
 import com.antunmod.pricetag.repo.SubcategoryRepository;
-import com.antunmod.pricetag.repo.SuggestedCategorizationRepository;
-import com.antunmod.pricetag.service.AddProductConverter;
 
 @RestController
 public class SimpleController {
@@ -72,12 +61,6 @@ public class SimpleController {
 
 	@Autowired
 	private SizeRepository sizeRepository;
-
-	@Autowired
-	private PhotoRepository photoRepository;
-
-	@Autowired
-	private SuggestedCategorizationRepository suggestedCategorizationRepository;
 
 	@ResponseBody
 	@GetMapping("/sectors")
@@ -223,67 +206,6 @@ public class SimpleController {
 		if (sizeTypeList == null)
 			return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.OK);
 		return new ResponseEntity<List<String>>(sizeTypeList, HttpStatus.OK);
-	}
-
-	@ResponseBody
-	@PostMapping("products")
-	public ResponseEntity<Boolean> addProduct(@RequestBody AddProduct2 addProduct) {
-
-		Product product = AddProductConverter.createProductFromAddProduct(addProduct);
-		Product savedProduct = productRepository.save(product);
-
-		Photo photo = AddProductConverter.createPhotoFromAddProduct(addProduct);
-		Photo savedPhoto = photoRepository.save(photo);
-
-		ProductSpecific productSpecific = AddProductConverter.createProductSpecificFromAddProduct(addProduct);
-		productSpecific.setProductId(savedProduct.getProductId());
-		productSpecific.setPhotoId(savedPhoto.getPhotoId());
-		ProductSpecific savedProductSpecific = productSpecificRepository.save(productSpecific);
-
-		ProductStore productStore = AddProductConverter.createProductStoreFromAddProduct(addProduct);
-		productStore.setProductSpecificId(savedProductSpecific.getProductSpecificId());
-		ProductStore savedProductStore = productStoreRepository.save(productStore);
-
-		SubcategoryProduct subcategoryProduct = new SubcategoryProduct();
-		subcategoryProduct.setProductId(savedProduct.getProductId());
-		subcategoryProduct.setSubcategoryId(addProduct.getSubcategoryId());
-		SubcategoryProduct savedSubcategoryProduct = subcategoryProductRepository.save(subcategoryProduct);
-
-		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
-	}
-
-	@ResponseBody
-	@PostMapping("photos")
-	public ResponseEntity<Integer> addPhoto(@RequestBody byte[] photoArray) {
-		Photo photo, savedPhoto;
-		photo = new Photo();
-		photo.setPhoto(photoArray);
-		savedPhoto = photoRepository.save(photo);
-
-		return new ResponseEntity<Integer>(savedPhoto.getPhotoId(), HttpStatus.OK);
-	}
-
-	@ResponseBody
-	@GetMapping("photos/photo")
-	public ResponseEntity<Byte[]> getPhoto(@RequestParam("photoId") int photoId) {
-
-		Byte[] byteArray = photoRepository.getPhotoForPhotoId(photoId);
-
-		return new ResponseEntity<Byte[]>(byteArray, HttpStatus.OK);
-	}
-
-	@ResponseBody
-	@PostMapping("subcategoryProduct")
-	public ResponseEntity<Boolean> addSubcategoryProduct(@RequestParam("subcategoryName") String subcategoryName,
-			@RequestParam("productId") int productId) {
-		Integer subcategoryId = subcategoryProductRepository.getSubcategoryIdForSubcategoryName(subcategoryName);
-		SubcategoryProduct subcategoryProduct = new SubcategoryProduct();
-		subcategoryProduct.setProductId(productId);
-		subcategoryProduct.setSubcategoryId(subcategoryId);
-
-		subcategoryProductRepository.save(subcategoryProduct);
-
-		return new ResponseEntity<Boolean>(new Boolean(true), HttpStatus.OK);
 	}
 
 }

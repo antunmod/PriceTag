@@ -18,6 +18,20 @@ public class BaseProduct {
 	private float productSize;
 	private byte productSizeId;
 
+	public BaseProduct() {}
+	
+	public BaseProduct(String barcode, short userId, float price, String productDescription, String photoURI,
+			float productSize, byte productSizeId) {
+		super();
+		this.barcode = barcode;
+		this.userId = userId;
+		this.price = price;
+		this.productDescription = productDescription;
+		this.photoURI = photoURI;
+		this.productSize = productSize;
+		this.productSizeId = productSizeId;
+	}
+
 	public String getBarcode() {
 		return barcode;
 	}

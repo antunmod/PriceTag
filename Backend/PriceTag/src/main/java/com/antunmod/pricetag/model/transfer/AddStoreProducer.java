@@ -24,4 +24,11 @@ public class AddStoreProducer {
 	private String storeAddress;
 	private short subcategoryId;
 
+	public String getStoreName() {
+		return storeName;
+	}
+	
+	public AddStoreSpecificProducer toAddStoreSpecificProducer(byte storeId) {
+		return new AddStoreSpecificProducer(baseProduct, producerName, productName, storeId, storeAddress, subcategoryId);
+	}
 }

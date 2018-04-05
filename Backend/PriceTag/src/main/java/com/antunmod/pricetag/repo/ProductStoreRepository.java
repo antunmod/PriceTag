@@ -21,5 +21,9 @@ public interface ProductStoreRepository extends JpaRepository<ProductStore, Long
 	 * @Query(value = "", nativeQuery = true) byte[] getPhotoForProductIdAndSize(int
 	 * productId, String size);
 	 */
+	
+	@Query(value = "SELECT product_store_ID from product_store WHERE product_specific_ID = ?1 "
+			+ "AND storeSpecificId = ?2", nativeQuery = true)
+	short findProductStoreForProductSpecificIdAndStoreSpecificId(short productSpecificId, short storeSpecificId);
 
 }

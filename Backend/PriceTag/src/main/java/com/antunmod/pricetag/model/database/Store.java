@@ -26,10 +26,16 @@ public class Store implements Serializable {
 	@Column(name = "store_name")
 	private String storeName;
 
-	public Store(byte storeId, String storeName, String storeAddress) {
-		super();
-		this.storeId = storeId;
+	public Store(String storeName) {
 		this.storeName = storeName;
+	}
+	
+	public byte getStoreId() {
+		return storeId;
+	}
+	
+	public String getStoreName() {
+		return storeName;
 	}
 
 }

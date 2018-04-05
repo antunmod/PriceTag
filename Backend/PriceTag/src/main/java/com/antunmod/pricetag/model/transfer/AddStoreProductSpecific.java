@@ -19,4 +19,11 @@ public class AddStoreProductSpecific {
 	private String storeName;
 	private String storeAddress;
 	
+	public String getStoreName() {
+		return storeName;
+	}
+	
+	public AddStoreSpecificProductSpecific toAddStoreSpecificProductSpecific(byte storeId) {
+		return new AddStoreSpecificProductSpecific(baseProduct, productId, storeId, storeAddress);
+	}
 }

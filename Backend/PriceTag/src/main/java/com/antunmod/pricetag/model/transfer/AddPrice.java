@@ -1,5 +1,7 @@
 package com.antunmod.pricetag.model.transfer;
 
+import com.antunmod.pricetag.model.database.Price;
+
 /*
  * The AddPrice class contains data for saving a new price for an existing product in the given store.
  * 
@@ -13,6 +15,16 @@ public class AddPrice {
 	private short storeSpecificId;
 	private short userId;
 	private float price;
-	private AddStoreSpecificProductStore a;
 
+	public short getProductSpecificId() {
+		return productSpecificId;
+	}
+
+	public short getStoreSpecificId() {
+		return storeSpecificId;
+	}
+	
+	public Price toPrice(short productStoreId) {
+		return new Price(productStoreId, userId, price);
+	}
 }

@@ -20,6 +20,8 @@ public class AddProducer {
 	private short storeSpecificId;
 	private short subcategoryId;
 
+	public AddProducer() {}
+	
 	public AddProducer(BaseProduct baseProduct, String producerName, String productName, short storeSpecificId,
 			short subcategoryId) {
 		super();

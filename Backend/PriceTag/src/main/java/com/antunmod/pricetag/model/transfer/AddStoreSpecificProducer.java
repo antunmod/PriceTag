@@ -23,6 +23,17 @@ public class AddStoreSpecificProducer {
 	private String storeAddress;
 	private short subcategoryId;
 
+	public AddStoreSpecificProducer(BaseProduct baseProduct, String producerName, String productName, byte storeId,
+			String storeAddress, short subcategoryId) {
+		super();
+		this.baseProduct = baseProduct;
+		this.producerName = producerName;
+		this.productName = productName;
+		this.storeId = storeId;
+		this.storeAddress = storeAddress;
+		this.subcategoryId = subcategoryId;
+	}
+
 	public byte getStoreId() {
 		return storeId;
 	}

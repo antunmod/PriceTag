@@ -19,4 +19,12 @@ public class AddStoreProductStore {
 	private short userId;
 	private float price;
 	
+	
+	public String getStoreName() {
+		return storeName;
+	}
+	
+	public AddStoreSpecificProductStore toAddStoreSpecificProductStore(byte storeId) {
+		return new AddStoreSpecificProductStore(storeId, storeAddress, userId, price);
+	}
 }
