@@ -6,4 +6,6 @@ import com.antunmod.pricetag.model.database.ProductSpecific;
 
 public interface ProductSpecificRepository extends JpaRepository<ProductSpecific, Short>{
 
+	ProductSpecific findByProductSpecificId(Short productSpecificId);
+	
 }

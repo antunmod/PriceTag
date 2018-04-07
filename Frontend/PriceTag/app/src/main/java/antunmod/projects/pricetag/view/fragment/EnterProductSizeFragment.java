@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.model.Product;
+import antunmod.projects.pricetag.model.ProductStore;
 
 
 /**

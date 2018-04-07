@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="antunmod.projects.pricetag.PhotoAndPriceFragment">
+    tools:context="antunmod.projects.pricetag.view.fragment.PhotoAndPriceFragment">
 
     <EditText
         android:id="@+id/editText_price"

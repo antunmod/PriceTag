@@ -63,6 +63,10 @@ public class User implements Serializable {
 		this.userType = userType;
 	}
 
+	public String getUserName() {
+		return name;
+	}
+	
 	public short getPoints() {
 		return points;
 	}

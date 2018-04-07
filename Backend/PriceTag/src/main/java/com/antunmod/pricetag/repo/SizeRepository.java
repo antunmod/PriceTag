@@ -12,4 +12,6 @@ public interface SizeRepository extends JpaRepository<Size, Byte> {
 	@Query(value = "SELECT size_type FROM product_size", nativeQuery = true)
 	List<String> getSizeTypes();
 
+	Size findByProductSizeId(Byte productSizeId);
+	
 }

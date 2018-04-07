@@ -51,6 +51,8 @@ public class ProductSpecific implements Serializable {
 	@Column(name = "product_size_ID")
 	private byte productSizeId;
 
+	public ProductSpecific() {}
+	
 	public ProductSpecific(BaseProduct baseProduct, short productId) {
 		this.productId = productId;
 		this.barcode = baseProduct.getBarcode();
@@ -63,6 +65,10 @@ public class ProductSpecific implements Serializable {
 
 	public short getProductSpecificId() {
 		return productSpecificId;
+	}
+	
+	public String getBarcode() {
+		return barcode;
 	}
 
 }

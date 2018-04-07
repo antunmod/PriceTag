@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -18,7 +18,7 @@ public class Size implements Serializable {
 	@Id
 	@Column(name = "product_size_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int productSizeId;
+	private Byte productSizeId;
 
 	@Column(name = "size_type")
 	private String sizeType;

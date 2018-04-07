@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.model.Store;
 
 
 /**

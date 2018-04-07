@@ -44,5 +44,9 @@ public class StoreSpecific implements Serializable {
 	public short getStoreSpecificId() {
 		return storeSpecificId;
 	}
+	
+	public String getStoreAddress() {
+		return storeAddress;
+	}
 
 }

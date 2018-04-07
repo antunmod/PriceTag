@@ -35,6 +35,8 @@ public class ProductStore implements Serializable {
 	@Column(name = "store_specific_ID")
 	private short storeSpecificId;
 
+	public ProductStore() {}
+	
 	public ProductStore(short productSpecificId, short storeSpecificId) {
 		super();
 		this.productSpecificId = productSpecificId;
@@ -43,6 +45,10 @@ public class ProductStore implements Serializable {
 
 	public short getProductStoreId() {
 		return productStoreId;
+	}
+	
+	public Short getProductSpecificId() {
+		return productSpecificId;
 	}
 
 }

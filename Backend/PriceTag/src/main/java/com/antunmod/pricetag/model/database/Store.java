@@ -26,6 +26,8 @@ public class Store implements Serializable {
 	@Column(name = "store_name")
 	private String storeName;
 
+	public Store() {}
+	
 	public Store(String storeName) {
 		this.storeName = storeName;
 	}

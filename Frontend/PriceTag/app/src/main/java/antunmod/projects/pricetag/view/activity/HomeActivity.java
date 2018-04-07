@@ -1,10 +1,9 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.activity;
 
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +19,20 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
+
+import antunmod.projects.pricetag.view.fragment.AddCategorizationFragment;
+import antunmod.projects.pricetag.view.fragment.AddProductFragment;
+import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.model.User;
+import antunmod.projects.pricetag.view.fragment.EnterBarcodeFragment;
+import antunmod.projects.pricetag.view.fragment.EnterNewDataFragment;
+import antunmod.projects.pricetag.view.fragment.EnterProductSizeFragment;
+import antunmod.projects.pricetag.view.fragment.PhotoAndPriceFragment;
+import antunmod.projects.pricetag.view.fragment.RecentProductsFragment;
+import antunmod.projects.pricetag.view.fragment.SearchFragment;
+import antunmod.projects.pricetag.view.fragment.SelectFragment;
+import antunmod.projects.pricetag.view.fragment.SelectProductFragment;
+import antunmod.projects.pricetag.view.fragment.UpdateProductFragment;
 
 
 public class HomeActivity extends AppCompatActivity

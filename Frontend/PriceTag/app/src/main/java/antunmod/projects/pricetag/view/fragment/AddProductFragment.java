@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.fragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +27,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.RestServiceClient;
+import antunmod.projects.pricetag.model.Product;
+import antunmod.projects.pricetag.model.ProductStore;
+import antunmod.projects.pricetag.view.activity.HomeActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

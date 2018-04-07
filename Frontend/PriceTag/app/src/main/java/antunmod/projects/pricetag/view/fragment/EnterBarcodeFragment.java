@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.fragment;
 
 
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.RestServiceClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

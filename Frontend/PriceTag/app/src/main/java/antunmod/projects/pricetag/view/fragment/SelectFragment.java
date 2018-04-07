@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,10 +21,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.RestServiceClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import antunmod.projects.pricetag.transfer.BaseProduct;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,21 +46,13 @@ public class SelectFragment extends Fragment {
     /*
         Lists containing data received from the database
      */
-    private List<String> storeList = new ArrayList<>();
-    private List<String> storeAddressList = new ArrayList<>();
-    private List<String> sectorList = new ArrayList<>();
-    private List<String> categoryList = new ArrayList<>();
-    private List<String> subcategoryList = new ArrayList<>();
-    private List<String> producerList = new ArrayList<>();
-    private List<String> productList = new ArrayList<>();
-    private List<String> sizeList = new ArrayList<>();
-
-    /*
-        Product, UpdateProduct and ProductStore initialization
-     */
-    private Product product = new Product();
-    private UpdateProduct updateProduct = new UpdateProduct();
-    private ProductStore productStore = new ProductStore();
+    private List<String> storeList;
+    private List<String> storeAddressList;
+    private List<String> sectorList;
+    private List<String> categoryList;
+    private List<String> subcategoryList;
+    private List<String> producerList;
+    private List<String> productList;
 
     /*
         Names of selected Sector, Category and Subcategory.
@@ -67,9 +62,30 @@ public class SelectFragment extends Fragment {
     private String categoryName;
     private String subcategoryName;
 
+    /*
+    The base product which will be filled with new data.
+    Other data that will be sent to server is below it.
+     */
+    private BaseProduct baseProduct;
+    private Short productSpecificId;
+    private Float price;
 
+    private Short productId;
+    private String productName;
+
+    private String producerName;
+
+    private Short storeSpecificId;
+    private String storeName;
+    private String storeAddress;
+    private Byte storeId;
+
+    private Short subcategoryId;
+
+    /*
+    TextView text.
+     */
     private String title = "";
-    private int subcategoryId;
 
     /*
         String variables containing new List values added by the user
@@ -83,7 +99,7 @@ public class SelectFragment extends Fragment {
     private String newProductName;
 
     /*
-        Final variables containing different titles
+        Final variables containing different titles.
      */
     private final String STORE = "Trgovina";
     private final String STORE_ADDRESS = "Adresa trgovine";
@@ -121,8 +137,9 @@ public class SelectFragment extends Fragment {
 
         // Set values
         if (bundle != null) {
+            //storeList = new ArrayList<>();
             storeList = bundle.getStringArrayList("storeList");
-            productStore.setBarcode(bundle.getString("barcode"));
+            baseProduct.setBarcode(bundle.getString("barcode"));
         }
 
     }
@@ -163,6 +180,10 @@ public class SelectFragment extends Fragment {
         return inflatedView;
     }
 
+    /*
+    Title, or TextView text, determines the following action to be taken.
+
+     */
     private void setFragment() {
         switch (title) {
             case STORE_ADDRESS:
@@ -185,8 +206,6 @@ public class SelectFragment extends Fragment {
                 break;
             default:
                 updateFragment(STORE, storeList);
-
-
         }
     }
 
@@ -356,7 +375,7 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCER:
                 if (newProducerName != null && selected.equals(newProducerName)) {
-                    product.setProducer(selected);
+                    producerName = selected;
                     if (productList != null && productList.contains(newProductName))
                         updateFragment(PRODUCT, productList);
                     else

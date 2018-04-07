@@ -32,6 +32,8 @@ public class Product implements Serializable {
 	@Column(name = "product_name")
 	private String productName;
 
+	public Product() {}
+	
 	public Product(short producerId, String productName) {
 		super();
 		this.producerId = producerId;
@@ -40,6 +42,10 @@ public class Product implements Serializable {
 
 	public short getProductId() {
 		return productId;
+	}
+	
+	public String getProductName() {
+		return productName;
 	}
 
 }

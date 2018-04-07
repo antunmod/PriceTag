@@ -31,4 +31,8 @@ public class UserType implements Serializable {
 	@Column(name = "user_type_description")
 	private String userTypeDescription;
 
+	public String getUserTypeDescription() {
+		return userTypeDescription;
+	}
+	
 }

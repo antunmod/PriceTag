@@ -50,6 +50,8 @@ public class Price implements Serializable {
 	@Column(name = "validity")
 	private byte validity;
 
+	public Price() {}
+	
 	public Price(short productStoreId, short userId, float price) {
 		super();
 		this.productStoreId = productStoreId;
@@ -59,6 +61,10 @@ public class Price implements Serializable {
 		this.productChangeDate = getDateString();
 	}
 
+	public Short getProductStoreId() {
+		return productStoreId;
+	}
+	
 	private String getDateString() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();

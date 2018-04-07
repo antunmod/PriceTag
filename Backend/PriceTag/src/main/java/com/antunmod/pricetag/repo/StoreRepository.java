@@ -18,4 +18,6 @@ public interface StoreRepository extends JpaRepository<Store, Byte> {
 	@Query(value = "SELECT store_address FROM store_location natural join store "
 			+ "WHERE store_name = ?1", nativeQuery = true)
 	List<String> getStoreLocations(String storeName);
+	
+	Store findByStoreId(Byte storeId);
 }

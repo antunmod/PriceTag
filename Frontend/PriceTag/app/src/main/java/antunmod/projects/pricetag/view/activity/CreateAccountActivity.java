@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.RestServiceClient;
+import antunmod.projects.pricetag.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

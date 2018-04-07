@@ -26,4 +26,6 @@ public interface ProductRepository extends JpaRepository<Product, Short> {
 			+ "	product_ID = ?1", nativeQuery = true)
 	List<String> getSizeValuesForProductId(short productId);
 
+	Product findByProductId(Short productId);
+	
 }

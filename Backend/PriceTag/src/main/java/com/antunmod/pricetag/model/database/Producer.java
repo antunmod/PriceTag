@@ -26,11 +26,17 @@ public class Producer implements Serializable {
 	@Column(name = "producer_name")
 	private String producerName;
 	
+	public Producer() {}
+	
 	public Producer(String producerName) {
 		this.producerName = producerName;
 	}
 	
 	public short getProducerId() {
 		return producerId;
+	}
+	
+	public String getProducerName() {
+		return producerName;
 	}
 }

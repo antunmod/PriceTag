@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag;
+package antunmod.projects.pricetag.view.fragment;
 
 
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddCategorizationFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
 
-    public AddCategorizationFragment() {
+    public SearchFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +23,7 @@ public class AddCategorizationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_categorization, container, false);
+        return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
 }
