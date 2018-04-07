@@ -16,6 +16,6 @@ public interface UserRepository extends JpaRepository<User, Short> {
 	@Query(value = "SELECT * FROM user u WHERE u.user_name LIKE ?1 and user_password LIKE ?2", nativeQuery = true)
 	User findByUserNameAndPassword(String username, String password);
 
-	User findByUserId(short userId);
+	User findByUserId(Short userId);
 
 }

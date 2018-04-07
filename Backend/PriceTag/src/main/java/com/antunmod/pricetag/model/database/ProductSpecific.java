@@ -24,13 +24,13 @@ public class ProductSpecific implements Serializable {
 	@Id
 	@Column(name = "product_specific_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short productSpecificId;
+	private Short productSpecificId;
 
 	/*
 	 * This variable references product_ID in product table.
 	 */
 	@Column(name = "product_ID")
-	private short productId;
+	private Short productId;
 
 	@Column(name = "barcode")
 	private String barcode;
@@ -46,14 +46,14 @@ public class ProductSpecific implements Serializable {
 	private String photoURI;
 
 	@Column(name = "product_size")
-	private float productSize;
+	private Float productSize;
 
 	@Column(name = "product_size_ID")
 	private byte productSizeId;
 
 	public ProductSpecific() {}
 	
-	public ProductSpecific(BaseProduct baseProduct, short productId) {
+	public ProductSpecific(BaseProduct baseProduct, Short productId) {
 		this.productId = productId;
 		this.barcode = baseProduct.getBarcode();
 		this.productDesctiption = baseProduct.getProductDescription();
@@ -63,7 +63,7 @@ public class ProductSpecific implements Serializable {
 
 	}
 
-	public short getProductSpecificId() {
+	public Short getProductSpecificId() {
 		return productSpecificId;
 	}
 	

@@ -21,28 +21,28 @@ public class SubcategoryProduct implements Serializable {
 	@Id
 	@Column(name = "subcategory_product_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short subcategoryProductId;
+	private Short subcategoryProductId;
 
 	/*
 	 * References a subcategory.
 	 */
 	@Column(name = "subcategory_ID")
-	private short subcategoryId;
+	private Short subcategoryId;
 
 	/*
 	 * References a product by a producer.
 	 */
 	@Column(name = "product_ID")
-	private short productId;
+	private Short productId;
 
 	public SubcategoryProduct() {}
 	
-	public SubcategoryProduct(short subcategoryId, short productId) {
+	public SubcategoryProduct(Short subcategoryId, Short productId) {
 		this.subcategoryId = subcategoryId;
 		this.productId = productId;
 	}
 	
-	public short getSubcategoryId() {
+	public Short getSubcategoryId() {
 		return subcategoryId;
 	}
 

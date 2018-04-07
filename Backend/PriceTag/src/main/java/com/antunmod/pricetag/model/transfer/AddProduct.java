@@ -16,13 +16,13 @@ import com.antunmod.pricetag.model.database.ProductSpecific;
 public class AddProduct {
 
 	private BaseProduct baseProduct;
-	private short producerId;
+	private Short producerId;
 	private String productName;
-	private short storeSpecificId;
-	private short subcategoryId;
+	private Short storeSpecificId;
+	private Short subcategoryId;
 
-	public AddProduct(BaseProduct baseProduct, short producerId, String productName, short storeSpecificId,
-			short subcategoryId) {
+	public AddProduct(BaseProduct baseProduct, Short producerId, String productName, Short storeSpecificId,
+			Short subcategoryId) {
 		super();
 		this.baseProduct = baseProduct;
 		this.producerId = producerId;
@@ -35,11 +35,11 @@ public class AddProduct {
 		return new Product(producerId, productName);
 	}
 
-	public AddProductSpecific toAddProductSpecific(short productId) {
+	public AddProductSpecific toAddProductSpecific(Short productId) {
 		return new AddProductSpecific(baseProduct, productId, storeSpecificId);
 	}
 
-	public short getSubcategoryId() {
+	public Short getSubcategoryId() {
 		return subcategoryId;
 	}
 

@@ -35,7 +35,7 @@ public class PhotoAndPriceFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final int CAMERA_REQUEST = 1;
+    private static final Integer CAMERA_REQUEST = 1;
 
 
     // TODO: Rename and change types of parameters
@@ -117,7 +117,7 @@ public class PhotoAndPriceFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(Integer requestCode, Integer resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
 

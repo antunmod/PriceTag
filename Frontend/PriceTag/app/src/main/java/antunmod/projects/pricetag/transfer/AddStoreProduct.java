@@ -15,11 +15,11 @@ package antunmod.projects.pricetag.transfer;
 public class AddStoreProduct {
 
 	private BaseProduct baseProduct;
-	private short producerId;
+	private Short producerId;
 	private String productName;
 	private String storeName;
 	private String storeAddress;
-	private short subcategoryId;
+	private Short subcategoryId;
 	
 	public String getStoreName() {
 		return storeName;

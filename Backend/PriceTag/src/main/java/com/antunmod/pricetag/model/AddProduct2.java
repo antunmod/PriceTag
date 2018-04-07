@@ -5,15 +5,15 @@ public class AddProduct2 {
 	private String productName;
 	private String producer;
 	private byte[] photo;
-	private int storeId;
-	private int userId;
+	private Integer storeId;
+	private Integer userId;
 	private String barcode;
 	private String productDescription;
-	private float productSize;
-	private int productSizeId;
-	private float price;
+	private Float productSize;
+	private Integer productSizeId;
+	private Float price;
 	private String priceChangeDate;
-	private int subcategoryId;
+	private Integer subcategoryId;
 
 	public AddProduct2() {
 		super();
@@ -43,19 +43,19 @@ public class AddProduct2 {
 		this.photo = photo;
 	}
 
-	public int getStoreId() {
+	public Integer getStoreId() {
 		return storeId;
 	}
 
-	public void setStoreId(int storeId) {
+	public void setStoreId(Integer storeId) {
 		this.storeId = storeId;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -75,27 +75,27 @@ public class AddProduct2 {
 		this.productDescription = productDescription;
 	}
 
-	public float getProductSize() {
+	public Float getProductSize() {
 		return productSize;
 	}
 
-	public void setProductSize(float productSize) {
+	public void setProductSize(Float productSize) {
 		this.productSize = productSize;
 	}
 
-	public int getProductSizeId() {
+	public Integer getProductSizeId() {
 		return productSizeId;
 	}
 
-	public void setProductSizeId(int productSizeId) {
+	public void setProductSizeId(Integer productSizeId) {
 		this.productSizeId = productSizeId;
 	}
 
-	public float getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 
@@ -107,11 +107,11 @@ public class AddProduct2 {
 		this.priceChangeDate = priceChangeDate;
 	}
 
-	public int getSubcategoryId() {
+	public Integer getSubcategoryId() {
 		return subcategoryId;
 	}
 
-	public void setSubcategoryName(int subcategoryId) {
+	public void setSubcategoryName(Integer subcategoryId) {
 		this.subcategoryId = subcategoryId;
 	}
 

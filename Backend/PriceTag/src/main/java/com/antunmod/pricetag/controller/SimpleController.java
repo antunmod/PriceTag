@@ -149,7 +149,7 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/sizes/sizeValue")
-	public ResponseEntity<List<String>> getSizeValuesForProductId(@RequestParam("productId") int productId) {
+	public ResponseEntity<List<String>> getSizeValuesForProductId(@RequestParam("productId") Integer productId) {
 
 		List<String> sizeValues = productRepository.getSizeValuesForProductId(productId);
 		if (sizeValues != null) {
@@ -167,7 +167,7 @@ public class SimpleController {
 			return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.OK);
 		}
 		List<String> storeStringList = new ArrayList<>();
-		for (int i = 0; i < storeList.size(); ++i) {
+		for (Integer i = 0; i < storeList.size(); ++i) {
 			String storeName = storeList.get(i).getStoreName();
 			if (!storeStringList.contains(storeName)) {
 				storeStringList.add(storeName);

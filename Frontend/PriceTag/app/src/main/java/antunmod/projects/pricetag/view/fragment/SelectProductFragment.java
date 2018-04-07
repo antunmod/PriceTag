@@ -106,7 +106,7 @@ public class SelectProductFragment extends Fragment {
         listView_product = inflatedView.findViewById(R.id.listView_product);
         listView_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, Integer i, long l) {
                 String selectedProduct = listView_product.getItemAtPosition(i).toString();
                 findProductIdForProducerAndProductName(selectedProduct);
             }
@@ -114,10 +114,10 @@ public class SelectProductFragment extends Fragment {
 
         String[] categoryArrayList;
         if (productList != null) {
-            int listSize = productList.size();
+            Integer listSize = productList.size();
             categoryArrayList = new String[listSize];
 
-            for (int i = 0; i < listSize; ++i) {
+            for (Integer i = 0; i < listSize; ++i) {
                 categoryArrayList[i] = productList.get(i);
             }
         } else {

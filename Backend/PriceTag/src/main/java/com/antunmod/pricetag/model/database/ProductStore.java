@@ -21,29 +21,29 @@ public class ProductStore implements Serializable {
 	@Id
 	@Column(name = "product_store_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short productStoreId;
+	private Short productStoreId;
 
 	/*
 	 * References a specific product from product_specific table.
 	 */
 	@Column(name = "product_specific_ID")
-	private short productSpecificId;
+	private Short productSpecificId;
 
 	/*
 	 * References a specific store from store_specific table.
 	 */
 	@Column(name = "store_specific_ID")
-	private short storeSpecificId;
+	private Short storeSpecificId;
 
 	public ProductStore() {}
 	
-	public ProductStore(short productSpecificId, short storeSpecificId) {
+	public ProductStore(Short productSpecificId, Short storeSpecificId) {
 		super();
 		this.productSpecificId = productSpecificId;
 		this.storeSpecificId = storeSpecificId;
 	}
 
-	public short getProductStoreId() {
+	public Short getProductStoreId() {
 		return productStoreId;
 	}
 	

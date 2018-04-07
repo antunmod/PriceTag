@@ -38,8 +38,8 @@ import retrofit2.Response;
 public class UpdateProductFragment extends Fragment {
 
 
-    private final float BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 0.5;
-    private final float TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 1.5;
+    private final Float BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 0.5;
+    private final Float TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 1.5;
 
     private byte[] photoByteArray;
 
@@ -111,13 +111,13 @@ public class UpdateProductFragment extends Fragment {
                 if (editText_newPrice.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Unesite novu cijenu proizvoda", Toast.LENGTH_SHORT).show();
                 } else {
-                    float newPrice = Float.valueOf(editText_newPrice.getText().toString());
-                    float averagePrice = updateProduct.getAveragePrice();
+                    Float newPrice = Float.valueOf(editText_newPrice.getText().toString());
+                    Float averagePrice = updateProduct.getAveragePrice();
                     if (newPrice > TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR * averagePrice ||
                             newPrice < BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR * averagePrice) {
                         Toast.makeText(getContext(), "Zbog velike izmjene cijene, proizvod se šalje na potvrdu prije spremanja.", Toast.LENGTH_SHORT).show();
                     } else {
-                        int productUpdates = updateProduct.getProductUpdates();
+                        Integer productUpdates = updateProduct.getProductUpdates();
                         averagePrice = averagePrice * productUpdates + newPrice;
                         averagePrice /= ++productUpdates;
                         updateProduct.setAveragePrice(averagePrice);
@@ -172,7 +172,7 @@ public class UpdateProductFragment extends Fragment {
     }
 
     private void setBytePhotoArray(Byte[] byteObjectPhotoArray) {
-        int j = 0;
+        Integer j = 0;
 
         photoByteArray = new byte[byteObjectPhotoArray.length];
         for (Byte b : byteObjectPhotoArray)

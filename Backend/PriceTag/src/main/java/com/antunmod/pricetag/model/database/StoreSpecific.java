@@ -21,7 +21,7 @@ public class StoreSpecific implements Serializable {
 	@Id
 	@Column(name = "store_specific_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short storeSpecificId;
+	private Short storeSpecificId;
 
 	/*
 	 * References the Store class id for finding store name.
@@ -41,7 +41,7 @@ public class StoreSpecific implements Serializable {
 		this.storeAddress = storeAddress;
 	}
 	
-	public short getStoreSpecificId() {
+	public Short getStoreSpecificId() {
 		return storeSpecificId;
 	}
 	

@@ -22,7 +22,7 @@ public class User implements Serializable {
 	@Id
 	@Column(name = "user_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short userId;
+	private Short userId;
 
 	@Column(name = "user_name")
 	private String name;
@@ -42,7 +42,7 @@ public class User implements Serializable {
 	 * the database. Points are received by adding or updating products.
 	 */
 	@Column(name = "points")
-	private short points;
+	private Short points;
 
 	/*
 	 * References the user_type table serial id that determines whether a user is a
@@ -53,7 +53,7 @@ public class User implements Serializable {
 
 	public User() {}
 	
-	public User(String name, String password, String email, Date signupDate, short points, byte userType) {
+	public User(String name, String password, String email, Date signupDate, Short points, byte userType) {
 		super();
 		this.name = name;
 		this.password = password;
@@ -67,11 +67,11 @@ public class User implements Serializable {
 		return name;
 	}
 	
-	public short getPoints() {
+	public Short getPoints() {
 		return points;
 	}
 
-	public void setPoints(short points) {
+	public void setPoints(Short points) {
 		this.points = points;
 	}
 

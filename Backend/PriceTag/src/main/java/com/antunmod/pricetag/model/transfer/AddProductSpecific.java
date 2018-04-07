@@ -19,10 +19,10 @@ import com.antunmod.pricetag.repo.ProductStoreRepository;
 public class AddProductSpecific {
 
 	private BaseProduct baseProduct;
-	private short productId;
-	private short storeSpecificId;
+	private Short productId;
+	private Short storeSpecificId;
 
-	public AddProductSpecific(BaseProduct baseProduct, short productId, short storeSpecificId) {
+	public AddProductSpecific(BaseProduct baseProduct, Short productId, Short storeSpecificId) {
 		this.baseProduct = baseProduct;
 		this.productId = productId;
 		this.storeSpecificId = storeSpecificId;
@@ -32,11 +32,11 @@ public class AddProductSpecific {
 		return new ProductSpecific(baseProduct, productId);
 	}
 
-	public ProductStore toProductStore(short productSpecificId) {
+	public ProductStore toProductStore(Short productSpecificId) {
 		return new ProductStore(productSpecificId, storeSpecificId);
 	}
 
-	public Price toPrice(short productStoreId) {
+	public Price toPrice(Short productStoreId) {
 		return new Price(productStoreId, baseProduct.getUserId(), baseProduct.getPrice());
 	}
 

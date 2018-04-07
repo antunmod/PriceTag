@@ -12,13 +12,13 @@ package antunmod.projects.pricetag.transfer;
 
 public class AddStoreSpecificProductStore {
 
-	private short productSpecificId;
+	private Short productSpecificId;
 	private byte storeId;
 	private String storeAddress;
-	private short userId;
-	private float price;
+	private Short userId;
+	private Float price;
 
-	public AddStoreSpecificProductStore(byte storeId, String storeAddress, short userId, float price) {
+	public AddStoreSpecificProductStore(byte storeId, String storeAddress, Short userId, Float price) {
 		super();
 		this.storeId = storeId;
 		this.storeAddress = storeAddress;

@@ -17,13 +17,13 @@ public class AddProducer {
 	private BaseProduct baseProduct;
 	private String producerName;
 	private String productName;
-	private short storeSpecificId;
-	private short subcategoryId;
+	private Short storeSpecificId;
+	private Short subcategoryId;
 
 	public AddProducer() {}
 	
-	public AddProducer(BaseProduct baseProduct, String producerName, String productName, short storeSpecificId,
-			short subcategoryId) {
+	public AddProducer(BaseProduct baseProduct, String producerName, String productName, Short storeSpecificId,
+			Short subcategoryId) {
 		super();
 		this.baseProduct = baseProduct;
 		this.producerName = producerName;
@@ -36,7 +36,7 @@ public class AddProducer {
 		return producerName;
 	}
 
-	public AddProduct toAddProduct(short producerId) {
+	public AddProduct toAddProduct(Short producerId) {
 		return new AddProduct(baseProduct, producerId, productName, storeSpecificId, subcategoryId);
 	}
 }

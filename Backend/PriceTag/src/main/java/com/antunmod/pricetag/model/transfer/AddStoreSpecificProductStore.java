@@ -15,13 +15,13 @@ import com.antunmod.pricetag.model.database.ProductStore;
 
 public class AddStoreSpecificProductStore {
 
-	private short productSpecificId;
+	private Short productSpecificId;
 	private byte storeId;
 	private String storeAddress;
-	private short userId;
-	private float price;
+	private Short userId;
+	private Float price;
 
-	public AddStoreSpecificProductStore(byte storeId, String storeAddress, short userId, float price) {
+	public AddStoreSpecificProductStore(byte storeId, String storeAddress, Short userId, Float price) {
 		super();
 		this.storeId = storeId;
 		this.storeAddress = storeAddress;
@@ -37,11 +37,11 @@ public class AddStoreSpecificProductStore {
 		return storeAddress;
 	}
 
-	public ProductStore toProductStore(short storeSpecificId) {
+	public ProductStore toProductStore(Short storeSpecificId) {
 		return new ProductStore(productSpecificId, storeSpecificId);
 	}
 
-	public Price toPrice(short productStoreId) {
+	public Price toPrice(Short productStoreId) {
 		return new Price(productStoreId, userId, price);
 	}
 

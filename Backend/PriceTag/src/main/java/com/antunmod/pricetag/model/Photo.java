@@ -18,7 +18,7 @@ public class Photo implements Serializable {
 	@Id
 	@Column(name = "photo_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int photoId;
+	private Integer photoId;
 
 	@Column(name = "photo")
 	private byte[] photo;
@@ -27,17 +27,17 @@ public class Photo implements Serializable {
 		super();
 	}
 
-	public Photo(int photoId, byte[] photo) {
+	public Photo(Integer photoId, byte[] photo) {
 		super();
 		this.photoId = photoId;
 		this.photo = photo;
 	}
 
-	public int getPhotoId() {
+	public Integer getPhotoId() {
 		return photoId;
 	}
 
-	public void setPhotoId(int photoId) {
+	public void setPhotoId(Integer photoId) {
 		this.photoId = photoId;
 	}
 

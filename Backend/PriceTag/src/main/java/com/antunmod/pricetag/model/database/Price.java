@@ -24,19 +24,19 @@ public class Price implements Serializable {
 	@Id
 	@Column(name = "price_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int priceId;
+	private Integer priceId;
 
 	/*
 	 * References a specific product in a specific store.
 	 */
 	@Column(name = "product_store_ID")
-	private short productStoreId;
+	private Short productStoreId;
 
 	@Column(name = "user_ID")
-	private short userId;
+	private Short userId;
 
 	@Column(name = "price")
-	private float price;
+	private Float price;
 
 	@Column(name = "price_change_date")
 	private String productChangeDate;
@@ -52,7 +52,7 @@ public class Price implements Serializable {
 
 	public Price() {}
 	
-	public Price(short productStoreId, short userId, float price) {
+	public Price(Short productStoreId, Short userId, Float price) {
 		super();
 		this.productStoreId = productStoreId;
 		this.userId = userId;

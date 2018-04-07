@@ -49,7 +49,7 @@ public class UserController {
 	@ResponseBody
 	@PostMapping("/awardPoints")
 	public ResponseEntity<Boolean> awardPointsToUserForUserId(@RequestParam("userId") long userId,
-			@RequestParam("points") short points) {
+			@RequestParam("points") Short points) {
 		User user, savedUser;
 		user = userRepository.findByUserId(userId);
 

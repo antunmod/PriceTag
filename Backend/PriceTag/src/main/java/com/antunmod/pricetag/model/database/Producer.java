@@ -21,7 +21,7 @@ public class Producer implements Serializable {
 	@Id
 	@Column(name = "producer_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short producerId;
+	private Short producerId;
 
 	@Column(name = "producer_name")
 	private String producerName;
@@ -32,7 +32,7 @@ public class Producer implements Serializable {
 		this.producerName = producerName;
 	}
 	
-	public short getProducerId() {
+	public Short getProducerId() {
 		return producerId;
 	}
 	

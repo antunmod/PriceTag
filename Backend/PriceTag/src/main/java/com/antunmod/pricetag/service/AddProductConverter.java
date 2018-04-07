@@ -8,7 +8,7 @@ import com.antunmod.pricetag.model.database.ProductStore;
 
 public class AddProductConverter {
 
-	private static final int FIRST_PRODUCT_UPDATE = 1;
+	private static final Integer FIRST_PRODUCT_UPDATE = 1;
 
 	public static Product createProductFromAddProduct(AddProduct2 addProduct) {
 

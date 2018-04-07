@@ -15,14 +15,14 @@ package antunmod.projects.pricetag.transfer;
 public class AddStoreSpecificProduct {
 
 	private BaseProduct baseProduct;
-	private short producerId;
+	private Short producerId;
 	private String productName;
 	private byte storeId;
 	private String storeAddress;
-	private short subcategoryId;
+	private Short subcategoryId;
 
-	public AddStoreSpecificProduct(BaseProduct baseProduct, short producerId, String productName, byte storeId,
-			String storeAddress, short subcategoryId) {
+	public AddStoreSpecificProduct(BaseProduct baseProduct, Short producerId, String productName, byte storeId,
+			String storeAddress, Short subcategoryId) {
 		super();
 		this.baseProduct = baseProduct;
 		this.producerId = producerId;
@@ -40,7 +40,7 @@ public class AddStoreSpecificProduct {
 		return storeAddress;
 	}
 
-	public AddProduct toAddProduct(short storeSpecificId) {
+	public AddProduct toAddProduct(Short storeSpecificId) {
 		return new AddProduct(baseProduct, producerId, productName, storeSpecificId, subcategoryId);
 	}
 

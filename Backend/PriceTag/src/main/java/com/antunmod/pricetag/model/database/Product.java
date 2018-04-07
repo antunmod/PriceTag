@@ -21,26 +21,26 @@ public class Product implements Serializable {
 	@Id
 	@Column(name = "product_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short productId;
+	private Short productId;
 
 	/*
 	 * References producer_ID in producer table
 	 */
 	@Column(name = "producer_ID")
-	private short producerId;
+	private Short producerId;
 
 	@Column(name = "product_name")
 	private String productName;
 
 	public Product() {}
 	
-	public Product(short producerId, String productName) {
+	public Product(Short producerId, String productName) {
 		super();
 		this.producerId = producerId;
 		this.productName = productName;
 	}
 
-	public short getProductId() {
+	public Short getProductId() {
 		return productId;
 	}
 	

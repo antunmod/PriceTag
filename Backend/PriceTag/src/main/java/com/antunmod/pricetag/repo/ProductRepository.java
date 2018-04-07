@@ -24,7 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Short> {
 
 	@Query(value = "select concat(product_size, ' ', size_type) as size from product_specific natural join product_size where"
 			+ "	product_ID = ?1", nativeQuery = true)
-	List<String> getSizeValuesForProductId(short productId);
+	List<String> getSizeValuesForProductId(Short productId);
 
 	Product findByProductId(Short productId);
 	

@@ -22,7 +22,7 @@ public class AddStoreProducer {
 	private String productName;
 	private String storeName;
 	private String storeAddress;
-	private short subcategoryId;
+	private Short subcategoryId;
 
 	public String getStoreName() {
 		return storeName;

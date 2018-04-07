@@ -275,7 +275,7 @@ public class AddProductService {
 	}
 
 	public Boolean savePrice(AddPrice addPrice) {
-		short productStoreId = productStoreRepository.findProductStoreForProductSpecificIdAndStoreSpecificId(
+		Short productStoreId = productStoreRepository.findProductStoreForProductSpecificIdAndStoreSpecificId(
 				addPrice.getProductSpecificId(), addPrice.getStoreSpecificId());
 		/*
 		 * What if there is no productStoreId for those values?

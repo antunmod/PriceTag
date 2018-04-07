@@ -50,17 +50,17 @@ public class AddProductFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private static final int CAMERA_REQUEST = 1;
-    private static final float MAX_SIZE_VALUE = (float) 50.0;
-    private static final float MAX_PRICE_VALUE = (float) 10000.0;
-    private static final int NON_EXISTING_PRODUCT_ID = 0;
-    private static final int FIRST_PRODUCT_UPDATE = 1;
+    private static final Integer CAMERA_REQUEST = 1;
+    private static final Float MAX_SIZE_VALUE = (float) 50.0;
+    private static final Float MAX_PRICE_VALUE = (float) 10000.0;
+    private static final Integer NON_EXISTING_PRODUCT_ID = 0;
+    private static final Integer FIRST_PRODUCT_UPDATE = 1;
 
     private Product product;
     private ProductStore productStore;
     private byte[] photo;
     boolean pictureSet = false;
-    private int subcategoryId;
+    private Integer subcategoryId;
 
     public AddProductFragment() {
         // Required empty public constructor
@@ -101,8 +101,8 @@ public class AddProductFragment extends Fragment {
     private String sizeString;
     private String priceString;
 
-    private float size;
-    private float price;
+    private Float size;
+    private Float price;
 
     private List<String> sizeTypeList;
 
@@ -149,7 +149,7 @@ public class AddProductFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(Integer requestCode, Integer resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
 

@@ -99,7 +99,7 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
 
-        int count = getSupportFragmentManager().getBackStackEntryCount();
+        Integer count = getSupportFragmentManager().getBackStackEntryCount();
 
         if (count > 1) {
             super.onBackPressed();
@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Integer id = item.getItemId();
 
 
         //noinspection SimplifiableIfStatement
@@ -132,12 +132,12 @@ public class HomeActivity extends AppCompatActivity
             builder.setTitle("Odjava")
                     .setMessage("Jeste li sigurni da se želite odjaviti?")
                     .setPositiveButton("Da", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, Integer which) {
                             finish();
                         }
                     })
                     .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, Integer which) {
                             // do nothing
                         }
                     })
@@ -154,7 +154,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        Integer id = item.getItemId();
 
         FragmentManager manager = getSupportFragmentManager();
 

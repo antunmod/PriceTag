@@ -11,17 +11,17 @@ package antunmod.projects.pricetag.transfer;
 public class BaseProduct {
 
 	private String barcode;
-	private short userId;
-	private float price;
+	private Short userId;
+	private Float price;
 	private String productDescription;
 	private String photoURI;
-	private float productSize;
+	private Float productSize;
 	private byte productSizeId;
 
 	public BaseProduct() {}
 	
-	public BaseProduct(String barcode, short userId, float price, String productDescription, String photoURI,
-			float productSize, byte productSizeId) {
+	public BaseProduct(String barcode, Short userId, Float price, String productDescription, String photoURI,
+			Float productSize, byte productSizeId) {
 		super();
 		this.barcode = barcode;
 		this.userId = userId;
@@ -52,7 +52,7 @@ public class BaseProduct {
 		return photoURI;
 	}
 
-	public float getProductSize() {
+	public Float getProductSize() {
 		return productSize;
 	}
 
@@ -60,11 +60,11 @@ public class BaseProduct {
 		return productSizeId;
 	}
 
-	public short getUserId() {
+	public Short getUserId() {
 		return userId;
 	}
 
-	public float getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 

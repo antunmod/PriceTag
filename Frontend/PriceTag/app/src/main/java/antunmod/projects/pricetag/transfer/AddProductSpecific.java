@@ -13,10 +13,10 @@ package antunmod.projects.pricetag.transfer;
 public class AddProductSpecific {
 
 	private BaseProduct baseProduct;
-	private short productId;
-	private short storeSpecificId;
+	private Short productId;
+	private Short storeSpecificId;
 
-	public AddProductSpecific(BaseProduct baseProduct, short productId, short storeSpecificId) {
+	public AddProductSpecific(BaseProduct baseProduct, Short productId, Short storeSpecificId) {
 		this.baseProduct = baseProduct;
 		this.productId = productId;
 		this.storeSpecificId = storeSpecificId;

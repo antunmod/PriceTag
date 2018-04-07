@@ -15,7 +15,7 @@ package com.antunmod.pricetag.model.transfer;
 public class AddStoreProductSpecific {
 	
 	private BaseProduct baseProduct;
-	private short productId;
+	private Short productId;
 	private String storeName;
 	private String storeAddress;
 	

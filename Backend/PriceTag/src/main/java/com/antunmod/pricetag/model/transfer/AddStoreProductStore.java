@@ -13,11 +13,11 @@ package com.antunmod.pricetag.model.transfer;
 
 public class AddStoreProductStore {
 
-	private short productSpecificId;
+	private Short productSpecificId;
 	private String storeName;
 	private String storeAddress;
-	private short userId;
-	private float price;
+	private Short userId;
+	private Float price;
 	
 	
 	public String getStoreName() {

@@ -162,7 +162,7 @@ public class SelectFragment extends Fragment {
 
         listView_select.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, Integer i, long l) {
                 String selected = listView_select.getItemAtPosition(i).toString();
                 findListData(selected);
             }
@@ -231,7 +231,7 @@ public class SelectFragment extends Fragment {
 
         ab.setPositiveButton("Dodaj", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(DialogInterface dialogInterface, Integer i) {
                 String newValue = et.getText().toString();
                 if (newValue.isEmpty()) {
                     Toast.makeText(getContext(), "Unesite vrijednost", Toast.LENGTH_SHORT).show();
@@ -243,7 +243,7 @@ public class SelectFragment extends Fragment {
 
         ab.setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(DialogInterface dialogInterface, Integer i) {
                 Toast.makeText(getContext(), "Nije dodano", Toast.LENGTH_SHORT).show();
             }
         });

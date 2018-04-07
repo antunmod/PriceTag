@@ -21,10 +21,10 @@ public class AddStoreSpecificProducer {
 	private String productName;
 	private byte storeId;
 	private String storeAddress;
-	private short subcategoryId;
+	private Short subcategoryId;
 
 	public AddStoreSpecificProducer(BaseProduct baseProduct, String producerName, String productName, byte storeId,
-			String storeAddress, short subcategoryId) {
+			String storeAddress, Short subcategoryId) {
 		super();
 		this.baseProduct = baseProduct;
 		this.producerName = producerName;
@@ -42,7 +42,7 @@ public class AddStoreSpecificProducer {
 		return storeAddress;
 	}
 
-	public AddProducer toAddProducer(short storeSpecificId) {
+	public AddProducer toAddProducer(Short storeSpecificId) {
 		return new AddProducer(baseProduct, producerName, productName, storeSpecificId, subcategoryId);
 	}
 }

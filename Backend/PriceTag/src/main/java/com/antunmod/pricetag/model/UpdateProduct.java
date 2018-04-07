@@ -16,10 +16,10 @@ public class UpdateProduct implements Serializable{
 	private long productStoreId;
 	
 	@Column (name = "user_ID")
-	private int userId;
+	private Integer userId;
 	
 	@Column (name = "photo_ID")
-	private int photoId;
+	private Integer photoId;
 	
 	@Column (name = "producer")
 	private String producer;
@@ -28,19 +28,19 @@ public class UpdateProduct implements Serializable{
 	private String name;
 	
 	@Column (name = "product_size")
-	private float size;
+	private Float size;
 	
 	@Column (name = "size_type")
     private String sizeType;
 	
 	@Column (name = "price")
-    private float price;
+    private Float price;
 	
 	@Column (name = "average_price")
-    private float averagePrice;
+    private Float averagePrice;
 	
 	@Column (name = "product_updates")
-    private int productUpdates;
+    private Integer productUpdates;
 	
 	@Column (name = "price_change_date")
     private String priceChangeDate;
@@ -50,8 +50,8 @@ public class UpdateProduct implements Serializable{
 		super();
 	}
 
-	public UpdateProduct(long productStoreId, int userId, int photoId, String producer, String name, float size,
-			String sizeType, float price, float averagePrice, int productUpdates, String priceChangeDate) {
+	public UpdateProduct(long productStoreId, Integer userId, Integer photoId, String producer, String name, Float size,
+			String sizeType, Float price, Float averagePrice, Integer productUpdates, String priceChangeDate) {
 		super();
 		this.productStoreId = productStoreId;
 		this.userId = userId;
@@ -74,19 +74,19 @@ public class UpdateProduct implements Serializable{
 		this.productStoreId = productStoreId;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
-	public int getPhotoId() {
+	public Integer getPhotoId() {
 		return photoId;
 	}
 
-	public void setPhotoId(int photoId) {
+	public void setPhotoId(Integer photoId) {
 		this.photoId = photoId;
 	}
 
@@ -106,11 +106,11 @@ public class UpdateProduct implements Serializable{
 		this.name = name;
 	}
 
-	public float getSize() {
+	public Float getSize() {
 		return size;
 	}
 
-	public void setSize(float size) {
+	public void setSize(Float size) {
 		this.size = size;
 	}
 
@@ -122,27 +122,27 @@ public class UpdateProduct implements Serializable{
 		this.sizeType = sizeType;
 	}
 
-	public float getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 
-	public float getAveragePrice() {
+	public Float getAveragePrice() {
 		return averagePrice;
 	}
 
-	public void setAveragePrice(float averagePrice) {
+	public void setAveragePrice(Float averagePrice) {
 		this.averagePrice = averagePrice;
 	}
 
-	public int getProductUpdates() {
+	public Integer getProductUpdates() {
 		return productUpdates;
 	}
 
-	public void setProductUpdates(int productUpdates) {
+	public void setProductUpdates(Integer productUpdates) {
 		this.productUpdates = productUpdates;
 	}
 

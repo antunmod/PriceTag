@@ -11,20 +11,20 @@ import com.antunmod.pricetag.model.database.Price;
 
 public class AddPrice {
 
-	private short productSpecificId;
-	private short storeSpecificId;
-	private short userId;
-	private float price;
+	private Short productSpecificId;
+	private Short storeSpecificId;
+	private Short userId;
+	private Float price;
 
-	public short getProductSpecificId() {
+	public Short getProductSpecificId() {
 		return productSpecificId;
 	}
 
-	public short getStoreSpecificId() {
+	public Short getStoreSpecificId() {
 		return storeSpecificId;
 	}
 	
-	public Price toPrice(short productStoreId) {
+	public Price toPrice(Short productStoreId) {
 		return new Price(productStoreId, userId, price);
 	}
 }

@@ -21,7 +21,7 @@ public class CategorySubcategory implements Serializable {
 	@Id
 	@Column(name = "category_subcategory_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private short categorySubcategoryId;
+	private Short categorySubcategoryId;
 
 	/*
 	 * References a category.
@@ -33,7 +33,7 @@ public class CategorySubcategory implements Serializable {
 	 * References a subcategory.
 	 */
 	@Column(name = "subcategory_ID")
-	private short subcategoryId;
+	private Short subcategoryId;
 
 	public byte getCategoryId() {
 		return categoryId;

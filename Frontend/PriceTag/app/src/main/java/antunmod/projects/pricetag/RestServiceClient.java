@@ -79,11 +79,11 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("sizes/sizeValue")
-    Call<List<String>> getSizeValuesForProductId(@Query("productId") int productId);
+    Call<List<String>> getSizeValuesForProductId(@Query("productId") Integer productId);
 
     @Headers("Content-Type: application/json")
     @GET("products/photo")
-    Call<String> getPhotoForProductIdAndSize(@Query("productId") int productId, @Query("size") String size);
+    Call<String> getPhotoForProductIdAndSize(@Query("productId") Integer productId, @Query("size") String size);
 
     @Headers("Content-Type: application/json")
     @GET("subcategories/id")
@@ -105,12 +105,12 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("photos/photo")
-    Call<Byte[]> getPhotoByteArray(@Query("photoId") int photoId);
+    Call<Byte[]> getPhotoByteArray(@Query("photoId") Integer photoId);
 
     @Headers("Content-Type: application/json")
     @POST("subcategoryProduct")
     Call<Boolean> addSubcategoryProduct(@Query("subcategoryName") String subcategoryName,
-                                        @Query("productId") int productId);
+                                        @Query("productId") Integer productId);
 
     @Headers("Content-Type: application/json")
     @POST("productStore/update")
