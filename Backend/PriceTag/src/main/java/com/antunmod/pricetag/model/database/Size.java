@@ -26,17 +26,17 @@ public class Size implements Serializable {
 	public Size() {
 	}
 
-	public Size(Integer productSizeId, String sizeType) {
+	public Size(Byte productSizeId, String sizeType) {
 		super();
 		this.productSizeId = productSizeId;
 		this.sizeType = sizeType;
 	}
 
-	public Integer getProductSizeId() {
+	public Byte getProductSizeId() {
 		return productSizeId;
 	}
 
-	public void setProductSizeId(Integer productSizeId) {
+	public void setProductSizeId(Byte productSizeId) {
 		this.productSizeId = productSizeId;
 	}
 

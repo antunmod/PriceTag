@@ -10,4 +10,5 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
 
 	Price findByPriceId(Integer priceId);
 	
+	Price findByUserIdAndPriceChangeDate(Short userId, String priceChangeDate);
 }

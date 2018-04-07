@@ -14,4 +14,6 @@ public interface ProductStoreRepository extends JpaRepository<ProductStore, Shor
 	Short findProductStoreForProductSpecificIdAndStoreSpecificId(Short productSpecificId, Short storeSpecificId);
 
 	ProductStore findByProductStoreId(Short productStoreId);
+	
+	ProductStore findByProductSpecificIdAndStoreSpecificId(Short productSpecificId, Short storeSpecificId);
 }

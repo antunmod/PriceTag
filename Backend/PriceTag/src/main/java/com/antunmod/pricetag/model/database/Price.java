@@ -39,7 +39,7 @@ public class Price implements Serializable {
 	private Float price;
 
 	@Column(name = "price_change_date")
-	private String productChangeDate;
+	private String priceChangeDate;
 
 	/*
 	 * Validity specifies the validity of the price. It is used for calculating user
@@ -58,14 +58,14 @@ public class Price implements Serializable {
 		this.userId = userId;
 		this.price = price;
 		this.validity = 1;
-		this.productChangeDate = getDateString();
+		this.priceChangeDate = getDateString();
 	}
 
 	public Short getProductStoreId() {
 		return productStoreId;
 	}
 	
-	private String getDateString() {
+	public static String getDateString() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		return dateFormat.format(date);

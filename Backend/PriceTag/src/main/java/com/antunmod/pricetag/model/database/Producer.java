@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class Producer implements Serializable {
 
 	private static final long serialVersionUID = -4967406054049231127L;
-
+	
 	@Id
 	@Column(name = "producer_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,7 @@ public class Producer implements Serializable {
 	
 	public Producer(String producerName) {
 		this.producerName = producerName;
+		this.producerId = 0;
 	}
 	
 	public Short getProducerId() {

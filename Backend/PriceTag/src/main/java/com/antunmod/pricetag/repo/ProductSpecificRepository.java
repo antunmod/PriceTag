@@ -8,4 +8,5 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 
 	ProductSpecific findByProductSpecificId(Short productSpecificId);
 	
+	ProductSpecific findByBarcode(String barcode);
 }

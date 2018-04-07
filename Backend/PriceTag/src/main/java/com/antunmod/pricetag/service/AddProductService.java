@@ -1,6 +1,10 @@
 package com.antunmod.pricetag.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.antunmod.pricetag.model.database.Price;
 import com.antunmod.pricetag.model.database.Producer;
@@ -34,6 +38,9 @@ import com.antunmod.pricetag.repo.SubcategoryProductRepository;
 /*
  * This is the Services class which saves the neccessary data to database.
  */
+@EnableJpaRepositories("com.antunmod.pricetag.repo")
+@Service
+@Configurable
 public class AddProductService {
 
 	@Autowired
@@ -53,6 +60,8 @@ public class AddProductService {
 	@Autowired
 	private StoreRepository storeRepository;
 
+	public AddProductService() {}
+	
 	/*
 	 * This method will save new product_specific, product_store, price data.
 	 */
@@ -128,7 +137,8 @@ public class AddProductService {
 	 * required data.
 	 */
 	public Boolean saveProducer(AddProducer addProducer) {
-		Producer producer = producerRepository.save(new Producer(addProducer.getProducerName()));
+		Producer newProducer = new Producer(addProducer.getProducerName());
+		Producer producer = producerRepository.save(newProducer);
 		if (producer == null)
 			return false;
 		/*

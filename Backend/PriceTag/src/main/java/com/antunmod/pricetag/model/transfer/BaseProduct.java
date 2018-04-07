@@ -16,12 +16,12 @@ public class BaseProduct {
 	private String productDescription;
 	private String photoURI;
 	private Float productSize;
-	private byte productSizeId;
+	private Byte productSizeId;
 
 	public BaseProduct() {}
 	
 	public BaseProduct(String barcode, Short userId, Float price, String productDescription, String photoURI,
-			Float productSize, byte productSizeId) {
+			Float productSize, Byte productSizeId) {
 		super();
 		this.barcode = barcode;
 		this.userId = userId;

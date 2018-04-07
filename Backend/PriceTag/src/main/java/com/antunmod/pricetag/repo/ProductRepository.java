@@ -28,4 +28,5 @@ public interface ProductRepository extends JpaRepository<Product, Short> {
 
 	Product findByProductId(Short productId);
 	
+	Product findByProductNameAndProducerId(String productName, Short producerId);
 }

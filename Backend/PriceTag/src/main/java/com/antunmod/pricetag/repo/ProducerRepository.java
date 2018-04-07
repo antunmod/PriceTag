@@ -10,4 +10,5 @@ public interface ProducerRepository extends JpaRepository<Producer, Short> {
 
 	Producer findByProducerId(Short producerId);
 	
+	Producer findByProducerName(String producerName);
 }
