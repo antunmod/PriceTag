@@ -1,6 +1,7 @@
 package com.antunmod.pricetag.model;
 
 import com.antunmod.pricetag.model.transfer.AddProducer;
+import com.antunmod.pricetag.model.transfer.AddStoreSpecificProducer;
 import com.antunmod.pricetag.model.transfer.BaseProduct;
 
 /*
@@ -95,6 +96,14 @@ public class ProductData {
 
 	public AddProducer toAddProducer() {
 		return new AddProducer(baseProduct, producerName, productName, storeSpecificId, subcategoryId);
+	}
+	
+	public AddStoreSpecificProducer toAddStoreSpecificProducer() {
+		return new AddStoreSpecificProducer(baseProduct, producerName, productName, storeId, storeAddress, subcategoryId);
+	}
+
+	public void setStoreSpecificId(Short storeSpecificId) {
+		this.storeSpecificId = storeSpecificId;
 	}
 
 }

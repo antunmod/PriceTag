@@ -77,6 +77,20 @@ public class AddProductServiceTest {
 		assertTrue(success);
 	}
 	
+	/*
+	 * Test adding data in the following tables: store_specific, producer, product, product_specific, subcategory_product, 
+	 * product_specific, product_store and price
+	 */
+	@Test
+	public void testAddStoreSpecificProducer() {
+		Boolean success = addProductService.saveStoreSpecificProducer(productData.toAddStoreSpecificProducer());
+	    deleteProductService.setProductData(productData);
+		if(success) {
+			success = deleteProductService.deleteStoreSpecificProducer();
+		}
+		assertTrue(success);
+	}
+	
 	
 	
 }
