@@ -63,6 +63,10 @@ public class AddProductServiceTest {
 				producerName, storeSpecificId, storeName, storeAddress, storeId, subcategoryId);
 	}
 	
+	/*
+	 * Test adding data in the following tables: producer, product, product_specific, subcategory_product, 
+	 * product_specific, product_store and price
+	 */
 	@Test
 	public void testAddProducer() {
 		Boolean success = addProductService.saveProducer(productData.toAddProducer());

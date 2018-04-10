@@ -83,16 +83,18 @@ public class DeleteProductService {
 	 * data which should be deleted.
 	 */
 	public Boolean deleteProduct() {
+		Boolean success = deleteProductSpecific();
+		if(!success)
+			return success;
 		Product product = productRepository.findByProductNameAndProducerId(productData.getProductName(), productData.getProducerId());
 		if (product == null)
 			return false;
-		productRepository.delete(product);
-		
 		SubcategoryProduct subcategoryProduct = subcategoryProductRepository.findByProductId(product.getProductId());
 		if (subcategoryProduct == null)
 			return false;
 		subcategoryProductRepository.delete(subcategoryProduct);
-		return deleteProductSpecific();
+		productRepository.delete(product);	
+		return success;
 
 	}
 
@@ -105,8 +107,13 @@ public class DeleteProductService {
 		if (producer == null)
 			return false;
 		productData.setProducerId(producer.getProducerId());
+
+		Boolean success = deleteProduct();
+		if(!success)
+			return success;
+		
 		producerRepository.delete(producer);
-		return deleteProduct();
+		return success;
 	}
 
 //	/*
