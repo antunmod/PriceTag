@@ -18,10 +18,14 @@ public class Store implements Serializable {
 
 	private static final long serialVersionUID = -36312600639842865L;
 
+	/*
+	 * StoreId variable type is set to Short, although Byte would suffice. This is due to Hibernate limitation on 
+	 * inserting objects with Byte id to database.
+	 */
 	@Id
-	@Column(name = "store_ID")
+	@Column(name = "store_ID", columnDefinition = "tinyint")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private byte storeId;
+	private Short storeId;
 
 	@Column(name = "store_name")
 	private String storeName;
@@ -32,7 +36,7 @@ public class Store implements Serializable {
 		this.storeName = storeName;
 	}
 	
-	public byte getStoreId() {
+	public Short getStoreId() {
 		return storeId;
 	}
 	

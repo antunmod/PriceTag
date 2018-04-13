@@ -17,11 +17,11 @@ public class AddStoreSpecificProduct {
 	private BaseProduct baseProduct;
 	private Short producerId;
 	private String productName;
-	private byte storeId;
+	private Short storeId;
 	private String storeAddress;
 	private Short subcategoryId;
 
-	public AddStoreSpecificProduct(BaseProduct baseProduct, Short producerId, String productName, byte storeId,
+	public AddStoreSpecificProduct(BaseProduct baseProduct, Short producerId, String productName, Short storeId,
 			String storeAddress, Short subcategoryId) {
 		super();
 		this.baseProduct = baseProduct;
@@ -32,7 +32,7 @@ public class AddStoreSpecificProduct {
 		this.subcategoryId = subcategoryId;
 	}
 
-	public byte getStoreId() {
+	public Short getStoreId() {
 		return storeId;
 	}
 

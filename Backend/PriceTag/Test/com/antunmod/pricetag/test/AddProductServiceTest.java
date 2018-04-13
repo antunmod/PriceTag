@@ -56,7 +56,7 @@ public class AddProductServiceTest {
 	    Short storeSpecificId = 1;
 	    String storeName = "DIONA";
 	    String storeAddress = "Trg bana Josipa Jelačića 1";
-	    Byte storeId = 1;
+	    Short storeId = 1;
 	    Short subcategoryId = 91;
 
 	    productData = new ProductData(baseProduct, productSpecificId, productId, productName, producerId,
@@ -91,6 +91,18 @@ public class AddProductServiceTest {
 		assertTrue(success);
 	}
 	
-	
+	/*
+	 * Test adding data in the following tables: store, store_specific, producer, product, product_specific, subcategory_product, 
+	 * product_specific, product_store and price
+	 */
+	@Test
+	public void testAddStoreProducer() {
+		Boolean success = addProductService.saveStoreProducer(productData.toAddStoreProducer());
+	    deleteProductService.setProductData(productData);
+		if(success) {
+			success = deleteProductService.deleteStoreProducer();
+		}
+		assertTrue(success);
+	}
 	
 }

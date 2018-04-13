@@ -1,6 +1,7 @@
 package com.antunmod.pricetag.model;
 
 import com.antunmod.pricetag.model.transfer.AddProducer;
+import com.antunmod.pricetag.model.transfer.AddStoreProducer;
 import com.antunmod.pricetag.model.transfer.AddStoreSpecificProducer;
 import com.antunmod.pricetag.model.transfer.BaseProduct;
 
@@ -22,7 +23,7 @@ public class ProductData {
 	private Short storeSpecificId;
 	private String storeName;
 	private String storeAddress;
-	private Byte storeId;
+	private Short storeId;
 
 	private Short subcategoryId;
 
@@ -31,7 +32,7 @@ public class ProductData {
 
 	public ProductData(BaseProduct baseProduct, Short productSpecificId, Short productId, String productName,
 			Short producerId, String producerName, Short storeSpecificId, String storeName, String storeAddress,
-			Byte storeId, Short subcategoryId) {
+			Short storeId, Short subcategoryId) {
 		super();
 		this.baseProduct = baseProduct;
 		this.productSpecificId = productSpecificId;
@@ -86,7 +87,7 @@ public class ProductData {
 		return storeAddress;
 	}
 
-	public Byte getStoreId() {
+	public Short getStoreId() {
 		return storeId;
 	}
 
@@ -102,6 +103,14 @@ public class ProductData {
 		return new AddStoreSpecificProducer(baseProduct, producerName, productName, storeId, storeAddress, subcategoryId);
 	}
 
+	public AddStoreProducer toAddStoreProducer() {
+		return new AddStoreProducer(baseProduct, producerName, productName, storeName, storeAddress, subcategoryId);
+	}
+	
+	public void setStoreId(Short storeId) {
+		this.storeId = storeId;
+	}
+	
 	public void setStoreSpecificId(Short storeSpecificId) {
 		this.storeSpecificId = storeSpecificId;
 	}

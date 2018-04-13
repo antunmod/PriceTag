@@ -9,6 +9,7 @@ import com.antunmod.pricetag.model.database.Producer;
 import com.antunmod.pricetag.model.database.Product;
 import com.antunmod.pricetag.model.database.ProductSpecific;
 import com.antunmod.pricetag.model.database.ProductStore;
+import com.antunmod.pricetag.model.database.Store;
 import com.antunmod.pricetag.model.database.StoreSpecific;
 import com.antunmod.pricetag.model.database.SubcategoryProduct;
 import com.antunmod.pricetag.repo.PriceRepository;
@@ -220,27 +221,21 @@ public class DeleteProductService {
 //		return true;
 //	}
 //	
-//	/*
-//	 * This method will save new store data and call saveStoreSpecificProducer
-//	 * with the required data.
-//	 */
-//	public Boolean saveStoreProducer(AddStoreProducer addStoreProducer) {
-//		Store store = storeRepository.save(new Store(addStoreProducer.getStoreName()));
-//		if (store == null) {
-//			return false;
-//		}
-//
-//		/*
-//		 * If the storeSpecificProducer wasn't saved, delete store from database and
-//		 * return false.
-//		 */
-//		if (!saveStoreSpecificProducer(
-//				addStoreProducer.toAddStoreSpecificProducer(store.getStoreId()))) {
-//			storeRepository.delete(store);
-//			return false;
-//		}
-//		return true;
-//	}
+	/*
+	 * This method will call deleteStoreSpecificProducer to delete the data which should be deleted and delete store.
+	 */
+	public Boolean deleteStoreProducer() {
+		Store store = storeRepository.findByStoreName(productData.getStoreName());
+
+		productData.setStoreId(store.getStoreId());
+		Boolean success = deleteStoreSpecificProducer();
+		if(!success)
+			return success;
+		
+		storeRepository.delete(store);
+
+		return true;
+	}
 //
 //	public Boolean savePrice(AddPrice addPrice) {
 //		Short productStoreId = productStoreRepository.findProductStoreForProductSpecificIdAndStoreSpecificId(

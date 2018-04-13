@@ -14,10 +14,10 @@ public class AddStoreSpecificProductSpecific {
 
 	private BaseProduct baseProduct;
 	private Short productId;
-	private byte storeId;
+	private Short storeId;
 	private String storeAddress;
 
-	public AddStoreSpecificProductSpecific(BaseProduct baseProduct, Short productId, byte storeId,
+	public AddStoreSpecificProductSpecific(BaseProduct baseProduct, Short productId, Short storeId,
 			String storeAddress) {
 		super();
 		this.baseProduct = baseProduct;
@@ -26,7 +26,7 @@ public class AddStoreSpecificProductSpecific {
 		this.storeAddress = storeAddress;
 	}
 
-	public byte getStoreId() {
+	public Short getStoreId() {
 		return storeId;
 	}
 

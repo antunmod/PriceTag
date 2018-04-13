@@ -27,7 +27,7 @@ public class StoreSpecific implements Serializable {
 	 * References the Store class id for finding store name.
 	 */
 	@Column(name = "store_ID")
-	private byte storeId;
+	private Short storeId;
 
 	@Column(name = "store_address")
 	private String storeAddress;
@@ -36,7 +36,7 @@ public class StoreSpecific implements Serializable {
 		super();
 	}
 
-	public StoreSpecific(byte storeId, String storeAddress) {
+	public StoreSpecific(Short storeId, String storeAddress) {
 		this.storeId = storeId;
 		this.storeAddress = storeAddress;
 	}

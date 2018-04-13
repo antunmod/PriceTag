@@ -20,4 +20,6 @@ public interface StoreRepository extends JpaRepository<Store, Byte> {
 	List<String> getStoreLocations(String storeName);
 	
 	Store findByStoreId(Byte storeId);
+	
+	Store findByStoreName(String storeName);
 }

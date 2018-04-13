@@ -23,7 +23,7 @@ public class AddStoreProductSpecific {
 		return storeName;
 	}
 	
-	public AddStoreSpecificProductSpecific toAddStoreSpecificProductSpecific(byte storeId) {
+	public AddStoreSpecificProductSpecific toAddStoreSpecificProductSpecific(Short storeId) {
 		return new AddStoreSpecificProductSpecific(baseProduct, productId, storeId, storeAddress);
 	}
 }

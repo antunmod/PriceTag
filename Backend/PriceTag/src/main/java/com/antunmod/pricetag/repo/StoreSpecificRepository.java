@@ -10,5 +10,5 @@ public interface StoreSpecificRepository extends JpaRepository<StoreSpecific, Sh
 
 	StoreSpecific findByStoreSpecificId(Short storeSpecificId);
 	
-	StoreSpecific findByStoreIdAndStoreAddress(Byte storeId, String storeAddress);
+	StoreSpecific findByStoreIdAndStoreAddress(Short storeId, String storeAddress);
 }
