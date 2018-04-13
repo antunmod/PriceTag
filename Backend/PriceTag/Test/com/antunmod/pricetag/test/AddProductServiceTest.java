@@ -21,7 +21,6 @@ import com.antunmod.pricetag.service.DeleteProductService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = PriceTagApplication.class)
-@ComponentScan("com.antunmod.pricetag.service")
 public class AddProductServiceTest {
 
 	ProductData productData;
