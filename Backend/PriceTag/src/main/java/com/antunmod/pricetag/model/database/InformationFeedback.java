@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * The class InformationFeedback represents user feedback.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "information_feedback")
 public class InformationFeedback implements Serializable {
 
 	private static final long serialVersionUID = 7554836347563163080L;
@@ -44,6 +44,10 @@ public class InformationFeedback implements Serializable {
 		this.informationProviderUserId = informationProviderUserId;
 		this.feedbackProviderUserId = feedbackProviderUserId;
 		this.feedback = feedback;
+	}
+	
+	public String getFeedback() {
+		return feedback;
 	}
 
 }
