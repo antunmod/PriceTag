@@ -1,14 +1,16 @@
 -- USER TYPE
 INSERT INTO user_type (user_type_description)
-	VALUES ('user');
+	VALUES ('korisnik');
 INSERT INTO user_type (user_type_description)
 	VALUES ('admin');
 
 -- user 
-INSERT INTO user (user_name, user_password, user_mail, signup_date, user_type_ID)
-	VALUES ('antunmod', 'test123', 'antun.mod@gmail.com', '2017-12-03', 2);
-INSERT INTO user (user_name, user_password, user_mail, signup_date, user_type_ID)
-	VALUES ('regularUser', 'regularPassword', 'regular@gmail.com', '2017-12-09', 1);	
+INSERT INTO user (user_name, user_password, user_mail, signup_date, rating, user_type_ID)
+	VALUES ('antunmod', 'test123', 'antun.mod@gmail.com', '2017-12-03', 1.0, 2);
+INSERT INTO user (user_name, user_password, user_mail, signup_date, rating,  user_type_ID)
+	VALUES ('regularUser', 'regularPassword', 'regular@gmail.com', '2017-12-09', 0.7, 1);	
+INSERT INTO user (user_name, user_password, user_mail, signup_date, rating,  user_type_ID)
+	VALUES ('testUser', 'testPassword', 'test@gmail.com', '2018-04-21', 0.9, 1);
 
 -- STORE
 INSERT INTO store (store_name)
@@ -279,7 +281,7 @@ INSERT INTO subcategory (subcategory_name)
 INSERT INTO subcategory (subcategory_name)
 	VALUES ('Pizze');
 INSERT INTO subcategory (subcategory_name)
-	VALUES ('Sladoledi i deseri');
+	VALUES ('Sladoledi i deserti');
 
 INSERT INTO subcategory (subcategory_name)
 	VALUES ('Dječja hrana');
@@ -816,3 +818,14 @@ INSERT INTO subcategory_product(subcategory_ID, product_ID)
 	VALUES (36, 1);
 INSERT INTO subcategory_product(subcategory_ID, product_ID)
 	VALUES (37, 2);
+
+INSERT INTO information_feedback (information_provider_user_ID, feedback_provider_user_ID, feedback)
+	VALUES (1, 2, 'P');
+INSERT INTO information_feedback (information_provider_user_ID, feedback_provider_user_ID, feedback)
+	VALUES (1, 2, 'P');
+INSERT INTO information_feedback (information_provider_user_ID, feedback_provider_user_ID, feedback)
+	VALUES (1, 3, 'P');
+INSERT INTO information_feedback (information_provider_user_ID, feedback_provider_user_ID, feedback)
+	VALUES (2, 1, 'N');
+INSERT INTO information_feedback (information_provider_user_ID, feedback_provider_user_ID, feedback)
+	VALUES (2, 3, 'P');

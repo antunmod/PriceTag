@@ -1,8 +1,12 @@
+DROP SCHEMA test;
+CREATE SCHEMA test;
+USE test;
+
 /*
 User can be an admin or just a regular user. Admins have to be added by other admins.
 */
 CREATE TABLE user_type (
-	user_type_ID BIT AUTO_INCREMENT PRIMARY KEY,
+	user_type_ID TINYINT AUTO_INCREMENT PRIMARY KEY,
 	user_type_description VARCHAR(10)
 );
 
@@ -12,8 +16,9 @@ CREATE TABLE user(
 	user_password VARCHAR(30) NOT NULL,
 	user_mail VARCHAR(30) NOT NULL,
 	signup_date DATE NOT NULL,
+	rating DECIMAL(4,3) DEFAULT 0,
 	points SMALLINT DEFAULT 0,
-	user_type_ID BIT DEFAULT 1,
+	user_type_ID TINYINT DEFAULT 1,
 
 	CONSTRAINT unique_user_name UNIQUE (user_name),
 	CONSTRAINT unique_user_mail UNIQUE (user_mail),
@@ -71,7 +76,7 @@ Cointains producer and product name.
 */
 CREATE TABLE product(
 	product_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	producer_ID SMALLINT ,
+	producer_ID SMALLINT,
 	product_name VARCHAR(30) NOT NULL,	
 
 	CONSTRAINT unique_product UNIQUE (product_name, producer_ID),
@@ -88,7 +93,7 @@ CREATE TABLE product_specific(
 	barcode VARCHAR(15) NOT NULL,
 	product_description VARCHAR(30),
 	photo_URI VARCHAR(50),
-	product_size DECIMAL(6,3) NOT NULL,
+	product_size DECIMAL(7,3) NOT NULL,
 	product_size_ID TINYINT NOT NULL,
 
 	CONSTRAINT unique_product_specific UNIQUE (product_ID, product_size),
@@ -112,8 +117,8 @@ CREATE TABLE product_store (
 
 /*
 This table contains information about the prices added by users in specific stores:
-	ID of a product in a store, user id, its price date of price change and validity.
-	@Validity specifies the validity of the price. It is used for calculating user rating.
+	ID of a product in a store, user id, its price date of price change and feedback.
+	@feedback specifies the feedback of the price. It is used for calculating user rating.
 	The price is valid (1) when added. When the new price is reported as invalid by a user and
 	approved as invalid by an admin, its value is changed to invalid (0) and the product price is set to
 	the last valid price.
@@ -124,7 +129,6 @@ CREATE TABLE price (
 	user_ID SMALLINT NOT NULL,
 	price DECIMAL(7,2) NOT NULL,
 	price_change_date DATE NOT NULL,
-	validity BIT DEFAULT 1,
 
 	CONSTRAINT fk_price_user FOREIGN KEY (user_ID) REFERENCES user (user_ID),
 	CONSTRAINT fk_price_product_store FOREIGN KEY (product_store_ID) REFERENCES product_store (product_store_ID)
@@ -156,8 +160,8 @@ CREATE TABLE category_subcategory(
 
 CREATE TABLE subcategory_product(
 	subcategory_product_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	subcategory_ID SMALLINT ,
-	product_ID SMALLINT ,
+	subcategory_ID SMALLINT NOT NULL,
+	product_ID SMALLINT NOT NULL,
 
 	CONSTRAINT fk_subcategory_product_subcategory FOREIGN KEY (subcategory_ID) REFERENCES subcategory (subcategory_ID)
 		ON UPDATE CASCADE
@@ -166,3 +170,60 @@ CREATE TABLE subcategory_product(
 		ON UPDATE CASCADE
 		ON DELETE CASCADE
 	);
+
+-- Feedback stores feedback from user in form POSITIVE(P) and NEGATIVE(N).
+CREATE TABLE information_feedback(
+	information_feedback_ID INT AUTO_INCREMENT PRIMARY KEY,
+	information_provider_user_ID SMALLINT NOT NULL,
+	feedback_provider_user_ID SMALLINT NOT NULL,
+	feedback CHAR(1) NOT NULL,
+
+	CONSTRAINT fk_information_feedback_information_provider_user_ID FOREIGN KEY (information_provider_user_ID) REFERENCES user (user_ID),
+	CONSTRAINT fk_information_feedback_feedback_provider_user_ID FOREIGN KEY (feedback_provider_user_ID) REFERENCES user (user_ID)
+	);
+
+
+-- A trigger for setting new information_feedback feedback to NULL if the user tries to 
+-- rate his own product
+delimiter |
+CREATE TRIGGER trig_check_information_feedback BEFORE INSERT ON information_feedback
+	FOR EACH ROW 
+    BEGIN
+    IF NEW.information_provider_user_ID = NEW.feedback_provider_user_ID THEN
+		SET NEW.feedback = NULL;
+	END IF;
+    END;
+| delimiter ;
+
+-- A trigger for updating user rating upon each product update rating by another user
+-- DROP TRIGGER trig_update_user_rating;
+delimiter |
+CREATE TRIGGER trig_update_user_rating AFTER INSERT ON information_feedback
+	FOR EACH ROW 
+    BEGIN
+
+    DECLARE done INT DEFAULT 0;
+    DECLARE counter INT DEFAULT 0;
+    DECLARE sum DECIMAL(4,3) DEFAULT 0;
+    DECLARE feed CHAR(1);
+    DECLARE feedback_ID SMALLINT;
+    DECLARE rating DECIMAL(4,3) DEFAULT 0;
+    DECLARE cur CURSOR FOR SELECT feedback_provider_user_ID, feedback
+		FROM information_feedback WHERE information_provider_user_ID = NEW.information_provider_user_ID;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    
+    OPEN cur;
+		calculate_loop: LOOP
+			FETCH cur into feedback_ID, feed;
+            IF done THEN LEAVE calculate_loop; END IF;
+			SELECT user.rating into rating FROM user where user.user_ID = feedback_ID limit 1;
+            IF feed like 'P' THEN SET sum = sum + rating;
+            ELSE SET sum = sum - rating; END IF;
+            SET counter = counter + 1;
+		END LOOP;
+	CLOSE cur;
+    
+	UPDATE user SET user.rating = 0.5 + sum/counter/2 WHERE user.user_ID = NEW.information_provider_user_ID;
+    
+	END;
+| delimiter ;
