@@ -1,9 +1,6 @@
 package com.antunmod.pricetag.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.antunmod.pricetag.model.database.Price;
@@ -36,7 +33,7 @@ import com.antunmod.pricetag.repo.StoreSpecificRepository;
 import com.antunmod.pricetag.repo.SubcategoryProductRepository;
 
 /*
- * This is the Services class which adds new product data to database.
+ * This is the Service class which adds new product data to database.
  */
 @Service
 public class AddProductService {
