@@ -97,7 +97,7 @@ public class RepositoryTest {
 	private final String ADMIN_STRING = "admin";
 	private final Short REGULAR_USER_USER_ID = 2;
 	private final String REGULAR_USER_STRING = "regularUser";
-	private final Byte KONZUM_STORE_ID = 1;
+	private final Short KONZUM_STORE_ID = 1;
 	private final String KONZUM_STRING = "KONZUM";
 	private final Short JURISICEVA_ULICA_13_STORE_SPECIFIC_ID = 3;
 	private final String JURISICEVA_ULICA_13_ADDRESS = "Jurišićeva ulica 13";

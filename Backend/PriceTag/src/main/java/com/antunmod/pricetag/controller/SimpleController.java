@@ -149,7 +149,7 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/sizes/sizeValue")
-	public ResponseEntity<List<String>> getSizeValuesForProductId(@RequestParam("productId") Integer productId) {
+	public ResponseEntity<List<String>> getSizeValuesForProductId(@RequestParam("productId") Short productId) {
 
 		List<String> sizeValues = productRepository.getSizeValuesForProductId(productId);
 		if (sizeValues != null) {

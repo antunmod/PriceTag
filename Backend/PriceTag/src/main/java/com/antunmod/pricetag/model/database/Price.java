@@ -41,15 +41,6 @@ public class Price implements Serializable {
 	@Column(name = "price_change_date")
 	private String priceChangeDate;
 
-	/*
-	 * Validity specifies the validity of the price. It is used for calculating user
-	 * rating. The price is valid (1) when added. When the new price is reported as
-	 * invalid by another user and approved as invalid by an admin, its value is
-	 * changed to invalid (0) and the product price is set to the last valid price.
-	 */
-	@Column(name = "validity")
-	private byte validity;
-
 	public Price() {}
 	
 	public Price(Short productStoreId, Short userId, Float price) {
@@ -57,7 +48,6 @@ public class Price implements Serializable {
 		this.productStoreId = productStoreId;
 		this.userId = userId;
 		this.price = price;
-		this.validity = 1;
 		this.priceChangeDate = getDateString();
 	}
 

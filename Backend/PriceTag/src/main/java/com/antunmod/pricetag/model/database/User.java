@@ -36,6 +36,9 @@ public class User implements Serializable {
 	@Column(name = "signup_date")
 	private Date signupDate;
 
+	@Column(name = "rating")
+	private Float rating;
+	
 	/*
 	 * Users number of points which are used for checking user activity. A certain
 	 * amount of points per week is mandatory in order to be able to search through
