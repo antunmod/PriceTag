@@ -20,6 +20,6 @@ public interface SubcategoryRepository extends JpaRepository<Subcategory, Short>
 
 	@Query(value = "SELECT subcategory_ID from subcategory NATURAL JOIN category_subcategory NATURAL JOIN category WHERE "
 			+ "category_name = ?1 and subcategory_name = ?2", nativeQuery = true)
-	Integer findSubcategoryIdForCategoryAndSubcategoryName(String categoryName, String subcategoryName);
+	Short findSubcategoryIdForCategoryAndSubcategoryName(String categoryName, String subcategoryName);
 
 }

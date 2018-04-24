@@ -63,7 +63,7 @@ public class SimpleController {
 	@GetMapping("/products/productNames")
 	public ResponseEntity<List<String>> getProductNamesForSubcategoryNameAndProducer(
 			@RequestParam("subcategoryName") String subcategoryName, @RequestParam("producer") String producer) {
-		List<String> productList = simpleService.getProductNamesForSubcategoryNameAndProducer(subcategoryName,
+		List<String> productList = simpleService.getProductNamesForSubcategoryAndProducerName(subcategoryName,
 				producer);
 		return new ResponseEntity<List<String>>(productList, HttpStatus.OK);
 	}
@@ -100,14 +100,14 @@ public class SimpleController {
 	@ResponseBody
 	@GetMapping("/stores/address")
 	public ResponseEntity<Integer> getStoreIdForAddress(@RequestParam("storeAddress") String storeAddress) {
-		Integer storeId = simpleService.getStoreIdForAddress(storeAddress);
+		Integer storeId = simpleService.getStoreSpecificIdForStoreLocation(storeAddress);
 		return new ResponseEntity<Integer>(storeId, HttpStatus.OK);
 	}
 
 	@ResponseBody
 	@GetMapping("/sizes")
 	public ResponseEntity<List<String>> getSizeValues() {
-		List<String> sizeTypeList = simpleService.getSizeValues();
+		List<String> sizeTypeList = simpleService.getSizeTypes();
 		return new ResponseEntity<List<String>>(sizeTypeList, HttpStatus.OK);
 	}
 

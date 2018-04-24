@@ -110,10 +110,10 @@ public class RepositoryTest {
 	private final String LITER_STRING = "l";
 	private final Short ZVIJEZDA_PRODUCER_ID = 1;
 	private final String ZVIJEZDA_STRING = "Zvijezda";
-	private final Short CRYSTAL_WHITE_SUGAR_PRODUCT_ID = 2;
-	private final String CRYSTAL_WHITE_SUGAR_STRING = "Šećer kristal bijeli";
+	private final Short CRYSTAL_SUGAR_PRODUCT_ID = 2;
+	private final String CRYSTAL_SUGAR_STRING = "Šećer kristal";
 	private final Short SUNFLOWER_OIL_PRODUCT_SPECIFIC_ID = 1;
-	private final String SUNFLOWER_OIL_BARCODE = "1234567890123";
+	private final String SUNFLOWER_OIL_BARCODE = "3858882210010";
 	private final Short SUNFLOWER_OIL_PRODUCT_STORE_ID = 1;
 	private final Integer SUNFLOWER_OIL_PRICE_ID = 1;
 	private final Integer FIRST_RATING_INFORMATION_FEEDBACK_ID = 1;
@@ -189,8 +189,8 @@ public class RepositoryTest {
 
 	@Test
 	public void testProduct() {
-		Product product = productRepository.findByProductId(CRYSTAL_WHITE_SUGAR_PRODUCT_ID);
-		assertEquals(product.getProductName(), CRYSTAL_WHITE_SUGAR_STRING);
+		Product product = productRepository.findByProductId(CRYSTAL_SUGAR_PRODUCT_ID);
+		assertEquals(product.getProductName(), CRYSTAL_SUGAR_STRING);
 	}
 
 	@Test

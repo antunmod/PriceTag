@@ -20,7 +20,7 @@ import com.antunmod.pricetag.repo.SubcategoryRepository;
 @Service
 public class SimpleService {
 
-	private Integer NOT_FOUND_INTEGER = -1;
+	private final Short NOT_FOUND_SHORT = -1;
 
 	@Autowired
 	private SectorRepository sectorRepository;
@@ -66,14 +66,14 @@ public class SimpleService {
 		return new ArrayList<String>();
 	}
 
-	public Integer getSubcategoryIdForCategoryAndSubcategoryName(String categoryName, String subcategoryName) {
-		Integer subcategoryId = subcategoryRepository.findSubcategoryIdForCategoryAndSubcategoryName(categoryName,
+	public Short getSubcategoryIdForCategoryAndSubcategoryName(String categoryName, String subcategoryName) {
+		Short subcategoryId = subcategoryRepository.findSubcategoryIdForCategoryAndSubcategoryName(categoryName,
 				subcategoryName);
 		if (subcategoryId != null) {
 			return subcategoryId;
 
 		}
-		return NOT_FOUND_INTEGER;
+		return NOT_FOUND_SHORT;
 	}
 
 	public List<String> getProducersForSubcategoryName(String subcategoryName) {
@@ -85,9 +85,9 @@ public class SimpleService {
 		return new ArrayList<String>();
 	}
 
-	public List<String> getProductNamesForSubcategoryNameAndProducer(String subcategoryName, String producer) {
+	public List<String> getProductNamesForSubcategoryAndProducerName(String subcategoryName, String producerName) {
 		List<String> productList = productRepository.getProductNamesForSubcategoryNameAndProducer(subcategoryName,
-				producer);
+				producerName);
 		if (productList != null) {
 			return productList;
 
@@ -95,13 +95,13 @@ public class SimpleService {
 		return new ArrayList<String>();
 	}
 
-	public Integer getProductIdForProducerAndProductName(String producer, String productName) {
-		Integer productId = productRepository.getProductIdForProducerAndProductName(producer, productName);
+	public Short getProductIdForProducerAndProductName(String producerName, String productName) {
+		Short productId = productRepository.getProductIdForProducerAndProductName(producerName, productName);
 		if (productId != null) {
 			return productId;
 
 		}
-		return NOT_FOUND_INTEGER;
+		return NOT_FOUND_SHORT;
 	}
 
 	public List<String> getSizeValuesForProductId(Short productId) {
@@ -129,25 +129,24 @@ public class SimpleService {
 	}
 
 	public List<String> getStoreLocations(String storeName) {
-		List<String> storeLocationsList = storeRepository.getStoreLocations(storeName);
-		if (!storeLocationsList.isEmpty()) {
-			return storeLocationsList;
+		List<String> storeLocationList = storeRepository.getStoreLocations(storeName);
+		if (!storeLocationList.isEmpty()) {
+			return storeLocationList;
 		}
 		return new ArrayList<String>();
-
 	}
 
-	public Integer getStoreIdForAddress(String storeAddress) {
-		Integer storeId = storeRepository.findStoreIdForStoreAddress(storeAddress);
+	public Short getStoreSpecificIdForStoreLocation(String storeLocation) {
+		Short storeId = storeRepository.findStoreIdForStoreAddress(storeLocation);
 		if (storeId != null) {
 			return storeId;
 		}
-		return NOT_FOUND_INTEGER;
+		return NOT_FOUND_SHORT;
 
 	}
 
-	public List<String> getSizeValues() {
-		List<String> sizeTypeList = sizeRepository.getSizeTypes();
+	public List<String> getSizeTypes() {
+		List<String> sizeTypeList = sizeRepository.findSizeTypes();
 		if (sizeTypeList != null)
 			return sizeTypeList;
 		return new ArrayList<>();

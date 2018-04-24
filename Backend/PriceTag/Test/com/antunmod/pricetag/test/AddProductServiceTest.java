@@ -17,7 +17,7 @@ import com.antunmod.pricetag.service.AddProductService;
 import com.antunmod.pricetag.service.DeleteProductService;
 
 /*
- * This class tests repositories to get initial data from the database.
+ * This class tests adding a new product to database by AddProductService.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = PriceTagApplication.class)
