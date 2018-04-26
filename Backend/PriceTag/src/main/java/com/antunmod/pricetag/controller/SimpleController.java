@@ -43,12 +43,12 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/subcategories/id")
-	public ResponseEntity<Integer> getSubcategoryIdForCategoryAndSubcategoryName(
+	public ResponseEntity<Short> getSubcategoryIdForCategoryAndSubcategoryName(
 			@RequestParam("categoryName") String categoryName,
 			@RequestParam("subcategoryName") String subcategoryName) {
-		Integer subcategoryId = simpleService.getSubcategoryIdForCategoryAndSubcategoryName(categoryName,
+		Short subcategoryId = simpleService.getSubcategoryIdForCategoryAndSubcategoryName(categoryName,
 				subcategoryName);
-		return new ResponseEntity<Integer>(subcategoryId, HttpStatus.OK);
+		return new ResponseEntity<Short>(subcategoryId, HttpStatus.OK);
 	}
 
 	@ResponseBody
@@ -70,10 +70,10 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/products/productId")
-	public ResponseEntity<Integer> getProductIdForProducerAndProductName(@RequestParam("producer") String producer,
+	public ResponseEntity<Short> getProductIdForProducerAndProductName(@RequestParam("producer") String producer,
 			@RequestParam("productName") String productName) {
-		Integer productId = simpleService.getProductIdForProducerAndProductName(producer, productName);
-		return new ResponseEntity<Integer>(productId, HttpStatus.OK);
+		Short productId = simpleService.getProductIdForProducerAndProductName(producer, productName);
+		return new ResponseEntity<Short>(productId, HttpStatus.OK);
 	}
 
 	@ResponseBody
@@ -99,9 +99,9 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/stores/address")
-	public ResponseEntity<Integer> getStoreIdForAddress(@RequestParam("storeAddress") String storeAddress) {
-		Integer storeId = simpleService.getStoreSpecificIdForStoreLocation(storeAddress);
-		return new ResponseEntity<Integer>(storeId, HttpStatus.OK);
+	public ResponseEntity<Short> getStoreIdForAddress(@RequestParam("storeAddress") String storeAddress) {
+		Short storeId = simpleService.getStoreSpecificIdForStoreLocation(storeAddress);
+		return new ResponseEntity<Short>(storeId, HttpStatus.OK);
 	}
 
 	@ResponseBody
