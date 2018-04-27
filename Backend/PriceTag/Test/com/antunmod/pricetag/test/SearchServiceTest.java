@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.antunmod.pricetag.PriceTagApplication;
 import com.antunmod.pricetag.model.transfer.SearchFilter;
 import com.antunmod.pricetag.model.transfer.SearchProductData;
+import com.antunmod.pricetag.model.transfer.StoreProductPrice;
 import com.antunmod.pricetag.service.SearchService;
 
 /*
@@ -29,6 +30,7 @@ public class SearchServiceTest {
 	private final String SUNFLOWER_OIL = "Suncokretovo ulje";
 	private final String KONZUM = "KONZUM"; 
 	private final String LITER = "1 l";
+	private final Short SUNFLOWER_OIL_1_LITER_PRODUCT_SPECIFIC_ID = 1;
 	
 	private SearchFilter searchFilter;
 	
@@ -56,6 +58,15 @@ public class SearchServiceTest {
 		}
 		assertTrue(contained);
 		
+	}
+	
+	@Test
+	public void testGetLocationsForProductSpecificId() {
+		Boolean success = false;
+		ArrayList<StoreProductPrice> storeProductPriceList = searchService.getLocationsForProductSpecificId(SUNFLOWER_OIL_1_LITER_PRODUCT_SPECIFIC_ID);
+		if (storeProductPriceList.size() > 0)
+			success = true;
+		assertTrue(success);
 	}
 	
 }

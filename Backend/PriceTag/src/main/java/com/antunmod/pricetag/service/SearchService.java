@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.antunmod.pricetag.model.transfer.SearchFilter;
 import com.antunmod.pricetag.model.transfer.SearchProductData;
+import com.antunmod.pricetag.model.transfer.StoreProductPrice;
+import com.antunmod.pricetag.repo.PriceRepository;
 import com.antunmod.pricetag.repo.ProductSpecificRepository;
 
 /*
@@ -19,8 +21,11 @@ public class SearchService {
 	@Autowired
 	private ProductSpecificRepository productSpecificRepository;
 	
+	@Autowired
+	private PriceRepository priceRepository;
+	
 	/*
-	 * This method will return all products in the database.
+	 * This method will return all products in the database for the given filter.
 	 */
 	public ArrayList<SearchProductData> getProducts(SearchFilter searchFilter) {
 		List<Object[]> objectArrayList = productSpecificRepository.findProducts(
@@ -35,6 +40,20 @@ public class SearchService {
 					(Short)o[0], (String)o[1], (String)o[2], (String)o[3], (String)o[4], (String)o[5]));
 		}
 		return searchProductDataList;
+	}
+	
+	/*
+	 * This method will return most recent prices and user ratings for each specific store containing product 
+	 * with the given productSpecificId
+	 */
+	public ArrayList<StoreProductPrice> getLocationsForProductSpecificId(Short productSpecificId) {
+		List<Object[]> objectArrayList = priceRepository.findLocationsForProductSpecificId(productSpecificId);
+		ArrayList<StoreProductPrice> storeProductPriceList = new ArrayList<>();
+		for (Object[] o : objectArrayList) {
+			storeProductPriceList.add(new StoreProductPrice(
+					(String)o[0], (String)o[1], (String)o[2].toString(), (String)o[3]));
+		}
+		return storeProductPriceList;
 	}
 	
 }
