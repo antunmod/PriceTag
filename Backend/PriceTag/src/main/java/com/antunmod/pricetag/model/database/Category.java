@@ -23,14 +23,14 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = -1004611976928679970L;
 
 	@Id
-	@Column(name = "category_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private byte categoryId;
+	private byte id;
 
-	@Column(name = "category_name")
-	private String categoryName;
+	@Column(name = "name")
+	private String name;
 
-	public String getCategoryName() {
-		return categoryName;
+	public String getName() {
+		return name;
 	}
 }

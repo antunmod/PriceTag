@@ -23,25 +23,25 @@ public class Store implements Serializable {
 	 * inserting objects with Byte id to database.
 	 */
 	@Id
-	@Column(name = "store_ID", columnDefinition = "tinyint")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short storeId;
+	private Short id;
 
-	@Column(name = "store_name")
-	private String storeName;
+	@Column(name = "name")
+	private String name;
 
 	public Store() {}
 	
-	public Store(String storeName) {
-		this.storeName = storeName;
+	public Store(String name) {
+		this.name = name;
 	}
 	
 	public Short getStoreId() {
-		return storeId;
+		return id;
 	}
 	
 	public String getStoreName() {
-		return storeName;
+		return name;
 	}
 
 }

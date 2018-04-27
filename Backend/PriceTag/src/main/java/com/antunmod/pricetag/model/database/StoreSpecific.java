@@ -19,9 +19,9 @@ public class StoreSpecific implements Serializable {
 	private static final long serialVersionUID = 2695007085669807984L;
 
 	@Id
-	@Column(name = "store_specific_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short storeSpecificId;
+	private Short id;
 
 	/*
 	 * References the Store class id for finding store name.
@@ -29,24 +29,24 @@ public class StoreSpecific implements Serializable {
 	@Column(name = "store_ID")
 	private Short storeId;
 
-	@Column(name = "store_address")
-	private String storeAddress;
+	@Column(name = "address")
+	private String address;
 
 	public StoreSpecific() {
 		super();
 	}
 
-	public StoreSpecific(Short storeId, String storeAddress) {
+	public StoreSpecific(Short storeId, String address) {
 		this.storeId = storeId;
-		this.storeAddress = storeAddress;
+		this.address = address;
 	}
 	
-	public Short getStoreSpecificId() {
-		return storeSpecificId;
+	public Short getId() {
+		return id;
 	}
 	
-	public String getStoreAddress() {
-		return storeAddress;
+	public String getAddress() {
+		return address;
 	}
 
 }

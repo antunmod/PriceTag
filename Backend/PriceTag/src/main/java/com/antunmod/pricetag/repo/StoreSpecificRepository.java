@@ -8,7 +8,7 @@ import com.antunmod.pricetag.model.database.StoreSpecific;
 @Service
 public interface StoreSpecificRepository extends JpaRepository<StoreSpecific, Short> {
 
-	StoreSpecific findByStoreSpecificId(Short storeSpecificId);
+	StoreSpecific findById(Short id);
 	
-	StoreSpecific findByStoreIdAndStoreAddress(Short storeId, String storeAddress);
+	StoreSpecific findByStoreIdAndAddress(Short storeId, String address);
 }

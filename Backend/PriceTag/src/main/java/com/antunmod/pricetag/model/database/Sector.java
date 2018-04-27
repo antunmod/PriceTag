@@ -23,14 +23,14 @@ public class Sector implements Serializable {
 	private static final long serialVersionUID = 3939596959105641323L;
 
 	@Id
-	@Column(name = "sector_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private byte sectorId;
+	private byte id;
 
-	@Column(name = "sector_name")
-	private String sectorName;
+	@Column(name = "name")
+	private String name;
 
-	public String getSectorName() {
-		return sectorName;
+	public String getName() {
+		return name;
 	}
 }

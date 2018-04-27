@@ -8,6 +8,6 @@ import com.antunmod.pricetag.model.database.SectorCategory;
 @Service
 public interface SectorCategoryRepository extends JpaRepository<SectorCategory, Byte> {
 
-	SectorCategory findByCategoryId(Byte categoryId);
+	SectorCategory findById(Byte id);
 	
 }

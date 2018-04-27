@@ -22,21 +22,21 @@ public class ProductSpecific implements Serializable {
 	private static final long serialVersionUID = -9196423082009556864L;
 
 	@Id
-	@Column(name = "product_specific_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short productSpecificId;
+	private Short id;
 
 	/*
 	 * This variable references product_ID in product table.
 	 */
-	@Column(name = "product_ID")
+	@Column(name = "product_id")
 	private Short productId;
 
 	@Column(name = "barcode")
 	private String barcode;
 
-	@Column(name = "product_description")
-	private String productDesctiption;
+	@Column(name = "description")
+	private String description;
 
 	/*
 	 * Contains location of the folder which contains ProductSpecific thumbnail and
@@ -45,26 +45,26 @@ public class ProductSpecific implements Serializable {
 	@Column(name = "photo_URI")
 	private String photoURI;
 
-	@Column(name = "product_size")
-	private Float productSize;
+	@Column(name = "size")
+	private Float size;
 
-	@Column(name = "product_size_ID")
-	private byte productSizeId;
+	@Column(name = "size_id")
+	private byte sizeId;
 
 	public ProductSpecific() {}
 	
 	public ProductSpecific(BaseProduct baseProduct, Short productId) {
 		this.productId = productId;
 		this.barcode = baseProduct.getBarcode();
-		this.productDesctiption = baseProduct.getProductDescription();
+		this.description = baseProduct.getDescription();
 		this.photoURI = baseProduct.getPhotoURI();
-		this.productSize = baseProduct.getProductSize();
-		this.productSizeId = baseProduct.getProductSizeId();
+		this.size = baseProduct.getSize();
+		this.sizeId = baseProduct.getSizeId();
 
 	}
 
-	public Short getProductSpecificId() {
-		return productSpecificId;
+	public Short getId() {
+		return id;
 	}
 	
 	public String getBarcode() {

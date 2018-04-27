@@ -8,6 +8,6 @@ import com.antunmod.pricetag.model.database.CategorySubcategory;
 @Service
 public interface CategorySubcategoryRepository extends JpaRepository<CategorySubcategory, Short> {
 
-	CategorySubcategory findBySubcategoryId(Short subcategoryId);
+	CategorySubcategory findById(Short id);
 	
 }

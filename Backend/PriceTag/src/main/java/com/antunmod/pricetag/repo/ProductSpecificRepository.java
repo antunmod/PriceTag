@@ -6,36 +6,35 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.antunmod.pricetag.model.database.ProductSpecific;
-import com.antunmod.pricetag.model.transfer.SearchProductData;
 
 public interface ProductSpecificRepository extends JpaRepository<ProductSpecific, Short>{
 
-	ProductSpecific findByProductSpecificId(Short productSpecificId);
+	ProductSpecific findById(Short id);
 	
 	ProductSpecific findByBarcode(String barcode);
 	
-	@Query(value = "SELECT product_specific_ID, " + 
+	@Query(value = "SELECT product_specific.id, " + 
 			"photo_URI, " + 
-			"producer_name, " + 
-			"product_name, " + 
-			"product_description, " + 
-			"CONCAT(TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from product_size)), ' ', size_type) " + 
+			"producer.name AS producer_name, " + 
+			"product.name AS product_name, " + 
+			"product_specific.description, " + 
+			"CONCAT(TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from size)), ' ', type) " + 
 			"FROM category " + 
-			"NATURAL JOIN category_subcategory " + 
-			"NATURAL JOIN subcategory " + 
-			"NATURAL JOIN subcategory_product " + 
-			"NATURAL JOIN product " + 
-			"NATURAL JOIN producer " + 
-			"NATURAL JOIN product_specific " + 
-			"NATURAL JOIN product_size " + 
-			"NATURAL JOIN product_store " + 
-			"NATURAL JOIN store_specific " + 
-			"NATURAL JOIN store " + 
-			"WHERE category_name LIKE %?1% " + 
-			"AND subcategory_name LIKE %?2% " + 
-			"AND producer_name LIKE %?3% " + 
-			"AND product_name LIKE %?4% " + 
-			"AND store_name LIKE %?5% ", nativeQuery = true)
+			"JOIN category_subcategory ON category.id = category_subcategory.category_id " + 
+			"JOIN subcategory ON subcategory.id = category_subcategory.subcategory_id " + 
+			"JOIN subcategory_product ON subcategory.id = subcategory_product.subcategory_id " + 
+			"JOIN product ON product.id = subcategory_product.product_id " + 
+			"JOIN producer ON producer.id = product.producer_id " + 
+			"JOIN product_specific ON product_specific.product_id = product.id " + 
+			"JOIN product_size ON product_size.id = product_specific.size_id " + 
+			"JOIN product_store ON product_store.product_specific_id= product_specific.id " + 
+			"JOIN store_specific ON store_specific.id = product_store.store_specific_id " + 
+			"JOIN store ON store.id = store_specific.store_id " + 
+			"WHERE category.name LIKE %?1% " + 
+			"AND subcategory.name LIKE %?2% " + 
+			"AND producer.name LIKE %?3% " + 
+			"AND product.name LIKE %?4% " + 
+			"AND store.name LIKE %?5%", nativeQuery = true)
 	List<Object[]> findProducts(
 			String categoryName,
 			String subcategoryName,

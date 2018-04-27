@@ -8,7 +8,7 @@ import com.antunmod.pricetag.model.database.Producer;
 @Service
 public interface ProducerRepository extends JpaRepository<Producer, Short> {
 
-	Producer findByProducerId(Short producerId);
+	Producer findById(Short id);
 	
-	Producer findByProducerName(String producerName);
+	Producer findByName(String name);
 }

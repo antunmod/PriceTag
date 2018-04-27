@@ -11,10 +11,12 @@ import com.antunmod.pricetag.model.database.Category;
 @Service
 public interface CategoryRepository extends JpaRepository<Category, Byte> {
 
-	Category findByCategoryId(Byte categoryId);
+	Category findById(Byte id);
 	
-	@Query(value = "SELECT category_name FROM sector NATURAL JOIN sector_category NATURAL JOIN category "
-			+ "WHERE sector_name = ?1", nativeQuery = true)
+	@Query(value = "SELECT category.name "
+			+ "FROM sector JOIN sector_category ON sector.id = sector_category.sector_id "
+			+ "JOIN category ON category.id = sector_category.category_id "
+			+ "WHERE sector.name = ?1", nativeQuery = true)
 	List<String> findAllForSectorName(String sectorName);
 
 }

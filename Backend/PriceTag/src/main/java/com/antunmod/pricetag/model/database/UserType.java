@@ -24,15 +24,15 @@ public class UserType implements Serializable {
 	private static final long serialVersionUID = -6937190304239864675L;
 
 	@Id
-	@Column(name = "user_type_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private byte userTypeId;
+	private byte id;
 
-	@Column(name = "user_type_description")
-	private String userTypeDescription;
+	@Column(name = "description")
+	private String description;
 
-	public String getUserTypeDescription() {
-		return userTypeDescription;
+	public String getDescription() {
+		return description;
 	}
 	
 }

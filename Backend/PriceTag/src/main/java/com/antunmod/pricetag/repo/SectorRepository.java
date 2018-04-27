@@ -11,9 +11,9 @@ import com.antunmod.pricetag.model.database.Sector;
 @Service
 public interface SectorRepository extends JpaRepository<Sector, Byte> {
 
-	Sector findBySectorId(Byte sectorId);
+	Sector findById(Byte id);
 	
-	@Query(value = "SELECT sector_name FROM sector", nativeQuery = true)
+	@Query(value = "SELECT name FROM sector", nativeQuery = true)
 	List<String> getAllSectorNames();
 
 }

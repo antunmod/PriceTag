@@ -17,27 +17,29 @@ import javax.persistence.Table;
 public class Producer implements Serializable {
 
 	private static final long serialVersionUID = -4967406054049231127L;
-	
-	@Id
-	@Column(name = "producer_ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short producerId;
 
-	@Column(name = "producer_name")
-	private String producerName;
-	
-	public Producer() {}
-	
-	public Producer(String producerName) {
-		this.producerName = producerName;
-		this.producerId = 0;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Short id;
+
+	@Column(name = "name")
+	private String name;
+
+	public Producer() {
 	}
-	
-	public Short getProducerId() {
-		return producerId;
+
+	public Producer(String name) {
+		super();
+		this.name = name;
 	}
-	
-	public String getProducerName() {
-		return producerName;
+
+	public Short getId() {
+		return id;
 	}
+
+	public String getName() {
+		return name;
+	}
+
 }

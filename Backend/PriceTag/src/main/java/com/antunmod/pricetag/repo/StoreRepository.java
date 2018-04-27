@@ -11,15 +11,17 @@ import com.antunmod.pricetag.model.database.Store;
 @Service
 public interface StoreRepository extends JpaRepository<Store, Short> {
 
-	@Query(value = "SELECT store_ID FROM store natural join store_specific "
-			+ "WHERE store_address = ?1", nativeQuery = true)
+	@Query(value = "SELECT store.id "
+			+ "FROM store JOIN store_specific ON store.id = store_specific.store_id "
+			+ "WHERE address = ?1", nativeQuery = true)
 	Short findStoreIdForStoreAddress(String storeAddress);
 
-	@Query(value = "SELECT store_address FROM store_specific natural join store "
-			+ "WHERE store_name = ?1", nativeQuery = true)
+	@Query(value = "SELECT address "
+			+ "FROM store JOIN store_specific ON store.id = store_specific.store_id "
+			+ "WHERE name = ?1", nativeQuery = true)
 	List<String> getStoreLocations(String storeName);
 
-	Store findByStoreId(Short storeId);
+	Store findById(Short id);
 
-	Store findByStoreName(String storeName);
+	Store findByName(String name);
 }

@@ -13,23 +13,23 @@ public class BaseProduct {
 	private String barcode;
 	private Short userId;
 	private Float price;
-	private String productDescription;
+	private String description;
 	private String photoURI;
-	private Float productSize;
-	private Byte productSizeId;
+	private Float size;
+	private Byte sizeId;
 
 	public BaseProduct() {}
 	
-	public BaseProduct(String barcode, Short userId, Float price, String productDescription, String photoURI,
-			Float productSize, Byte productSizeId) {
+	public BaseProduct(String barcode, Short userId, Float price, String description, String photoURI,
+			Float size, Byte sizeId) {
 		super();
 		this.barcode = barcode;
 		this.userId = userId;
 		this.price = price;
-		this.productDescription = productDescription;
+		this.description = description;
 		this.photoURI = photoURI;
-		this.productSize = productSize;
-		this.productSizeId = productSizeId;
+		this.size = size;
+		this.sizeId = sizeId;
 	}
 
 	public String getBarcode() {
@@ -40,24 +40,24 @@ public class BaseProduct {
 		this.barcode = barcode;
 	}
 
-	public String getProductDescription() {
-		return productDescription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setProductDescription(String productDescription) {
-		this.productDescription = productDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getPhotoURI() {
 		return photoURI;
 	}
 
-	public Float getProductSize() {
-		return productSize;
+	public Float getSize() {
+		return size;
 	}
 
-	public byte getProductSizeId() {
-		return productSizeId;
+	public byte getSizeId() {
+		return sizeId;
 	}
 
 	public Short getUserId() {

@@ -69,7 +69,7 @@ public class DeleteProductService {
 		if (productSpecific == null)
 			return false;
 		
-		ProductStore productStore = productStoreRepository.findByProductSpecificIdAndStoreSpecificId(productSpecific.getProductSpecificId(), productData.getStoreSpecificId());
+		ProductStore productStore = productStoreRepository.findByProductSpecificIdAndStoreSpecificId(productSpecific.getId(), productData.getStoreSpecificId());
 		if (productStore == null)
 			return false;
 		productStoreRepository.delete(productStore);
@@ -87,10 +87,10 @@ public class DeleteProductService {
 		Boolean success = deleteProductSpecific();
 		if(!success)
 			return success;
-		Product product = productRepository.findByProductNameAndProducerId(productData.getProductName(), productData.getProducerId());
+		Product product = productRepository.findByNameAndProducerId(productData.getProductName(), productData.getProducerId());
 		if (product == null)
 			return false;
-		SubcategoryProduct subcategoryProduct = subcategoryProductRepository.findByProductId(product.getProductId());
+		SubcategoryProduct subcategoryProduct = subcategoryProductRepository.findById(product.getId());
 		if (subcategoryProduct == null)
 			return false;
 		subcategoryProductRepository.delete(subcategoryProduct);
@@ -103,10 +103,10 @@ public class DeleteProductService {
 	 * This method will save call deleteProduct to delete the data which should be deleted and delete producer.
 	 */
 	public Boolean deleteProducer() {
-		Producer producer = producerRepository.findByProducerName(productData.getProducerName());
+		Producer producer = producerRepository.findByName(productData.getProducerName());
 		if (producer == null)
 			return false;
-		productData.setProducerId(producer.getProducerId());
+		productData.setProducerId(producer.getId());
 
 		Boolean success = deleteProduct();
 		if(!success)
@@ -166,9 +166,9 @@ public class DeleteProductService {
 	 * This method will call deleteProducer to delete the data which should be deleted and delete store_specific.
 	 */
 	public Boolean deleteStoreSpecificProducer() {
-		StoreSpecific storeSpecific = storeSpecificRepository.findByStoreIdAndStoreAddress(productData.getStoreId(),
+		StoreSpecific storeSpecific = storeSpecificRepository.findByStoreIdAndAddress(productData.getStoreId(),
 				productData.getStoreAddress());
-		productData.setStoreSpecificId(storeSpecific.getStoreSpecificId());
+		productData.setStoreSpecificId(storeSpecific.getId());
 		Boolean success = deleteProducer();
 		if(!success)
 			return success;
@@ -225,7 +225,7 @@ public class DeleteProductService {
 	 * This method will call deleteStoreSpecificProducer to delete the data which should be deleted and delete store.
 	 */
 	public Boolean deleteStoreProducer() {
-		Store store = storeRepository.findByStoreName(productData.getStoreName());
+		Store store = storeRepository.findByName(productData.getStoreName());
 
 		productData.setStoreId(store.getStoreId());
 		Boolean success = deleteStoreSpecificProducer();

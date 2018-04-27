@@ -19,20 +19,20 @@ public class SectorCategory implements Serializable {
 	private static final long serialVersionUID = -639765082915541192L;
 
 	@Id
-	@Column(name = "sector_category_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private byte sectorCategoryId;
+	private byte id;
 
 	/*
 	 * References a sector.
 	 */
-	@Column(name = "sector_ID")
+	@Column(name = "sector_id")
 	private byte sectorId;
 
 	/*
 	 * References a category.
 	 */
-	@Column(name = "category_ID")
+	@Column(name = "category_id")
 	private byte categoryId;
 
 	public byte getSectorId() {

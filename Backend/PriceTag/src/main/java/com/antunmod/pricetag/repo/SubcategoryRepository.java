@@ -12,14 +12,18 @@ import com.antunmod.pricetag.model.database.Subcategory;
 @Service
 public interface SubcategoryRepository extends JpaRepository<Subcategory, Short> {
 
-	Subcategory findBySubcategoryId(Short subcategoryId);
+	Subcategory findById(Short id);
 	
-	@Query(value = "SELECT subcategory_name FROM category NATURAL JOIN category_subcategory NATURAL JOIN subcategory "
-			+ "WHERE category_name = ?1", nativeQuery = true)
+	@Query(value = "SELECT subcategory.name "
+			+ "FROM category JOIN category_subcategory ON category.id = category_subcategory.category_id "
+			+ "JOIN subcategory ON subcategory.id = category_subcategory.subcategory_id "
+			+ "WHERE category.name = ?1", nativeQuery = true)
 	List<String> findAllForCategoryName(String categoryName);
 
-	@Query(value = "SELECT subcategory_ID from subcategory NATURAL JOIN category_subcategory NATURAL JOIN category WHERE "
-			+ "category_name = ?1 and subcategory_name = ?2", nativeQuery = true)
+	@Query(value = "SELECT subcategory.id "
+			+ "FROM category JOIN category_subcategory ON category.id = category_subcategory.category_id "
+			+ "JOIN subcategory ON subcategory.id = category_subcategory.subcategory_id "
+			+ "WHERE category.name = ?1 and subcategory.name = ?2", nativeQuery = true)
 	Short findSubcategoryIdForCategoryAndSubcategoryName(String categoryName, String subcategoryName);
 
 }

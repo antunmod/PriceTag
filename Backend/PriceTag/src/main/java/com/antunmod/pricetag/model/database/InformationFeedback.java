@@ -19,9 +19,9 @@ public class InformationFeedback implements Serializable {
 	private static final long serialVersionUID = 7554836347563163080L;
 
 	@Id
-	@Column(name = "information_feedback_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer informationFeedbackId;
+	private Integer id;
 
 	@Column(name = "information_provider_user_ID")
 	private Short informationProviderUserId;

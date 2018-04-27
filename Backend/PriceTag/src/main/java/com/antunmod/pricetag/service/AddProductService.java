@@ -70,7 +70,7 @@ public class AddProductService {
 			return false;
 
 		ProductStore productStore = productStoreRepository
-				.save(addProductSpecific.toProductStore(productSpecific.getProductSpecificId()));
+				.save(addProductSpecific.toProductStore(productSpecific.getId()));
 		/*
 		 * ProductStore wasn't saved, delete previously added productSpecific and return
 		 * false.
@@ -80,7 +80,7 @@ public class AddProductService {
 			return false;
 		}
 
-		Price price = priceRepository.save(addProductSpecific.toPrice(productStore.getProductStoreId()));
+		Price price = priceRepository.save(addProductSpecific.toPrice(productStore.getId()));
 		/*
 		 * Price wasn't saved, delete previously added productSpecific and productStore
 		 * and return false.
@@ -107,7 +107,7 @@ public class AddProductService {
 			return false;
 
 		SubcategoryProduct subcategoryProduct = subcategoryProductRepository
-				.save(new SubcategoryProduct(addProduct.getSubcategoryId(), product.getProductId()));
+				.save(new SubcategoryProduct(addProduct.getSubcategoryId(), product.getId()));
 
 		if (subcategoryProduct == null) {
 			productRepository.delete(product);
@@ -118,7 +118,7 @@ public class AddProductService {
 		 * If the product specific wasn't saved, delete product and subcategory product
 		 * and return false.
 		 */
-		if (!saveProductSpecific(addProduct.toAddProductSpecific(product.getProductId()))) {
+		if (!saveProductSpecific(addProduct.toAddProductSpecific(product.getId()))) {
 			subcategoryProductRepository.delete(subcategoryProduct);
 			productRepository.delete(product);
 			return false;
@@ -140,7 +140,7 @@ public class AddProductService {
 		/*
 		 * If the product wasn't saved, delete producer from database and return false.
 		 */
-		if (!saveProduct(addProducer.toAddProduct(producer.getProducerId()))) {
+		if (!saveProduct(addProducer.toAddProduct(producer.getId()))) {
 			producerRepository.delete(producer);
 			return false;
 		}
@@ -163,7 +163,7 @@ public class AddProductService {
 		 * return false.
 		 */
 		if (!saveProductSpecific(
-				addStoreSpecificProductSpecific.toAddProductSpecific(storeSpecific.getStoreSpecificId()))) {
+				addStoreSpecificProductSpecific.toAddProductSpecific(storeSpecific.getId()))) {
 			storeSpecificRepository.delete(storeSpecific);
 			return false;
 		}
@@ -185,7 +185,7 @@ public class AddProductService {
 		 * If the product wasn't saved, delete storeSpecific from database and return
 		 * false.
 		 */
-		if (!saveProduct(addStoreSpecificProduct.toAddProduct(storeSpecific.getStoreSpecificId()))) {
+		if (!saveProduct(addStoreSpecificProduct.toAddProduct(storeSpecific.getId()))) {
 			storeSpecificRepository.delete(storeSpecific);
 			return false;
 		}
@@ -207,7 +207,7 @@ public class AddProductService {
 		 * If the producer wasn't saved, delete storeSpecific from database and return
 		 * false.
 		 */
-		if (!saveProducer(addStoreSpecificProducer.toAddProducer(storeSpecific.getStoreSpecificId()))) {
+		if (!saveProducer(addStoreSpecificProducer.toAddProducer(storeSpecific.getId()))) {
 			storeSpecificRepository.delete(storeSpecific);
 			return false;
 		}
@@ -303,7 +303,7 @@ public class AddProductService {
 		}
 		
 		ProductStore productStore = productStoreRepository
-				.save(addStoreSpecificProductStore.toProductStore(storeSpecific.getStoreSpecificId()));
+				.save(addStoreSpecificProductStore.toProductStore(storeSpecific.getId()));
 		/*
 		 * ProductStore wasn't saved, delete previously added storeSpecific and return
 		 * false.
@@ -313,7 +313,7 @@ public class AddProductService {
 			return false;
 		}
 		
-		Price price = priceRepository.save(addStoreSpecificProductStore.toPrice(productStore.getProductStoreId()));
+		Price price = priceRepository.save(addStoreSpecificProductStore.toPrice(productStore.getId()));
 		/*
 		 * Price wasn't saved, remove productStore and storeSpecific from database and return false.
 		 */

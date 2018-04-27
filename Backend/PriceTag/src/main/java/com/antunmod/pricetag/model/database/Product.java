@@ -19,33 +19,39 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = -2721891796273863721L;
 
 	@Id
-	@Column(name = "product_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short productId;
+	private Short id;
 
 	/*
 	 * References producer_ID in producer table
 	 */
-	@Column(name = "producer_ID")
+	@Column(name = "producer_id")
 	private Short producerId;
 
-	@Column(name = "product_name")
-	private String productName;
+	@Column(name = "name")
+	private String name;
 
 	public Product() {}
-	
-	public Product(Short producerId, String productName) {
+
+	public Product(Short producerId, String name) {
 		super();
 		this.producerId = producerId;
-		this.productName = productName;
+		this.name = name;
 	}
 
-	public Short getProductId() {
-		return productId;
+	public Short getId() {
+		return id;
+	}
+
+	public Short getProducerId() {
+		return producerId;
+	}
+
+	public String getName() {
+		return name;
 	}
 	
-	public String getProductName() {
-		return productName;
-	}
+	
 
 }

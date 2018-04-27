@@ -8,7 +8,7 @@ import com.antunmod.pricetag.model.database.Price;
 @Service
 public interface PriceRepository extends JpaRepository<Price, Integer> {
 
-	Price findByPriceId(Integer priceId);
+	Price findById(Integer id);
 	
 	Price findByUserIdAndPriceChangeDate(Short userId, String priceChangeDate);
 }

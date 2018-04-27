@@ -20,17 +20,17 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 8234325017646826418L;
 
 	@Id
-	@Column(name = "user_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short userId;
+	private Short id;
 
-	@Column(name = "user_name")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "user_password")
+	@Column(name = "password")
 	private String password;
 
-	@Column(name = "user_mail")
+	@Column(name = "email")
 	private String email;
 
 	@Column(name = "signup_date")
@@ -51,7 +51,7 @@ public class User implements Serializable {
 	 * References the user_type table serial id that determines whether a user is a
 	 * regular user or an admin.
 	 */
-	@Column(name = "user_type_ID")
+	@Column(name = "user_type_id")
 	private byte userType;
 
 	public User() {}

@@ -8,5 +8,5 @@ import com.antunmod.pricetag.model.database.UserType;
 @Service
 public interface UserTypeRepository extends JpaRepository<UserType, Byte> {
 
-	public UserType findByUserTypeId (Byte userTypeId);
+	public UserType findById (Byte id);
 }

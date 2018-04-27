@@ -24,14 +24,14 @@ public class Subcategory implements Serializable {
 	private static final long serialVersionUID = 6907531712848342215L;
 
 	@Id
-	@Column(name = "subcategory_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short subcategoryId;
+	private Short id;
 
-	@Column(name = "subcategory_name")
-	private String subcategoryName;
+	@Column(name = "name")
+	private String name;
 
-	public String getSubcategoryName() {
-		return subcategoryName;
+	public String getName() {
+		return name;
 	}
 }

@@ -9,11 +9,11 @@ import com.antunmod.pricetag.model.database.ProductStore;
 @Service
 public interface ProductStoreRepository extends JpaRepository<ProductStore, Short> {
 
-	@Query(value = "SELECT product_store_ID from product_store WHERE product_specific_ID = ?1 "
-			+ "AND storeSpecificId = ?2", nativeQuery = true)
+	@Query(value = "SELECT id from product_store WHERE product_specific_id = ?1 "
+			+ "AND store_specific_id = ?2", nativeQuery = true)
 	Short findProductStoreForProductSpecificIdAndStoreSpecificId(Short productSpecificId, Short storeSpecificId);
 
-	ProductStore findByProductStoreId(Short productStoreId);
+	ProductStore findById(Short id);
 	
 	ProductStore findByProductSpecificIdAndStoreSpecificId(Short productSpecificId, Short storeSpecificId);
 }

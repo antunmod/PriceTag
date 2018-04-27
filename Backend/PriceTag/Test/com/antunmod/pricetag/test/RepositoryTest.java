@@ -121,107 +121,107 @@ public class RepositoryTest {
 
 	@Test
 	public void testUserType() {
-		UserType userType = userTypeRepository.findByUserTypeId(ADMIN_USER_TYPE_ID);
-		assertEquals(userType.getUserTypeDescription(), ADMIN_STRING);
+		UserType userType = userTypeRepository.findById(ADMIN_USER_TYPE_ID);
+		assertEquals(userType.getDescription(), ADMIN_STRING);
 	}
 
 	@Test
 	public void testUser() {
-		User user = userRepository.findByUserId(REGULAR_USER_USER_ID);
+		User user = userRepository.findById(REGULAR_USER_USER_ID);
 		assertEquals(user.getUserName(), REGULAR_USER_STRING);
 	}
 
 	@Test
 	public void testStore() {
-		Store store = storeRepository.findByStoreId(KONZUM_STORE_ID);
+		Store store = storeRepository.findById(KONZUM_STORE_ID);
 		assertEquals(store.getStoreName(), KONZUM_STRING);
 	}
 
 	@Test
 	public void testStoreSpecific() {
 		StoreSpecific storeSpecific = storeSpecificRepository
-				.findByStoreSpecificId(JURISICEVA_ULICA_13_STORE_SPECIFIC_ID);
-		assertEquals(storeSpecific.getStoreAddress(), JURISICEVA_ULICA_13_ADDRESS);
+				.findById(JURISICEVA_ULICA_13_STORE_SPECIFIC_ID);
+		assertEquals(storeSpecific.getAddress(), JURISICEVA_ULICA_13_ADDRESS);
 	}
 
 	@Test
 	public void testSectorRepository() {
-		Sector sector = sectorRepository.findBySectorId(SUPERMARKETS_SECTOR_ID);
-		assertEquals(sector.getSectorName(), SUPERMARKETS_STRING);
+		Sector sector = sectorRepository.findById(SUPERMARKETS_SECTOR_ID);
+		assertEquals(sector.getName(), SUPERMARKETS_STRING);
 	}
 
 	@Test
 	public void testCategoryRepository() {
-		Category category = categoryRepository.findByCategoryId(WINERY_CATEGORY_ID);
-		assertEquals(category.getCategoryName(), WINERY_STRING);
+		Category category = categoryRepository.findById(WINERY_CATEGORY_ID);
+		assertEquals(category.getName(), WINERY_STRING);
 	}
 
 	@Test
 	public void testSubcategoryRepository() {
-		Subcategory subcategory = subcategoryRepository.findBySubcategoryId(WHITE_WINES_SUBCATEGORY_ID);
-		assertEquals(subcategory.getSubcategoryName(), WHITE_WINES_STRING);
+		Subcategory subcategory = subcategoryRepository.findById(WHITE_WINES_SUBCATEGORY_ID);
+		assertEquals(subcategory.getName(), WHITE_WINES_STRING);
 	}
 
 	@Test
 	public void testSectorCategoryRepository() {
-		SectorCategory sectorCategory = sectorCategoryRepository.findByCategoryId(WINERY_CATEGORY_ID);
+		SectorCategory sectorCategory = sectorCategoryRepository.findById(WINERY_CATEGORY_ID);
 		assertTrue(sectorCategory.getSectorId() == SUPERMARKETS_SECTOR_ID);
 	}
 
 	@Test
 	public void testCategorySubcategoryRepository() {
 		CategorySubcategory categorySubcategory = categorySubcategoryRepository
-				.findBySubcategoryId(WHITE_WINES_SUBCATEGORY_ID);
+				.findById(WHITE_WINES_SUBCATEGORY_ID);
 		assertTrue(categorySubcategory.getCategoryId() == WINERY_CATEGORY_ID);
 	}
 
 	@Test
 	public void testProductSize() {
-		Size size = sizeRepository.findByProductSizeId(LITER_PRODUCT_SIZE_ID);
-		assertEquals(size.getSizeType(), LITER_STRING);
+		Size size = sizeRepository.findById(LITER_PRODUCT_SIZE_ID);
+		assertEquals(size.getType(), LITER_STRING);
 	}
 
 	@Test
 	public void testProducer() {
-		Producer producer = producerRepository.findByProducerId(ZVIJEZDA_PRODUCER_ID);
-		assertEquals(producer.getProducerName(), ZVIJEZDA_STRING);
+		Producer producer = producerRepository.findById(ZVIJEZDA_PRODUCER_ID);
+		assertEquals(producer.getName(), ZVIJEZDA_STRING);
 	}
 
 	@Test
 	public void testProduct() {
-		Product product = productRepository.findByProductId(CRYSTAL_SUGAR_PRODUCT_ID);
-		assertEquals(product.getProductName(), CRYSTAL_SUGAR_STRING);
+		Product product = productRepository.findById(CRYSTAL_SUGAR_PRODUCT_ID);
+		assertEquals(product.getName(), CRYSTAL_SUGAR_STRING);
 	}
 
 	@Test
 	public void testProductSpecific() {
 		ProductSpecific productSpecific = productSpecificRepository
-				.findByProductSpecificId(SUNFLOWER_OIL_PRODUCT_SPECIFIC_ID);
+				.findById(SUNFLOWER_OIL_PRODUCT_SPECIFIC_ID);
 		assertEquals(productSpecific.getBarcode(), SUNFLOWER_OIL_BARCODE);
 	}
 
 	@Test
 	public void testProductStore() {
-		ProductStore productStore = productStoreRepository.findByProductStoreId(SUNFLOWER_OIL_PRODUCT_STORE_ID);
+		ProductStore productStore = productStoreRepository.findById(SUNFLOWER_OIL_PRODUCT_STORE_ID);
 		assertTrue(productStore.getProductSpecificId() == SUNFLOWER_OIL_PRODUCT_SPECIFIC_ID);
 	}
 
 	@Test
 	public void testPrice() {
-		Price price = priceRepository.findByPriceId(SUNFLOWER_OIL_PRICE_ID);
+		Price price = priceRepository.findById(SUNFLOWER_OIL_PRICE_ID);
 		assertTrue(price.getProductStoreId() == SUNFLOWER_OIL_PRODUCT_STORE_ID);
 	}
 
 	@Test
 	public void testSubcategoryProductRepository() {
 		SubcategoryProduct subcategoryProduct = subcategoryProductRepository
-				.findByProductId(WHITE_CRYSTAL_SUGAR_PRODUCT_ID);
+				.findById(WHITE_CRYSTAL_SUGAR_PRODUCT_ID);
 		assertTrue(subcategoryProduct.getSubcategoryId() == SUGAR_AND_ARTIFICIAL_SWEETENERS_SUBCATEGORY_ID);
 	}
 
 	@Test
 	public void testInformationFeedback() {
-		InformationFeedback informationFeedback = informationFeedbackRepository.findByInformationFeedbackId(FIRST_RATING_INFORMATION_FEEDBACK_ID);
+		InformationFeedback informationFeedback = informationFeedbackRepository.findById(FIRST_RATING_INFORMATION_FEEDBACK_ID);
 		assertEquals(informationFeedback.getFeedback(), FIRST_RATING_INFORMATION_FEEDBACK_STRING);
 	}
 	

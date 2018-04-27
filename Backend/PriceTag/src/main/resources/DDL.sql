@@ -6,81 +6,82 @@ USE test;
 User can be an admin or just a regular user. Admins have to be added by other admins.
 */
 CREATE TABLE user_type (
-	user_type_ID TINYINT AUTO_INCREMENT PRIMARY KEY,
-	user_type_description VARCHAR(10)
+	id TINYINT AUTO_INCREMENT PRIMARY KEY,
+	description VARCHAR(10)
 );
 
 CREATE TABLE user(
-	user_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	user_name VARCHAR(30) NOT NULL,
-	user_password VARCHAR(30) NOT NULL,
-	user_mail VARCHAR(30) NOT NULL,
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	password VARCHAR(30) NOT NULL,
+	email VARCHAR(30) NOT NULL,
 	signup_date DATE NOT NULL,
 	rating DECIMAL(4,3) DEFAULT 0,
 	points SMALLINT DEFAULT 0,
-	user_type_ID TINYINT DEFAULT 1,
+	user_type_id TINYINT DEFAULT 1,
 
-	CONSTRAINT unique_user_name UNIQUE (user_name),
-	CONSTRAINT unique_user_mail UNIQUE (user_mail),
-	CONSTRAINT fk_user_user_type FOREIGN KEY (user_type_ID) REFERENCES user_type (user_type_ID)
+	CONSTRAINT unique_user_name UNIQUE (name),
+	CONSTRAINT unique_user_mail UNIQUE (email),
+	CONSTRAINT fk_user_user_type FOREIGN KEY (user_type_ID) REFERENCES user_type (id)
 	);
 
 CREATE TABLE store(
-	store_ID TINYINT AUTO_INCREMENT PRIMARY KEY,
-	store_name VARCHAR(30)
+	id TINYINT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30)
 	);
 
 /*
 The connection between store name and the location of a specific store.
 */
 CREATE TABLE store_specific(
-	store_specific_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	store_ID TINYINT ,
-	store_address VARCHAR(30),
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	store_id TINYINT ,
+	address VARCHAR(30),
 
-	CONSTRAINT fk_store_specific_store FOREIGN KEY (store_ID) REFERENCES store (store_ID)
+	CONSTRAINT fk_store_specific_store FOREIGN KEY (store_id) REFERENCES store (id)
 	);
 
 CREATE TABLE sector(
-	sector_ID TINYINT AUTO_INCREMENT PRIMARY KEY,
-	sector_name VARCHAR(50),
+	id TINYINT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50),
 
-	CONSTRAINT unique_sector_name UNIQUE (sector_name)
+	CONSTRAINT unique_sector_name UNIQUE (name)
 	);
 
 CREATE TABLE category(
-	category_ID TINYINT AUTO_INCREMENT PRIMARY KEY,
-	category_name VARCHAR(50)
+	id TINYINT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50)
 	);
 
 CREATE TABLE subcategory(
-	subcategory_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	subcategory_name VARCHAR(50)
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50)
 	);
+
 /*
 A table containing different product sizes.
 E.g. l = liter, g = gram, mg = miligram ...
 */
 CREATE TABLE product_size(
-	product_size_ID TINYINT AUTO_INCREMENT PRIMARY KEY,
-	size_type VARCHAR(5) NOT NULL
+	id TINYINT AUTO_INCREMENT PRIMARY KEY,
+	type VARCHAR(5) NOT NULL
 	);
 
 CREATE TABLE producer(
-	producer_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	producer_name VARCHAR(30)
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30)
 	);
 
 /*
 Cointains producer and product name.
 */
 CREATE TABLE product(
-	product_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	producer_ID SMALLINT,
-	product_name VARCHAR(30) NOT NULL,	
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	producer_id SMALLINT,
+	name VARCHAR(40) NOT NULL,	
 
-	CONSTRAINT unique_product UNIQUE (product_name, producer_ID),
-	CONSTRAINT fk_product_producer FOREIGN KEY (producer_ID) references producer(producer_ID)		
+	CONSTRAINT unique_product UNIQUE (name, producer_id),
+	CONSTRAINT fk_product_producer FOREIGN KEY (producer_id) references producer(id)		
 	);
 
 /*
@@ -88,31 +89,31 @@ Each product can come in multiple sizes, barcodes and photos so this table conta
 for each size of the product.
 */
 CREATE TABLE product_specific(
-	product_specific_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	product_ID SMALLINT NOT NULL,
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	product_id SMALLINT NOT NULL,
 	barcode VARCHAR(15) NOT NULL,
-	product_description VARCHAR(30),
-	photo_URI VARCHAR(50),
-	product_size DECIMAL(7,3) NOT NULL,
-	product_size_ID TINYINT NOT NULL,
+	description VARCHAR(30) DEFAULT '',
+	photo_URI VARCHAR(50) DEFAULT '',
+	size DECIMAL(7,3) NOT NULL,
+	size_id TINYINT NOT NULL,
 
-	CONSTRAINT unique_product_specific UNIQUE (product_ID, product_size),
-	CONSTRAINT fk_product_specific_product FOREIGN KEY (product_ID) REFERENCES product (product_ID)
+	CONSTRAINT unique_product_specific UNIQUE (id, size),
+	CONSTRAINT fk_product_specific_product FOREIGN KEY (product_id) REFERENCES product (id)
 		ON UPDATE CASCADE,	
-	CONSTRAINT fk_product_specific_product_size FOREIGN KEY (product_size_ID) REFERENCES product_size(product_size_ID)
+	CONSTRAINT fk_product_specific_size FOREIGN KEY (size_id) REFERENCES product_size(id)
 	);
 
 /*
 This table contains information on which products can be found in a certain store.
 */
 CREATE TABLE product_store (
-	product_store_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	product_specific_ID SMALLINT NOT NULL,
-	store_specific_ID SMALLINT NOT NULL,
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	product_specific_id SMALLINT NOT NULL,
+	store_specific_id SMALLINT NOT NULL,
 	
 	CONSTRAINT unique_product_store UNIQUE (product_specific_ID, store_specific_ID),
-	CONSTRAINT fk_product_store_product_specific_ID FOREIGN KEY (product_specific_ID) REFERENCES product_specific (product_specific_ID),
-	CONSTRAINT fk_product_store_store_specific FOREIGN KEY (store_specific_ID) REFERENCES store_specific (store_specific_ID)
+	CONSTRAINT fk_product_store_product_specific FOREIGN KEY (product_specific_ID) REFERENCES product_specific (id),
+	CONSTRAINT fk_product_store_store_specific FOREIGN KEY (store_specific_ID) REFERENCES store_specific (id)
 );
 
 /*
@@ -124,62 +125,58 @@ This table contains information about the prices added by users in specific stor
 	the last valid price.
 */
 CREATE TABLE price (
-	price_ID INT AUTO_INCREMENT PRIMARY KEY,
-	product_store_ID SMALLINT NOT NULL,
-	user_ID SMALLINT NOT NULL,
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	product_store_id SMALLINT NOT NULL,
+	user_id SMALLINT NOT NULL,
 	price DECIMAL(7,2) NOT NULL,
 	price_change_date DATE NOT NULL,
 
-	CONSTRAINT fk_price_user FOREIGN KEY (user_ID) REFERENCES user (user_ID),
-	CONSTRAINT fk_price_product_store FOREIGN KEY (product_store_ID) REFERENCES product_store (product_store_ID)
+	CONSTRAINT fk_price_user FOREIGN KEY (user_id) REFERENCES user (id),
+	CONSTRAINT fk_price_product_store FOREIGN KEY (product_store_id) REFERENCES product_store (id)
 	);
 
 CREATE TABLE sector_category(
-	sector_category_ID TINYINT AUTO_INCREMENT PRIMARY KEY,
-	sector_ID TINYINT NOT NULL,
-	category_ID TINYINT NOT NULL,
+	id TINYINT AUTO_INCREMENT PRIMARY KEY,
+	sector_id TINYINT NOT NULL,
+	category_id TINYINT NOT NULL,
 
-	CONSTRAINT fk_sector_category_sector FOREIGN KEY (sector_ID) REFERENCES sector (sector_ID)
+	CONSTRAINT fk_sector_category_sector FOREIGN KEY (sector_id) REFERENCES sector (id)
 		ON UPDATE CASCADE,
-	CONSTRAINT fk_sector_category_category FOREIGN KEY (category_ID) REFERENCES category (category_ID)
+	CONSTRAINT fk_sector_category_category FOREIGN KEY (category_id) REFERENCES category (id)
 		ON UPDATE CASCADE
 	);
 
 CREATE TABLE category_subcategory(
-	category_subcategory_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	category_ID TINYINT NOT NULL,
-	subcategory_ID SMALLINT NOT NULL,
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	category_id TINYINT NOT NULL,
+	subcategory_id SMALLINT NOT NULL,
 
-	CONSTRAINT fk_category_subcategory_category FOREIGN KEY (category_ID) REFERENCES category (category_ID)
+	CONSTRAINT fk_category_subcategory_category FOREIGN KEY (category_id) REFERENCES category (id)
+		ON UPDATE CASCADE,
+	CONSTRAINT fk_category_subcategory_subcategory FOREIGN KEY (subcategory_id) REFERENCES subcategory (id)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT fk_category_subcategory_subcategory FOREIGN KEY (subcategory_ID) REFERENCES subcategory (subcategory_ID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE
 	);
 
 CREATE TABLE subcategory_product(
-	subcategory_product_ID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-	subcategory_ID SMALLINT NOT NULL,
-	product_ID SMALLINT NOT NULL,
+	id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+	subcategory_id SMALLINT NOT NULL,
+	product_id SMALLINT NOT NULL,
 
-	CONSTRAINT fk_subcategory_product_subcategory FOREIGN KEY (subcategory_ID) REFERENCES subcategory (subcategory_ID)
+	CONSTRAINT fk_subcategory_product_subcategory FOREIGN KEY (subcategory_id) REFERENCES subcategory (id)
+		ON UPDATE CASCADE,
+	CONSTRAINT fk_subcategory_product_product FOREIGN KEY (product_id) REFERENCES product (id)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT fk_subcategory_product_product FOREIGN KEY (product_ID) REFERENCES product (product_ID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE
 	);
 
 -- Feedback stores feedback from user in form POSITIVE(P) and NEGATIVE(N).
 CREATE TABLE information_feedback(
-	information_feedback_ID INT AUTO_INCREMENT PRIMARY KEY,
-	information_provider_user_ID SMALLINT NOT NULL,
-	feedback_provider_user_ID SMALLINT NOT NULL,
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	information_provider_user_id SMALLINT NOT NULL,
+	feedback_provider_user_id SMALLINT NOT NULL,
 	feedback CHAR(1) NOT NULL,
 
-	CONSTRAINT fk_information_feedback_information_provider_user_ID FOREIGN KEY (information_provider_user_ID) REFERENCES user (user_ID),
-	CONSTRAINT fk_information_feedback_feedback_provider_user_ID FOREIGN KEY (feedback_provider_user_ID) REFERENCES user (user_ID)
+	CONSTRAINT fk_information_feedback_information_provider_user FOREIGN KEY (information_provider_user_id) REFERENCES user (id),
+	CONSTRAINT fk_information_feedback_feedback_provider_user FOREIGN KEY (feedback_provider_user_id) REFERENCES user (id)
 	);
 
 
@@ -208,22 +205,22 @@ CREATE TRIGGER trig_update_user_rating AFTER INSERT ON information_feedback
     DECLARE feed CHAR(1);
     DECLARE feedback_ID SMALLINT;
     DECLARE rating DECIMAL(4,3) DEFAULT 0;
-    DECLARE cur CURSOR FOR SELECT feedback_provider_user_ID, feedback
-		FROM information_feedback WHERE information_provider_user_ID = NEW.information_provider_user_ID;
+    DECLARE cur CURSOR FOR SELECT feedback_provider_user_id, feedback
+		FROM information_feedback WHERE information_provider_user_id = NEW.information_provider_user_id;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
     
     OPEN cur;
 		calculate_loop: LOOP
 			FETCH cur into feedback_ID, feed;
             IF done THEN LEAVE calculate_loop; END IF;
-			SELECT user.rating into rating FROM user where user.user_ID = feedback_ID limit 1;
+			SELECT user.rating into rating FROM user where user.id = feedback_ID limit 1;
             IF feed like 'P' THEN SET sum = sum + rating;
             ELSE SET sum = sum - rating; END IF;
             SET counter = counter + 1;
 		END LOOP;
 	CLOSE cur;
     
-	UPDATE user SET user.rating = 0.5 + sum/counter/2 WHERE user.user_ID = NEW.information_provider_user_ID;
+	UPDATE user SET user.rating = 0.5 + sum/counter/2 WHERE user.id = NEW.information_provider_user_id;
     
 	END;
 | delimiter ;

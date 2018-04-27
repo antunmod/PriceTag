@@ -22,17 +22,17 @@ public class Price implements Serializable {
 	private static final long serialVersionUID = 1945715940307189952L;
 
 	@Id
-	@Column(name = "price_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer priceId;
+	private Integer id;
 
 	/*
 	 * References a specific product in a specific store.
 	 */
-	@Column(name = "product_store_ID")
+	@Column(name = "product_store_id")
 	private Short productStoreId;
 
-	@Column(name = "user_ID")
+	@Column(name = "user_id")
 	private Short userId;
 
 	@Column(name = "price")

@@ -19,20 +19,20 @@ public class CategorySubcategory implements Serializable {
 	private static final long serialVersionUID = 699107640033157900L;
 
 	@Id
-	@Column(name = "category_subcategory_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short categorySubcategoryId;
+	private Short id;
 
 	/*
 	 * References a category.
 	 */
-	@Column(name = "category_ID")
+	@Column(name = "category_id")
 	private byte categoryId;
 
 	/*
 	 * References a subcategory.
 	 */
-	@Column(name = "subcategory_ID")
+	@Column(name = "subcategory_id")
 	private Short subcategoryId;
 
 	public byte getCategoryId() {

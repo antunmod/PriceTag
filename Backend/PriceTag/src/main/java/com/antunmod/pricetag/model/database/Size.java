@@ -16,40 +16,35 @@ public class Size implements Serializable {
 	private static final long serialVersionUID = -8253125849154997846L;
 
 	@Id
-	@Column(name = "product_size_ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Byte productSizeId;
+	private Byte id;
 
-	@Column(name = "size_type")
-	private String sizeType;
+	@Column(name = "type")
+	private String type;
 
 	public Size() {
 	}
 
-	public Size(Byte productSizeId, String sizeType) {
+	public Size(String type) {
 		super();
-		this.productSizeId = productSizeId;
-		this.sizeType = sizeType;
+		this.type = type;
 	}
 
-	public Byte getProductSizeId() {
-		return productSizeId;
+	public Byte getId() {
+		return id;
 	}
 
-	public void setProductSizeId(Byte productSizeId) {
-		this.productSizeId = productSizeId;
+	public void setId(Byte id) {
+		this.id = id;
 	}
 
-	public String getSizeType() {
-		return sizeType;
+	public String getType() {
+		return type;
 	}
 
-	public void setSizeType(String sizeType) {
-		this.sizeType = sizeType;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

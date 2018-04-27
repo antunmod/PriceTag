@@ -86,7 +86,7 @@ public class SimpleService {
 	}
 
 	public List<String> getProductNamesForSubcategoryAndProducerName(String subcategoryName, String producerName) {
-		List<String> productList = productRepository.getProductNamesForSubcategoryNameAndProducer(subcategoryName,
+		List<String> productList = productRepository.getProductNamesForSubcategoryAndProducerName(subcategoryName,
 				producerName);
 		if (productList != null) {
 			return productList;

@@ -8,6 +8,6 @@ import com.antunmod.pricetag.model.database.InformationFeedback;
 @Service
 public interface InformationFeedbackRepository extends JpaRepository<InformationFeedback, Integer> {
 
-	InformationFeedback findByInformationFeedbackId(Integer informationFeedbackId);
+	InformationFeedback findById(Integer id);
 
 }
