@@ -1,7 +1,7 @@
 package com.antunmod.pricetag.model.database;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,21 +52,26 @@ public class User implements Serializable {
 	 * regular user or an admin.
 	 */
 	@Column(name = "user_type_id")
-	private byte userType;
+	private Short userType;
 
 	public User() {}
 	
-	public User(String name, String password, String email, Date signupDate, Short points, byte userType) {
+	public User(String name, String password, String email, Date signupDate) {
 		super();
 		this.name = name;
 		this.password = password;
 		this.email = email;
 		this.signupDate = signupDate;
-		this.points = points;
-		this.userType = userType;
+		
+		/*
+		 * Default values for new users.
+		 */
+		this.rating = 0.0f;
+		this.points = 0;
+		this.userType = 1;
 	}
 
-	public String getUserName() {
+	public String getName() {
 		return name;
 	}
 	
@@ -76,6 +81,10 @@ public class User implements Serializable {
 
 	public void setPoints(Short points) {
 		this.points = points;
+	}
+	
+	public String getEmail() {
+		return email;
 	}
 
 }

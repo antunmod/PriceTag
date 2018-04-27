@@ -128,7 +128,7 @@ public class RepositoryTest {
 	@Test
 	public void testUser() {
 		User user = userRepository.findById(REGULAR_USER_USER_ID);
-		assertEquals(user.getUserName(), REGULAR_USER_STRING);
+		assertEquals(user.getName(), REGULAR_USER_STRING);
 	}
 
 	@Test

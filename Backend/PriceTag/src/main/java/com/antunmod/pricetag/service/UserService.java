@@ -24,5 +24,15 @@ public class UserService {
 		}
 		return user;
 	}
+
+	public User saveUser(User user) {
+		User savedUser = userRepository.save(user);
+		if (user == null) {
+			return new User();
+		}
+		return savedUser;
+	}
+	
+	
 	
 }

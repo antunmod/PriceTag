@@ -28,25 +28,20 @@ public class SearchServiceTest {
 	private final String OILS = "Ulja";
 	private final String ZVIJEZDA = "Zvijezda";
 	private final String SUNFLOWER_OIL = "Suncokretovo ulje";
-	private final String KONZUM = "KONZUM"; 
+	private final String KONZUM = "KONZUM";
 	private final String LITER = "1 l";
 	private final Short SUNFLOWER_OIL_1_LITER_PRODUCT_SPECIFIC_ID = 1;
-	
+
 	private SearchFilter searchFilter;
-	
+
 	@Autowired
 	SearchService searchService;
-	
+
 	@Before
 	public void setupSearchFilter() {
-		searchFilter = new SearchFilter(
-				MEAL_PREPARATION,
-				OILS,
-				ZVIJEZDA,
-				SUNFLOWER_OIL,
-				KONZUM);
+		searchFilter = new SearchFilter(MEAL_PREPARATION, OILS, ZVIJEZDA, SUNFLOWER_OIL, KONZUM);
 	}
-	
+
 	@Test
 	public void testGetProducts() {
 		Boolean contained = false;
@@ -57,16 +52,16 @@ public class SearchServiceTest {
 			break;
 		}
 		assertTrue(contained);
-		
 	}
-	
+
 	@Test
 	public void testGetLocationsForProductSpecificId() {
 		Boolean success = false;
-		ArrayList<StoreProductPrice> storeProductPriceList = searchService.getLocationsForProductSpecificId(SUNFLOWER_OIL_1_LITER_PRODUCT_SPECIFIC_ID);
+		ArrayList<StoreProductPrice> storeProductPriceList = searchService
+				.getLocationsForProductSpecificId(SUNFLOWER_OIL_1_LITER_PRODUCT_SPECIFIC_ID);
 		if (storeProductPriceList.size() > 0)
 			success = true;
 		assertTrue(success);
 	}
-	
+
 }
