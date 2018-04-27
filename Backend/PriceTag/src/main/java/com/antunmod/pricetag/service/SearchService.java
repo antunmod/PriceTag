@@ -1,5 +1,6 @@
 package com.antunmod.pricetag.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,18 @@ public class SearchService {
 	/*
 	 * This method will return all products in the database.
 	 */
-	public List<SearchProductData> getProducts(SearchFilter searchFilter) {
-		List<SearchProductData> searchProductDataList = productSpecificRepository.findProducts(
+	public ArrayList<SearchProductData> getProducts(SearchFilter searchFilter) {
+		List<Object[]> objectArrayList = productSpecificRepository.findProducts(
 				searchFilter.getCategoryName(),
 				searchFilter.getSubcategoryName(),
 				searchFilter.getProducerName(),
 				searchFilter.getProductName(),
 				searchFilter.getStoreName());
+		ArrayList<SearchProductData> searchProductDataList = new ArrayList<>();
+		for (Object[] o : objectArrayList) {
+			searchProductDataList.add(new SearchProductData(
+					(Short)o[0], (String)o[1], (String)o[2], (String)o[3], (String)o[4], (String)o[5]));
+		}
 		return searchProductDataList;
 	}
 	

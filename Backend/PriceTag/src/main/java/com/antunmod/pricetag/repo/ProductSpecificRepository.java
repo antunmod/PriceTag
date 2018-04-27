@@ -36,7 +36,7 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			"AND producer_name LIKE %?3% " + 
 			"AND product_name LIKE %?4% " + 
 			"AND store_name LIKE %?5% ", nativeQuery = true)
-	List<SearchProductData> findProducts(
+	List<Object[]> findProducts(
 			String categoryName,
 			String subcategoryName,
 			String producerName,

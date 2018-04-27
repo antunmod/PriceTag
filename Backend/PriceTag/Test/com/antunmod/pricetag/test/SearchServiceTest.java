@@ -47,14 +47,14 @@ public class SearchServiceTest {
 	
 	@Test
 	public void testGetProducts() {
-		
-		ArrayList<SearchProductData> searchProductDataList = new ArrayList<>(searchService.getProducts(
-				searchFilter));
+		Boolean contained = false;
+		ArrayList<SearchProductData> searchProductDataList = searchService.getProducts(searchFilter);
 		for (SearchProductData searchProductData : searchProductDataList) {
 			if (searchProductData.getProductSize().equals(LITER))
-				assertTrue(true);
+				contained = true;
+			break;
 		}
-		assertTrue(true);
+		assertTrue(contained);
 		
 	}
 	
