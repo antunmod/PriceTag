@@ -1,6 +1,7 @@
 package antunmod.projects.pricetag.transfer;
 
 
+import antunmod.projects.pricetag.model.BaseProduct;
 
 /*
  * The class AddProduct saves a new product to the given store.

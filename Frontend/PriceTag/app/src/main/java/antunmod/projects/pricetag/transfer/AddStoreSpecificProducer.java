@@ -14,6 +14,8 @@ package antunmod.projects.pricetag.transfer;
  * 		- subcategory_product
  */
 
+import antunmod.projects.pricetag.model.BaseProduct;
+
 public class AddStoreSpecificProducer {
 
 	private BaseProduct baseProduct;
