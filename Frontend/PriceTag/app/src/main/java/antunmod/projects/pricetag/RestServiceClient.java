@@ -2,7 +2,6 @@ package antunmod.projects.pricetag;
 
 import java.util.List;
 
-import antunmod.projects.pricetag.model.ProductStore;
 import antunmod.projects.pricetag.model.User;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -122,7 +121,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("stores/address")
-    Call<Integer> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
+    Call<Byte> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()

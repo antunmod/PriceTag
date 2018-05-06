@@ -65,12 +65,20 @@ public class LoginActivity extends AppCompatActivity {
         textView_CreateAnAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent createAnAccountIntent = new Intent(getApplicationContext(), CreateAccountActivity.class);
-                startActivityForResult(createAnAccountIntent, REGISTER_ACTIVITY_REQUEST_CODE);
+                Intent createAccountIntent = new Intent(getApplicationContext(), CreateAccountActivity.class);
+                startActivityForResult(createAccountIntent, REGISTER_ACTIVITY_REQUEST_CODE);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REGISTER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            User createdUser = (User) data.getSerializableExtra("user");
+            Toast.makeText(getApplicationContext(), "Račun s korisničkim imenom " + createdUser.getName() + " je registriran!", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void loginUser(String username, final String password) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
@@ -97,12 +105,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(Integer requestCode, Integer resultCode, Intent data) {
-        if (requestCode == REGISTER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            User createdUser = (User) data.getSerializableExtra("user");
-            Toast.makeText(getApplicationContext(), "Račun s korisničkim imenom " + createdUser.getName() + " je registriran!", Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
 }

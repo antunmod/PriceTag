@@ -1,4 +1,4 @@
-package antunmod.projects.pricetag.transfer;
+package antunmod.projects.pricetag.model;
 
 /*
  * BaseProduct class contains basic information that is sent from application. The data it contains relates to most 

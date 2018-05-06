@@ -23,19 +23,15 @@ import java.util.List;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.RestServiceClient;
+import antunmod.projects.pricetag.model.ProductData;
+import antunmod.projects.pricetag.service.SelectService;
+import antunmod.projects.pricetag.service.UtilService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import antunmod.projects.pricetag.transfer.BaseProduct;
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SelectFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SelectFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment is used in selecting existing or adding new data to a product while adding it.
  */
 public class SelectFragment extends Fragment {
 
@@ -43,49 +39,43 @@ public class SelectFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private SelectService selectService;
+    private UtilService utilService;
+
     /*
         Lists containing data received from the database
      */
-    private List<String> storeList;
-    private List<String> storeAddressList;
-    private List<String> sectorList;
-    private List<String> categoryList;
-    private List<String> subcategoryList;
-    private List<String> producerList;
-    private List<String> productList;
+    private static List<String> storeList;
+    private static List<String> storeAddressList;
+    private static List<String> sectorList;
+    private static List<String> categoryList;
+    private static List<String> subcategoryList;
+    private static List<String> producerList;
+    private static List<String> productList;
 
     /*
         Names of selected Sector, Category and Subcategory.
         Will be used later for finding ID-s
      */
-    private String sectorName;
-    private String categoryName;
-    private String subcategoryName;
+    private static String sectorName;
+    private static String categoryName;
+    private static String subcategoryName;
 
     /*
-    The base product which will be filled with new data.
-    Other data that will be sent to server is below it.
+        The base product which will be filled with new data.
+        Other data that will be sent to server is below it.
      */
-    private BaseProduct baseProduct;
-    private Short productSpecificId;
-    private Float price;
-
-    private Short productId;
-    private String productName;
-
-    private String producerName;
-
-    private Short storeSpecificId;
-    private String storeName;
-    private String storeAddress;
-    private Byte storeId;
-
-    private Short subcategoryId;
+    private static ProductData productData;
 
     /*
-    TextView text.
+        TextView text.
      */
     private String title = "";
+
+    /*
+        errorString will contain error which will be shown to the user. Set by SelectService.
+     */
+    private static String errorString;
 
     /*
         String variables containing new List values added by the user
@@ -114,14 +104,6 @@ public class SelectFragment extends Fragment {
     public SelectFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SelectFragment.
-     */
     public static SelectFragment newInstance(String param1, String param2) {
         SelectFragment fragment = new SelectFragment();
         Bundle args = new Bundle();
@@ -137,9 +119,9 @@ public class SelectFragment extends Fragment {
 
         // Set values
         if (bundle != null) {
-            //storeList = new ArrayList<>();
+            productData = new ProductData();
             storeList = bundle.getStringArrayList("storeList");
-            baseProduct.setBarcode(bundle.getString("barcode"));
+            productData.getBaseProduct().setBarcode(bundle.getString("barcode"));
         }
 
     }
@@ -148,6 +130,7 @@ public class SelectFragment extends Fragment {
     private ListView listView_select;
     private TextView textView_select;
     private FloatingActionButton fab_select;
+    private View progressBar_loading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -155,19 +138,22 @@ public class SelectFragment extends Fragment {
 
         this.inflatedView = inflater.inflate(R.layout.fragment_layout_select, container, false);
 
+        selectService = new SelectService();
+        utilService = new UtilService();
+
         listView_select = inflatedView.findViewById(R.id.listView_select);
         textView_select = inflatedView.findViewById(R.id.textView_new_data);
-
-        fab_select = inflatedView.findViewById(R.id.fab_select);
+        progressBar_loading = inflatedView.findViewById(R.id.progressBar_loading);
 
         listView_select.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, Integer i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selected = listView_select.getItemAtPosition(i).toString();
                 findListData(selected);
             }
         });
 
+        fab_select = inflatedView.findViewById(R.id.fab_select);
         fab_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,8 +167,7 @@ public class SelectFragment extends Fragment {
     }
 
     /*
-    Title, or TextView text, determines the following action to be taken.
-
+        Title, or TextView text, determines the following action to be taken.
      */
     private void setFragment() {
         switch (title) {
@@ -231,7 +216,7 @@ public class SelectFragment extends Fragment {
 
         ab.setPositiveButton("Dodaj", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, Integer i) {
+            public void onClick(DialogInterface dialogInterface, int i) {
                 String newValue = et.getText().toString();
                 if (newValue.isEmpty()) {
                     Toast.makeText(getContext(), "Unesite vrijednost", Toast.LENGTH_SHORT).show();
@@ -243,8 +228,9 @@ public class SelectFragment extends Fragment {
 
         ab.setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, Integer i) {
+            public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(getContext(), "Nije dodano", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -326,7 +312,6 @@ public class SelectFragment extends Fragment {
         if (!oldValue.isEmpty())
             Toast.makeText(getContext(), "Prethodno dodana vrijednost " + oldValue + " je zamijenjena sa " + newValue, Toast.LENGTH_SHORT).show();
 
-
         updateListView();
 
     }
@@ -339,7 +324,8 @@ public class SelectFragment extends Fragment {
     }
 
     /*
-    The following method finds data for the listView according to the title which is currently set.
+        The following method finds data for the listView according to the title which is currently set.
+        If the data chosen from existing, get required data. Otherwise just update View.
      */
     private void findListData(String selected) {
 
@@ -347,12 +333,14 @@ public class SelectFragment extends Fragment {
 
         switch (title) {
             case STORE:
+                productData.setStoreName(selected);
                 if (newStoreName != null && selected.equals(newStoreName))
                     updateFragment(STORE_ADDRESS, storeAddressList = new ArrayList<>());
                 else
                     findStoreAddresses(selected);
                 break;
             case STORE_ADDRESS:
+                productData.setStoreAddress(selected);
                 findProductForBarcodeAndStoreAddress(selected);
                 break;
             case SECTOR:
@@ -374,24 +362,22 @@ public class SelectFragment extends Fragment {
                     findProducersForSubcategoryName(selected);
                 break;
             case PRODUCER:
+                productData.setProducerName(selected);
                 if (newProducerName != null && selected.equals(newProducerName)) {
-                    producerName = selected;
                     if (productList != null && productList.contains(newProductName))
                         updateFragment(PRODUCT, productList);
                     else
-                        updateFragment(PRODUCT, productList = new ArrayList<String>());
+                        updateFragment(PRODUCT, productList = new ArrayList<>());
 
                 } else {
-                    product.setProducer(selected);
                     findProductsForSubcategoryNameAndProducer(selected);
                 }
                 break;
             case PRODUCT:
+                productData.setProductName(selected);
                 if (newProductName != null && selected.equals(newProductName)) {
-                    product.setProductName(selected);
                     findSubcategoryIdForCategoryAndSubcategoryName();
                 } else {
-                    product.setProductName("");
                     findProductIdForProducerAndProductName(selected);
                 }
 
@@ -407,27 +393,19 @@ public class SelectFragment extends Fragment {
     }
 
     private void findStoreAddresses(String selectedStore) {
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findStoreAddresses(selectedStore);
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getStoreLocations(selectedStore);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> storeAddresses = (ArrayList<String>) response.body();
-                if (storeAddresses != null && storeAddresses.size() > 0) {
-                    SelectFragment.this.storeAddressList = storeAddresses;
-                    updateFragment(STORE_ADDRESS, storeAddressList);
-                } else {
-                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        while (errorString == null && storeAddressList == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            updateFragment(STORE_ADDRESS, storeAddressList);
+        }
     }
+
 
     private void findProductForBarcodeAndStoreAddress(final String storeAddress) {
 
@@ -454,6 +432,7 @@ public class SelectFragment extends Fragment {
 
     }
 
+
     private void getPhotoByteArray() {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Byte[]> call = restServiceClient.getPhotoByteArray(updateProduct.getPhotoId());
@@ -476,6 +455,7 @@ public class SelectFragment extends Fragment {
         });
     }
 
+
     private void goToUpdateProductFragment(Byte[] photoByteArray) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("photoByteArray", photoByteArray);
@@ -491,99 +471,61 @@ public class SelectFragment extends Fragment {
 
     private void findSectors(final String storeAddress) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getAllSectorNames();
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> sectorList = response.body();
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findSectors(storeAddress);
 
-                if (sectorList != null) {
-                    SelectFragment.this.sectorList = sectorList;
-                    findStoreId(storeAddress);
-                } else {
-                    Toast.makeText(getContext(), "Neuspjelo dohvaćanje sektora. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        while (errorString == null && sectorList == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            findStoreId(storeAddress);
+        }
 
     }
 
     private void findStoreId(String storeAddress) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Integer> call = restServiceClient.getStoreIdForAddress(storeAddress);
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Integer storeId = response.body();
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findStoreId(storeAddress);
 
-                if (storeId != null) {
-                    SelectFragment.this.productStore.setStoreId(storeId);
-                    updateFragment(SECTOR, sectorList);
-                } else {
-                    Toast.makeText(getContext(), "Neuspjelo dohvaćanje identifikatora dućana. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        while (errorString == null && productData.getStoreId() == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            updateFragment(SECTOR, sectorList);
+        }
     }
 
     private void findCategoriesForSectorName(String sectorName) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getCategoriesForSectorName(sectorName);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> categoriesList = (ArrayList) response.body();
-                if (categoriesList != null) {
-                    SelectFragment.this.categoryList = categoriesList;
-                    updateFragment(CATEGORY, categoryList);
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findCategoriesForSectorName(sectorName);
 
-                } else {
-                    Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        while (errorString == null && categoryList == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            updateFragment(CATEGORY, categoryList);
+        }
     }
 
     private void findSubcategoriesForCategoryName(String categoryName) {
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findSubcategoriesForCategoryName(categoryName);
         this.categoryName = categoryName;
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getSubcategoriesForCategoryName(categoryName);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> subcategoriesList = (ArrayList) response.body();
-                if (subcategoriesList != null) {
-                    SelectFragment.this.subcategoryList = subcategoriesList;
-                    updateFragment(SUBCATEGORY, subcategoryList);
-                } else {
-                    Toast.makeText(getContext(), "Ne postoje kategorije za odabrani sektor.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        while (errorString == null && subcategoryList == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            updateFragment(SUBCATEGORY, subcategoryList);
+        }
     }
 
     private void findProducersForSubcategoryName(String subcategoryName) {
@@ -729,9 +671,14 @@ public class SelectFragment extends Fragment {
 
     }
 
-
+    /*
+        This method changes title and enables/disables fab when neccessary.
+     */
     private void updateFragment(String newTitle, List<String> stringList) {
-        title = newTitle;
+
+        if (title == STORE_ADDRESS && newTitle == SECTOR)
+
+            title = newTitle;
         textView_select.setText(newTitle);
         addValuesToListView(stringList);
     }
@@ -780,7 +727,7 @@ public class SelectFragment extends Fragment {
     }
 
     /*
-    Called on back pressed. The previous list is loaded back in listView and TextView is set to previous value.
+        Called on back pressed. The previous list is loaded back in listView and TextView is set to previous value.
      */
     public boolean onBackPressed() {
         switch (title) {
@@ -864,4 +811,55 @@ public class SelectFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    /*
+        The following are getters and setters used while doing retrofit calls
+     */
+
+    public static void setStoreId(Byte storeId) {
+        productData.setStoreId(storeId);
+    }
+
+    public static void setCategoryName(String newCategoryName) {
+        categoryName = newCategoryName;
+    }
+
+    public void setSubcategoryName(String subcategoryName) {
+        this.subcategoryName = subcategoryName;
+    }
+
+
+    public static void setStoreList(List<String> newStoreList) {
+        storeList = newStoreList;
+    }
+
+    public static void setStoreAddressList(List<String> newStoreAddressList) {
+        storeAddressList = newStoreAddressList;
+    }
+
+    public static void setSectorList(List<String> newSectorList) {
+        sectorList = newSectorList;
+    }
+
+    public static void setCategoryList(List<String> newCategoryList) {
+        categoryList = newCategoryList;
+    }
+
+    public static void setSubcategoryList(List<String> newSubcategoryList) {
+        subcategoryList = newSubcategoryList;
+    }
+
+    public static void setProducerList(List<String> newProducerList) {
+        producerList = newProducerList;
+    }
+
+    public static void setProductList(List<String> newProductList) {
+        productList = newProductList;
+    }
+
+
+    public static void setErrorString(String error) {
+        errorString = error;
+    }
+
 }

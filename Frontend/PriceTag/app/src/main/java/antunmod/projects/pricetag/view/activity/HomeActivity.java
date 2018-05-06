@@ -132,13 +132,16 @@ public class HomeActivity extends AppCompatActivity
             builder.setTitle("Odjava")
                     .setMessage("Jeste li sigurni da se želite odjaviti?")
                     .setPositiveButton("Da", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, Integer which) {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             finish();
                         }
                     })
                     .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, Integer which) {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             // do nothing
+
                         }
                     })
                     .setIcon(R.drawable.ic_logout);

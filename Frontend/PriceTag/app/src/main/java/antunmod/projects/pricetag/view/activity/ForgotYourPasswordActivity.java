@@ -3,6 +3,8 @@ package antunmod.projects.pricetag.view.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import antunmod.projects.pricetag.R;
+
 public class ForgotYourPasswordActivity extends AppCompatActivity {
 
     @Override
