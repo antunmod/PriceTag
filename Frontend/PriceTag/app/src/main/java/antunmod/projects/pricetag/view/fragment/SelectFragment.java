@@ -241,80 +241,35 @@ public class SelectFragment extends Fragment {
 
     private void saveNewValue(String newValue) {
 
-        String oldValue = "";
 
         switch (title) {
 
             case STORE:
-                if (newStoreAddress != null && storeList.contains(newStoreAddress)) {
-                    oldValue = newStoreName;
-                    storeList.remove(oldValue);
-                }
                 newStoreName = newValue;
-                storeList.add(newValue);
                 break;
             case STORE_ADDRESS:
-                if (newStoreAddress != null && storeAddressList.contains(newStoreAddress)) {
-                    oldValue = newStoreAddress;
-                    storeAddressList.remove(oldValue);
-                }
                 newStoreAddress = newValue;
-                storeAddressList.add(newValue);
                 break;
             case SECTOR:
-                if (newSectorName != null && sectorList.contains(newSectorName)) {
-                    oldValue = newSectorName;
-                    sectorList.remove(oldValue);
-                }
                 newSectorName = newValue;
-                sectorList.add(newValue);
                 break;
             case CATEGORY:
-                if (newCategoryName != null && categoryList.contains(newCategoryName)) {
-                    oldValue = newCategoryName;
-                    categoryList.remove(oldValue);
-                }
                 newCategoryName = newValue;
-                categoryList.add(newValue);
                 break;
             case SUBCATEGORY:
-                if (newSubcategoryName != null && subcategoryList.contains(newSubcategoryName)) {
-                    oldValue = newSubcategoryName;
-                    subcategoryList.remove(oldValue);
-                }
                 newSubcategoryName = newValue;
-                subcategoryList.add(newValue);
                 break;
             case PRODUCER:
-                if (newProducerName != null && producerList.contains(newProducerName)) {
-                    oldValue = newProducerName;
-                    producerList.remove(oldValue);
-                }
                 newProducerName = newValue;
-                producerList.add(newValue);
                 break;
             case PRODUCT:
-                if (newProductName != null && productList.contains(newProductName)) {
-                    oldValue = newProductName;
-                    productList.remove(oldValue);
-                }
                 newProductName = newValue;
-                productList.add(newValue);
                 break;
             case SIZE:
-                if (newCategoryName != null) {
-                    oldValue = newCategoryName;
-                    categoryList.remove(oldValue);
-                }
                 newStoreName = newValue;
                 break;
 
         }
-        if (!oldValue.isEmpty())
-            Toast.makeText(getContext(), "Prethodno dodana vrijednost " + oldValue + " je zamijenjena sa " + newValue, Toast.LENGTH_SHORT).show();
-
-        updateListView();
-
     }
 
     private void updateListView() {
@@ -663,9 +618,6 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCT:
                 updateFragment(PRODUCER, producerList);
-                break;
-            case SIZE:
-                updateFragment(PRODUCT, productList);
                 break;
 
         }
