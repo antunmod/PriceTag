@@ -52,6 +52,7 @@ public class SelectFragment extends Fragment {
     private static List<String> subcategoryList;
     private static List<String> producerList;
     private static List<String> productList;
+    private static List<String> sizeList;
 
     /*
         Names of selected Sector, Category and Subcategory.
@@ -515,9 +516,9 @@ public class SelectFragment extends Fragment {
     }
 
     private void findSubcategoriesForCategoryName(String categoryName) {
+        this.categoryName = categoryName;
         utilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findSubcategoriesForCategoryName(categoryName);
-        this.categoryName = categoryName;
         while (errorString == null && subcategoryList == null) ;
         utilService.showProgress(false, listView_select, progressBar_loading);
         if (errorString != null) {
@@ -530,123 +531,44 @@ public class SelectFragment extends Fragment {
 
     private void findProducersForSubcategoryName(String subcategoryName) {
         this.subcategoryName = subcategoryName;
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getProducersForSubcategoryName(subcategoryName);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> producersList = (ArrayList) response.body();
-                if (producersList != null)
-                    SelectFragment.this.producerList = producersList;
-
-                updateFragment(PRODUCER, producersList == null ? new ArrayList<String>() : producersList);
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findProducersForSubcategoryName(subcategoryName);
+        while (errorString == null && producerList == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            updateFragment(PRODUCER, producerList);
+        }
     }
 
-    private void findProductsForSubcategoryNameAndProducer(String producer) {
-        product.setProducer(producer);
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryNameAndProducer(subcategoryName, producer);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> productsList = (ArrayList) response.body();
-                if (productsList != null)
-                    SelectFragment.this.productList = productsList;
-
-                updateFragment(PRODUCT, productsList == null ? new ArrayList<String>() : productsList);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+    private void findProductsForSubcategoryAndProducerName(String producerName) {
+        productData.setProducerName(producerName);
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findProductsForSubcategoryAndProducerName(subcategoryName, producerName);
+        while (errorString == null && productList == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            updateFragment(PRODUCT, productList);
+        }
     }
 
     private void findProductIdForProducerAndProductName(String productName) {
-
-        product.setProductName(productName);
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Integer> call = restServiceClient.getProductIdForProducerAndProductName(product.getProducer(), productName);
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Integer productId = response.body();
-                if (productId != NOT_FOUND_INTEGER) {
-                    product.setProductId(productId);
-                    productStore.setProductId(productId);
-                    findSizeValuesForProductId();
-                }
-                //else
-                //updateFragment(SIZE, new String[0]);
-
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
-
-    private void findSizeValuesForProductId() {
-
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getSizeValuesForProductId(product.getProductId());
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> sizeList = response.body();
-                if (sizeList != null) {
-                    SelectFragment.this.sizeList = sizeList;
-                }
-                updateFragment(SIZE, sizeList != null ? sizeList : new ArrayList<String>());
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private void findPhotoForProductIdAndSize(String size) {
-
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<String> call = restServiceClient.getPhotoForProductIdAndSize(product.getProductId(), size);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String photo = response.body();
-                if (photo != null) {
-                    // productStore.setPhoto(photo);
-                    showPhotoAndPriceFragment();
-                } else {
-                    showPhotoAndPriceFragment();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        productData.setProducerName(productName);
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findProductIdForProducerAndProductName(productData.getProducerName(), productName);
+        while (errorString == null && productData.getProductId() == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            showPhotoAndPriceFragment();
+        }
     }
 
     private void findSubcategoryIdForCategoryAndSubcategoryName() {
@@ -816,6 +738,10 @@ public class SelectFragment extends Fragment {
         The following are getters and setters used while doing retrofit calls
      */
 
+    public static void setProductId(Short productId) {
+        productData.setProductId(productId);
+    }
+
     public static void setStoreId(Byte storeId) {
         productData.setStoreId(storeId);
     }
@@ -856,6 +782,8 @@ public class SelectFragment extends Fragment {
     public static void setProductList(List<String> newProductList) {
         productList = newProductList;
     }
+
+    public static void setSizeList(List<String> newSizeList) {sizeList = newSizeList;}
 
 
     public static void setErrorString(String error) {

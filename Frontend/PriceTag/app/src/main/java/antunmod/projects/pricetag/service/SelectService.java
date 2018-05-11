@@ -1,5 +1,7 @@
 package antunmod.projects.pricetag.service;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,4 +128,97 @@ public class SelectService {
         });
     }
 
+    public void findProducersForSubcategoryName(String subcategoryName) {
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getProducersForSubcategoryName(subcategoryName);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                ArrayList<String> producersList = (ArrayList) response.body();
+                if (producersList != null) {
+                    SelectFragment.setProducerList(producersList);
+
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+
+            ;
+
+        });
+    }
+
+    public void findProductsForSubcategoryAndProducerName(String subcategoryName, String producerName) {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryNameAndProducer(subcategoryName, producerName);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                ArrayList<String> productsList = (ArrayList) response.body();
+                if (productsList != null) {
+                    SelectFragment.setProductList(productsList);
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+
+        });
+
+    }
+
+    public void findProductIdForProducerAndProductName(String producerName, String productName) {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Short> call = restServiceClient.getProductIdForProducerAndProductName(producerName, productName);
+        call.enqueue(new Callback<Short>() {
+            @Override
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productId = response.body();
+                if (productId != null) {
+                    SelectFragment.setProductId(productId);
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Short> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
+
+    public void findSizeValuesForProductId(Short productId) {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<List<String>> call = restServiceClient.getSizeValuesForProductId(productId);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                List<String> sizeList = response.body();
+                if (sizeList != null) {
+                    SelectFragment.setSizeList(sizeList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+
+    }
 }

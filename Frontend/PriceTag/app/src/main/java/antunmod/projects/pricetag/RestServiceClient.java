@@ -73,12 +73,12 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("products/productId")
-    Call<Integer> getProductIdForProducerAndProductName(@Query("producer") String producer,
+    Call<Short> getProductIdForProducerAndProductName(@Query("producer") String producer,
                                                         @Query("productName") String productName);
 
     @Headers("Content-Type: application/json")
     @GET("sizes/sizeValue")
-    Call<List<String>> getSizeValuesForProductId(@Query("productId") Integer productId);
+    Call<List<String>> getSizeValuesForProductId(@Query("productId") Short productId);
 
     @Headers("Content-Type: application/json")
     @GET("products/photo")

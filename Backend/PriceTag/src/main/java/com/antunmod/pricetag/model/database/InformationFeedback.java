@@ -23,10 +23,10 @@ public class InformationFeedback implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "information_provider_user_ID")
+	@Column(name = "information_provider_user_id")
 	private Short informationProviderUserId;
 
-	@Column(name = "feedback_provider_user_ID")
+	@Column(name = "feedback_provider_user_id")
 	private Short feedbackProviderUserId;
 
 	/*
