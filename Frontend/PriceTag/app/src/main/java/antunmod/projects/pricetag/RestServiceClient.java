@@ -18,9 +18,86 @@ import retrofit2.http.Query;
 
 public interface RestServiceClient {
 
-    /*@Headers("Content-Type: application/json")
-    @GET("users")
-    Call<List<User>> getUsers();*/
+    /*
+        Adding products to an existing store location.
+    */
+
+    @Headers("Content-Type: application/json")
+    @POST("add/productSpecific")
+    Call<Boolean> addProductSpecific(@Body AddProductSpecific addProductSpecific);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/product")
+    Call<Boolean> addProduct(@Body AddProduct addProduct);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/producer")
+    Call<Boolean> addProducer(@Body AddProducer addProducer);
+
+    /*
+        Adding products to a new store location.
+    */
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeSpecificProductSpecific")
+    Call<Boolean> addStoreSpecificProductSpecific(@Body AddStoreSpecificProductSpecific addStoreSpecificProductSpecific);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeSpecificProduct")
+    Call<Boolean> addStoreSpecificProduct(@Body AddStoreSpecificProduct addStoreSpecificProduct);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeSpecificProducer")
+    Call<Boolean> addStoreSpecificProducer(@Body AddStoreSpecificProducer addStoreSpecificProducer);
+
+    /*
+        Adding products to a new store.
+    */
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeProductSpecific")
+    Call<Boolean> addStoreProductSpecific(@Body AddStoreProductSpecific addStoreProductSpecific);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeProduct")
+    Call<Boolean> addStoreProduct(@Body AddStoreProduct addStoreProduct);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeProducer")
+    Call<Boolean> addStoreProducer(@Body AddStoreProducer addStoreProducer);
+
+
+    /*
+        Updating products.
+    */
+
+    @Headers("Content-Type: application/json")
+    @POST("add/price")
+    Call<Boolean> addPrice(@Body AddPrice addPrice);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeSpecificProductStore")
+    Call<Boolean> addStoreSpecificProductStore(@Body AddStoreSpecificProductStore addStoreSpecificProductStore);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeProductStore")
+    Call<Boolean> addStoreProductStore(@Body AddStoreProductStore addStoreProductStore);
+
+    /*
+        Searching for products.
+    */
+
+    @Headers("Content-Type: application/json")
+    @GET("search")
+    Call<ArrayList<SearchProductData>> getProducts(@Body SearchFilter searchFilter);
+
+    @Headers("Content-Type: application/json")
+    @GET("search/locations")
+    Call<ArrayList<StoreProductPrice>> getLocationsForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
+
+    /*
+
+    */
 
     @Headers("Content-Type: application/json")
     @GET("users")
