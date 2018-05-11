@@ -1,10 +1,12 @@
 package antunmod.projects.pricetag.model;
 
+import java.io.Serializable;
+
 /**
  * Created by antun on 5/5/2018.
  */
 
-public class ProductData {
+public class ProductData implements Serializable {
 
     private BaseProduct baseProduct;
 

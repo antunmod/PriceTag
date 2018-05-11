@@ -371,7 +371,7 @@ public class SelectFragment extends Fragment {
                         updateFragment(PRODUCT, productList = new ArrayList<>());
 
                 } else {
-                    findProductsForSubcategoryNameAndProducer(selected);
+                    findProductsForSubcategoryAndProducerName(selected);
                 }
                 break;
             case PRODUCT:
@@ -573,23 +573,16 @@ public class SelectFragment extends Fragment {
 
     private void findSubcategoryIdForCategoryAndSubcategoryName() {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Integer> call = restServiceClient.getSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Integer subcategoryId = response.body();
-                if (subcategoryId != null) {
-                    SelectFragment.this.subcategoryId = subcategoryId;
-                    goToAddProductFragment();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
+        while (errorString == null && productData.getSubcategoryId() == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            goToAddProductFragment();
+        }
 
     }
 
@@ -598,9 +591,9 @@ public class SelectFragment extends Fragment {
      */
     private void updateFragment(String newTitle, List<String> stringList) {
 
-        if (title == STORE_ADDRESS && newTitle == SECTOR)
-
+        if (title.equals(STORE_ADDRESS) && newTitle.equals(SECTOR))
             title = newTitle;
+
         textView_select.setText(newTitle);
         addValuesToListView(stringList);
     }
@@ -635,10 +628,7 @@ public class SelectFragment extends Fragment {
     private void goToAddProductFragment() {
         Bundle bundle = new Bundle();
 
-        if (!product.getProducer().isEmpty())
-            bundle.putSerializable("product", product);
-        bundle.putSerializable("productStore", productStore);
-        bundle.putInt("subcategoryId", subcategoryId);
+        bundle.putSerializable("productData", productData);
         AddProductFragment addProductFragment = new AddProductFragment();
         addProductFragment.setArguments(bundle);
         getFragmentManager()
@@ -746,14 +736,9 @@ public class SelectFragment extends Fragment {
         productData.setStoreId(storeId);
     }
 
-    public static void setCategoryName(String newCategoryName) {
-        categoryName = newCategoryName;
+    public static void setSubcategoryId(Short subcategoryId) {
+        productData.setSubcategoryId(subcategoryId);
     }
-
-    public void setSubcategoryName(String subcategoryName) {
-        this.subcategoryName = subcategoryName;
-    }
-
 
     public static void setStoreList(List<String> newStoreList) {
         storeList = newStoreList;

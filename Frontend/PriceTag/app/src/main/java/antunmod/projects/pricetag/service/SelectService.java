@@ -221,4 +221,27 @@ public class SelectService {
         });
 
     }
+
+    public void findSubcategoryIdForCategoryAndSubcategoryName(String categoryName, String subcategoryName) {
+
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Short> call = restServiceClient.getSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
+        call.enqueue(new Callback<Short>() {
+            @Override
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short subcategoryId = response.body();
+                if (subcategoryId != null) {
+                    SelectFragment.setSubcategoryId(subcategoryId);
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Short> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+
+    }
 }
