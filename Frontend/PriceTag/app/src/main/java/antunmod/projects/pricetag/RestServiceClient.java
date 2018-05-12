@@ -176,7 +176,7 @@ public interface RestServiceClient {
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.6:8000/")
+            .baseUrl("http://192.168.178.33:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

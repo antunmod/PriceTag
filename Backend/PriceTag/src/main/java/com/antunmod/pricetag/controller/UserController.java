@@ -1,5 +1,6 @@
 package com.antunmod.pricetag.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +18,14 @@ import com.antunmod.pricetag.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 
+	@Autowired
 	private UserService userService;
 
 	@ResponseBody
 	@GetMapping("")
 	public ResponseEntity<User> loginUser(@RequestParam("name") String name,
 			@RequestParam("password") String password) {
-		User user = userService.getUser(userName, password);
+		User user = userService.getUser(name, password);
 		if (user == null) {
 			return new ResponseEntity<User>(new User(), HttpStatus.OK);
 		}
@@ -34,7 +36,7 @@ public class UserController {
 	@PostMapping("")
 	public ResponseEntity<User> registerUser(@RequestBody User user) {
 		User savedUser = userService.saveUser(user);
-		
+
 		if (user == null)
 			return new ResponseEntity<User>(new User(), HttpStatus.OK);
 

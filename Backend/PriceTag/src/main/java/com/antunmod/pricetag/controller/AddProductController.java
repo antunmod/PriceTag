@@ -1,5 +1,6 @@
 package com.antunmod.pricetag.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +30,9 @@ import com.antunmod.pricetag.service.AddProductService;
 @RequestMapping("/add")
 public class AddProductController {
 
+	@Autowired
 	private AddProductService addProductService;
-	
+
 	/*
 	 * This mapping will result in addition of entries to the following tables in
 	 * database: product_specific, product_store, price
@@ -44,7 +46,7 @@ public class AddProductController {
 
 	/*
 	 * This mapping will result in addition of entries to the following tables in
-	 * database: product, product_specific, product_store, price, 
+	 * database: product, product_specific, product_store, price,
 	 * subcategory_product
 	 */
 	@ResponseBody
@@ -56,7 +58,7 @@ public class AddProductController {
 
 	/*
 	 * This mapping will result in addition of entries to the following tables in
-	 * database: producer, product, product_specific, product_store, price, 
+	 * database: producer, product, product_specific, product_store, price,
 	 * subcategory_product
 	 */
 	@ResponseBody
@@ -80,8 +82,8 @@ public class AddProductController {
 
 	/*
 	 * This mapping will result in addition of entries to the following tables in
-	 * database: store_specific, product, product_specific, product_store, 
-	 * price, subcategory_product
+	 * database: store_specific, product, product_specific, product_store, price,
+	 * subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProduct")
@@ -93,8 +95,8 @@ public class AddProductController {
 
 	/*
 	 * This mapping will result in addition of entries to the following tables in
-	 * database: store_specific, producer, product, product_specific, 
-	 * product_store, price, subcategory_product
+	 * database: store_specific, producer, product, product_specific, product_store,
+	 * price, subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProducer")
@@ -118,8 +120,8 @@ public class AddProductController {
 
 	/*
 	 * This mapping will result in addition of entries to the following tables in
-	 * database: store, store_specific, product, product_specific, 
-	 * product_store, price, subcategory_product
+	 * database: store, store_specific, product, product_specific, product_store,
+	 * price, subcategory_product
 	 */
 	@ResponseBody
 	@PostMapping("/storeProduct")
@@ -130,7 +132,7 @@ public class AddProductController {
 
 	/*
 	 * This mapping will result in addition of entries to the following tables in
-	 * database: store, store_specific, producer, product, product_specific, 
+	 * database: store, store_specific, producer, product, product_specific,
 	 * product_store, price, subcategory_product
 	 */
 	@ResponseBody

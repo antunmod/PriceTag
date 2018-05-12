@@ -2,6 +2,7 @@ package com.antunmod.pricetag.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import com.antunmod.pricetag.service.SimpleService;
 @RestController
 public class SimpleController {
 
+	@Autowired
 	private SimpleService simpleService;
 
 	@ResponseBody
