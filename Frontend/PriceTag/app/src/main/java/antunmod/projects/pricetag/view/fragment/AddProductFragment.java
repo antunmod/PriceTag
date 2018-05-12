@@ -25,9 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.model.Product;
 import antunmod.projects.pricetag.model.ProductData;
-import antunmod.projects.pricetag.model.ProductStore;
 import antunmod.projects.pricetag.service.AddProductService;
 import antunmod.projects.pricetag.service.UtilService;
 
@@ -237,12 +235,13 @@ public class AddProductFragment extends Fragment {
             Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
             errorString = null;
         } else {
-            Toast.makeText(getContext(), "Proizvod " + productData.getProductName() + (productAdded? "je":"nije") + "dodan", Toast.LENGTH_SHORT);
+            String outputMessage = "Proizvod " + productData.getProductName() + (productAdded? "je":"nije") + "dodan";
             productAdded = null;
+            goToEnterBarcodeFragment(outputMessage);
         }
     }
 
-    private void goToEnterBarcodeFragment() {
+    private void goToEnterBarcodeFragment(String outputMessage) {
 
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction trans = manager.beginTransaction();
@@ -252,10 +251,8 @@ public class AddProductFragment extends Fragment {
         // Pop selectFrament
         manager.popBackStack();
 
-        String toastString = "Uspješno ste dodali proizvod  " + product.getProductName();
-
         Bundle bundle = new Bundle();
-        bundle.putString("toastString", toastString);
+        bundle.putString("outputMessage", outputMessage);
         EnterBarcodeFragment enterBarcodeFragment = new EnterBarcodeFragment();
         enterBarcodeFragment.setArguments(bundle);
         getFragmentManager()
