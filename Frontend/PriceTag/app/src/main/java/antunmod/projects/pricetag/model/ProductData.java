@@ -2,6 +2,16 @@ package antunmod.projects.pricetag.model;
 
 import java.io.Serializable;
 
+import antunmod.projects.pricetag.transfer.AddProducer;
+import antunmod.projects.pricetag.transfer.AddProduct;
+import antunmod.projects.pricetag.transfer.AddProductSpecific;
+import antunmod.projects.pricetag.transfer.AddStoreProducer;
+import antunmod.projects.pricetag.transfer.AddStoreProduct;
+import antunmod.projects.pricetag.transfer.AddStoreProductSpecific;
+import antunmod.projects.pricetag.transfer.AddStoreSpecificProducer;
+import antunmod.projects.pricetag.transfer.AddStoreSpecificProduct;
+import antunmod.projects.pricetag.transfer.AddStoreSpecificProductSpecific;
+
 /**
  * Created by antun on 5/5/2018.
  */
@@ -126,5 +136,41 @@ public class ProductData implements Serializable {
 
     public void setSubcategoryId(Short subcategoryId) {
         this.subcategoryId = subcategoryId;
+    }
+
+    public AddProductSpecific toAddProductSpecific() {
+        return new AddProductSpecific(baseProduct, productId, storeSpecificId);
+    }
+
+    public AddProduct toAddProduct() {
+        return new AddProduct(baseProduct, producerId, productName, storeSpecificId, subcategoryId);
+    }
+
+    public AddProducer toAddProducer() {
+        return new AddProducer(baseProduct, producerName, productName, storeSpecificId, subcategoryId);
+    }
+
+    public AddStoreSpecificProductSpecific toAddStoreSpecificProductSpecific() {
+        return new AddStoreSpecificProductSpecific(baseProduct, productId, storeId, storeAddress);
+    }
+
+    public AddStoreSpecificProduct toAddStoreSpecificProduct() {
+        return new AddStoreSpecificProduct(baseProduct, producerId, productName, storeId, storeAddress, subcategoryId);
+    }
+
+    public AddStoreSpecificProducer toAddStoreSpecificProducer() {
+        return new AddStoreSpecificProducer(baseProduct, producerName, productName, storeId, storeAddress, subcategoryId);
+    }
+
+    public AddStoreProductSpecific toAddStoreProductSpecific() {
+        return new AddStoreProductSpecific(baseProduct, productId, storeName, storeAddress);
+    }
+
+    public AddStoreProduct toAddStoreProduct() {
+        return new AddStoreProduct(baseProduct, producerId, productName, storeAddress, storeAddress, subcategoryId);
+    }
+
+    public AddStoreProducer toAddStoreProducer() {
+        return new AddStoreProducer(baseProduct, producerName, productName, storeName, storeAddress, subcategoryId);
     }
 }
