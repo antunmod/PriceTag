@@ -21,7 +21,7 @@ public class UserController {
 
 	@ResponseBody
 	@GetMapping("")
-	public ResponseEntity<User> loginUser(@RequestParam("userName") String userName,
+	public ResponseEntity<User> loginUser(@RequestParam("name") String name,
 			@RequestParam("password") String password) {
 		User user = userService.getUser(userName, password);
 		if (user == null) {

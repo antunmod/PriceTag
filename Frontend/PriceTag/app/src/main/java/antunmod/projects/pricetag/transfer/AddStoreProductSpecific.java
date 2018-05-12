@@ -20,12 +20,14 @@ public class AddStoreProductSpecific {
 	private Short productId;
 	private String storeName;
 	private String storeAddress;
-	
-	public String getStoreName() {
-		return storeName;
+
+	public AddStoreProductSpecific(BaseProduct baseProduct, Short productId, String storeName, String storeAddress) {
+		this.baseProduct = baseProduct;
+		this.productId = productId;
+		this.storeName = storeName;
+		this.storeAddress = storeAddress;
 	}
-	
-	public AddStoreSpecificProductSpecific toAddStoreSpecificProductSpecific(byte storeId) {
-		return new AddStoreSpecificProductSpecific(baseProduct, productId, storeId, storeAddress);
-	}
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.antunmod.pricetag.model.transfer;
+package antunmod.projects.pricetag.transfer;
 
 /*
  * The SearchProductData class contains data for a product which will be shown to user on request.

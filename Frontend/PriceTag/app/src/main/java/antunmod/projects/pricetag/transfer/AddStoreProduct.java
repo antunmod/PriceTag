@@ -22,7 +22,16 @@ public class AddStoreProduct {
 	private String storeName;
 	private String storeAddress;
 	private Short subcategoryId;
-	
+
+	public AddStoreProduct(BaseProduct baseProduct, Short producerId, String productName, String storeName, String storeAddress, Short subcategoryId) {
+		this.baseProduct = baseProduct;
+		this.producerId = producerId;
+		this.productName = productName;
+		this.storeName = storeName;
+		this.storeAddress = storeAddress;
+		this.subcategoryId = subcategoryId;
+	}
+
 	public String getStoreName() {
 		return storeName;
 	}

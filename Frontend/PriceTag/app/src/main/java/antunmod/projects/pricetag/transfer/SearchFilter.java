@@ -1,4 +1,4 @@
-package com.antunmod.pricetag.model.transfer;
+package antunmod.projects.pricetag.transfer;
 
 /*
  * The SearchFIlter class contains filter data sent from frontend.

@@ -22,19 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.model.Product;
+import antunmod.projects.pricetag.model.ProductData;
 import antunmod.projects.pricetag.model.ProductStore;
-import antunmod.projects.pricetag.view.activity.HomeActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import antunmod.projects.pricetag.service.AddProductService;
+import antunmod.projects.pricetag.service.UtilService;
 
 
 /**
@@ -53,14 +48,15 @@ public class AddProductFragment extends Fragment {
     private static final Integer CAMERA_REQUEST = 1;
     private static final Float MAX_SIZE_VALUE = (float) 50.0;
     private static final Float MAX_PRICE_VALUE = (float) 10000.0;
-    private static final Integer NON_EXISTING_PRODUCT_ID = 0;
-    private static final Integer FIRST_PRODUCT_UPDATE = 1;
+    private static final Short NON_EXISTING_PRODUCT_ID = 0;
 
-    private Product product;
-    private ProductStore productStore;
+    private ProductData productData;
     private byte[] photo;
     boolean pictureSet = false;
-    private Integer subcategoryId;
+    private static String errorString;
+
+    private UtilService utilService;
+    private AddProductService addProductService;
 
     public AddProductFragment() {
         // Required empty public constructor
@@ -81,15 +77,14 @@ public class AddProductFragment extends Fragment {
 
         // Set values
         if (bundle != null) {
-            product = (Product) bundle.getSerializable("product");
-            productStore = (ProductStore) bundle.getSerializable("productStore");
-            subcategoryId = bundle.getInt("subcategoryId");
+            productData = (ProductData) bundle.getSerializable("productData");
         }
 
 
     }
 
     private View inflatedView;
+    private View progressBar_loading;
     private ImageView imageView_addProduct;
     private TextView textView_producer;
     private TextView textView_productName;
@@ -104,7 +99,9 @@ public class AddProductFragment extends Fragment {
     private Float size;
     private Float price;
 
-    private List<String> sizeTypeList;
+    private static Boolean productAdded = null;
+
+    private static List<String> sizeTypeList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,6 +117,9 @@ public class AddProductFragment extends Fragment {
         editText_price = inflatedView.findViewById(R.id.editText_price);
         textView_addProduct = inflatedView.findViewById(R.id.textView_add_product);
 
+        addProductService = new AddProductService();
+        utilService = new UtilService();
+
         imageView_addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,11 +127,12 @@ public class AddProductFragment extends Fragment {
             }
         });
 
+        progressBar_loading = inflatedView.findViewById(R.id.progressBar_loading);
         textView_addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (fieldsAreValid()) {
-                    if (product.getProductId() == NON_EXISTING_PRODUCT_ID)
+                    if (productData.getProductId() == NON_EXISTING_PRODUCT_ID)
                         addProduct();
 
                 }
@@ -143,13 +144,8 @@ public class AddProductFragment extends Fragment {
         return inflatedView;
     }
 
-    public void callCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA_REQUEST);
-    }
-
     @Override
-    public void onActivityResult(Integer requestCode, Integer resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
 
@@ -174,10 +170,14 @@ public class AddProductFragment extends Fragment {
         }
     }
 
-    private void setProducerAndProductName() {
-        textView_producer.setText(product.getProducer());
-        textView_productName.setText(product.getProductName());
+    public void callCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA_REQUEST);
+    }
 
+    private void setProducerAndProductName() {
+        textView_producer.setText(productData.getProducerName());
+        textView_productName.setText(productData.getProductName());
     }
 
     private boolean fieldsAreValid() {
@@ -208,24 +208,14 @@ public class AddProductFragment extends Fragment {
     }
 
     private void getSizesTypes() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getSizeTypes();
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> tmp = response.body();
-                if (tmp != null) {
-                    saveSizeTypeList(tmp);
-                } else {
-                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        utilService.showProgress(true, textView_addProduct, progressBar_loading);
+        addProductService.getSizesTypes();
+        while (errorString == null && sizeTypeList == null) ;
+        utilService.showProgress(false, textView_addProduct, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        }
     }
 
     private void saveSizeTypeList(List<String> sizeTypeList) {
@@ -239,58 +229,17 @@ public class AddProductFragment extends Fragment {
     }
 
     private void addProduct() {
-
-        AddProduct addProduct = createAddProduct();
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Boolean> call = restServiceClient.addProduct(addProduct);
-        call.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    goToEnterBarcodeFragment();
-
-                } else {
-                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private AddProduct createAddProduct() {
-
-        AddProduct addProduct = new AddProduct();
-        addProduct.setProductName(product.getProductName());
-        addProduct.setProducer(product.getProducer());
-        addProduct.setPhoto(photo);
-        addProduct.setStoreId(productStore.getStoreId());
-        addProduct.setUserId(HomeActivity.user.getUserId());
-        addProduct.setBarcode(productStore.getBarcode());
-        addProduct.setProductDescription(productStore.getProductDescription());
-        addProduct.setProductSize(size);
-        addProduct.setProductSizeId(spinner_size.getSelectedItemPosition() + 1);
-        addProduct.setPrice(price);
-        addProduct.setPriceChangeDate(getDateString());
-        addProduct.setAveragePrice(price);
-        addProduct.setSubcategoryId(subcategoryId);
-
-        return addProduct;
-    }
-
-    private String getDateString() {
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-
-        return dateFormat.format(date);
-
+        utilService.showProgress(true, textView_addProduct, progressBar_loading);
+        addProductService.addProduct(productData);
+        while (errorString == null && productAdded == null) ;
+        utilService.showProgress(false, textView_addProduct, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            Toast.makeText(getContext(), "Proizvod " + productData.getProductName() + (productAdded? "je":"nije") + "dodan", Toast.LENGTH_SHORT);
+            productAdded = null;
+        }
     }
 
     private void goToEnterBarcodeFragment() {
@@ -354,4 +303,18 @@ public class AddProductFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public static void setSizeTypeList(List<String> newSizeTypeList) {
+        setSizeTypeList(newSizeTypeList);
+    }
+
+    public static void setProductAdded(Boolean newProductAdded) {
+        productAdded = newProductAdded;
+    }
+
+    public static void setErrorString(String error) {
+        errorString = error;
+    }
+
+
 }

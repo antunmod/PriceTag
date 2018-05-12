@@ -26,6 +26,15 @@ public class AddStoreProducer {
 	private String storeAddress;
 	private Short subcategoryId;
 
+	public AddStoreProducer(BaseProduct baseProduct, String producerName, String productName, String storeName, String storeAddress, Short subcategoryId) {
+		this.baseProduct = baseProduct;
+		this.producerName = producerName;
+		this.productName = productName;
+		this.storeName = storeName;
+		this.storeAddress = storeAddress;
+		this.subcategoryId = subcategoryId;
+	}
+
 	public String getStoreName() {
 		return storeName;
 	}

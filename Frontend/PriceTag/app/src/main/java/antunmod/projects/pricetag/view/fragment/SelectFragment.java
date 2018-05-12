@@ -512,6 +512,25 @@ public class SelectFragment extends Fragment {
         }
     }
 
+    /*
+        If the product being added is a new product, find subcategoryId and go to AddProductFragment.
+     */
+    private void findSubcategoryIdForCategoryAndSubcategoryName() {
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
+        while (errorString == null && productData.getSubcategoryId() == null) ;
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        if (errorString != null) {
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            errorString = null;
+        } else {
+            goToAddProductFragment();
+        }
+    }
+
+    /*
+        If the product being added exists in DB, find its id.
+     */
     private void findProductIdForProducerAndProductName(String productName) {
         productData.setProducerName(productName);
         utilService.showProgress(true, listView_select, progressBar_loading);
@@ -524,21 +543,6 @@ public class SelectFragment extends Fragment {
         } else {
             showPhotoAndPriceFragment();
         }
-    }
-
-    private void findSubcategoryIdForCategoryAndSubcategoryName() {
-
-        utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
-        while (errorString == null && productData.getSubcategoryId() == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            goToAddProductFragment();
-        }
-
     }
 
     /*
@@ -582,7 +586,6 @@ public class SelectFragment extends Fragment {
 
     private void goToAddProductFragment() {
         Bundle bundle = new Bundle();
-
         bundle.putSerializable("productData", productData);
         AddProductFragment addProductFragment = new AddProductFragment();
         addProductFragment.setArguments(bundle);

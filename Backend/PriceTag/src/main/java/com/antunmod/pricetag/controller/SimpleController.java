@@ -61,7 +61,7 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/products/productNames")
-	public ResponseEntity<List<String>> getProductNamesForSubcategoryNameAndProducer(
+	public ResponseEntity<List<String>> getProductNamesForSubcategoryAndProducerName(
 			@RequestParam("subcategoryName") String subcategoryName, @RequestParam("producer") String producer) {
 		List<String> productList = simpleService.getProductNamesForSubcategoryAndProducerName(subcategoryName,
 				producer);
@@ -106,7 +106,7 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/sizes")
-	public ResponseEntity<List<String>> getSizeValues() {
+	public ResponseEntity<List<String>> getSizeTypes() {
 		List<String> sizeTypeList = simpleService.getSizeTypes();
 		return new ResponseEntity<List<String>>(sizeTypeList, HttpStatus.OK);
 	}

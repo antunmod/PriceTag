@@ -1,7 +1,5 @@
 package antunmod.projects.pricetag.service;
 
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,29 +26,6 @@ public class SelectService {
                 ArrayList<String> storeAddresses = (ArrayList<String>) response.body();
                 if (storeAddresses != null) {
                     SelectFragment.setStoreList(storeAddresses);
-                } else {
-                    SelectFragment.setErrorString(ERROR_STRING);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                SelectFragment.setErrorString(ERROR_STRING);
-            }
-        });
-    }
-
-    public void findSectors(final String storeAddress) {
-
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getAllSectorNames();
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> sectorList = response.body();
-
-                if (sectorList != null) {
-                    SelectFragment.setSectorList(sectorList);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -157,7 +132,7 @@ public class SelectService {
     public void findProductsForSubcategoryAndProducerName(String subcategoryName, String producerName) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryNameAndProducer(subcategoryName, producerName);
+        Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryAndProducerName(subcategoryName, producerName);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {

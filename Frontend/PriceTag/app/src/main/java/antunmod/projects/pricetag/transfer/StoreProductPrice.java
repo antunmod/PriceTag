@@ -1,4 +1,4 @@
-package com.antunmod.pricetag.model.transfer;
+package antunmod.projects.pricetag.transfer;
 
 /*
  * The StoreProductPrice class contains most recent price and user rating for a specific product in a specific store.
