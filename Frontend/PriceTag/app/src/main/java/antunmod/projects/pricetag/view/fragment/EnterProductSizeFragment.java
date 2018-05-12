@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.model.Product;
-import antunmod.projects.pricetag.model.ProductStore;
 
 
 /**
@@ -55,8 +53,6 @@ public class EnterProductSizeFragment extends Fragment {
         return fragment;
     }
 
-    private Product product;
-    private ProductStore productStore;
     private String subcategoryName;
 
     @Override
@@ -69,8 +65,6 @@ public class EnterProductSizeFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            product = (Product) bundle.getSerializable("product");
-            productStore = (ProductStore) bundle.getSerializable("productStore");
             subcategoryName = bundle.getString("subcategoryName");
         }
 

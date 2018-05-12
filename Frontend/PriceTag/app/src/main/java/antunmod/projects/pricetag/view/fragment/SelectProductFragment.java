@@ -18,8 +18,6 @@ import java.util.List;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.RestServiceClient;
-import antunmod.projects.pricetag.model.Product;
-import antunmod.projects.pricetag.model.ProductStore;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,8 +43,6 @@ public class SelectProductFragment extends Fragment {
     private final Integer NOT_FOUND_INTEGER = -1;
 
     private OnFragmentInteractionListener mListener;
-    private ProductStore productStore;
-    private Product product;
     private List<String> productList;
     private String subcategoryName;
 
@@ -82,8 +78,6 @@ public class SelectProductFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            product = (Product) bundle.getSerializable("product");
-            productStore = (ProductStore) bundle.getSerializable("productStore");
             productList = bundle.getStringArrayList("productList");
             subcategoryName = bundle.getString("subcategoryName");
         }
@@ -106,9 +100,9 @@ public class SelectProductFragment extends Fragment {
         listView_product = inflatedView.findViewById(R.id.listView_product);
         listView_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, Integer i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedProduct = listView_product.getItemAtPosition(i).toString();
-                findProductIdForProducerAndProductName(selectedProduct);
+                //findProductIdForProducerAndProductName(selectedProduct);
             }
         });
 
@@ -134,7 +128,7 @@ public class SelectProductFragment extends Fragment {
 
         return inflatedView;
     }
-
+    /*
     private void findProductIdForProducerAndProductName(String productName) {
 
         product.setProductName(productName);
@@ -158,9 +152,9 @@ public class SelectProductFragment extends Fragment {
         });
 
 
-    }
+    }*/
 
-
+    /*
     private void getSizeValuesForProductIdAndGoToSelectSizeFragment() {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
@@ -181,8 +175,8 @@ public class SelectProductFragment extends Fragment {
             }
         });
 
-    }
-
+    }*/
+/*
     private void goToSelectProductSizeFragment(ArrayList<String> sizeList) {
 
         Bundle bundle = new Bundle();
@@ -196,9 +190,9 @@ public class SelectProductFragment extends Fragment {
                 .beginTransaction()
                 .replace(R.id.layout_for_fragment, selectProductSizeFragment)
                 .addToBackStack("selectProduct")
-                .commit();*/
+                .commit();
 
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

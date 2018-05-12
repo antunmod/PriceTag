@@ -58,7 +58,6 @@ public class UpdateProductFragment extends Fragment {
         return fragment;
     }
 
-    private UpdateProduct updateProduct;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class UpdateProductFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            updateProduct = (UpdateProduct) bundle.getSerializable("updateProduct");
+            //updateProduct = (UpdateProduct) bundle.getSerializable("updateProduct");
             Byte[] photoObjectPhotoArray = (Byte[]) bundle.getSerializable("photoByteArray");
             setBytePhotoArray(photoObjectPhotoArray);
         }
@@ -97,7 +96,7 @@ public class UpdateProductFragment extends Fragment {
 
         setImageView();
 
-
+        /*
         textView_producer.setText(updateProduct.getProducer());
         String productNameAndSize = updateProduct.getName() + ", " +
                 updateProduct.getSize() + " " + updateProduct.getSizeType();
@@ -132,7 +131,7 @@ public class UpdateProductFragment extends Fragment {
             }
         });
 
-
+        */
         return inflatedView;
     }
 
@@ -143,6 +142,7 @@ public class UpdateProductFragment extends Fragment {
 
     }
 
+    /*
     private void saveUpdatedProduct(UpdateProduct updateProduct) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
@@ -169,7 +169,7 @@ public class UpdateProductFragment extends Fragment {
                 Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
     private void setBytePhotoArray(Byte[] byteObjectPhotoArray) {
         Integer j = 0;
@@ -199,6 +199,7 @@ public class UpdateProductFragment extends Fragment {
                 .commit();
     }
 
+    /*
     private void awardPointsToUser() {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
@@ -220,7 +221,7 @@ public class UpdateProductFragment extends Fragment {
             }
         });
 
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

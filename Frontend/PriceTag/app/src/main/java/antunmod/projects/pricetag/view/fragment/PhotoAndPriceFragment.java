@@ -116,7 +116,7 @@ public class PhotoAndPriceFragment extends Fragment {
         startActivityForResult(intent, CAMERA_REQUEST);
     }
 
-    @Override
+    //@Override
     public void onActivityResult(Integer requestCode, Integer resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {

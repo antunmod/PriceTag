@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.model.Store;
 
 
 /**
@@ -44,7 +43,6 @@ public class EnterNewDataFragment extends Fragment {
     private final String PRODUCT = "Proizvod";
     private final String SIZE = "Veličina";
 
-    private Store store = new Store();
 
     private OnFragmentInteractionListener mListener;
 

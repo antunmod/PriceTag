@@ -240,8 +240,6 @@ public class SelectFragment extends Fragment {
     }
 
     private void saveNewValue(String newValue) {
-
-
         switch (title) {
 
             case STORE:
@@ -268,7 +266,6 @@ public class SelectFragment extends Fragment {
             case SIZE:
                 newStoreName = newValue;
                 break;
-
         }
     }
 
@@ -297,7 +294,7 @@ public class SelectFragment extends Fragment {
                 break;
             case STORE_ADDRESS:
                 productData.setStoreAddress(selected);
-                findProductForBarcodeAndStoreAddress(selected);
+                //findProductForBarcodeAndStoreAddress(selected);
                 break;
             case SECTOR:
                 if (newSectorName != null && selected.equals(newSectorName))
@@ -338,11 +335,6 @@ public class SelectFragment extends Fragment {
                 }
 
                 break;
-            case SIZE:
-
-                findPhotoForProductIdAndSize(selected);
-                //showPhotoAndPriceFragment();
-                break;
         }
 
 
@@ -362,7 +354,7 @@ public class SelectFragment extends Fragment {
         }
     }
 
-
+    /*
     private void findProductForBarcodeAndStoreAddress(final String storeAddress) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
@@ -386,9 +378,9 @@ public class SelectFragment extends Fragment {
             }
         });
 
-    }
+    }*/
 
-
+/*
     private void getPhotoByteArray() {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Byte[]> call = restServiceClient.getPhotoByteArray(updateProduct.getPhotoId());
@@ -409,9 +401,9 @@ public class SelectFragment extends Fragment {
                 Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
-
+/*
     private void goToUpdateProductFragment(Byte[] photoByteArray) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("photoByteArray", photoByteArray);
@@ -423,23 +415,7 @@ public class SelectFragment extends Fragment {
                 .replace(R.id.layout_for_fragment, updateProductFragment)
                 .addToBackStack("selectFragment")
                 .commit();
-    }
-
-    private void findSectors(final String storeAddress) {
-
-        utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findSectors(storeAddress);
-
-        while (errorString == null && sectorList == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            findStoreId(storeAddress);
-        }
-
-    }
+    }*/
 
     private void findStoreId(String storeAddress) {
 
@@ -541,7 +517,7 @@ public class SelectFragment extends Fragment {
             Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
             errorString = null;
         } else {
-            showPhotoAndPriceFragment();
+            //showPhotoAndPriceFragment();
         }
     }
 
@@ -570,7 +546,7 @@ public class SelectFragment extends Fragment {
         }
     }
 
-
+/*
     private void showPhotoAndPriceFragment() {
         Bundle bundle = new Bundle();
         bundle.putSerializable("updateProduct", updateProduct);
@@ -581,7 +557,7 @@ public class SelectFragment extends Fragment {
                 .replace(R.id.layout_for_fragment, photoAndPriceFragment)
                 .addToBackStack("selectProduct")
                 .commit();
-    }
+    }*/
 
 
     private void goToAddProductFragment() {
