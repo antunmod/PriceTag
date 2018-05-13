@@ -1,5 +1,7 @@
 package antunmod.projects.pricetag.service;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,9 @@ public class SelectService {
 
     private final String ERROR_STRING = "Došlo je do greške, pokušajte ponovo";
 
-    public void findStoreAddresses(String selectedStore) {
+
+
+    public void findStoreAddresses(final SelectFragment selectFragment, String selectedStore) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getStoreLocations(selectedStore);
         call.enqueue(new Callback<List<String>>() {
@@ -25,7 +29,7 @@ public class SelectService {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> storeAddresses = (ArrayList<String>) response.body();
                 if (storeAddresses != null) {
-                    SelectFragment.setStoreList(storeAddresses);
+                    SelectFragment.foundStoreAddressesStatic(selectFragment, storeAddresses);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -38,30 +42,30 @@ public class SelectService {
         });
     }
 
-    public void findStoreId(String storeAddress) {
+    public void findStoreId(final SelectFragment selectFragment, String storeAddress) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Byte> call = restServiceClient.getStoreIdForAddress(storeAddress);
-        call.enqueue(new Callback<Byte>() {
+        Call<Short> call = restServiceClient.getStoreIdForAddress(storeAddress);
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Byte> call, Response<Byte> response) {
-                Byte storeId = response.body();
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short storeId = response.body();
 
                 if (storeId != null) {
-                    SelectFragment.setStoreId(storeId);
+                    SelectFragment.foundStoreIdStatic(selectFragment, storeId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
             }
 
             @Override
-            public void onFailure(Call<Byte> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    public void findCategoriesForSectorName(String sectorName) {
+    public void findCategoriesForSectorName(final SelectFragment selectFragment, String sectorName) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getCategoriesForSectorName(sectorName);
         call.enqueue(new Callback<List<String>>() {
@@ -69,7 +73,7 @@ public class SelectService {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> categoriesList = (ArrayList) response.body();
                 if (categoriesList != null) {
-                    SelectFragment.setCategoryList(categoriesList);
+                    SelectFragment.foundCategoriesForSectorNameStatic(selectFragment, categoriesList);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -82,7 +86,7 @@ public class SelectService {
         });
     }
 
-    public void findSubcategoriesForCategoryName(String categoryName) {
+    public void findSubcategoriesForCategoryName(final SelectFragment selectFragment, String categoryName) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getSubcategoriesForCategoryName(categoryName);
         call.enqueue(new Callback<List<String>>() {
@@ -90,7 +94,7 @@ public class SelectService {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> subcategoriesList = (ArrayList) response.body();
                 if (subcategoriesList != null) {
-                    SelectFragment.setSubcategoryList(subcategoriesList);
+                    SelectFragment.foundSubcategoriesForSectorName(selectFragment, subcategoriesList);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -103,7 +107,7 @@ public class SelectService {
         });
     }
 
-    public void findProducersForSubcategoryName(String subcategoryName) {
+    public void findProducersForSubcategoryName(final SelectFragment selectFragment, String subcategoryName) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getProducersForSubcategoryName(subcategoryName);
         call.enqueue(new Callback<List<String>>() {
@@ -111,11 +115,10 @@ public class SelectService {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> producersList = (ArrayList) response.body();
                 if (producersList != null) {
-                    SelectFragment.setProducerList(producersList);
+                    SelectFragment.foundProducersForSubcategoryName(selectFragment, producersList);
 
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
-
                 }
             }
 
@@ -129,7 +132,7 @@ public class SelectService {
         });
     }
 
-    public void findProductsForSubcategoryAndProducerName(String subcategoryName, String producerName) {
+    public void findProductsForSubcategoryAndProducerName(final SelectFragment selectFragment, String subcategoryName, String producerName) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryAndProducerName(subcategoryName, producerName);
@@ -138,7 +141,7 @@ public class SelectService {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> productsList = (ArrayList) response.body();
                 if (productsList != null) {
-                    SelectFragment.setProductList(productsList);
+                    SelectFragment.foundProductsForSubcategoryAndProducerName(selectFragment, productsList);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -154,7 +157,7 @@ public class SelectService {
 
     }
 
-    public void findProductIdForProducerAndProductName(String producerName, String productName) {
+    public void findProductIdForProducerAndProductName(final SelectFragment selectFragment, String producerName, String productName) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Short> call = restServiceClient.getProductIdForProducerAndProductName(producerName, productName);
@@ -163,7 +166,7 @@ public class SelectService {
             public void onResponse(Call<Short> call, Response<Short> response) {
                 Short productId = response.body();
                 if (productId != null) {
-                    SelectFragment.setProductId(productId);
+                    SelectFragment.foundProductIdForProducerAndProductName(selectFragment, productId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -197,7 +200,7 @@ public class SelectService {
 
     }
 
-    public void findSubcategoryIdForCategoryAndSubcategoryName(String categoryName, String subcategoryName) {
+    public void findSubcategoryIdForCategoryAndSubcategoryName(final SelectFragment selectFragment, String categoryName, String subcategoryName) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Short> call = restServiceClient.getSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
@@ -206,7 +209,7 @@ public class SelectService {
             public void onResponse(Call<Short> call, Response<Short> response) {
                 Short subcategoryId = response.body();
                 if (subcategoryId != null) {
-                    SelectFragment.setSubcategoryId(subcategoryId);
+                    SelectFragment.foundSubcategoryIdForCategoryAndSubcategoryName(selectFragment, subcategoryId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }

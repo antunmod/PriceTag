@@ -22,13 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.model.ProductData;
 import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.service.UtilService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 /**
  * This fragment is used in selecting existing or adding new data to a product while adding it.
@@ -41,6 +38,8 @@ public class SelectFragment extends Fragment {
 
     private SelectService selectService;
     private UtilService utilService;
+
+    private final String SUPERMARKETS = "Supermarketi";
 
     /*
         Lists containing data received from the database
@@ -92,14 +91,14 @@ public class SelectFragment extends Fragment {
     /*
         Final variables containing different titles.
      */
-    private final String STORE = "Trgovina";
-    private final String STORE_ADDRESS = "Adresa trgovine";
-    private final String SECTOR = "Sektor";
-    private final String CATEGORY = "Kategorija";
-    private final String SUBCATEGORY = "Potkategorija";
-    private final String PRODUCER = "Proizvođač";
-    private final String PRODUCT = "Proizvod";
-    private final String SIZE = "Veličina";
+    private static final String STORE = "Trgovina";
+    private static final String STORE_ADDRESS = "Adresa trgovine";
+    private static final String SECTOR = "Sektor";
+    private static final String CATEGORY = "Kategorija";
+    private static final String SUBCATEGORY = "Potkategorija";
+    private static final String PRODUCER = "Proizvođač";
+    private static final String PRODUCT = "Proizvod";
+    private static final String SIZE = "Veličina";
 
 
     public SelectFragment() {
@@ -294,6 +293,7 @@ public class SelectFragment extends Fragment {
                 break;
             case STORE_ADDRESS:
                 productData.setStoreAddress(selected);
+                findStoreId(selected);
                 //findProductForBarcodeAndStoreAddress(selected);
                 break;
             case SECTOR:
@@ -342,9 +342,15 @@ public class SelectFragment extends Fragment {
 
     private void findStoreAddresses(String selectedStore) {
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findStoreAddresses(selectedStore);
+        selectService.findStoreAddresses(this, selectedStore);
+    }
 
-        while (errorString == null && storeAddressList == null) ;
+    public static void foundStoreAddressesStatic(SelectFragment selectFragment, List<String> storeAddresses) {
+        storeAddressList = storeAddresses;
+        selectFragment.foundStoreAddresses();
+    }
+
+    public void foundStoreAddresses() {
         utilService.showProgress(false, listView_select, progressBar_loading);
         if (errorString != null) {
             Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
@@ -420,72 +426,76 @@ public class SelectFragment extends Fragment {
     private void findStoreId(String storeAddress) {
 
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findStoreId(storeAddress);
+        selectService.findStoreId(this, storeAddress);
+    }
 
-        while (errorString == null && productData.getStoreId() == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
+    public static void foundStoreIdStatic(SelectFragment selectFragment, Short storeId) {
+        productData.setStoreId(storeId);
+        selectFragment.foundStoreId();
+    }
+
+    public void foundStoreId() {
         if (errorString != null) {
             Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
             errorString = null;
         } else {
-            updateFragment(SECTOR, sectorList);
+            findCategoriesForSectorName(SUPERMARKETS);
         }
     }
 
     private void findCategoriesForSectorName(String sectorName) {
-        utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findCategoriesForSectorName(sectorName);
+        selectService.findCategoriesForSectorName(this, sectorName);
+    }
 
-        while (errorString == null && categoryList == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            updateFragment(CATEGORY, categoryList);
-        }
+    public static void foundCategoriesForSectorNameStatic(SelectFragment selectFragment, List<String> newCategoryList) {
+        categoryList = newCategoryList;
+        selectFragment.closeProgressAndUpdateFragment(CATEGORY, newCategoryList);
     }
 
     private void findSubcategoriesForCategoryName(String categoryName) {
         this.categoryName = categoryName;
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findSubcategoriesForCategoryName(categoryName);
-        while (errorString == null && subcategoryList == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            updateFragment(SUBCATEGORY, subcategoryList);
-        }
+        selectService.findSubcategoriesForCategoryName(this, categoryName);
+    }
+
+    public static void foundSubcategoriesForSectorName(SelectFragment selectFragment, List<String> newSubcategoryList) {
+        subcategoryList = newSubcategoryList;
+        selectFragment.closeProgressAndUpdateFragment(SUBCATEGORY, newSubcategoryList);
     }
 
     private void findProducersForSubcategoryName(String subcategoryName) {
         this.subcategoryName = subcategoryName;
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findProducersForSubcategoryName(subcategoryName);
-        while (errorString == null && producerList == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            updateFragment(PRODUCER, producerList);
-        }
+        selectService.findProducersForSubcategoryName(this, subcategoryName);
+    }
+
+    public static void foundProducersForSubcategoryName(SelectFragment selectFragment, List<String> newProducerList) {
+        producerList = newProducerList;
+        selectFragment.closeProgressAndUpdateFragment(PRODUCER, newProducerList);
     }
 
     private void findProductsForSubcategoryAndProducerName(String producerName) {
         productData.setProducerName(producerName);
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findProductsForSubcategoryAndProducerName(subcategoryName, producerName);
-        while (errorString == null && productList == null) ;
+        selectService.findProductsForSubcategoryAndProducerName(this, subcategoryName, producerName);
+
         utilService.showProgress(false, listView_select, progressBar_loading);
         if (errorString != null) {
             Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
             errorString = null;
         } else {
-            updateFragment(PRODUCT, productList);
         }
+    }
+
+    public static void foundProductsForSubcategoryAndProducerName(SelectFragment selectFragment, List<String> newProducerList) {
+        producerList = newProducerList;
+        selectFragment.closeProgressAndUpdateFragment(PRODUCT, newProducerList);
+    }
+
+    public void closeProgressAndUpdateFragment(String title, List<String> stringList) {
+        utilService.showProgress(false, listView_select, progressBar_loading);
+        updateFragment(title, stringList);
+
     }
 
     /*
@@ -493,32 +503,25 @@ public class SelectFragment extends Fragment {
      */
     private void findSubcategoryIdForCategoryAndSubcategoryName() {
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
-        while (errorString == null && productData.getSubcategoryId() == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            goToAddProductFragment();
-        }
+        selectService.findSubcategoryIdForCategoryAndSubcategoryName(this, categoryName, subcategoryName);
     }
 
+    public static void foundSubcategoryIdForCategoryAndSubcategoryName(SelectFragment selectFragment, Short subcategoryId) {
+        productData.setSubcategoryId(subcategoryId);
+        selectFragment.goToAddProductFragment();
+    }
+    
     /*
         If the product being added exists in DB, find its id.
      */
     private void findProductIdForProducerAndProductName(String productName) {
-        productData.setProducerName(productName);
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findProductIdForProducerAndProductName(productData.getProducerName(), productName);
-        while (errorString == null && productData.getProductId() == null) ;
-        utilService.showProgress(false, listView_select, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            //showPhotoAndPriceFragment();
-        }
+        selectService.findProductIdForProducerAndProductName(this, productData.getProducerName(), productName);
+    }
+
+    public static void foundProductIdForProducerAndProductName(SelectFragment selectFragment, Short productId) {
+        productData.setProductId(productId);
+        selectFragment.goToAddProductFragment();
     }
 
     /*
@@ -526,7 +529,7 @@ public class SelectFragment extends Fragment {
      */
     private void updateFragment(String newTitle, List<String> stringList) {
 
-        if (title.equals(STORE_ADDRESS) && newTitle.equals(SECTOR))
+        //if (title.equals(STORE_ADDRESS) && newTitle.equals(SECTOR))
             title = newTitle;
 
         textView_select.setText(newTitle);
@@ -587,7 +590,7 @@ public class SelectFragment extends Fragment {
                 updateFragment(STORE_ADDRESS, storeAddressList);
                 break;
             case CATEGORY:
-                updateFragment(SECTOR, sectorList);
+                updateFragment(STORE_ADDRESS, storeAddressList);
                 break;
             case SUBCATEGORY:
                 updateFragment(CATEGORY, categoryList);
@@ -663,7 +666,7 @@ public class SelectFragment extends Fragment {
         productData.setProductId(productId);
     }
 
-    public static void setStoreId(Byte storeId) {
+    public static void setStoreId(Short storeId) {
         productData.setStoreId(storeId);
     }
 

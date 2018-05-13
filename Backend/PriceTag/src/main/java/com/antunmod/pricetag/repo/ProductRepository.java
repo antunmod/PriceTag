@@ -11,7 +11,7 @@ import com.antunmod.pricetag.model.database.Product;
 @Service
 public interface ProductRepository extends JpaRepository<Product, Short> {
 
-	@Query(value = "SELECT producer.name "
+	@Query(value = "SELECT DISTINCT producer.name "
 			+ "FROM producer JOIN product ON producer.id = product.producer_id "
 			+ "JOIN subcategory_product ON subcategory_product.product_id = product.id "
 			+ "JOIN subcategory ON subcategory.id = subcategory_product.subcategory_id "

@@ -138,7 +138,7 @@ public class AddProductFragment extends Fragment {
         });
 
         setProducerAndProductName();
-        getSizesTypes();
+        findSizesTypes();
         return inflatedView;
     }
 
@@ -205,15 +205,13 @@ public class AddProductFragment extends Fragment {
         return false;
     }
 
-    private void getSizesTypes() {
+    private void findSizesTypes() {
         utilService.showProgress(true, textView_addProduct, progressBar_loading);
-        addProductService.getSizesTypes();
-        while (errorString == null && sizeTypeList == null) ;
-        utilService.showProgress(false, textView_addProduct, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        }
+        addProductService.getSizesTypes(this);
+    }
+
+    public static void foundSizesTypes(AddProductFragment addProductFragment, List<String> newSizeTypeList) {
+        sizeTypeList = newSizeTypeList;
     }
 
     private void saveSizeTypeList(List<String> sizeTypeList) {
@@ -299,10 +297,6 @@ public class AddProductFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public static void setSizeTypeList(List<String> newSizeTypeList) {
-        setSizeTypeList(newSizeTypeList);
     }
 
     public static void setProductAdded(Boolean newProductAdded) {

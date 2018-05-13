@@ -30,7 +30,7 @@ public class ProductData implements Serializable {
     private String producerName;
 
 
-    private Byte storeId;
+    private Short storeId;
     private String storeName;
 
     private Short storeSpecificId;
@@ -98,11 +98,11 @@ public class ProductData implements Serializable {
         this.producerName = producerName;
     }
 
-    public Byte getStoreId() {
+    public Short getStoreId() {
         return storeId;
     }
 
-    public void setStoreId(Byte storeId) {
+    public void setStoreId(Short storeId) {
         this.storeId = storeId;
     }
 

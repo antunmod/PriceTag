@@ -156,7 +156,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("stores/address")
-    Call<Byte> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
+    Call<Short> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
 
     @Headers("Content-Type: application/json")
     @GET("sizes")

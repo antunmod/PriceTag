@@ -39,7 +39,7 @@ public class AddStoreProducer {
 		return storeName;
 	}
 	
-	public AddStoreSpecificProducer toAddStoreSpecificProducer(byte storeId) {
+	public AddStoreSpecificProducer toAddStoreSpecificProducer(Short storeId) {
 		return new AddStoreSpecificProducer(baseProduct, producerName, productName, storeId, storeAddress, subcategoryId);
 	}
 }

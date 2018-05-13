@@ -16,7 +16,7 @@ public class UtilService {
       Shows the progress and hides the current view.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show, final View currentView, final View loadingView) {
+    public static void showProgress(final boolean show, final View currentView, final View loadingView) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = currentView.getResources().getInteger(android.R.integer.config_shortAnimTime);

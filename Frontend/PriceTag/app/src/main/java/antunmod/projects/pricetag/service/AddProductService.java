@@ -23,15 +23,15 @@ public class AddProductService {
     private ProductData productData;
 
 
-    public void getSizesTypes() {
+    public void getSizesTypes(final AddProductFragment addProductFragment) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getSizeTypes();
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> tmp = response.body();
-                if (tmp != null) {
-                    AddProductFragment.setSizeTypeList(tmp);
+                List<String> sizeTypesList = response.body();
+                if (sizeTypesList != null) {
+                    AddProductFragment.foundSizesTypes(addProductFragment, sizeTypesList);
                 } else {
                     AddProductFragment.setErrorString(ERROR_STRING);
                 }
