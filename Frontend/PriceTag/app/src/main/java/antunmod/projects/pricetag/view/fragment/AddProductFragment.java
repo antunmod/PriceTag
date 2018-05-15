@@ -26,8 +26,10 @@ import java.util.List;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
+import antunmod.projects.pricetag.model.User;
 import antunmod.projects.pricetag.service.AddProductService;
 import antunmod.projects.pricetag.service.UtilService;
+import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 
 /**
@@ -44,11 +46,11 @@ public class AddProductFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private static final Integer CAMERA_REQUEST = 1;
-    private static final Float MAX_SIZE_VALUE = (float) 50.0;
+    private static final Float MAX_SIZE_VALUE = (float) 1000.0;
     private static final Float MAX_PRICE_VALUE = (float) 10000.0;
     private static final Short NON_EXISTING_PRODUCT_ID = 0;
 
-    private ProductData productData;
+    private static ProductData productData;
     private byte[] photo;
     boolean pictureSet = false;
     private static String errorString;
@@ -130,7 +132,6 @@ public class AddProductFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (fieldsAreValid()) {
-                    if (productData.getProductId() == NON_EXISTING_PRODUCT_ID)
                         addProduct();
 
                 }
@@ -140,6 +141,11 @@ public class AddProductFragment extends Fragment {
         setProducerAndProductName();
         findSizesTypes();
         return inflatedView;
+    }
+
+    public void callCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA_REQUEST);
     }
 
     @Override
@@ -168,11 +174,6 @@ public class AddProductFragment extends Fragment {
         }
     }
 
-    public void callCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA_REQUEST);
-    }
-
     private void setProducerAndProductName() {
         textView_producer.setText(productData.getProducerName());
         textView_productName.setText(productData.getProductName());
@@ -192,7 +193,7 @@ public class AddProductFragment extends Fragment {
             toastMessage = "Cijena mora biti unesena";
 
         else if ((size = Float.parseFloat(sizeString)) > MAX_SIZE_VALUE)
-            toastMessage = "Veličina prevelika. Unesite manji broj";
+            toastMessage = "Veličina prevelika. Unesite manji broj ili promjenite mjernu jedinicu";
 
         else if ((price = Float.parseFloat(priceString)) > MAX_PRICE_VALUE)
             toastMessage = "Cijena prevelika. Unesite manji broj";
@@ -206,37 +207,50 @@ public class AddProductFragment extends Fragment {
     }
 
     private void findSizesTypes() {
-        utilService.showProgress(true, textView_addProduct, progressBar_loading);
+        startProgress();
         addProductService.getSizesTypes(this);
     }
 
     public static void foundSizesTypes(AddProductFragment addProductFragment, List<String> newSizeTypeList) {
+        addProductFragment.finishProgress();
         sizeTypeList = newSizeTypeList;
+        addProductFragment.updateSpinner(newSizeTypeList);
     }
 
-    private void saveSizeTypeList(List<String> sizeTypeList) {
-
-        this.sizeTypeList = sizeTypeList;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,
-                sizeTypeList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    private void updateSpinner(List<String> sizeList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, sizeList);
         spinner_size.setAdapter(adapter);
+    }
 
+    public void startProgress() {
+        utilService.showProgress(true, textView_addProduct, progressBar_loading);
+    }
+
+    public void finishProgress() {
+        utilService.showProgress(false, textView_addProduct, progressBar_loading);
     }
 
     private void addProduct() {
-        utilService.showProgress(true, textView_addProduct, progressBar_loading);
-        addProductService.addProduct(productData);
-        while (errorString == null && productAdded == null) ;
-        utilService.showProgress(false, textView_addProduct, progressBar_loading);
-        if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
-            errorString = null;
-        } else {
-            String outputMessage = "Proizvod " + productData.getProductName() + (productAdded? "je":"nije") + "dodan";
-            productAdded = null;
-            goToEnterBarcodeFragment(outputMessage);
-        }
+        startProgress();
+        setupProductData();
+        addProductService.addProduct(this, productData);
+    }
+
+    private void setupProductData() {
+        productData.getBaseProduct().setPrice(Float.parseFloat(editText_price.getText().toString()));
+        productData.getBaseProduct().setSize(Float.parseFloat(editText_size.getText().toString()));
+        productData.getBaseProduct().setSizeUnit(spinner_size.getSelectedItem().toString());
+        User user = HomeActivity.user;
+        productData.getBaseProduct().setUserId(user.getId());
+        productData.getBaseProduct().setDescription("lalala");
+        productData.getBaseProduct().setPhotoURI("dummyPhotoURI");
+
+    }
+
+    public static void addedProduct(AddProductFragment addProductFragment, Boolean status) {
+        addProductFragment.finishProgress();
+        String outputMessage = "Proizvod " + productData.getProductName() + (productAdded? "je":"nije") + "dodan";
+        addProductFragment.outputString(outputMessage);
     }
 
     private void goToEnterBarcodeFragment(String outputMessage) {
@@ -259,6 +273,11 @@ public class AddProductFragment extends Fragment {
                 .commit();
 
     }
+
+    private void outputString(String text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

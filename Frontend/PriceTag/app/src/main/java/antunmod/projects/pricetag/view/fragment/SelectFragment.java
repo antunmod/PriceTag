@@ -25,6 +25,7 @@ import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
 import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.service.UtilService;
+import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 
 /**
@@ -289,11 +290,12 @@ public class SelectFragment extends Fragment {
                 if (newStoreName != null && selected.equals(newStoreName))
                     updateFragment(STORE_ADDRESS, storeAddressList = new ArrayList<>());
                 else
+                    findStoreId(selected);
                     findStoreAddresses(selected);
                 break;
             case STORE_ADDRESS:
                 productData.setStoreAddress(selected);
-                findStoreId(selected);
+                findStoreSpecificId(selected);
                 //findProductForBarcodeAndStoreAddress(selected);
                 break;
             case SECTOR:
@@ -423,24 +425,36 @@ public class SelectFragment extends Fragment {
                 .commit();
     }*/
 
-    private void findStoreId(String storeAddress) {
-
+    private void findStoreId(String storeName) {
         utilService.showProgress(true, listView_select, progressBar_loading);
-        selectService.findStoreId(this, storeAddress);
+        selectService.findStoreId(this, storeName);
     }
 
-    public static void foundStoreIdStatic(SelectFragment selectFragment, Short storeId) {
+    public static void foundStoreId(SelectFragment selectFragment, Short storeId) {
         productData.setStoreId(storeId);
-        selectFragment.foundStoreId();
+        selectFragment.closeProgressAndCheckForErrors();
     }
 
-    public void foundStoreId() {
+    private void closeProgressAndCheckForErrors() {
+        utilService.showProgress(false, listView_select, progressBar_loading);
+
         if (errorString != null) {
             Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
             errorString = null;
-        } else {
-            findCategoriesForSectorName(SUPERMARKETS);
         }
+    }
+
+    private void findStoreSpecificId(String storeAddress) {
+
+        utilService.showProgress(true, listView_select, progressBar_loading);
+        selectService.findStoreSpecificId(this, storeAddress);
+    }
+
+    public static void foundStoreSpecificIdStatic(SelectFragment selectFragment, Short storeSpecificId) {
+
+        productData.setStoreSpecificId(storeSpecificId);
+        selectFragment.closeProgressAndCheckForErrors();
+        selectFragment.findCategoriesForSectorName(selectFragment.SUPERMARKETS);
     }
 
     private void findCategoriesForSectorName(String sectorName) {

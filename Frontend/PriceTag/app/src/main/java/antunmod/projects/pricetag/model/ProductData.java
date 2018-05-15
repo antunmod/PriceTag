@@ -24,11 +24,9 @@ public class ProductData implements Serializable {
     private String productName;
 
     private Short productSpecificId;
-    private Float price;
 
     private Short producerId;
     private String producerName;
-
 
     private Short storeId;
     private String storeName;
@@ -72,14 +70,6 @@ public class ProductData implements Serializable {
 
     public void setProductSpecificId(Short productSpecificId) {
         this.productSpecificId = productSpecificId;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
     }
 
     public Short getProducerId() {

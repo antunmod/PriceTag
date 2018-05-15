@@ -1,7 +1,5 @@
 package antunmod.projects.pricetag.service;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,17 +40,17 @@ public class SelectService {
         });
     }
 
-    public void findStoreId(final SelectFragment selectFragment, String storeAddress) {
+    public void findStoreSpecificId(final SelectFragment selectFragment, String storeAddress) {
 
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Short> call = restServiceClient.getStoreIdForAddress(storeAddress);
+        Call<Short> call = restServiceClient.getStoreSpecificIdForAddress(storeAddress);
         call.enqueue(new Callback<Short>() {
             @Override
             public void onResponse(Call<Short> call, Response<Short> response) {
                 Short storeId = response.body();
 
                 if (storeId != null) {
-                    SelectFragment.foundStoreIdStatic(selectFragment, storeId);
+                    SelectFragment.foundStoreSpecificIdStatic(selectFragment, storeId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -221,5 +219,26 @@ public class SelectService {
             }
         });
 
+    }
+
+    public void findStoreId(final SelectFragment selectFragment, String storeName) {
+        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+        Call<Short> call = restServiceClient.getStoreId(storeName);
+        call.enqueue(new Callback<Short>() {
+            @Override
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short storeId = response.body();
+                if (storeId != null) {
+                    selectFragment.foundStoreId(selectFragment, storeId);
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Short> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
     }
 }

@@ -3,6 +3,7 @@ package antunmod.projects.pricetag.service;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
@@ -46,8 +47,4 @@ public class UtilService {
             loadingView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
-
-
-
 }

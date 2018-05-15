@@ -1,5 +1,7 @@
 package antunmod.projects.pricetag;
 
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +147,11 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("stores")
     Call<List<String>> getStoreNames();
-    
+
+    @Headers("Content-Type: application/json")
+    @GET("stores/id")
+    Call<Short> getStoreId(@Query("storeName") String storeName);
+
     @Headers("Content-Type: application/json")
     @GET("sizes/sizeValue")
     Call<List<String>> getSizeValuesForProductId(@Query("productId") Short productId);
@@ -156,7 +162,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("stores/address")
-    Call<Short> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
+    Call<Short> getStoreSpecificIdForAddress(@Query("storeAddress") String selectedStoreAddress);
 
     @Headers("Content-Type: application/json")
     @GET("sizes")
@@ -176,8 +182,8 @@ public interface RestServiceClient {
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.178.33:8000/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("http://192.168.1.11:8000/")
+            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
             .build();
 
 

@@ -34,7 +34,7 @@ public class User implements Serializable {
 	private String email;
 
 	@Column(name = "signup_date")
-	private Date signupDate;
+	private String signupDate;
 
 	@Column(name = "rating")
 	private Float rating;
@@ -56,7 +56,7 @@ public class User implements Serializable {
 
 	public User() {}
 	
-	public User(String name, String password, String email, Date signupDate) {
+	public User(String name, String password, String email, String signupDate) {
 		super();
 		this.name = name;
 		this.password = password;
@@ -86,5 +86,48 @@ public class User implements Serializable {
 	public String getEmail() {
 		return email;
 	}
+
+	public Short getId() {
+		return id;
+	}
+
+	public void setId(Short id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
+	public Short getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Short userType) {
+		this.userType = userType;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
 
 }

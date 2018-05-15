@@ -9,6 +9,9 @@ import com.antunmod.pricetag.model.database.Size;
 
 public interface SizeRepository extends JpaRepository<Size, Byte> {
 
+	@Query(value = "SELECT id FROM product_size WHERE type = ?1", nativeQuery = true)
+	Byte findSizeIdForSizeType(String sizeUnit);
+	
 	@Query(value = "SELECT type FROM product_size", nativeQuery = true)
 	List<String> findSizeTypes();
 

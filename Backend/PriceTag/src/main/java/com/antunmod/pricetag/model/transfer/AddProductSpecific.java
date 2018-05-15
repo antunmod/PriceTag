@@ -1,5 +1,7 @@
 package com.antunmod.pricetag.model.transfer;
 
+import java.io.Serializable;
+
 import com.antunmod.pricetag.model.database.Price;
 import com.antunmod.pricetag.model.database.ProductSpecific;
 import com.antunmod.pricetag.model.database.ProductStore;
@@ -16,11 +18,16 @@ import com.antunmod.pricetag.repo.ProductStoreRepository;
  * 		- price
  */
 
-public class AddProductSpecific {
+public class AddProductSpecific implements Serializable {
+
+	private static final long serialVersionUID = 2298733623066323159L;
 
 	private BaseProduct baseProduct;
 	private Short productId;
 	private Short storeSpecificId;
+
+	public AddProductSpecific() {
+	}
 
 	public AddProductSpecific(BaseProduct baseProduct, Short productId, Short storeSpecificId) {
 		this.baseProduct = baseProduct;
@@ -28,8 +35,8 @@ public class AddProductSpecific {
 		this.storeSpecificId = storeSpecificId;
 	}
 
-	public ProductSpecific toProductSpecific() {
-		return new ProductSpecific(baseProduct, productId);
+	public ProductSpecific toProductSpecific(Byte sizeId) {
+		return new ProductSpecific(baseProduct, productId, sizeId);
 	}
 
 	public ProductStore toProductStore(Short productSpecificId) {
@@ -38,6 +45,30 @@ public class AddProductSpecific {
 
 	public Price toPrice(Short productStoreId) {
 		return new Price(productStoreId, baseProduct.getUserId(), baseProduct.getPrice());
+	}
+
+	public BaseProduct getBaseProduct() {
+		return baseProduct;
+	}
+
+	public void setBaseProduct(BaseProduct baseProduct) {
+		this.baseProduct = baseProduct;
+	}
+
+	public Short getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Short productId) {
+		this.productId = productId;
+	}
+
+	public Short getStoreSpecificId() {
+		return storeSpecificId;
+	}
+
+	public void setStoreSpecificId(Short storeSpecificId) {
+		this.storeSpecificId = storeSpecificId;
 	}
 
 }

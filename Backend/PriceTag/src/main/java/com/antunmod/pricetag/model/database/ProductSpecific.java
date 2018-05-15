@@ -49,17 +49,17 @@ public class ProductSpecific implements Serializable {
 	private Float size;
 
 	@Column(name = "size_id")
-	private byte sizeId;
+	private Byte sizeId;
 
 	public ProductSpecific() {}
 	
-	public ProductSpecific(BaseProduct baseProduct, Short productId) {
+	public ProductSpecific(BaseProduct baseProduct, Short productId, Byte sizeId) {
 		this.productId = productId;
 		this.barcode = baseProduct.getBarcode();
 		this.description = baseProduct.getDescription();
 		this.photoURI = baseProduct.getPhotoURI();
 		this.size = baseProduct.getSize();
-		this.sizeId = baseProduct.getSizeId();
+		this.sizeId = sizeId;
 
 	}
 

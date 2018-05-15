@@ -37,22 +37,19 @@ public class CreateAccountActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (inputIsValid()) {
-                    User user = new User();
-                    user.setName(editText_username.getText().toString());
-                    user.setPassword(editText_password.getText().toString());
-                    user.setEmail(editText_email.getText().toString());
+                String name = editText_username.getText().toString();
+                String password = editText_password.getText().toString();
+                String email = editText_email.getText().toString();
+                if (inputIsValid(name, password, email)) {
+                    User user = new User(name, password, email);
                     registerUser(user);
                 }
             }
         });
     }
 
-    private boolean inputIsValid() {
-        String username = editText_username.getText().toString();
-        String password = editText_password.getText().toString();
+    private boolean inputIsValid(String username, String password, String email) {
         String passwordRetype = editText_passwordRetype.getText().toString();
-        String email = editText_email.getText().toString();
         if (username.isEmpty() || password.isEmpty() || passwordRetype.isEmpty() || email.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Sva polja moraju biti ispunjena!", Toast.LENGTH_SHORT).show();
             return false;

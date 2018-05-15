@@ -101,8 +101,15 @@ public class SimpleController {
 
 	@ResponseBody
 	@GetMapping("/stores/address")
-	public ResponseEntity<Short> getStoreIdForAddress(@RequestParam("storeAddress") String storeAddress) {
-		Short storeId = simpleService.getStoreSpecificIdForStoreLocation(storeAddress);
+	public ResponseEntity<Short> getStoreSpecificIdForAddress(@RequestParam("storeAddress") String storeAddress) {
+		Short storeSpecificId = simpleService.getStoreSpecificIdForStoreLocation(storeAddress);
+		return new ResponseEntity<Short>(storeSpecificId, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping("/stores/id")
+	public ResponseEntity<Short> getStoreIdForStoreName(@RequestParam("storeName") String storeName) {
+		Short storeId = simpleService.getStoreIdForStoreName(storeName);
 		return new ResponseEntity<Short>(storeId, HttpStatus.OK);
 	}
 

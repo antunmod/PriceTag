@@ -1,5 +1,7 @@
 package antunmod.projects.pricetag.transfer;
 
+import java.io.Serializable;
+
 /*
  * BaseProduct class contains basic information that is sent from application. The data it contains relates to most 
  * of the columns in product_specific table so new product_specific data is added.
@@ -8,7 +10,7 @@ package antunmod.projects.pricetag.transfer;
  * new information, apart from addition to product_specific, should be saved to database.
  * 
  */
-public class BaseProduct {
+public class BaseProduct implements Serializable {
 
 	private String barcode;
 	private Short userId;

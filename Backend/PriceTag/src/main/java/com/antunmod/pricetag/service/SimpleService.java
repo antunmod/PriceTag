@@ -136,10 +136,18 @@ public class SimpleService {
 		return new ArrayList<String>();
 	}
 
-	public Short getStoreSpecificIdForStoreLocation(String storeLocation) {
-		Short storeId = storeRepository.findStoreIdForStoreAddress(storeLocation);
+	public Short getStoreIdForStoreName(String storeName) {
+		Short storeId = storeRepository.findStoreIdForStoreName(storeName);
 		if (storeId != null) {
 			return storeId;
+		}
+		return NOT_FOUND_SHORT;
+	}
+	
+	public Short getStoreSpecificIdForStoreLocation(String storeLocation) {
+		Short storeSpecificId = storeRepository.findStoreSpecificIdForStoreAddress(storeLocation);
+		if (storeSpecificId != null) {
+			return storeSpecificId;
 		}
 		return NOT_FOUND_SHORT;
 

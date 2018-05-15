@@ -7,6 +7,7 @@ import java.util.List;
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.model.ProductData;
 import antunmod.projects.pricetag.transfer.AddProduct;
+import antunmod.projects.pricetag.transfer.AddProductSpecific;
 import antunmod.projects.pricetag.view.fragment.AddProductFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
 import retrofit2.Call;
@@ -47,7 +48,7 @@ public class AddProductService {
     /*
         This method determines which object should be sent to server.
      */
-    public void addProduct(ProductData productData) {
+    public void addProduct(AddProductFragment addProductFragment, ProductData productData) {
 
         this.productData = productData;
 
@@ -56,9 +57,9 @@ public class AddProductService {
          */
         if (productData.getStoreName()!=null) {
             if (productData.getProductId() != null) {
-                saveProductSpecific();
+                saveProductSpecific(addProductFragment);
             }
-            if (productData.getProducerId() != null) {
+            else if (productData.getProducerId() != null) {
                 saveProduct();
             }
             else {
@@ -74,7 +75,7 @@ public class AddProductService {
             if (productData.getProductId() != null) {
                 saveStoreSpecificProductSpecific();
             }
-            if (productData.getProducerId() != null) {
+            else if (productData.getProducerId() != null) {
                 saveStoreSpecificProduct();
             }
             else {
@@ -90,7 +91,7 @@ public class AddProductService {
             if (productData.getProductId() != null) {
                 saveStoreProductSpecific();
             }
-            if (productData.getProducerId() != null) {
+            else if (productData.getProducerId() != null) {
                 saveStoreProduct();
             }
             else {
@@ -100,19 +101,20 @@ public class AddProductService {
         }
     }
 
-    private void saveProductSpecific() {
+    private void saveProductSpecific(final AddProductFragment addProductFragment) {
         RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Boolean> call = restServiceClient.addProductSpecific(productData.toAddProductSpecific());
+        AddProductSpecific addProductSpecific = productData.toAddProductSpecific();
+        Call<Boolean> call = restServiceClient.addProductSpecific(addProductSpecific);
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Boolean productSavedSuccessfully = response.body();
 
                 if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
+                    addProductFragment.addedProduct(addProductFragment, productSavedSuccessfully);
 
                 } else {
-                    AddProductFragment.setProductAdded(true);
+                    addProductFragment.addedProduct(addProductFragment, false);
                 }
             }
 

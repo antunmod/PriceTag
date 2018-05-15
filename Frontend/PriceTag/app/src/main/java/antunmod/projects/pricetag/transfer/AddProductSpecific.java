@@ -10,9 +10,11 @@ package antunmod.projects.pricetag.transfer;
  * 		- price
  */
 
+import java.io.Serializable;
+
 import antunmod.projects.pricetag.model.BaseProduct;
 
-public class AddProductSpecific {
+public class AddProductSpecific implements Serializable {
 
 	private BaseProduct baseProduct;
 	private Short productId;
@@ -24,4 +26,27 @@ public class AddProductSpecific {
 		this.storeSpecificId = storeSpecificId;
 	}
 
+	public BaseProduct getBaseProduct() {
+		return baseProduct;
+	}
+
+	public void setBaseProduct(BaseProduct baseProduct) {
+		this.baseProduct = baseProduct;
+	}
+
+	public Short getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Short productId) {
+		this.productId = productId;
+	}
+
+	public Short getStoreSpecificId() {
+		return storeSpecificId;
+	}
+
+	public void setStoreSpecificId(Short storeSpecificId) {
+		this.storeSpecificId = storeSpecificId;
+	}
 }

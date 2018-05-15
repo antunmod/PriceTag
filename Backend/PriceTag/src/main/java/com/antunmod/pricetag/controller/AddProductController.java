@@ -40,6 +40,8 @@ public class AddProductController {
 	@ResponseBody
 	@PostMapping("/productSpecific")
 	public ResponseEntity<Boolean> addProductSpecific(@RequestBody AddProductSpecific addProductSpecific) {
+		if (addProductSpecific == null)
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		Boolean success = addProductService.saveProductSpecific(addProductSpecific);
 		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}

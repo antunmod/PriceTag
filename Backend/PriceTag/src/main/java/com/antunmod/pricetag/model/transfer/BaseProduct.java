@@ -1,5 +1,7 @@
 package com.antunmod.pricetag.model.transfer;
 
+import java.io.Serializable;
+
 /*
  * BaseProduct class contains basic information that is sent from application. The data it contains relates to most 
  * of the columns in product_specific table so new product_specific data is added.
@@ -8,7 +10,9 @@ package com.antunmod.pricetag.model.transfer;
  * new information, apart from addition to product_specific, should be saved to database.
  * 
  */
-public class BaseProduct {
+public class BaseProduct implements Serializable {
+
+	private static final long serialVersionUID = -2556452502249347833L;
 
 	private String barcode;
 	private Short userId;
@@ -16,12 +20,13 @@ public class BaseProduct {
 	private String description;
 	private String photoURI;
 	private Float size;
-	private Byte sizeId;
+	private String sizeUnit;
 
-	public BaseProduct() {}
-	
-	public BaseProduct(String barcode, Short userId, Float price, String description, String photoURI,
-			Float size, Byte sizeId) {
+	public BaseProduct() {
+	}
+
+	public BaseProduct(String barcode, Short userId, Float price, String description, String photoURI, Float size,
+			String sizeUnit) {
 		super();
 		this.barcode = barcode;
 		this.userId = userId;
@@ -29,7 +34,7 @@ public class BaseProduct {
 		this.description = description;
 		this.photoURI = photoURI;
 		this.size = size;
-		this.sizeId = sizeId;
+		this.sizeUnit = sizeUnit;
 	}
 
 	public String getBarcode() {
@@ -56,16 +61,36 @@ public class BaseProduct {
 		return size;
 	}
 
-	public byte getSizeId() {
-		return sizeId;
-	}
-
 	public Short getUserId() {
 		return userId;
 	}
 
 	public Float getPrice() {
 		return price;
+	}
+
+	public String getSizeUnit() {
+		return sizeUnit;
+	}
+
+	public void setSizeUnit(String sizeUnit) {
+		this.sizeUnit = sizeUnit;
+	}
+
+	public void setUserId(Short userId) {
+		this.userId = userId;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	public void setPhotoURI(String photoURI) {
+		this.photoURI = photoURI;
+	}
+
+	public void setSize(Float size) {
+		this.size = size;
 	}
 
 }

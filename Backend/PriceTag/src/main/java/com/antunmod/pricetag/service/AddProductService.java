@@ -28,6 +28,7 @@ import com.antunmod.pricetag.repo.ProducerRepository;
 import com.antunmod.pricetag.repo.ProductRepository;
 import com.antunmod.pricetag.repo.ProductSpecificRepository;
 import com.antunmod.pricetag.repo.ProductStoreRepository;
+import com.antunmod.pricetag.repo.SizeRepository;
 import com.antunmod.pricetag.repo.StoreRepository;
 import com.antunmod.pricetag.repo.StoreSpecificRepository;
 import com.antunmod.pricetag.repo.SubcategoryProductRepository;
@@ -54,6 +55,8 @@ public class AddProductService {
 	private StoreSpecificRepository storeSpecificRepository;
 	@Autowired
 	private StoreRepository storeRepository;
+	@Autowired
+	private SizeRepository sizeRepository;
 
 	public AddProductService() {
 	}
@@ -62,7 +65,8 @@ public class AddProductService {
 	 * This method will save new product_specific, product_store, price data.
 	 */
 	public Boolean saveProductSpecific(AddProductSpecific addProductSpecific) {
-		ProductSpecific productSpecific = productSpecificRepository.save(addProductSpecific.toProductSpecific());
+		Byte sizeId = sizeRepository.findSizeIdForSizeType(addProductSpecific.getBaseProduct().getSizeUnit());
+		ProductSpecific productSpecific = productSpecificRepository.save(addProductSpecific.toProductSpecific(sizeId));
 		/*
 		 * ProductSpecific wasn't saved, return false.
 		 */
@@ -162,8 +166,7 @@ public class AddProductService {
 		 * If the productSpecific wasn't saved, delete storeSpecific from database and
 		 * return false.
 		 */
-		if (!saveProductSpecific(
-				addStoreSpecificProductSpecific.toAddProductSpecific(storeSpecific.getId()))) {
+		if (!saveProductSpecific(addStoreSpecificProductSpecific.toAddProductSpecific(storeSpecific.getId()))) {
 			storeSpecificRepository.delete(storeSpecific);
 			return false;
 		}
@@ -278,14 +281,14 @@ public class AddProductService {
 		}
 		return true;
 	}
-	
+
 	public Boolean savePrice(AddPrice addPrice) {
 		Short productStoreId = productStoreRepository.findProductStoreForProductSpecificIdAndStoreSpecificId(
 				addPrice.getProductSpecificId(), addPrice.getStoreSpecificId());
 		/*
 		 * What if there is no productStoreId for those values?
 		 */
-		
+
 		Price price = priceRepository.save(addPrice.toPrice(productStoreId));
 		/*
 		 * Return false if the price wasn't saved.
@@ -296,12 +299,12 @@ public class AddProductService {
 	}
 
 	public Boolean saveStoreSpecificProductStore(AddStoreSpecificProductStore addStoreSpecificProductStore) {
-		StoreSpecific storeSpecific = storeSpecificRepository.save(
-				new StoreSpecific(addStoreSpecificProductStore.getStoreId(), addStoreSpecificProductStore.getStoreAddress()));
+		StoreSpecific storeSpecific = storeSpecificRepository.save(new StoreSpecific(
+				addStoreSpecificProductStore.getStoreId(), addStoreSpecificProductStore.getStoreAddress()));
 		if (storeSpecific == null) {
 			return false;
 		}
-		
+
 		ProductStore productStore = productStoreRepository
 				.save(addStoreSpecificProductStore.toProductStore(storeSpecific.getId()));
 		/*
@@ -312,10 +315,11 @@ public class AddProductService {
 			storeSpecificRepository.delete(storeSpecific);
 			return false;
 		}
-		
+
 		Price price = priceRepository.save(addStoreSpecificProductStore.toPrice(productStore.getId()));
 		/*
-		 * Price wasn't saved, remove productStore and storeSpecific from database and return false.
+		 * Price wasn't saved, remove productStore and storeSpecific from database and
+		 * return false.
 		 */
 		if (price == null) {
 			productStoreRepository.delete(productStore);
@@ -323,7 +327,7 @@ public class AddProductService {
 			return false;
 		}
 		return true;
-		
+
 	}
 
 	public Boolean saveStoreProductStore(AddStoreProductStore addStoreProductStore) {
@@ -331,13 +335,12 @@ public class AddProductService {
 		if (store == null) {
 			return false;
 		}
-		
+
 		/*
 		 * If the storeSpecificProductStore wasn't saved, delete store from database and
 		 * return false.
 		 */
-		if (!saveStoreSpecificProductStore(
-				addStoreProductStore.toAddStoreSpecificProductStore(store.getStoreId()))) {
+		if (!saveStoreSpecificProductStore(addStoreProductStore.toAddStoreSpecificProductStore(store.getStoreId()))) {
 			storeRepository.delete(store);
 			return false;
 		}

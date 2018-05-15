@@ -12,20 +12,23 @@ import com.antunmod.pricetag.model.transfer.BaseProduct;
 public class ProductData {
 
 	private BaseProduct baseProduct;
-	private Short productSpecificId;
 
-	private Short productId;
-	private String productName;
+    private Short productId;
+    private String productName;
 
-	private Short producerId;
-	private String producerName;
+    private Short productSpecificId;
 
-	private Short storeSpecificId;
-	private String storeName;
-	private String storeAddress;
-	private Short storeId;
+    private Short producerId;
+    private String producerName;
 
-	private Short subcategoryId;
+
+    private Short storeId;
+    private String storeName;
+
+    private Short storeSpecificId;
+    private String storeAddress;
+
+    private Short subcategoryId;
 
 	public ProductData() {
 	}

@@ -1,6 +1,8 @@
 package antunmod.projects.pricetag.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /*
@@ -8,8 +10,6 @@ import java.util.Date;
  */
 
 public class User implements Serializable {
-
-	private static final long serialVersionUID = 8234325017646826418L;
 
 	private Short id;
 
@@ -19,7 +19,7 @@ public class User implements Serializable {
 
 	private String email;
 
-	private Date signupDate;
+	private String signupDate;
 
 	private Float rating;
 	
@@ -38,12 +38,12 @@ public class User implements Serializable {
 
 	public User() {}
 	
-	public User(String name, String password, String email, Date signupDate) {
+	public User(String name, String password, String email) {
 		super();
 		this.name = name;
 		this.password = password;
 		this.email = email;
-		this.signupDate = signupDate;
+		this.signupDate = getDateString();
 		
 		/*
 		 * Default values for new users.
@@ -51,6 +51,10 @@ public class User implements Serializable {
 		this.rating = 0.0f;
 		this.points = 0;
 		this.userType = 1;
+	}
+
+	public Short getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -81,4 +85,33 @@ public class User implements Serializable {
 		return email;
 	}
 
+	public void setId(Short id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
+	public Short getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Short userType) {
+		this.userType = userType;
+	}
+
+	public static String getDateString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
 }
