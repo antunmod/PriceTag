@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -133,8 +132,7 @@ public class AddProductFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (fieldsAreValid()) {
-                        addProduct();
-
+                        addNewProduct();
                 }
             }
         });
@@ -231,11 +229,9 @@ public class AddProductFragment extends Fragment {
         utilService.showProgress(false, textView_addProduct, progressBar_loading);
     }
 
-    private void addProduct() {
-        startProgress();
+    private void addNewProduct() {
         setupProductData();
-        addProductService.addPhoto(photo);
-        addProductService.addProduct(this, productData);
+        addProduct();
     }
 
     private void setupProductData() {
@@ -244,15 +240,30 @@ public class AddProductFragment extends Fragment {
         productData.getBaseProduct().setSizeUnit(spinner_size.getSelectedItem().toString());
         User user = HomeActivity.user;
         productData.getBaseProduct().setUserId(user.getId());
-        productData.getBaseProduct().setDescription("lalala");
-        productData.getBaseProduct().setPhotoURI("dummyPhotoURI");
 
     }
 
-    public static void addedProduct(AddProductFragment addProductFragment, Boolean status) {
+    private void addProduct() {
+        startProgress();
+        addProductService.addProduct(this, productData);
+    }
+
+    public static void addedProduct(AddProductFragment addProductFragment, Short productSpecificId) {
         addProductFragment.finishProgress();
+        if (productSpecificId == null) {
+            addProductFragment.outputString("Proizvod nije dodan, pokušajte ponovo");
+            return;
+        }
+        addProductFragment.addPhoto(productSpecificId);
+    }
+
+    private void addPhoto(Short productSpecificId) {
+        addProductService.addPhoto(this, photo, productSpecificId);
+    }
+
+    public static void addedPhoto(AddProductFragment addProductFragment, String photoURI) {
+        productData.getBaseProduct().setPhotoURI(photoURI);
         String outputMessage = "Proizvod " + productData.getProductName() + (productAdded? "je":"nije") + "dodan";
-        addProductFragment.outputString(outputMessage);
     }
 
     private void goToEnterBarcodeFragment(String outputMessage) {

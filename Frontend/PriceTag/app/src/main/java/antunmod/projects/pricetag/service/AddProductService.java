@@ -107,22 +107,17 @@ public class AddProductService {
 
     private void saveProductSpecific(final AddProductFragment addProductFragment) {
         AddProductSpecific addProductSpecific = productData.toAddProductSpecific();
-        Call<Boolean> call = restServiceClient.addProductSpecific(addProductSpecific);
-        call.enqueue(new Callback<Boolean>() {
+        Call<Short> call = restServiceClient.addProductSpecific(addProductSpecific);
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
 
-                if (productSavedSuccessfully != null) {
-                    addProductFragment.addedProduct(addProductFragment, productSavedSuccessfully);
-
-                } else {
-                    addProductFragment.addedProduct(addProductFragment, false);
-                }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -293,7 +288,7 @@ public class AddProductService {
                     AddProductFragment.setProductAdded(true);
 
                 } else {
-                    AddProductFragment.setProductAdded(true);
+                    AddProductFragment.setProductAdded(false);
                 }
             }
 
@@ -305,28 +300,27 @@ public class AddProductService {
     }
 
 
-    public void addPhoto(byte[] photo) {
+    public void addPhoto(final AddProductFragment addProductFragment, byte[] photo, Short productSpeicificId) {
         String encodedImage = Base64.encodeToString(photo, Base64.DEFAULT);
-
+        savePhoto(addProductFragment, encodedImage, productSpeicificId);
     }
 
-    private void savePhoto() {
-        Call<Boolean> call = restServiceClient.addStoreProducer(productData.toAddStoreProducer());
-        call.enqueue(new Callback<Boolean>() {
+    private void savePhoto(final AddProductFragment addProductFragment, String encodedImage, Short productSpecificId) {
+        Call<String> call = restServiceClient.addPhoto(encodedImage, productSpecificId);
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<String> call, Response<String> response) {
+                String photoURI = response.body();
+                if (photoURI != null) {
+                    addProductFragment.addedPhoto(addProductFragment, photoURI);
 
                 } else {
-                    AddProductFragment.setProductAdded(true);
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });

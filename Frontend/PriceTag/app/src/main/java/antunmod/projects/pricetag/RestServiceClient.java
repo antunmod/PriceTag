@@ -42,7 +42,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("add/productSpecific")
-    Call<Boolean> addProductSpecific(@Body AddProductSpecific addProductSpecific);
+    Call<Short> addProductSpecific(@Body AddProductSpecific addProductSpecific);
 
     @Headers("Content-Type: application/json")
     @POST("add/product")
@@ -186,7 +186,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("photos")
-    Call<Integer> addPhoto(@Body byte[] photo);
+    Call<String> addPhoto(@Query("encodedImage") String encodedImage, @Query("productSpecificId") Short productSpecificId);
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()

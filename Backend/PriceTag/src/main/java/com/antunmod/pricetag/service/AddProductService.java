@@ -346,5 +346,9 @@ public class AddProductService {
 		}
 		return true;
 	}
+	
+	public Short getProductSpecificIdForBarcode(String barcode) {
+		return productSpecificRepository.findProductSpecificIdForBarcode(barcode);
+	}
 
 }

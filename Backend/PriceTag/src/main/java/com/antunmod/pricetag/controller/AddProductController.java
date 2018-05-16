@@ -33,17 +33,21 @@ public class AddProductController {
 	@Autowired
 	private AddProductService addProductService;
 
+	private final Short ADDING_PRODUCTS_FAILED = -1;
+	
 	/*
 	 * This mapping will result in addition of entries to the following tables in
 	 * database: product_specific, product_store, price
 	 */
 	@ResponseBody
 	@PostMapping("/productSpecific")
-	public ResponseEntity<Boolean> addProductSpecific(@RequestBody AddProductSpecific addProductSpecific) {
-		if (addProductSpecific == null)
-			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	public ResponseEntity<Short> addProductSpecific(@RequestBody AddProductSpecific addProductSpecific) {
 		Boolean success = addProductService.saveProductSpecific(addProductSpecific);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		Short productSpecificId = ADDING_PRODUCTS_FAILED;
+		if (success) {
+			productSpecificId = addProductService.getProductSpecificIdForBarcode(addProductSpecific.getBaseProduct().getBarcode());
+		}
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*

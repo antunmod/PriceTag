@@ -9,6 +9,9 @@ import com.antunmod.pricetag.model.database.ProductSpecific;
 
 public interface ProductSpecificRepository extends JpaRepository<ProductSpecific, Short>{
 
+	@Query(value = "SELECT id FROM product_specific WHERE barcode = ?1", nativeQuery = true)
+	Short findProductSpecificIdForBarcode(String barcode);
+	
 	ProductSpecific findById(Short id);
 	
 	ProductSpecific findByBarcode(String barcode);
