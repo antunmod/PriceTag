@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 
 import antunmod.projects.pricetag.R;
@@ -103,6 +102,8 @@ public class AddProductFragment extends Fragment {
 
     private static List<String> sizeTypeList;
 
+    private Uri imageURI;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -144,32 +145,43 @@ public class AddProductFragment extends Fragment {
 
     public void callCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File image = null;
+        try
+        {
+            // place where to store camera taken picture
+            image = addProductService.createTemporaryFile("picture", ".jpg");
+            //image.delete();
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getContext(), "Došlo je do greške, pokušajte ponovo!", Toast.LENGTH_SHORT).show();
+        }
+        imageURI = Uri.fromFile(image);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
+        //start camera intent
         startActivityForResult(intent, CAMERA_REQUEST);
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
 
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                if (bmp.getHeight() > bmp.getWidth()) {
-                    Toast.makeText(getContext(), "Orijentacija slike mora biti horizontalna!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            Bitmap bmp = addProductService.getScaledImageBitmap(this, imageURI);
 
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                photo = stream.toByteArray();
-
-                // convert byte array to Bitmap
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0,
-                        photo.length);
-
-                imageView_addProduct.setImageBitmap(bitmap);
-                pictureSet = true;
+            if (bmp.getHeight() > bmp.getWidth()) {
+                Toast.makeText(getContext(), "Orijentacija slike mora biti horizontalna!", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+
+            // convert byte array to Bitmap
+
+                /*Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0,
+                        photo.length);*/
+
+            imageView_addProduct.setImageBitmap(bmp);
+            pictureSet = true;
         }
     }
 
@@ -258,7 +270,14 @@ public class AddProductFragment extends Fragment {
     }
 
     private void addPhoto(Short productSpecificId) {
-        addProductService.addPhoto(this, photo, productSpecificId);
+        photo = addProductService.getScaledImage(this, imageURI);
+        Byte[] byteArray = new Byte[photo.length];
+        int i = 0;
+        for (byte b : photo)
+            byteArray[i++] = b;
+
+
+        addProductService.savePhoto(this, byteArray, productSpecificId);
     }
 
     public static void addedPhoto(AddProductFragment addProductFragment, String photoURI) {

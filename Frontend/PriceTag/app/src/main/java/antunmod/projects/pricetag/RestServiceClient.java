@@ -186,10 +186,10 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("photos")
-    Call<String> addPhoto(@Query("encodedImage") String encodedImage, @Query("productSpecificId") Short productSpecificId);
+    Call<String> addPhoto(@Body Byte[] imageArray, @Query("productSpecificId") Short productSpecificId);
 
 
-    public static final Retrofit retrofit = new Retrofit.Builder()
+    public static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.1.4:8000/")
             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
             .build();

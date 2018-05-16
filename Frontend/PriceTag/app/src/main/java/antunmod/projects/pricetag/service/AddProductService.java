@@ -1,16 +1,20 @@
 package antunmod.projects.pricetag.service;
 
-import android.util.Base64;
+import java.io.File;
+import java.nio.ByteBuffer;
+
+import android.content.ContentResolver;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
 import android.widget.Toast;
 
 import java.util.List;
 
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.model.ProductData;
-import antunmod.projects.pricetag.transfer.AddProduct;
 import antunmod.projects.pricetag.transfer.AddProductSpecific;
 import antunmod.projects.pricetag.view.fragment.AddProductFragment;
-import antunmod.projects.pricetag.view.fragment.SelectFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -299,14 +303,8 @@ public class AddProductService {
         });
     }
 
-
-    public void addPhoto(final AddProductFragment addProductFragment, byte[] photo, Short productSpeicificId) {
-        String encodedImage = Base64.encodeToString(photo, Base64.DEFAULT);
-        savePhoto(addProductFragment, encodedImage, productSpeicificId);
-    }
-
-    private void savePhoto(final AddProductFragment addProductFragment, String encodedImage, Short productSpecificId) {
-        Call<String> call = restServiceClient.addPhoto(encodedImage, productSpecificId);
+    public void savePhoto(final AddProductFragment addProductFragment, Byte[] imageArray, Short productSpecificId) {
+        Call<String> call = restServiceClient.addPhoto(imageArray, productSpecificId);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -324,6 +322,58 @@ public class AddProductService {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
+    }
+
+    public File createTemporaryFile(String part, String ext) throws Exception
+    {
+        File tempDir= Environment.getExternalStorageDirectory();
+        tempDir=new File(tempDir.getAbsolutePath()+"/.temp/");
+        if(!tempDir.exists())
+        {
+            tempDir.mkdirs();
+        }
+        return File.createTempFile(part, ext, tempDir);
+    }
+
+    public Bitmap getImageBitmap(AddProductFragment addProductFragment, Uri imageURI) {
+        ContentResolver cr = addProductFragment.getContext().getContentResolver();
+        Bitmap bitmap = null;
+        try
+        {
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, imageURI);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(addProductFragment.getContext(), "Neuspjelo učitavanje spremljene slike", Toast.LENGTH_SHORT).show();
+        }
+        return bitmap;
+    }
+
+    public Bitmap getScaledImageBitmap(AddProductFragment addProductFragment, Uri imageURI) {
+        Bitmap d = getImageBitmap(addProductFragment, imageURI);
+        int nh = (int) ( d.getHeight() * (512.0 / d.getWidth()) );
+        Bitmap scaled = Bitmap.createScaledBitmap(d, 512, nh, true);
+        return scaled;
+    }
+
+    public byte[] getImage(AddProductFragment addProductFragment, Uri imageURI)
+    {
+       Bitmap bitmap = getImageBitmap(addProductFragment, imageURI);
+
+        int size = bitmap.getRowBytes() * bitmap.getHeight();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
+        bitmap.copyPixelsToBuffer(byteBuffer);
+        return byteBuffer.array();
+    }
+
+    public byte[] getScaledImage(AddProductFragment addProductFragment, Uri imageURI)
+    {
+        Bitmap bitmap = getScaledImageBitmap(addProductFragment, imageURI);
+
+        int size = bitmap.getRowBytes() * bitmap.getHeight();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
+        bitmap.copyPixelsToBuffer(byteBuffer);
+        return byteBuffer.array();
     }
 
 }
