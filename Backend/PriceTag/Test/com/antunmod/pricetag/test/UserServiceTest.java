@@ -40,13 +40,13 @@ public class UserServiceTest {
 	private final String NEW_USER_NAME = "newUser";
 	private final String NEW_USER_PASSWORD = "newPassword";
 	private final String NEW_USER_EMAIL = "new@gmail.com";
+	private final String DATE_STRING = "2018-05-16";
 	
 	private User user;
 	
 	@Before
 	public void setupUser() {
-		Date date = new Date();	
-		user = new User(NEW_USER_NAME, NEW_USER_PASSWORD, NEW_USER_EMAIL, date);
+		user = new User(NEW_USER_NAME, NEW_USER_PASSWORD, NEW_USER_EMAIL, DATE_STRING);
 	}
 	
 	@Test

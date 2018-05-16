@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -160,7 +161,7 @@ public class AddProductFragment extends Fragment {
                 }
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-                bmp.compress(Bitmap.CompressFormat.PNG, 90, stream);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 photo = stream.toByteArray();
 
                 // convert byte array to Bitmap
@@ -233,6 +234,7 @@ public class AddProductFragment extends Fragment {
     private void addProduct() {
         startProgress();
         setupProductData();
+        addProductService.addPhoto(photo);
         addProductService.addProduct(this, productData);
     }
 

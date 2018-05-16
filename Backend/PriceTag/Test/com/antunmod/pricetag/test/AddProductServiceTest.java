@@ -44,9 +44,9 @@ public class AddProductServiceTest {
 		String productDescription = "";
 		String photoURI = "dummy/test/photo/URI";
 		Float productSize = 1.65f;
-		Byte productSizeId = 4;
+		String productSizeString = "l";
 		BaseProduct baseProduct = new BaseProduct(barcode, userId, price, productDescription, 
-				photoURI, productSize, productSizeId);
+				photoURI, productSize, productSizeString);
 		Short productSpecificId = 0;
 	    Short productId = 0;
 	    String productName = "Quattro joy";

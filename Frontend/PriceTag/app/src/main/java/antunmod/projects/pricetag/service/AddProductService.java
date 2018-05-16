@@ -1,5 +1,6 @@
 package antunmod.projects.pricetag.service;
 
+import android.util.Base64;
 import android.widget.Toast;
 
 import java.util.List;
@@ -22,10 +23,13 @@ public class AddProductService {
 
     private final String ERROR_STRING = "Došlo je do greške, pokušajte ponovo";
     private ProductData productData;
+    private RestServiceClient restServiceClient;
 
+    public AddProductService() {
+        restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+    }
 
     public void getSizesTypes(final AddProductFragment addProductFragment) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getSizeTypes();
         call.enqueue(new Callback<List<String>>() {
             @Override
@@ -102,7 +106,6 @@ public class AddProductService {
     }
 
     private void saveProductSpecific(final AddProductFragment addProductFragment) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         AddProductSpecific addProductSpecific = productData.toAddProductSpecific();
         Call<Boolean> call = restServiceClient.addProductSpecific(addProductSpecific);
         call.enqueue(new Callback<Boolean>() {
@@ -126,7 +129,6 @@ public class AddProductService {
     }
 
     private void saveProduct() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addProduct(productData.toAddProduct());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -149,7 +151,6 @@ public class AddProductService {
     }
 
     private void saveProducer() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addProducer(productData.toAddProducer());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -172,7 +173,6 @@ public class AddProductService {
     }
 
     private void saveStoreSpecificProductSpecific() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addStoreSpecificProductSpecific(productData.toAddStoreSpecificProductSpecific());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -195,7 +195,6 @@ public class AddProductService {
     }
 
     private void saveStoreSpecificProduct() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addStoreSpecificProduct(productData.toAddStoreSpecificProduct());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -218,7 +217,6 @@ public class AddProductService {
     }
 
     private void saveStoreSpecificProducer() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addStoreSpecificProducer(productData.toAddStoreSpecificProducer());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -241,7 +239,6 @@ public class AddProductService {
     }
 
     private void saveStoreProductSpecific() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addStoreProductSpecific(productData.toAddStoreProductSpecific());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -264,7 +261,6 @@ public class AddProductService {
     }
 
     private void saveStoreProduct() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addStoreProduct(productData.toAddStoreProduct());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -287,7 +283,6 @@ public class AddProductService {
     }
 
     private void saveStoreProducer() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Boolean> call = restServiceClient.addStoreProducer(productData.toAddStoreProducer());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -310,6 +305,31 @@ public class AddProductService {
     }
 
 
+    public void addPhoto(byte[] photo) {
+        String encodedImage = Base64.encodeToString(photo, Base64.DEFAULT);
 
+    }
+
+    private void savePhoto() {
+        Call<Boolean> call = restServiceClient.addStoreProducer(productData.toAddStoreProducer());
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Boolean productSavedSuccessfully = response.body();
+
+                if (productSavedSuccessfully != null) {
+                    AddProductFragment.setProductAdded(true);
+
+                } else {
+                    AddProductFragment.setProductAdded(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                AddProductFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
 
 }

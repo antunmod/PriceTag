@@ -16,7 +16,11 @@ import retrofit2.Response;
 public class SelectService {
 
     private final String ERROR_STRING = "Došlo je do greške, pokušajte ponovo";
+    private RestServiceClient restServiceClient;
 
+    public SelectService() {
+        restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+    }
 
 
     public void findStoreAddresses(final SelectFragment selectFragment, String selectedStore) {
@@ -42,7 +46,6 @@ public class SelectService {
 
     public void findStoreSpecificId(final SelectFragment selectFragment, String storeAddress) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Short> call = restServiceClient.getStoreSpecificIdForAddress(storeAddress);
         call.enqueue(new Callback<Short>() {
             @Override
@@ -64,7 +67,6 @@ public class SelectService {
     }
 
     public void findCategoriesForSectorName(final SelectFragment selectFragment, String sectorName) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getCategoriesForSectorName(sectorName);
         call.enqueue(new Callback<List<String>>() {
             @Override
@@ -85,7 +87,6 @@ public class SelectService {
     }
 
     public void findSubcategoriesForCategoryName(final SelectFragment selectFragment, String categoryName) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getSubcategoriesForCategoryName(categoryName);
         call.enqueue(new Callback<List<String>>() {
             @Override
@@ -106,7 +107,6 @@ public class SelectService {
     }
 
     public void findProducersForSubcategoryName(final SelectFragment selectFragment, String subcategoryName) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getProducersForSubcategoryName(subcategoryName);
         call.enqueue(new Callback<List<String>>() {
             @Override
@@ -132,7 +132,6 @@ public class SelectService {
 
     public void findProductsForSubcategoryAndProducerName(final SelectFragment selectFragment, String subcategoryName, String producerName) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryAndProducerName(subcategoryName, producerName);
         call.enqueue(new Callback<List<String>>() {
             @Override
@@ -157,7 +156,6 @@ public class SelectService {
 
     public void findProductIdForProducerAndProductName(final SelectFragment selectFragment, String producerName, String productName) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Short> call = restServiceClient.getProductIdForProducerAndProductName(producerName, productName);
         call.enqueue(new Callback<Short>() {
             @Override
@@ -179,7 +177,6 @@ public class SelectService {
 
     public void findSizeValuesForProductId(Short productId) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<List<String>> call = restServiceClient.getSizeValuesForProductId(productId);
         call.enqueue(new Callback<List<String>>() {
             @Override
@@ -200,7 +197,6 @@ public class SelectService {
 
     public void findSubcategoryIdForCategoryAndSubcategoryName(final SelectFragment selectFragment, String categoryName, String subcategoryName) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Short> call = restServiceClient.getSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
         call.enqueue(new Callback<Short>() {
             @Override
@@ -222,7 +218,6 @@ public class SelectService {
     }
 
     public void findStoreId(final SelectFragment selectFragment, String storeName) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<Short> call = restServiceClient.getStoreId(storeName);
         call.enqueue(new Callback<Short>() {
             @Override

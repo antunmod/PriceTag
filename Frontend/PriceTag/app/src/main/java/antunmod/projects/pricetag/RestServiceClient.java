@@ -180,9 +180,17 @@ public interface RestServiceClient {
     @POST("users")
     Call<User> registerUser(@Body User user);
 
+    /*
+        Calls for handling photos.
+     */
+
+    @Headers("Content-Type: application/json")
+    @POST("photos")
+    Call<Integer> addPhoto(@Body byte[] photo);
+
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.11:8000/")
+            .baseUrl("http://192.168.1.4:8000/")
             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
             .build();
 
