@@ -7,8 +7,10 @@ import java.io.Serializable;
  */
 public class SearchProductData implements Serializable{
 
+	private static final long serialVersionUID = -7491867905909966538L;
+	
 	private Short productSpecificId;
-	private String photoURI;
+	private String imageURI;
 	private String producerName;
 	private String productName;
 	private String productDescription;
@@ -18,11 +20,11 @@ public class SearchProductData implements Serializable{
 		super();
 	}
 
-	public SearchProductData(Short productSpecificId, String photoURI, String producerName, String productName,
+	public SearchProductData(Short productSpecificId, String imageURI, String producerName, String productName,
 			String productDescription, String productSize) {
 		super();
 		this.productSpecificId = productSpecificId;
-		this.photoURI = photoURI;
+		this.imageURI = imageURI;
 		this.producerName = producerName;
 		this.productName = productName;
 		this.productDescription = productDescription;
@@ -34,7 +36,7 @@ public class SearchProductData implements Serializable{
 	}
 
 	public String getPhotoURI() {
-		return photoURI;
+		return imageURI;
 	}
 
 	public String getProducerName() {

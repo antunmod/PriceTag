@@ -114,4 +114,24 @@ public class SearchService {
             }
         });
     }
+
+    public void findByteArrayForProductSpecificId(final SearchFragment searchFragment, SearchProductData searchProductData) {
+        Call<String> call = restServiceClient.getByteArrayForProductSpecificId(searchProductData.getProductSpecificId());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String imageArray = response.body();
+                if (imageArray != null) {
+                    SearchFragment.foundImageArray(searchFragment, imageArray);
+                } else {
+                    searchFragment.findNextImage();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
 }

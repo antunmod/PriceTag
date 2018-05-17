@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,24 @@ public class ImageService {
 		if (productSpecific != null) productSpecific.setPhotoURI(fullSizeImagePath.toString());
 		productSpecificRepository.save(productSpecific);
 		return true;
+	}
+	
+	public String getByteArrayForProductSpecificId (Short productSpecificId) {
+		File image = new File(IMAGE_FOLDER_LOCATION + "/" + productSpecificId + "/" + FULL_SIZE_IMAGE);
+		byte[] imageArray;
+		try {
+			imageArray = Files.readAllBytes(image.toPath());
+		} catch (IOException e) {
+			return null;
+		}
+		String encodedImage = Base64.getEncoder().encodeToString(imageArray);
+		/*Byte[] byteArray = new Byte[imageArray.length];
+		int i = 0;
+		for (byte b : imageArray) {
+			byteArray[i++] = b;
+		}
+		return byteArray;*/
+		return encodedImage;
 	}
 
 }

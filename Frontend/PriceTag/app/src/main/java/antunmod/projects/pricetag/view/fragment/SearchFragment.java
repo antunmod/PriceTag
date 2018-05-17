@@ -2,10 +2,12 @@ package antunmod.projects.pricetag.view.fragment;
 
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,6 @@ import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.GridViewAdapter;
 import antunmod.projects.pricetag.model.ImageItem;
 import antunmod.projects.pricetag.service.SearchService;
-import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 
@@ -34,6 +36,8 @@ import antunmod.projects.pricetag.transfer.SearchProductData;
  */
 public class SearchFragment extends Fragment {
 
+    private final String IMAGE_FOLDER_LOCATION = "C:/Users/antun/Documents/Projekti/PriceTag - Photos/";
+    private final String IMAGE_NAME = "original.jpg";
 
     public SearchFragment() {
         // Required empty public constructor
@@ -43,13 +47,18 @@ public class SearchFragment extends Fragment {
 
     private final String SUPERMARKETS = "Supermarketi";
 
+    private final String ERROR_STRING = "Došlo je do greške";
+
     private Button btn_search;
     private EditText editText_productName;
     private GridView gridView;
     private FloatingActionButton fab_filter;
     private SearchFilter searchFilter;
+    private ArrayList<SearchProductData> searchProductDataList;
 
     private GridViewAdapter gridViewAdapter;
+
+    ArrayList<ImageItem> imageItems;
 
     View inflatedView;
 
@@ -62,6 +71,8 @@ public class SearchFragment extends Fragment {
     Spinner spinner_subcategory;
     Spinner spinner_producer;
     Spinner spinner_store;
+
+    Integer productNumber = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +93,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, getData());
+        //gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, getData());
 
         searchService = new SearchService();
 
@@ -94,10 +105,46 @@ public class SearchFragment extends Fragment {
 
     private void findProducts() {
         searchService.findProducts(this, searchFilter);
+         imageItems = new ArrayList<>();
     }
 
     public static void foundProducts(SearchFragment searchFragment, ArrayList<SearchProductData> searchProductDataList) {
+        searchFragment.searchProductDataList = searchProductDataList;
+        searchFragment.findNextImage();
+    }
 
+    public void findNextImage() {
+        if (productNumber < searchProductDataList.size())
+            searchService.findByteArrayForProductSpecificId(this, searchProductDataList.get(productNumber++));
+        }
+
+    public static void foundImageArray(SearchFragment searchFragment, String encodedImage) {
+        //byte[] byteImageArray = searchFragment.getByteArray(imageArray);
+        //byte[] byteArray = searchFragment.getByteArray(imageArray);
+        //Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, imageArray.length);
+        searchFragment.updateGridView(encodedImage);
+    }
+
+    private void updateGridView(String encodedImage) {
+
+        byte[] byteArray = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        SearchProductData searchProductData = searchProductDataList.get(productNumber - 1);
+        String text = searchProductData.getProducerName() + " " + searchProductData.getProductName() + " " +
+                searchProductData.getProductDescription() + " " + searchProductData.getProductSize();
+        ImageItem imageItem = new ImageItem(bmp, text);
+        imageItems.add(imageItem);
+        gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, imageItems);
+        gridView.setAdapter(gridViewAdapter);
+    }
+
+    private byte[] getByteArray(Byte[] imageArray) {
+        byte[] byteArray = new byte[imageArray.length];
+        int i = 0;
+        for (Byte b : imageArray) {
+            byteArray[i++] = b;
+        }
+        return byteArray;
     }
 
 
@@ -139,6 +186,11 @@ public class SearchFragment extends Fragment {
             public void onClick(View view) {
                 if (!checkBox_subcategory.isChecked())
                     return;
+                if (!checkBox_category.isChecked()) {
+                    Toast.makeText(getContext(), "Prvo odaberite kategoriju", Toast.LENGTH_SHORT).show();
+                    checkBox_subcategory.setChecked(false);
+                    return;
+                }
                 findSubcategoriesForCategoryName(spinner_category.getSelectedItem().toString());
             }
         });
@@ -234,28 +286,6 @@ public class SearchFragment extends Fragment {
     private static void updateSpinner(SearchFragment searchFragment, Spinner spinner, List<String> dataList) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(searchFragment.getContext(), android.R.layout.simple_spinner_dropdown_item, dataList);
         spinner.setAdapter(adapter);
-    }
-
-    private ArrayList<ImageItem> getData() {
-        final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        /*File dir = new File(FOLDER_LOCATION + File.separator + ".compressed");
-
-        File[] folderList = dir.listFiles();
-        if(folderList.length == 0)
-            return imageItems;
-        for(File folder : folderList) {
-            File[] images = folder.listFiles(IMAGE_FILTER);
-            if (images.length == 0)
-                return imageItems;
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 8;
-            for(File image : images) {
-                Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), options);
-                String imageName = image.getName();
-                imageItems.add(new ImageItem(bitmap, imageName.substring(0, imageName.length() - EXTENSION_LENGTH)));
-            }
-        }*/
-        return imageItems;
     }
 
 

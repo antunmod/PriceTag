@@ -272,9 +272,8 @@ public class AddProductFragment extends Fragment {
         addProductService.saveImage(this, byteArray, productSpecificId);
     }
 
-    public static void addedPhoto(AddProductFragment addProductFragment, String photoURI) {
+    public static void addedPhoto(AddProductFragment addProductFragment, Boolean success) {
         addProductFragment.finishProgress();
-        productData.getBaseProduct().setPhotoURI(photoURI);
         String outputMessage = "Uspješno ste dodali proizvod " + productData.getProducerName() + " " + productData.getProductName();
         addProductFragment.goToEnterBarcodeFragment(outputMessage);
     }

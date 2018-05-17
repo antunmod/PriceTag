@@ -36,6 +36,8 @@ import retrofit2.http.Query;
 
 public interface RestServiceClient {
 
+    String serverIP = "http://192.168.1.2:8000/";
+
     /*
         Adding products to an existing store location.
     */
@@ -186,13 +188,16 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("photos")
-    Call<String> addImage(@Body Byte[] imageArray, @Query("productSpecificId") Short productSpecificId);
+    Call<Boolean> addImage(@Body Byte[] imageArray, @Query("productSpecificId") Short productSpecificId);
+
+    @Headers("Content-Type: application/json")
+    @GET("photos")
+    Call<String> getByteArrayForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
 
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.5:8000/")
-            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
+            .baseUrl(serverIP)
+            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().setLenient().create()))
             .build();
-
 
 }

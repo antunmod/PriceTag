@@ -37,7 +37,7 @@ public class SearchService {
 		ArrayList<SearchProductData> searchProductDataList = new ArrayList<>();
 		for (Object[] o : objectArrayList) {
 			searchProductDataList.add(new SearchProductData(
-					(Short)o[0], (String)o[1], (String)o[2], (String)o[3], (String)o[4], (String)o[5]));
+					(Short)o[0], "{" + (String)o[1] + "}", (String)o[2], (String)o[3], (String)o[4], (String)o[5]));
 		}
 		return searchProductDataList;
 	}

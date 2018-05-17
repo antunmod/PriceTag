@@ -3,7 +3,7 @@ package com.antunmod.pricetag.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage.Body;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +21,20 @@ import com.antunmod.pricetag.service.ImageService;
 public class ImageController {
 	
 	@Autowired
-	private ImageService photoService;
+	private ImageService imageService;
 		
 	@ResponseBody
 	@PostMapping("")
 	public ResponseEntity<Boolean> addImage(@RequestBody Byte[] imageArray, 
 			@RequestParam("productSpecificId") Short productSpecificId) {
-		Boolean success = photoService.saveImage(imageArray, productSpecificId);
+		Boolean success = imageService.saveImage(imageArray, productSpecificId);
 		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping("")
+	public ResponseEntity<String> getByteArrayForProductSpecificId(@RequestParam("productSpecificId") Short productSpecificId) {
+		String encodedImage = imageService.getByteArrayForProductSpecificId(productSpecificId);
+		return new ResponseEntity<String>(encodedImage, HttpStatus.OK);
 	}
 }

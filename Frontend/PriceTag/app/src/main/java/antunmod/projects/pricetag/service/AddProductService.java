@@ -303,13 +303,13 @@ public class AddProductService {
     }
 
     public void saveImage(final AddProductFragment addProductFragment, Byte[] imageArray, Short productSpecificId) {
-        Call<String> call = restServiceClient.addImage(imageArray, productSpecificId);
-        call.enqueue(new Callback<String>() {
+        Call<Boolean> call = restServiceClient.addImage(imageArray, productSpecificId);
+        call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String photoURI = response.body();
-                if (photoURI != null) {
-                    addProductFragment.addedPhoto(addProductFragment, photoURI);
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Boolean success = response.body();
+                if (success != null) {
+                    addProductFragment.addedPhoto(addProductFragment, success);
 
                 } else {
                     AddProductFragment.setErrorString(ERROR_STRING);
@@ -317,7 +317,7 @@ public class AddProductService {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Boolean> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
