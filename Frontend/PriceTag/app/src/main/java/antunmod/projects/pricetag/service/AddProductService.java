@@ -117,7 +117,6 @@ public class AddProductService {
             public void onResponse(Call<Short> call, Response<Short> response) {
                 Short productSpecificId = response.body();
                 addProductFragment.addedProduct(addProductFragment, productSpecificId);
-
             }
 
             @Override
@@ -303,8 +302,8 @@ public class AddProductService {
         });
     }
 
-    public void savePhoto(final AddProductFragment addProductFragment, Byte[] imageArray, Short productSpecificId) {
-        Call<String> call = restServiceClient.addPhoto(imageArray, productSpecificId);
+    public void saveImage(final AddProductFragment addProductFragment, Byte[] imageArray, Short productSpecificId) {
+        Call<String> call = restServiceClient.addImage(imageArray, productSpecificId);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

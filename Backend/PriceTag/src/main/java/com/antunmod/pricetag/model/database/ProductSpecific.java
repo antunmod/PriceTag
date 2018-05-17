@@ -70,5 +70,9 @@ public class ProductSpecific implements Serializable {
 	public String getBarcode() {
 		return barcode;
 	}
+	
+	public void setPhotoURI(String photoURI) {
+		this.photoURI = photoURI;
+	}
 
 }

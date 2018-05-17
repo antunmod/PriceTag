@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,7 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import antunmod.projects.pricetag.R;
@@ -98,8 +99,6 @@ public class AddProductFragment extends Fragment {
     private Float size;
     private Float price;
 
-    private static Boolean productAdded = null;
-
     private static List<String> sizeTypeList;
 
     private Uri imageURI;
@@ -145,19 +144,7 @@ public class AddProductFragment extends Fragment {
 
     public void callCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File image = null;
-        try
-        {
-            // place where to store camera taken picture
-            image = addProductService.createTemporaryFile("picture", ".jpg");
-            //image.delete();
-        }
-        catch(Exception e)
-        {
-            Toast.makeText(getContext(), "Došlo je do greške, pokušajte ponovo!", Toast.LENGTH_SHORT).show();
-        }
-        imageURI = Uri.fromFile(image);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
+
         //start camera intent
         startActivityForResult(intent, CAMERA_REQUEST);
 
@@ -167,20 +154,27 @@ public class AddProductFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
 
-            Bitmap bmp = addProductService.getScaledImageBitmap(this, imageURI);
+            Bitmap bmp = (Bitmap) data.getExtras().get("data");
 
             if (bmp.getHeight() > bmp.getWidth()) {
                 Toast.makeText(getContext(), "Orijentacija slike mora biti horizontalna!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            photo = byteArrayOutputStream.toByteArray();
 
+            // convert byte array to Bitmap
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0,
+                    photo.length);
 
             // convert byte array to Bitmap
 
                 /*Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0,
                         photo.length);*/
 
-            imageView_addProduct.setImageBitmap(bmp);
+            imageView_addProduct.setImageBitmap(bitmap);
             pictureSet = true;
         }
     }
@@ -261,7 +255,6 @@ public class AddProductFragment extends Fragment {
     }
 
     public static void addedProduct(AddProductFragment addProductFragment, Short productSpecificId) {
-        addProductFragment.finishProgress();
         if (productSpecificId == null) {
             addProductFragment.outputString("Proizvod nije dodan, pokušajte ponovo");
             return;
@@ -270,19 +263,20 @@ public class AddProductFragment extends Fragment {
     }
 
     private void addPhoto(Short productSpecificId) {
-        photo = addProductService.getScaledImage(this, imageURI);
         Byte[] byteArray = new Byte[photo.length];
         int i = 0;
         for (byte b : photo)
             byteArray[i++] = b;
 
 
-        addProductService.savePhoto(this, byteArray, productSpecificId);
+        addProductService.saveImage(this, byteArray, productSpecificId);
     }
 
     public static void addedPhoto(AddProductFragment addProductFragment, String photoURI) {
+        addProductFragment.finishProgress();
         productData.getBaseProduct().setPhotoURI(photoURI);
-        String outputMessage = "Proizvod " + productData.getProductName() + (productAdded? "je":"nije") + "dodan";
+        String outputMessage = "Uspješno ste dodali proizvod " + productData.getProducerName() + " " + productData.getProductName();
+        addProductFragment.goToEnterBarcodeFragment(outputMessage);
     }
 
     private void goToEnterBarcodeFragment(String outputMessage) {
@@ -292,7 +286,8 @@ public class AddProductFragment extends Fragment {
         trans.remove(this);
         trans.commit();
 
-        // Pop selectFrament
+        // Pop fragments on BackStack
+        manager.popBackStack();
         manager.popBackStack();
 
         Bundle bundle = new Bundle();
@@ -351,7 +346,7 @@ public class AddProductFragment extends Fragment {
     }
 
     public static void setProductAdded(Boolean newProductAdded) {
-        productAdded = newProductAdded;
+
     }
 
     public static void setErrorString(String error) {
