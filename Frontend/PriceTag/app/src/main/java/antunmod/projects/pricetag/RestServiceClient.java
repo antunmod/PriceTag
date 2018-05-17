@@ -189,6 +189,7 @@ public interface RestServiceClient {
     Call<String> addImage(@Body Byte[] imageArray, @Query("productSpecificId") Short productSpecificId);
 
 
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.1.4:8000/")
             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))

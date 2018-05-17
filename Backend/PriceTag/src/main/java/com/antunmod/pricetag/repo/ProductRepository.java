@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Short> {
 			+ "FROM producer JOIN product ON producer.id = product.producer_id "
 			+ "JOIN subcategory_product ON subcategory_product.product_id = product.id "
 			+ "JOIN subcategory ON subcategory.id = subcategory_product.subcategory_id "
-			+ "WHERE subcategory.name = ?1", nativeQuery = true)
+			+ "WHERE subcategory.name LIKE %?1%", nativeQuery = true)
 	List<String> findAllForSubcategoryName(String subcategoryName);
 
 	@Query(value = "SELECT product.name "

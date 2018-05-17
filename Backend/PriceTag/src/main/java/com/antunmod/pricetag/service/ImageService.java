@@ -32,13 +32,9 @@ public class ImageService {
 		Path path = Paths.get(newFolder);
         Path fullSizeImagePath = Paths.get(path.toString() + "/" + FULL_SIZE_IMAGE);
         Path thumbnailPath = Paths.get(path.toString() + "/" + THUMBNAIL);
-		
-        
-        
-		try {
 
-            
-            
+		try {
+         
             byte[] image = new byte[imageArray.length];
             int i = 0;
             for (Byte b : imageArray)
