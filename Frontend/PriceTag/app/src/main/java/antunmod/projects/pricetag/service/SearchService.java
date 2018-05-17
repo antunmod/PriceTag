@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import antunmod.projects.pricetag.RestServiceClient;
+import antunmod.projects.pricetag.transfer.SearchFilter;
+import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
 import retrofit2.Call;
@@ -90,6 +92,24 @@ public class SearchService {
 
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
+                //SearchFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
+
+    public void findProducts(final SearchFragment searchFragment, SearchFilter searchFilter) {
+        Call<List<SearchProductData>> call = restServiceClient.getProducts(searchFilter);
+        call.enqueue(new Callback<List<SearchProductData>>() {
+            @Override
+            public void onResponse(Call<List<SearchProductData>> call, Response<List<SearchProductData>> response) {
+                ArrayList<SearchProductData> searchProductDataList = (ArrayList) response.body();
+                if (searchProductDataList != null) {
+                    SearchFragment.foundProducts(searchFragment, searchProductDataList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SearchProductData>> call, Throwable t) {
                 //SearchFragment.setErrorString(ERROR_STRING);
             }
         });

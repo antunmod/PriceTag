@@ -106,12 +106,12 @@ public interface RestServiceClient {
     */
 
     @Headers("Content-Type: application/json")
-    @GET("search")
-    Call<ArrayList<SearchProductData>> getProducts(@Body SearchFilter searchFilter);
+    @POST("search")
+    Call<List<SearchProductData>> getProducts(@Body SearchFilter searchFilter);
 
     @Headers("Content-Type: application/json")
     @GET("search/locations")
-    Call<ArrayList<StoreProductPrice>> getLocationsForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
+    Call<List<StoreProductPrice>> getLocationsForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
 
     /*
         Simple GET calls while adding a new product.
@@ -189,9 +189,8 @@ public interface RestServiceClient {
     Call<String> addImage(@Body Byte[] imageArray, @Query("productSpecificId") Short productSpecificId);
 
 
-
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.4:8000/")
+            .baseUrl("http://192.168.1.5:8000/")
             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
             .build();
 

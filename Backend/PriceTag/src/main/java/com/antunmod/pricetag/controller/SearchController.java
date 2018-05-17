@@ -1,12 +1,12 @@
 package com.antunmod.pricetag.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +29,7 @@ public class SearchController {
 	private SearchService searchService;
 	
 	@ResponseBody
-	@GetMapping("")
+	@PostMapping("")
 	public ResponseEntity<ArrayList<SearchProductData>> getProducts(@RequestBody SearchFilter searchFilter) {
 		ArrayList<SearchProductData> searchProductDataList = searchService.getProducts(searchFilter);
 		return new ResponseEntity<ArrayList<SearchProductData>>(searchProductDataList, HttpStatus.OK);

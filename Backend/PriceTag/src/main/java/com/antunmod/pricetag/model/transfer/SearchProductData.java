@@ -1,9 +1,11 @@
 package com.antunmod.pricetag.model.transfer;
 
+import java.io.Serializable;
+
 /*
  * The SearchProductData class contains data for a product which will be shown to user on request.
  */
-public class SearchProductData {
+public class SearchProductData implements Serializable{
 
 	private Short productSpecificId;
 	private String photoURI;

@@ -11,6 +11,9 @@ public class SearchFilter {
 	private String productName;
 	private String storeName;
 
+	public SearchFilter() {
+	}
+	
 	public SearchFilter(String categoryName, String subcategoryName, String producerName, String productName,
 			String storeName) {
 		super();

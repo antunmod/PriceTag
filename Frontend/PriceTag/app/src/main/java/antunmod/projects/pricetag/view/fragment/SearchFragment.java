@@ -26,6 +26,7 @@ import antunmod.projects.pricetag.model.ImageItem;
 import antunmod.projects.pricetag.service.SearchService;
 import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.transfer.SearchFilter;
+import antunmod.projects.pricetag.transfer.SearchProductData;
 
 
 /**
@@ -77,7 +78,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 searchFilter.setProductName(editText_productName.getText().toString());
-
+                findProducts();
             }
         });
 
@@ -91,8 +92,17 @@ public class SearchFragment extends Fragment {
         return inflatedView;
     }
 
+    private void findProducts() {
+        searchService.findProducts(this, searchFilter);
+    }
+
+    public static void foundProducts(SearchFragment searchFragment, ArrayList<SearchProductData> searchProductDataList) {
+
+    }
+
+
     public void showFilterDialog() {
-        Dialog dialog = new Dialog(getContext());
+        final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.filter_dialog);
 
@@ -165,6 +175,7 @@ public class SearchFragment extends Fragment {
 
                 if (checkBox_store.isChecked())
                     searchFilter.setStoreName(spinner_store.getSelectedItem().toString());
+                dialog.dismiss();
             }
         });
 
