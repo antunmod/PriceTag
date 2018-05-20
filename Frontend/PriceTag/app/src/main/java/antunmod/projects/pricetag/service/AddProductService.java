@@ -13,6 +13,8 @@ import java.util.List;
 
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.model.ProductData;
+import antunmod.projects.pricetag.transfer.AddProducer;
+import antunmod.projects.pricetag.transfer.AddProduct;
 import antunmod.projects.pricetag.transfer.AddProductSpecific;
 import antunmod.projects.pricetag.view.fragment.AddProductFragment;
 import retrofit2.Call;
@@ -68,10 +70,10 @@ public class AddProductService {
                 saveProductSpecific(addProductFragment);
             }
             else if (productData.getProducerId() != null) {
-                saveProduct();
+                saveProduct(addProductFragment);
             }
             else {
-                saveProducer();
+                saveProducer(addProductFragment);
             }
 
         }
@@ -81,13 +83,13 @@ public class AddProductService {
          */
         else if (productData.getStoreId()!=null) {
             if (productData.getProductId() != null) {
-                saveStoreSpecificProductSpecific();
+                saveStoreSpecificProductSpecific(addProductFragment);
             }
             else if (productData.getProducerId() != null) {
-                saveStoreSpecificProduct();
+                saveStoreSpecificProduct(addProductFragment);
             }
             else {
-                saveStoreSpecificProducer();
+                saveStoreSpecificProducer(addProductFragment);
             }
 
         }
@@ -97,13 +99,13 @@ public class AddProductService {
          */
         else if (productData.getStoreId()!=null) {
             if (productData.getProductId() != null) {
-                saveStoreProductSpecific();
+                saveStoreProductSpecific(addProductFragment);
             }
             else if (productData.getProducerId() != null) {
-                saveStoreProduct();
+                saveStoreProduct(addProductFragment);
             }
             else {
-                saveStoreProducer();
+                saveStoreProducer(addProductFragment);
             }
 
         }
@@ -116,6 +118,9 @@ public class AddProductService {
             @Override
             public void onResponse(Call<Short> call, Response<Short> response) {
                 Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
+                }
                 addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
@@ -126,177 +131,155 @@ public class AddProductService {
         });
     }
 
-    private void saveProduct() {
-        Call<Boolean> call = restServiceClient.addProduct(productData.toAddProduct());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveProduct(final AddProductFragment addProductFragment) {
+        AddProduct addProduct = productData.toAddProduct();
+        Call<Short> call = restServiceClient.addProduct(addProduct);
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
-            }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
 
+            }
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    private void saveProducer() {
-        Call<Boolean> call = restServiceClient.addProducer(productData.toAddProducer());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveProducer(final AddProductFragment addProductFragment) {
+        AddProducer addProducer = productData.toAddProducer();
+        Call<Short> call = restServiceClient.addProducer(addProducer);
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    private void saveStoreSpecificProductSpecific() {
-        Call<Boolean> call = restServiceClient.addStoreSpecificProductSpecific(productData.toAddStoreSpecificProductSpecific());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveStoreSpecificProductSpecific(final AddProductFragment addProductFragment) {
+        Call<Short> call = restServiceClient.addStoreSpecificProductSpecific(productData.toAddStoreSpecificProductSpecific());
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    private void saveStoreSpecificProduct() {
-        Call<Boolean> call = restServiceClient.addStoreSpecificProduct(productData.toAddStoreSpecificProduct());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveStoreSpecificProduct(final AddProductFragment addProductFragment) {
+        Call<Short> call = restServiceClient.addStoreSpecificProduct(productData.toAddStoreSpecificProduct());
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    private void saveStoreSpecificProducer() {
-        Call<Boolean> call = restServiceClient.addStoreSpecificProducer(productData.toAddStoreSpecificProducer());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveStoreSpecificProducer(final AddProductFragment addProductFragment) {
+        Call<Short> call = restServiceClient.addStoreSpecificProducer(productData.toAddStoreSpecificProducer());
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    private void saveStoreProductSpecific() {
-        Call<Boolean> call = restServiceClient.addStoreProductSpecific(productData.toAddStoreProductSpecific());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveStoreProductSpecific(final AddProductFragment addProductFragment) {
+        Call<Short> call = restServiceClient.addStoreProductSpecific(productData.toAddStoreProductSpecific());
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    private void saveStoreProduct() {
-        Call<Boolean> call = restServiceClient.addStoreProduct(productData.toAddStoreProduct());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveStoreProduct(final AddProductFragment addProductFragment) {
+        Call<Short> call = restServiceClient.addStoreProduct(productData.toAddStoreProduct());
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(true);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });
     }
 
-    private void saveStoreProducer() {
-        Call<Boolean> call = restServiceClient.addStoreProducer(productData.toAddStoreProducer());
-        call.enqueue(new Callback<Boolean>() {
+    private void saveStoreProducer(final AddProductFragment addProductFragment) {
+        Call<Short> call = restServiceClient.addStoreProducer(productData.toAddStoreProducer());
+        call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean productSavedSuccessfully = response.body();
-
-                if (productSavedSuccessfully != null) {
-                    AddProductFragment.setProductAdded(true);
-
-                } else {
-                    AddProductFragment.setProductAdded(false);
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId == null || productSpecificId == -1) {
+                    AddProductFragment.setErrorString(ERROR_STRING);
                 }
+                addProductFragment.addedProduct(addProductFragment, productSpecificId);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Short> call, Throwable t) {
                 AddProductFragment.setErrorString(ERROR_STRING);
             }
         });

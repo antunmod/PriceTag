@@ -1,5 +1,7 @@
 package com.antunmod.pricetag.model.transfer;
 
+import java.io.Serializable;
+
 import com.antunmod.pricetag.model.database.Price;
 
 /*
@@ -9,12 +11,17 @@ import com.antunmod.pricetag.model.database.Price;
  * 		- price
  */
 
-public class AddPrice {
+public class AddPrice implements Serializable{
 
+	private static final long serialVersionUID = -7113927585755964517L;
+	
 	private Short productSpecificId;
 	private Short storeSpecificId;
 	private Short userId;
 	private Float price;
+
+	public AddPrice() {
+	}
 
 	public Short getProductSpecificId() {
 		return productSpecificId;
@@ -23,7 +30,15 @@ public class AddPrice {
 	public Short getStoreSpecificId() {
 		return storeSpecificId;
 	}
-	
+
+	public Short getUserId() {
+		return userId;
+	}
+
+	public Float getPrice() {
+		return price;
+	}
+
 	public Price toPrice(Short productStoreId) {
 		return new Price(productStoreId, userId, price);
 	}

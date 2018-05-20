@@ -140,15 +140,6 @@ public class SearchFragment extends Fragment {
         findNextImage();
     }
 
-    private byte[] getByteArray(Byte[] imageArray) {
-        byte[] byteArray = new byte[imageArray.length];
-        int i = 0;
-        for (Byte b : imageArray) {
-            byteArray[i++] = b;
-        }
-        return byteArray;
-    }
-
 
     public void showFilterDialog() {
         final Dialog dialog = new Dialog(getContext());

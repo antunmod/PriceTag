@@ -22,8 +22,7 @@ public class BaseProduct implements Serializable {
 	private Float size;
 	private String sizeUnit;
 
-	public BaseProduct() {
-	}
+	public BaseProduct() {}
 
 	public BaseProduct(String barcode, Short userId, Float price, String description, String photoURI, Float size,
 			String sizeUnit) {

@@ -1,5 +1,7 @@
 package com.antunmod.pricetag.model.transfer;
 
+import java.io.Serializable;
+
 /*
  * The AddStoreSpecificProductSpecific class contains data for saving a new product size to the new store address.
  * 
@@ -10,12 +12,17 @@ package com.antunmod.pricetag.model.transfer;
  * 		- price
  */
 
-public class AddStoreSpecificProductSpecific {
+public class AddStoreSpecificProductSpecific implements Serializable {
+
+	private static final long serialVersionUID = -2211114704378920399L;
 
 	private BaseProduct baseProduct;
 	private Short productId;
 	private Short storeId;
 	private String storeAddress;
+
+	public AddStoreSpecificProductSpecific() {
+	}
 
 	public AddStoreSpecificProductSpecific(BaseProduct baseProduct, Short productId, Short storeId,
 			String storeAddress) {
@@ -24,6 +31,14 @@ public class AddStoreSpecificProductSpecific {
 		this.productId = productId;
 		this.storeId = storeId;
 		this.storeAddress = storeAddress;
+	}
+
+	public BaseProduct getBaseProduct() {
+		return baseProduct;
+	}
+
+	public Short getProductId() {
+		return productId;
 	}
 
 	public Short getStoreId() {

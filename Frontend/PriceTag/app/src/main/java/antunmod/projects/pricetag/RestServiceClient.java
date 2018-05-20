@@ -49,11 +49,11 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("add/product")
-    Call<Boolean> addProduct(@Body AddProduct addProduct);
+    Call<Short> addProduct(@Body AddProduct addProduct);
 
     @Headers("Content-Type: application/json")
     @POST("add/producer")
-    Call<Boolean> addProducer(@Body AddProducer addProducer);
+    Call<Short> addProducer(@Body AddProducer addProducer);
 
     /*
         Adding products to a new store location.
@@ -61,15 +61,15 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("add/storeSpecificProductSpecific")
-    Call<Boolean> addStoreSpecificProductSpecific(@Body AddStoreSpecificProductSpecific addStoreSpecificProductSpecific);
+    Call<Short> addStoreSpecificProductSpecific(@Body AddStoreSpecificProductSpecific addStoreSpecificProductSpecific);
 
     @Headers("Content-Type: application/json")
     @POST("add/storeSpecificProduct")
-    Call<Boolean> addStoreSpecificProduct(@Body AddStoreSpecificProduct addStoreSpecificProduct);
+    Call<Short> addStoreSpecificProduct(@Body AddStoreSpecificProduct addStoreSpecificProduct);
 
     @Headers("Content-Type: application/json")
     @POST("add/storeSpecificProducer")
-    Call<Boolean> addStoreSpecificProducer(@Body AddStoreSpecificProducer addStoreSpecificProducer);
+    Call<Short> addStoreSpecificProducer(@Body AddStoreSpecificProducer addStoreSpecificProducer);
 
     /*
         Adding products to a new store.
@@ -77,15 +77,15 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @POST("add/storeProductSpecific")
-    Call<Boolean> addStoreProductSpecific(@Body AddStoreProductSpecific addStoreProductSpecific);
+    Call<Short> addStoreProductSpecific(@Body AddStoreProductSpecific addStoreProductSpecific);
 
     @Headers("Content-Type: application/json")
     @POST("add/storeProduct")
-    Call<Boolean> addStoreProduct(@Body AddStoreProduct addStoreProduct);
+    Call<Short> addStoreProduct(@Body AddStoreProduct addStoreProduct);
 
     @Headers("Content-Type: application/json")
     @POST("add/storeProducer")
-    Call<Boolean> addStoreProducer(@Body AddStoreProducer addStoreProducer);
+    Call<Short> addStoreProducer(@Body AddStoreProducer addStoreProducer);
 
 
     /*
@@ -138,6 +138,10 @@ public interface RestServiceClient {
     Call<List<String>> getProducersForSubcategoryName(@Query("subcategoryName") String subcategoryName);
 
     @Headers("Content-Type: application/json")
+    @GET("producers/id")
+    Call<Short> getProducerId(@Query("producerName") String producerName);
+
+    @Headers("Content-Type: application/json")
     @GET("products/productNames")
     Call<List<String>> getProductNamesForSubcategoryAndProducerName(@Query("subcategoryName") String subcategoryName,
                                                                     @Query("producer") String producer);
@@ -170,6 +174,7 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("sizes")
     Call<List<String>> getSizeTypes();
+
 
     /*
         Calls for handling user data.

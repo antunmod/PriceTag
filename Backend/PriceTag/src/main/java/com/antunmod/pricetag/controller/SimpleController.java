@@ -60,6 +60,14 @@ public class SimpleController {
 		List<String> producerList = simpleService.getProducersForSubcategoryName(subcategoryName);
 		return new ResponseEntity<List<String>>(producerList, HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping("/producers/id")
+	public ResponseEntity<Short> getProducerId(
+			@RequestParam("producerName") String producerName) {
+		Short producerId = simpleService.getProducerId(producerName);
+		return new ResponseEntity<Short>(producerId, HttpStatus.OK);
+	}
 
 	@ResponseBody
 	@GetMapping("/products/productNames")

@@ -88,6 +88,7 @@ public class AddProductFragment extends Fragment {
     private ImageView imageView_addProduct;
     private TextView textView_producer;
     private TextView textView_productName;
+    private EditText editText_productDescription;
     private EditText editText_size;
     private Spinner spinner_size;
     private EditText editText_price;
@@ -112,6 +113,7 @@ public class AddProductFragment extends Fragment {
         imageView_addProduct = inflatedView.findViewById(R.id.imageView_add_product);
         textView_producer = inflatedView.findViewById(R.id.textView_producer);
         textView_productName = inflatedView.findViewById(R.id.textView_product_name);
+        editText_productDescription = inflatedView.findViewById(R.id.editText_product_description);
         editText_size = inflatedView.findViewById(R.id.editText_size);
         spinner_size = inflatedView.findViewById(R.id.spinner_size);
         editText_price = inflatedView.findViewById(R.id.editText_price);
@@ -223,7 +225,7 @@ public class AddProductFragment extends Fragment {
     }
 
     private void updateSpinner(List<String> sizeList) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, sizeList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, sizeList);
         spinner_size.setAdapter(adapter);
     }
 
@@ -244,6 +246,7 @@ public class AddProductFragment extends Fragment {
         productData.getBaseProduct().setPrice(Float.parseFloat(editText_price.getText().toString()));
         productData.getBaseProduct().setSize(Float.parseFloat(editText_size.getText().toString()));
         productData.getBaseProduct().setSizeUnit(spinner_size.getSelectedItem().toString());
+        productData.getBaseProduct().setDescription(editText_productDescription.getText().toString());
         User user = HomeActivity.user;
         productData.getBaseProduct().setUserId(user.getId());
 

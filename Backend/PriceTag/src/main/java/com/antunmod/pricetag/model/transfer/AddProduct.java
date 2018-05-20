@@ -1,7 +1,8 @@
 package com.antunmod.pricetag.model.transfer;
 
+import java.io.Serializable;
+
 import com.antunmod.pricetag.model.database.Product;
-import com.antunmod.pricetag.model.database.ProductSpecific;
 
 /*
  * The class AddProduct saves a new product to the given store.
@@ -13,17 +14,20 @@ import com.antunmod.pricetag.model.database.ProductSpecific;
  * 		- price
  * 		- subcategory_product
  */
-public class AddProduct {
+public class AddProduct implements Serializable{
 
+	private static final long serialVersionUID = 3331164250988889265L;
+	
 	private BaseProduct baseProduct;
 	private Short producerId;
 	private String productName;
 	private Short storeSpecificId;
 	private Short subcategoryId;
 
+	public AddProduct() {}
+	
 	public AddProduct(BaseProduct baseProduct, Short producerId, String productName, Short storeSpecificId,
 			Short subcategoryId) {
-		super();
 		this.baseProduct = baseProduct;
 		this.producerId = producerId;
 		this.productName = productName;
@@ -31,16 +35,32 @@ public class AddProduct {
 		this.subcategoryId = subcategoryId;
 	}
 
+	public BaseProduct getBaseProduct() {
+		return baseProduct;
+	}
+	
+	public Short getProducerId() {
+		return producerId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public Short getStoreSpecificId() {
+		return storeSpecificId;
+	}
+
+	public Short getSubcategoryId() {
+		return subcategoryId;
+	}
+	
 	public Product toProduct() {
 		return new Product(producerId, productName);
 	}
 
 	public AddProductSpecific toAddProductSpecific(Short productId) {
 		return new AddProductSpecific(baseProduct, productId, storeSpecificId);
-	}
-
-	public Short getSubcategoryId() {
-		return subcategoryId;
 	}
 
 }

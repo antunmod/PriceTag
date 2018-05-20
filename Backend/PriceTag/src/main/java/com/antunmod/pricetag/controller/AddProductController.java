@@ -34,7 +34,8 @@ public class AddProductController {
 	private AddProductService addProductService;
 
 	private final Short ADDING_PRODUCTS_FAILED = -1;
-	
+	private Short productSpecificId = ADDING_PRODUCTS_FAILED;
+
 	/*
 	 * This mapping will result in addition of entries to the following tables in
 	 * database: product_specific, product_store, price
@@ -43,7 +44,6 @@ public class AddProductController {
 	@PostMapping("/productSpecific")
 	public ResponseEntity<Short> addProductSpecific(@RequestBody AddProductSpecific addProductSpecific) {
 		Boolean success = addProductService.saveProductSpecific(addProductSpecific);
-		Short productSpecificId = ADDING_PRODUCTS_FAILED;
 		if (success) {
 			productSpecificId = addProductService.getProductSpecificIdForBarcode(addProductSpecific.getBaseProduct().getBarcode());
 		}
@@ -57,9 +57,12 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/product")
-	public ResponseEntity<Boolean> addProduct(@RequestBody AddProduct addProduct) {
+	public ResponseEntity<Short> addProduct(@RequestBody AddProduct addProduct) {
 		Boolean success = addProductService.saveProduct(addProduct);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		if (success) {
+			productSpecificId = addProductService.getProductSpecificIdForBarcode(addProduct.getBaseProduct().getBarcode());
+		}
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*
@@ -69,9 +72,9 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/producer")
-	public ResponseEntity<Boolean> addProducer(@RequestBody AddProducer addProducer) {
+	public ResponseEntity<Short> addProducer(@RequestBody AddProducer addProducer) {
 		Boolean success = addProductService.saveProducer(addProducer);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*
@@ -80,10 +83,10 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProductSpecific")
-	public ResponseEntity<Boolean> addStoreSpecificProductSpecific(
+	public ResponseEntity<Short> addStoreSpecificProductSpecific(
 			@RequestBody AddStoreSpecificProductSpecific addStoreSpecificProductSpecific) {
 		Boolean success = addProductService.saveStoreSpecificProductSpecific(addStoreSpecificProductSpecific);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*
@@ -93,10 +96,10 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProduct")
-	public ResponseEntity<Boolean> addStoreSpecificProduct(
+	public ResponseEntity<Short> addStoreSpecificProduct(
 			@RequestBody AddStoreSpecificProduct addStoreSpecificProduct) {
 		Boolean success = addProductService.saveStoreSpecificProduct(addStoreSpecificProduct);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*
@@ -106,10 +109,10 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/storeSpecificProducer")
-	public ResponseEntity<Boolean> addStoreSpecificProducer(
+	public ResponseEntity<Short> addStoreSpecificProducer(
 			@RequestBody AddStoreSpecificProducer addStoreSpecificProducer) {
 		Boolean success = addProductService.saveStoreSpecificProducer(addStoreSpecificProducer);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*
@@ -118,10 +121,10 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/storeProductSpecific")
-	public ResponseEntity<Boolean> addStoreProductSpecific(
+	public ResponseEntity<Short> addStoreProductSpecific(
 			@RequestBody AddStoreProductSpecific addStoreProductSpecific) {
 		Boolean success = addProductService.saveStoreProductSpecific(addStoreProductSpecific);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*
@@ -131,9 +134,9 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/storeProduct")
-	public ResponseEntity<Boolean> addStoreProduct(@RequestBody AddStoreProduct addStoreProduct) {
+	public ResponseEntity<Short> addStoreProduct(@RequestBody AddStoreProduct addStoreProduct) {
 		Boolean success = addProductService.saveStoreProduct(addStoreProduct);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*
@@ -143,9 +146,9 @@ public class AddProductController {
 	 */
 	@ResponseBody
 	@PostMapping("/storeProducer")
-	public ResponseEntity<Boolean> addStoreProducer(@RequestBody AddStoreProducer addStoreProducer) {
+	public ResponseEntity<Short> addStoreProducer(@RequestBody AddStoreProducer addStoreProducer) {
 		Boolean success = addProductService.saveStoreProducer(addStoreProducer);
-		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 
 	/*

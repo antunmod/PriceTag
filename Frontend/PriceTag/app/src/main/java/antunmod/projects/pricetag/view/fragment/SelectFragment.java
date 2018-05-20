@@ -195,6 +195,25 @@ public class SelectFragment extends Fragment {
         }
     }
 
+    private List<String> getListViewItems() {
+        switch (title) {
+            case STORE_ADDRESS:
+                return storeAddressList;
+            case SECTOR:
+                return sectorList;
+            case CATEGORY:
+                return categoryList;
+            case SUBCATEGORY:
+                return subcategoryList;
+            case PRODUCER:
+                return producerList;
+            case PRODUCT:
+                return productList;
+            default:
+                return new ArrayList<>();
+        }
+    }
+
     private String generateDialogName(String title) {
 
         if (title.equals(STORE) || title.equals(STORE_ADDRESS) || title.equals(CATEGORY) || title.equals(SUBCATEGORY))
@@ -221,9 +240,13 @@ public class SelectFragment extends Fragment {
                 String newValue = et.getText().toString();
                 if (newValue.isEmpty()) {
                     Toast.makeText(getContext(), "Unesite vrijednost", Toast.LENGTH_SHORT).show();
-                } else
-                    saveNewValue(newValue.toUpperCase());
-
+                } else if (getListViewItems()!= null && getListViewItems().contains(newValue)) {
+                    Toast.makeText(getContext(), "Unesena vrijednost već se postoji", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    saveNewValue(newValue);
+                    setEmptyArrayList();
+                }
             }
         });
 
@@ -237,6 +260,35 @@ public class SelectFragment extends Fragment {
 
         AlertDialog a = ab.create();
         a.show();
+    }
+
+    private void setEmptyArrayList() {
+        switch (title) {
+            case STORE_ADDRESS:
+                sectorList = new ArrayList<>();
+                title = SECTOR;
+                break;
+            case SECTOR:
+                categoryList = new ArrayList<>();
+                title = CATEGORY;
+                break;
+            case CATEGORY:
+                subcategoryList = new ArrayList<>();
+                title = SUBCATEGORY;
+                break;
+            case SUBCATEGORY:
+                producerList = new ArrayList<>();
+                title = PRODUCER;
+                break;
+            case PRODUCER:
+                productList = new ArrayList<>();
+                title = PRODUCT;
+                break;
+            case PRODUCT:
+                goToAddProductFragment();
+            default:
+                storeAddressList = new ArrayList<>();
+        }
     }
 
     private void saveNewValue(String newValue) {
@@ -259,21 +311,17 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCER:
                 newProducerName = newValue;
+                productData.setProducerName(newProducerName);
                 break;
             case PRODUCT:
                 newProductName = newValue;
+                productData.setProductName(newProductName);
+                findSubcategoryIdForCategoryAndSubcategoryName();
                 break;
             case SIZE:
                 newStoreName = newValue;
                 break;
         }
-    }
-
-    private void updateListView() {
-
-        ArrayAdapter<String> listViewAdapter = (ArrayAdapter<String>) listView_select.getAdapter();
-        listViewAdapter.notifyDataSetChanged();
-
     }
 
     /*
@@ -501,9 +549,9 @@ public class SelectFragment extends Fragment {
         }
     }
 
-    public static void foundProductsForSubcategoryAndProducerName(SelectFragment selectFragment, List<String> newProducerList) {
-        producerList = newProducerList;
-        selectFragment.closeProgressAndUpdateFragment(PRODUCT, newProducerList);
+    public static void foundProductsForSubcategoryAndProducerName(SelectFragment selectFragment, List<String> newProductList) {
+        productList = newProductList;
+        selectFragment.closeProgressAndUpdateFragment(PRODUCT, newProductList);
     }
 
     public void closeProgressAndUpdateFragment(String title, List<String> stringList) {
@@ -522,6 +570,15 @@ public class SelectFragment extends Fragment {
 
     public static void foundSubcategoryIdForCategoryAndSubcategoryName(SelectFragment selectFragment, Short subcategoryId) {
         productData.setSubcategoryId(subcategoryId);
+        selectFragment.findProducerId();
+    }
+
+    private void findProducerId() {
+        selectService.findProducerId(this, productData.getProducerName());
+    }
+
+    public static void foundProducerId(SelectFragment selectFragment, Short producerId) {
+        productData.setProducerId(producerId);
         selectFragment.goToAddProductFragment();
     }
     
@@ -657,6 +714,8 @@ public class SelectFragment extends Fragment {
         mListener = null;
     }
 
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -675,46 +734,6 @@ public class SelectFragment extends Fragment {
     /*
         The following are getters and setters used while doing retrofit calls
      */
-
-    public static void setProductId(Short productId) {
-        productData.setProductId(productId);
-    }
-
-    public static void setStoreId(Short storeId) {
-        productData.setStoreId(storeId);
-    }
-
-    public static void setSubcategoryId(Short subcategoryId) {
-        productData.setSubcategoryId(subcategoryId);
-    }
-
-    public static void setStoreList(List<String> newStoreList) {
-        storeList = newStoreList;
-    }
-
-    public static void setStoreAddressList(List<String> newStoreAddressList) {
-        storeAddressList = newStoreAddressList;
-    }
-
-    public static void setSectorList(List<String> newSectorList) {
-        sectorList = newSectorList;
-    }
-
-    public static void setCategoryList(List<String> newCategoryList) {
-        categoryList = newCategoryList;
-    }
-
-    public static void setSubcategoryList(List<String> newSubcategoryList) {
-        subcategoryList = newSubcategoryList;
-    }
-
-    public static void setProducerList(List<String> newProducerList) {
-        producerList = newProducerList;
-    }
-
-    public static void setProductList(List<String> newProductList) {
-        productList = newProductList;
-    }
 
     public static void setSizeList(List<String> newSizeList) {sizeList = newSizeList;}
 

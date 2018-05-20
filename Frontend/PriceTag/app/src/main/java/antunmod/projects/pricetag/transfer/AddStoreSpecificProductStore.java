@@ -10,7 +10,9 @@ package antunmod.projects.pricetag.transfer;
  * 		- price
  */
 
-public class AddStoreSpecificProductStore {
+import java.io.Serializable;
+
+public class AddStoreSpecificProductStore implements Serializable{
 
 	private Short productSpecificId;
 	private byte storeId;

@@ -26,8 +26,7 @@ public class AddProductSpecific implements Serializable {
 	private Short productId;
 	private Short storeSpecificId;
 
-	public AddProductSpecific() {
-	}
+	public AddProductSpecific() {}
 
 	public AddProductSpecific(BaseProduct baseProduct, Short productId, Short storeSpecificId) {
 		this.baseProduct = baseProduct;

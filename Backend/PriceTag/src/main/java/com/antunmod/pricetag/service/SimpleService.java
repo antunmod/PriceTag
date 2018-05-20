@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.antunmod.pricetag.model.database.Store;
 import com.antunmod.pricetag.repo.CategoryRepository;
+import com.antunmod.pricetag.repo.ProducerRepository;
 import com.antunmod.pricetag.repo.ProductRepository;
 import com.antunmod.pricetag.repo.SectorRepository;
 import com.antunmod.pricetag.repo.SizeRepository;
@@ -33,6 +34,9 @@ public class SimpleService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private ProducerRepository producerRepository;
 
 	@Autowired
 	private StoreRepository storeRepository;
@@ -83,6 +87,15 @@ public class SimpleService {
 
 		}
 		return new ArrayList<String>();
+	}
+	
+	public Short getProducerId(String producerName) {
+		Short producerId = producerRepository.getProducerId(producerName);
+		if (producerId != null) {
+			return producerId;
+
+		}
+		return NOT_FOUND_SHORT;
 	}
 
 	public List<String> getProductNamesForSubcategoryAndProducerName(String subcategoryName, String producerName) {

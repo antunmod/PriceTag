@@ -1,5 +1,7 @@
 package com.antunmod.pricetag.model.transfer;
 
+import java.io.Serializable;
+
 /*
  * The AddStoreProduct class contains data for saving a new product to the new store name at a new store address.
  * 
@@ -12,7 +14,9 @@ package com.antunmod.pricetag.model.transfer;
  * 		- subcategory_product
  */
 
-public class AddStoreProduct {
+public class AddStoreProduct implements Serializable {
+
+	private static final long serialVersionUID = 5055898653143162572L;
 
 	private BaseProduct baseProduct;
 	private Short producerId;
@@ -20,11 +24,34 @@ public class AddStoreProduct {
 	private String storeName;
 	private String storeAddress;
 	private Short subcategoryId;
-	
+
+	public AddStoreProduct() {
+	}
+
+	public BaseProduct getBaseProduct() {
+		return baseProduct;
+	}
+
+	public Short getProducerId() {
+		return producerId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
 	public String getStoreName() {
 		return storeName;
 	}
-	
+
+	public String getStoreAddress() {
+		return storeAddress;
+	}
+
+	public Short getSubcategoryId() {
+		return subcategoryId;
+	}
+
 	public AddStoreSpecificProduct toAddStoreSpecificProduct(Short storeId) {
 		return new AddStoreSpecificProduct(baseProduct, producerId, productName, storeId, storeAddress, subcategoryId);
 	}

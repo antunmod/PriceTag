@@ -125,8 +125,6 @@ public class SelectService {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
 
-            ;
-
         });
     }
 
@@ -225,6 +223,26 @@ public class SelectService {
                 Short storeId = response.body();
                 if (storeId != null) {
                     selectFragment.foundStoreId(selectFragment, storeId);
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Short> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
+
+    public void findProducerId(final SelectFragment selectFragment, String producerName) {
+        Call<Short> call = restServiceClient.getProducerId(producerName);
+        call.enqueue(new Callback<Short>() {
+            @Override
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short producerId = response.body();
+                if (producerId != null) {
+                    selectFragment.foundProducerId(selectFragment, producerId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
