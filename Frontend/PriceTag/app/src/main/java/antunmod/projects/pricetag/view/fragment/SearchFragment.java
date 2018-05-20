@@ -27,6 +27,7 @@ import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.GridViewAdapter;
 import antunmod.projects.pricetag.model.ImageItem;
 import antunmod.projects.pricetag.service.SearchService;
+import antunmod.projects.pricetag.service.UtilService;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 
@@ -83,17 +84,28 @@ public class SearchFragment extends Fragment {
         btn_search = inflatedView.findViewById(R.id.btn_search);
         editText_productName = inflatedView.findViewById(R.id.editText_product_name);
         gridView = inflatedView.findViewById(R.id.gridView);
-        //fab_filter = inflatedView.findViewById(R.id.fab_filter);
+        fab_filter = inflatedView.findViewById(R.id.fab_filter);
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchFilter.setProductName(editText_productName.getText().toString());
+                setGridView(new ArrayList<ImageItem>());
+                productNumber = 0;
+                UtilService.hideKeyboardFrom(getContext(), getView());
                 findProducts();
             }
         });
 
         //gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, getData());
+
+        fab_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetValues();
+                showFilterDialog();
+            }
+        });
 
         searchService = new SearchService();
 
@@ -103,9 +115,13 @@ public class SearchFragment extends Fragment {
         return inflatedView;
     }
 
+    private void resetValues() {
+        searchFilter = new SearchFilter();
+    }
+
     private void findProducts() {
         searchService.findProducts(this, searchFilter);
-         imageItems = new ArrayList<>();
+        imageItems = new ArrayList<>();
     }
 
     public static void foundProducts(SearchFragment searchFragment, ArrayList<SearchProductData> searchProductDataList) {
@@ -135,9 +151,13 @@ public class SearchFragment extends Fragment {
         ImageItem imageItem = new ImageItem(bmp, text);
 
         imageItems.add(imageItem);
+        setGridView(imageItems);
+        findNextImage();
+    }
+
+    private void setGridView(ArrayList<ImageItem> imageItems) {
         gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, imageItems);
         gridView.setAdapter(gridViewAdapter);
-        findNextImage();
     }
 
 

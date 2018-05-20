@@ -22,7 +22,7 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			"producer.name AS producer_name, " + 
 			"product.name AS product_name, " + 
 			"product_specific.description, " + 
-			"CONCAT(TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from size)), ' ', type) " + 
+			"CONCAT(TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from size)), ' ', type) AS size " + 
 			"FROM category " + 
 			"JOIN category_subcategory ON category.id = category_subcategory.category_id " + 
 			"JOIN subcategory ON subcategory.id = category_subcategory.subcategory_id " + 
@@ -38,7 +38,8 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			"AND subcategory.name LIKE %?2% " + 
 			"AND producer.name LIKE %?3% " + 
 			"AND product.name LIKE %?4% " + 
-			"AND store.name LIKE %?5%", nativeQuery = true)
+			"AND store.name LIKE %?5% " +
+			"ORDER BY producer_name, product_name, product_specific.description, size", nativeQuery = true)
 	List<Object[]> findProducts(
 			String categoryName,
 			String subcategoryName,

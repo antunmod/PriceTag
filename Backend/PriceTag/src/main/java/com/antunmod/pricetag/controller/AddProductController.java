@@ -74,6 +74,9 @@ public class AddProductController {
 	@PostMapping("/producer")
 	public ResponseEntity<Short> addProducer(@RequestBody AddProducer addProducer) {
 		Boolean success = addProductService.saveProducer(addProducer);
+		if (success) {
+			productSpecificId = addProductService.getProductSpecificIdForBarcode(addProducer.getBaseProduct().getBarcode());
+		}
 		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 

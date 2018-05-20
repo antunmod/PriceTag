@@ -159,6 +159,7 @@ public class SelectFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 openAddNewDialog(generateDialogName(title));
+                UtilService.showKeyboardIn(getContext());
             }
         });
 
@@ -283,6 +284,7 @@ public class SelectFragment extends Fragment {
             case PRODUCER:
                 productList = new ArrayList<>();
                 title = PRODUCT;
+                setFragment();
                 break;
             case PRODUCT:
                 goToAddProductFragment();
@@ -570,7 +572,10 @@ public class SelectFragment extends Fragment {
 
     public static void foundSubcategoryIdForCategoryAndSubcategoryName(SelectFragment selectFragment, Short subcategoryId) {
         productData.setSubcategoryId(subcategoryId);
-        selectFragment.findProducerId();
+        if (!productData.getProducerName().equals(selectFragment.newProducerName))
+            selectFragment.findProducerId();
+        else
+            selectFragment.goToAddProductFragment();
     }
 
     private void findProducerId() {
@@ -615,7 +620,7 @@ public class SelectFragment extends Fragment {
                 stringList
         );
         listView_select.setAdapter(listViewAdapter);
-        if (stringList.isEmpty()) {
+        if (stringList.isEmpty() && productData.getProductName()== null) {
             fab_select.performClick();
         }
     }

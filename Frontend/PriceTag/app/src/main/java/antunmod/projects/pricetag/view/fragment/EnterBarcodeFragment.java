@@ -15,6 +15,7 @@ import java.util.List;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.RestServiceClient;
+import antunmod.projects.pricetag.service.UtilService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,6 +90,7 @@ public class EnterBarcodeFragment extends Fragment {
     }
 
     private void goToSelectFragment(List<String> storeList) {
+        UtilService.hideKeyboardFrom(getContext(), getView());
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("storeList", (ArrayList) storeList);
         bundle.putString("barcode", barcode);
