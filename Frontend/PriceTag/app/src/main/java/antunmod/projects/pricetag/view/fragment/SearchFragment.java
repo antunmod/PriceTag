@@ -133,9 +133,11 @@ public class SearchFragment extends Fragment {
         String text = searchProductData.getProducerName() + " " + searchProductData.getProductName() + " " +
                 searchProductData.getProductDescription() + " " + searchProductData.getProductSize();
         ImageItem imageItem = new ImageItem(bmp, text);
+
         imageItems.add(imageItem);
         gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, imageItems);
         gridView.setAdapter(gridViewAdapter);
+        findNextImage();
     }
 
     private byte[] getByteArray(Byte[] imageArray) {

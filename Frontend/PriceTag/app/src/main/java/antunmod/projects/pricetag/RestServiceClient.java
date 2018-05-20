@@ -21,6 +21,7 @@ import antunmod.projects.pricetag.transfer.AddStoreSpecificProductStore;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -36,7 +37,7 @@ import retrofit2.http.Query;
 
 public interface RestServiceClient {
 
-    String serverIP = "http://192.168.1.2:8000/";
+    String serverIP = "http://192.168.1.4:8000/";
 
     /*
         Adding products to an existing store location.
@@ -192,7 +193,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("photos")
-    Call<String> getByteArrayForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
+    Call<ResponseBody> getByteArrayForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
 
 
     Retrofit retrofit = new Retrofit.Builder()

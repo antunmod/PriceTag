@@ -1,6 +1,7 @@
 package antunmod.projects.pricetag.service;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -116,12 +118,17 @@ public class SearchService {
     }
 
     public void findByteArrayForProductSpecificId(final SearchFragment searchFragment, SearchProductData searchProductData) {
-        Call<String> call = restServiceClient.getByteArrayForProductSpecificId(searchProductData.getProductSpecificId());
-        call.enqueue(new Callback<String>() {
+        Call<ResponseBody> call = restServiceClient.getByteArrayForProductSpecificId(searchProductData.getProductSpecificId());
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String imageArray = response.body();
-                if (imageArray != null) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String imageArray = null;
+                try {
+                    imageArray = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (imageArray != null && !imageArray.isEmpty()) {
                     SearchFragment.foundImageArray(searchFragment, imageArray);
                 } else {
                     searchFragment.findNextImage();
@@ -129,7 +136,7 @@ public class SearchService {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
