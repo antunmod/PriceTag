@@ -25,7 +25,6 @@ import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
 import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.service.UtilService;
-import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 
 /**
@@ -130,7 +129,7 @@ public class SelectFragment extends Fragment {
     private View inflatedView;
     private ListView listView_select;
     private TextView textView_select;
-    private FloatingActionButton fab_select;
+    private FloatingActionButton fab_addNew;
     private View progressBar_loading;
 
     @Override
@@ -154,8 +153,8 @@ public class SelectFragment extends Fragment {
             }
         });
 
-        fab_select = inflatedView.findViewById(R.id.fab_select);
-        fab_select.setOnClickListener(new View.OnClickListener() {
+        fab_addNew = inflatedView.findViewById(R.id.fab_add_new);
+        fab_addNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openAddNewDialog(generateDialogName(title));
@@ -246,7 +245,7 @@ public class SelectFragment extends Fragment {
                 }
                 else {
                     saveNewValue(newValue);
-                    setEmptyArrayList();
+                    setArrayList();
                 }
             }
         });
@@ -263,11 +262,10 @@ public class SelectFragment extends Fragment {
         a.show();
     }
 
-    private void setEmptyArrayList() {
+    private void setArrayList() {
         switch (title) {
             case STORE_ADDRESS:
-                sectorList = new ArrayList<>();
-                title = SECTOR;
+                findCategoriesForSectorName(SUPERMARKETS);
                 break;
             case SECTOR:
                 categoryList = new ArrayList<>();
@@ -298,9 +296,14 @@ public class SelectFragment extends Fragment {
 
             case STORE:
                 newStoreName = newValue;
+                productData.setStoreName(newStoreName);
                 break;
             case STORE_ADDRESS:
                 newStoreAddress = newValue;
+                productData.setStoreAddress(newStoreAddress);
+                findStoreId(productData.getStoreName());
+                if (!productData.getStoreName().equals(newStoreName))
+                    productData.setStoreName(null);
                 break;
             case SECTOR:
                 newSectorName = newValue;
@@ -336,11 +339,10 @@ public class SelectFragment extends Fragment {
 
         switch (title) {
             case STORE:
-                productData.setStoreName(selected);
                 if (newStoreName != null && selected.equals(newStoreName))
                     updateFragment(STORE_ADDRESS, storeAddressList = new ArrayList<>());
                 else
-                    findStoreId(selected);
+                    productData.setStoreName(selected);
                     findStoreAddresses(selected);
                 break;
             case STORE_ADDRESS:
@@ -605,9 +607,15 @@ public class SelectFragment extends Fragment {
      */
     private void updateFragment(String newTitle, List<String> stringList) {
 
-        //if (title.equals(STORE_ADDRESS) && newTitle.equals(SECTOR))
-            title = newTitle;
-
+        title = newTitle;
+        if (newTitle.equals(SECTOR) || newTitle.equals(CATEGORY) || newTitle.equals(SUBCATEGORY)) {
+            if (fab_addNew.getVisibility()!= View.GONE)
+                fab_addNew.setVisibility(View.GONE);
+        }
+        else {
+            if (fab_addNew.getVisibility()!= View.VISIBLE)
+                fab_addNew.setVisibility(View.VISIBLE);
+        }
         textView_select.setText(newTitle);
         addValuesToListView(stringList);
     }
@@ -620,8 +628,8 @@ public class SelectFragment extends Fragment {
                 stringList
         );
         listView_select.setAdapter(listViewAdapter);
-        if (stringList.isEmpty() && productData.getProductName()== null) {
-            fab_select.performClick();
+        if (stringList.isEmpty() && (title.equals(PRODUCT) || title.equals(STORE))) {
+            fab_addNew.performClick();
         }
     }
 
@@ -660,12 +668,14 @@ public class SelectFragment extends Fragment {
             case STORE:
                 return false;
             case STORE_ADDRESS:
+                productData.setStoreName(null);
                 updateFragment(STORE, storeList);
                 break;
             case SECTOR:
                 updateFragment(STORE_ADDRESS, storeAddressList);
                 break;
             case CATEGORY:
+                productData.setStoreId(null);
                 updateFragment(STORE_ADDRESS, storeAddressList);
                 break;
             case SUBCATEGORY:

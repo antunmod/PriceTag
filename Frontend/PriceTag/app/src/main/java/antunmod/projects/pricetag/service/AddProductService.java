@@ -63,17 +63,17 @@ public class AddProductService {
         this.productData = productData;
 
         /*
-            If only the product info is given.
+            If product info and a new store name were given.
          */
-        if (productData.getStoreName()!=null) {
+        if (productData.getStoreName() != null) {
             if (productData.getProductId() != null) {
-                saveProductSpecific(addProductFragment);
+                saveStoreProductSpecific(addProductFragment);
             }
             else if (productData.getProducerId() != null) {
-                saveProduct(addProductFragment);
+                saveStoreProduct(addProductFragment);
             }
             else {
-                saveProducer(addProductFragment);
+                saveStoreProducer(addProductFragment);
             }
 
         }
@@ -94,21 +94,24 @@ public class AddProductService {
 
         }
 
+
         /*
-            If product info and a new store name were given.
+            If only the product info is given.
          */
-        else if (productData.getStoreId()!=null) {
+        else {
             if (productData.getProductId() != null) {
-                saveStoreProductSpecific(addProductFragment);
+                saveProductSpecific(addProductFragment);
             }
             else if (productData.getProducerId() != null) {
-                saveStoreProduct(addProductFragment);
+                saveProduct(addProductFragment);
             }
             else {
-                saveStoreProducer(addProductFragment);
+                saveProducer(addProductFragment);
             }
 
         }
+
+
     }
 
     private void saveProductSpecific(final AddProductFragment addProductFragment) {

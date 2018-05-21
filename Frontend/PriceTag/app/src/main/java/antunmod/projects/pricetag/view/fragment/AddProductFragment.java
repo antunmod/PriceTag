@@ -262,7 +262,8 @@ public class AddProductFragment extends Fragment {
             addProductFragment.outputString("Proizvod nije dodan, pokušajte ponovo");
             return;
         }
-        addProductFragment.addPhoto(productSpecificId);
+        else
+            addProductFragment.addPhoto(productSpecificId);
     }
 
     private void addPhoto(Short productSpecificId) {

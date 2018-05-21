@@ -135,9 +135,6 @@ public class SearchFragment extends Fragment {
         }
 
     public static void foundImageArray(SearchFragment searchFragment, String encodedImage) {
-        //byte[] byteImageArray = searchFragment.getByteArray(imageArray);
-        //byte[] byteArray = searchFragment.getByteArray(imageArray);
-        //Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, imageArray.length);
         searchFragment.updateGridView(encodedImage);
     }
 
