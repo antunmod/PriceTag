@@ -85,6 +85,14 @@ public class SimpleController {
 		Short productId = simpleService.getProductIdForProducerAndProductName(producer, productName);
 		return new ResponseEntity<Short>(productId, HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping("/products/productSpecificId")
+	public ResponseEntity<Short> getProductSpecificIdForBarcode(@RequestParam("barcode") String barcode) {
+		Short productSpecificId = simpleService.getProductSpecificIdForBarcode(barcode);
+		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
+	}
+	
 
 	@ResponseBody
 	@GetMapping("/sizes/sizeValue")

@@ -131,10 +131,10 @@ public class SearchFragment extends Fragment {
 
     public void findNextImage() {
         if (productNumber < searchProductDataList.size())
-            searchService.findByteArrayForProductSpecificId(this, searchProductDataList.get(productNumber++));
+            searchService.findEncodedImageForProductSpecificId(this, searchProductDataList.get(productNumber++).getProductSpecificId());
         }
 
-    public static void foundImageArray(SearchFragment searchFragment, String encodedImage) {
+    public static void foundEncodedImage(SearchFragment searchFragment, String encodedImage) {
         searchFragment.updateGridView(encodedImage);
     }
 

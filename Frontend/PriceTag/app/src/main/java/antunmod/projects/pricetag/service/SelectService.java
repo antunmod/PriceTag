@@ -53,7 +53,7 @@ public class SelectService {
                 Short storeId = response.body();
 
                 if (storeId != null) {
-                    SelectFragment.foundStoreSpecificIdStatic(selectFragment, storeId);
+                    SelectFragment.foundStoreSpecificId(selectFragment, storeId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -243,6 +243,26 @@ public class SelectService {
                 Short producerId = response.body();
                 if (producerId != null) {
                     selectFragment.foundProducerId(selectFragment, producerId);
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Short> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
+
+    public void findProductSpecificIdForBarcode(final SelectFragment selectFragment, String barcode) {
+        Call<Short> call = restServiceClient.getProductSpecificIdForBarcode(barcode);
+        call.enqueue(new Callback<Short>() {
+            @Override
+            public void onResponse(Call<Short> call, Response<Short> response) {
+                Short productSpecificId = response.body();
+                if (productSpecificId != null) {
+                    selectFragment.foundProductSpecificId(selectFragment, productSpecificId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }

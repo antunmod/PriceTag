@@ -66,9 +66,7 @@ public class UpdateProductFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            //updateProduct = (UpdateProduct) bundle.getSerializable("updateProduct");
-            Byte[] photoObjectPhotoArray = (Byte[]) bundle.getSerializable("photoByteArray");
-            setBytePhotoArray(photoObjectPhotoArray);
+            photoByteArray = (byte[]) bundle.getSerializable("photoByteArray");
         }
     }
 
@@ -79,7 +77,6 @@ public class UpdateProductFragment extends Fragment {
     TextView textView_averagePrice;
     EditText editText_newPrice;
     TextView textView_updateProduct;
-    String updateProductDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -170,14 +167,6 @@ public class UpdateProductFragment extends Fragment {
             }
         });
     }*/
-
-    private void setBytePhotoArray(Byte[] byteObjectPhotoArray) {
-        Integer j = 0;
-
-        photoByteArray = new byte[byteObjectPhotoArray.length];
-        for (Byte b : byteObjectPhotoArray)
-            photoByteArray[j++] = b;
-    }
 
     private void goToEnterBarcodeFragment(String toastString) {
 

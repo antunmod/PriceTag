@@ -121,6 +121,11 @@ public interface RestServiceClient {
     */
 
     @Headers("Content-Type: application/json")
+    @GET("products/productSpecificId")
+    Call<Short> getProductSpecificIdForBarcode(@Query("barcode") String barcode);
+
+
+    @Headers("Content-Type: application/json")
     @GET("categories")
     Call<List<String>> getCategoriesForSectorName(@Query("sectorName") String sectorName);
 
@@ -198,7 +203,7 @@ public interface RestServiceClient {
 
     @Headers("Content-Type: application/json")
     @GET("photos")
-    Call<ResponseBody> getByteArrayForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
+    Call<ResponseBody> getEncodedImageForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
 
 
     Retrofit retrofit = new Retrofit.Builder()

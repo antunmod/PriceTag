@@ -10,6 +10,7 @@ import com.antunmod.pricetag.model.database.Store;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.ProducerRepository;
 import com.antunmod.pricetag.repo.ProductRepository;
+import com.antunmod.pricetag.repo.ProductSpecificRepository;
 import com.antunmod.pricetag.repo.SectorRepository;
 import com.antunmod.pricetag.repo.SizeRepository;
 import com.antunmod.pricetag.repo.StoreRepository;
@@ -34,6 +35,9 @@ public class SimpleService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private ProductSpecificRepository productSpecificRepository;
 	
 	@Autowired
 	private ProducerRepository producerRepository;
@@ -112,6 +116,15 @@ public class SimpleService {
 		Short productId = productRepository.getProductIdForProducerAndProductName(producerName, productName);
 		if (productId != null) {
 			return productId;
+
+		}
+		return NOT_FOUND_SHORT;
+	}
+	
+	public Short getProductSpecificIdForBarcode(String barcode) {
+		Short productSpecificId = productSpecificRepository.findProductSpecificIdForBarcode(barcode);
+		if (productSpecificId != null) {
+			return productSpecificId;
 
 		}
 		return NOT_FOUND_SHORT;

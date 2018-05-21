@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
+import antunmod.projects.pricetag.service.SearchService;
 import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.service.UtilService;
 
@@ -32,12 +34,13 @@ import antunmod.projects.pricetag.service.UtilService;
  */
 public class SelectFragment extends Fragment {
 
-    private final Integer NOT_FOUND_INTEGER = -1;
+    private final Short NOT_FOUND_SHORT = -1;
 
     private OnFragmentInteractionListener mListener;
 
     private SelectService selectService;
     private UtilService utilService;
+    private SearchService searchService;
 
     private final String SUPERMARKETS = "Supermarketi";
 
@@ -140,6 +143,7 @@ public class SelectFragment extends Fragment {
 
         selectService = new SelectService();
         utilService = new UtilService();
+        searchService = new SearchService();
 
         listView_select = inflatedView.findViewById(R.id.listView_select);
         textView_select = inflatedView.findViewById(R.id.textView_new_data);
@@ -163,7 +167,7 @@ public class SelectFragment extends Fragment {
         });
 
         setFragment();
-
+        findProductSpecificIdForBarcode();
         return inflatedView;
     }
 
@@ -265,7 +269,10 @@ public class SelectFragment extends Fragment {
     private void setArrayList() {
         switch (title) {
             case STORE_ADDRESS:
-                findCategoriesForSectorName(SUPERMARKETS);
+                if (productData.getProductSpecificId() != null && productData.getProductSpecificId() != NOT_FOUND_SHORT)
+                    findCategoriesForSectorName(SUPERMARKETS);
+                else
+                    findEncodedImageForProductSpecificId();
                 break;
             case SECTOR:
                 categoryList = new ArrayList<>();
@@ -351,7 +358,6 @@ public class SelectFragment extends Fragment {
             case STORE_ADDRESS:
                 productData.setStoreAddress(selected);
                 findStoreSpecificId(selected);
-                //findProductForBarcodeAndStoreAddress(selected);
                 break;
             case SECTOR:
                 if (newSectorName != null && selected.equals(newSectorName))
@@ -417,60 +423,27 @@ public class SelectFragment extends Fragment {
         }
     }
 
-    /*
-    private void findProductForBarcodeAndStoreAddress(final String storeAddress) {
 
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<UpdateProduct> call = restServiceClient.getUpdateProductForBarcodeAndStoreAddress(productStore.getBarcode(), storeAddress);
-        call.enqueue(new Callback<UpdateProduct>() {
-            @Override
-            public void onResponse(Call<UpdateProduct> call, Response<UpdateProduct> response) {
-                UpdateProduct updateProduct = response.body();
-                if (updateProduct != null && updateProduct.getName() != null) {
-                    SelectFragment.this.updateProduct = updateProduct;
-                    getPhotoByteArray();
 
-                } else {
-                    findSectors(storeAddress);
-                }
-            }
+    private void findProductSpecificIdForBarcode() {
+        selectService.findProductSpecificIdForBarcode(this, productData.getBaseProduct().getBarcode());
 
-            @Override
-            public void onFailure(Call<UpdateProduct> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+    }
 
-    }*/
 
-/*
-    private void getPhotoByteArray() {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Byte[]> call = restServiceClient.getPhotoByteArray(updateProduct.getPhotoId());
-        call.enqueue(new Callback<Byte[]>() {
-            @Override
-            public void onResponse(Call<Byte[]> call, Response<Byte[]> response) {
-                Byte[] photoByteArray = response.body();
-                if (photoByteArray != null && photoByteArray.length > 0) {
-                    goToUpdateProductFragment(photoByteArray);
+    private void findEncodedImageForProductSpecificId() {
+        searchService.findEncodedImageForProductSpecificId(this, productData.getProductSpecificId());
 
-                } else {
-                    Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo", Toast.LENGTH_SHORT).show();
-                }
-            }
+    }
 
-            @Override
-            public void onFailure(Call<Byte[]> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
+    public static void foundEncodedImageForProductSpecificId(SelectFragment selectFragment, String encodedImage) {
+        byte[] byteArray = Base64.decode(encodedImage, Base64.DEFAULT);
+        selectFragment.goToUpdateProductFragment(byteArray);
+    }
 
-/*
-    private void goToUpdateProductFragment(Byte[] photoByteArray) {
+    private void goToUpdateProductFragment(byte[] photoByteArray) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("photoByteArray", photoByteArray);
-        bundle.putSerializable("updateProduct", updateProduct);
         UpdateProductFragment updateProductFragment = new UpdateProductFragment();
         updateProductFragment.setArguments(bundle);
         getFragmentManager()
@@ -478,7 +451,7 @@ public class SelectFragment extends Fragment {
                 .replace(R.id.layout_for_fragment, updateProductFragment)
                 .addToBackStack("selectFragment")
                 .commit();
-    }*/
+    }
 
     private void findStoreId(String storeName) {
         utilService.showProgress(true, listView_select, progressBar_loading);
@@ -505,11 +478,14 @@ public class SelectFragment extends Fragment {
         selectService.findStoreSpecificId(this, storeAddress);
     }
 
-    public static void foundStoreSpecificIdStatic(SelectFragment selectFragment, Short storeSpecificId) {
+    public static void foundStoreSpecificId(SelectFragment selectFragment, Short storeSpecificId) {
 
         productData.setStoreSpecificId(storeSpecificId);
         selectFragment.closeProgressAndCheckForErrors();
-        selectFragment.findCategoriesForSectorName(selectFragment.SUPERMARKETS);
+        if (productData.getProductSpecificId() == null && productData.getProductSpecificId() != selectFragment.NOT_FOUND_SHORT)
+            selectFragment.findCategoriesForSectorName(selectFragment.SUPERMARKETS);
+        else
+            selectFragment.findEncodedImageForProductSpecificId();
     }
 
     private void findCategoriesForSectorName(String sectorName) {
@@ -695,18 +671,6 @@ public class SelectFragment extends Fragment {
         return true;
     }
 
-    private void goToEnterNewDataFragment(String title) {
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        EnterNewDataFragment enterNewDataFragment = new EnterNewDataFragment();
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_for_fragment, enterNewDataFragment)
-                .addToBackStack("selectProduct")
-                .commit();
-
-    }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -732,6 +696,9 @@ public class SelectFragment extends Fragment {
         mListener = null;
     }
 
+    public void foundProductSpecificId(SelectFragment selectFragment, Short productSpecificId) {
+        selectFragment.setProductSpecificId(productSpecificId);
+    }
 
 
     /**
@@ -755,6 +722,9 @@ public class SelectFragment extends Fragment {
 
     public static void setSizeList(List<String> newSizeList) {sizeList = newSizeList;}
 
+    private void setProductSpecificId(Short productSpecificId) {
+        productData.setProductSpecificId(productSpecificId);
+    }
 
     public static void setErrorString(String error) {
         errorString = error;

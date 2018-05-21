@@ -1,6 +1,8 @@
 package antunmod.projects.pricetag.service;
 
 
+import android.support.v4.app.Fragment;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,8 +119,8 @@ public class SearchService {
         });
     }
 
-    public void findByteArrayForProductSpecificId(final SearchFragment searchFragment, SearchProductData searchProductData) {
-        Call<ResponseBody> call = restServiceClient.getByteArrayForProductSpecificId(searchProductData.getProductSpecificId());
+    public void findEncodedImageForProductSpecificId(final Fragment fragment, Short productSpecificId) {
+        Call<ResponseBody> call = restServiceClient.getEncodedImageForProductSpecificId(productSpecificId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -128,10 +130,17 @@ public class SearchService {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (imageArray != null && !imageArray.isEmpty()) {
-                    SearchFragment.foundImageArray(searchFragment, imageArray);
-                } else {
-                    searchFragment.findNextImage();
+                if (fragment instanceof SelectFragment) {
+                    SelectFragment selectFragment = (SelectFragment) fragment;
+                    selectFragment.foundEncodedImageForProductSpecificId(selectFragment, imageArray);
+                }
+                else {
+                    SearchFragment searchFragment = (SearchFragment) fragment;
+                    if (imageArray != null && !imageArray.isEmpty()) {
+                        SearchFragment.foundEncodedImage(searchFragment, imageArray);
+                    } else {
+                        searchFragment.findNextImage();
+                    }
                 }
             }
 
