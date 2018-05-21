@@ -286,8 +286,11 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCT:
                 goToAddProductFragment();
+                break;
             default:
                 storeAddressList = new ArrayList<>();
+                title = STORE_ADDRESS;
+                setFragment();
         }
     }
 
@@ -628,7 +631,7 @@ public class SelectFragment extends Fragment {
                 stringList
         );
         listView_select.setAdapter(listViewAdapter);
-        if (stringList.isEmpty() && (title.equals(PRODUCT) || title.equals(STORE))) {
+        if (stringList.isEmpty() && (title.equals(PRODUCT) || title.equals(STORE) || title.equals(STORE_ADDRESS))) {
             fab_addNew.performClick();
         }
     }
