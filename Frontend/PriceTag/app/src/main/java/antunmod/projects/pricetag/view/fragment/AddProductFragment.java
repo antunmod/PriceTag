@@ -248,7 +248,6 @@ public class AddProductFragment extends Fragment {
         productData.getBaseProduct().setSizeUnit(spinner_size.getSelectedItem().toString());
         productData.getBaseProduct().setDescription(editText_productDescription.getText().toString());
         User user = HomeActivity.user;
-        productData.getBaseProduct().setUserId(user.getId());
 
     }
 

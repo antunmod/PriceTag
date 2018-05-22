@@ -129,6 +129,15 @@ public class SimpleService {
 		}
 		return NOT_FOUND_SHORT;
 	}
+	
+	public String getBasicProductInformationForProductSpecificId(Short productSpecificId) {
+		String productInformation = productSpecificRepository.getBasicProductInformationForProductSpecificId(productSpecificId);
+		if (productInformation != null) {
+			return productInformation;
+
+		}
+		return null;
+	}
 
 	public List<String> getSizeValuesForProductId(Short productId) {
 		List<String> sizeValues = productRepository.getSizeValuesForProductId(productId);

@@ -163,4 +163,5 @@ public class ProductData implements Serializable {
     public AddStoreProducer toAddStoreProducer() {
         return new AddStoreProducer(baseProduct, producerName, productName, storeName, storeAddress, subcategoryId);
     }
+
 }

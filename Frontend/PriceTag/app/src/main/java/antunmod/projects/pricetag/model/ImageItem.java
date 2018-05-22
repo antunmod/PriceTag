@@ -10,6 +10,8 @@ public class ImageItem {
     private Bitmap image;
     private String text;
 
+    public ImageItem() {}
+
     public ImageItem(Bitmap image, String text) {
         this.image = image;
         this.text = text;

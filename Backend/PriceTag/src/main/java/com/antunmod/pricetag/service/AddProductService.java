@@ -283,11 +283,14 @@ public class AddProductService {
 	}
 
 	public Boolean savePrice(AddPrice addPrice) {
+		Short productSpecificId = addPrice.getProductSpecificId();
+		Short storeSpecificId = addPrice.getStoreSpecificId();
 		Short productStoreId = productStoreRepository.findProductStoreForProductSpecificIdAndStoreSpecificId(
-				addPrice.getProductSpecificId(), addPrice.getStoreSpecificId());
-		/*
-		 * What if there is no productStoreId for those values?
-		 */
+				productSpecificId, storeSpecificId);
+		if (productStoreId == null) {
+			ProductStore productStore = productStoreRepository.save(new ProductStore(productSpecificId, storeSpecificId));
+			productStoreId = productStore.getId();
+		}
 
 		Price price = priceRepository.save(addPrice.toPrice(productStoreId));
 		/*

@@ -20,13 +20,20 @@ public class AddStoreProductStore implements Serializable{
 	private String storeAddress;
 	private Short userId;
 	private Float price;
-	
-	
+
+	public AddStoreProductStore(Short productSpecificId, String storeName, String storeAddress, Short userId, Float price) {
+		this.productSpecificId = productSpecificId;
+		this.storeName = storeName;
+		this.storeAddress = storeAddress;
+		this.userId = userId;
+		this.price = price;
+	}
+
 	public String getStoreName() {
 		return storeName;
 	}
 	
-	public AddStoreSpecificProductStore toAddStoreSpecificProductStore(byte storeId) {
+	public AddStoreSpecificProductStore toAddStoreSpecificProductStore(Short storeId) {
 		return new AddStoreSpecificProductStore(storeId, storeAddress, userId, price);
 	}
 }

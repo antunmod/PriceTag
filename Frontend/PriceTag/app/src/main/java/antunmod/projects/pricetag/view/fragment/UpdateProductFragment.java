@@ -16,15 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.RestServiceClient;
-import antunmod.projects.pricetag.view.activity.HomeActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import antunmod.projects.pricetag.model.UpdateProductData;
+import antunmod.projects.pricetag.service.UpdateProductService;
 
 
 /**
@@ -40,8 +34,15 @@ public class UpdateProductFragment extends Fragment {
 
     private final Float BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 0.5;
     private final Float TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR = (float) 1.5;
+    private final String PRODUCT_UPDATE_SUCCESSFUL = "Uspješno ste ažurirali cijenu proizvoda";
+    private final String PRODUCT_UPDATE_FAILED = "Uspješno ste ažurirali cijenu proizvoda";
+
+
+    private UpdateProductService updateProductService;
 
     private byte[] photoByteArray;
+    private UpdateProductData updateProductData;
+    private String productInformation;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,39 +68,31 @@ public class UpdateProductFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             photoByteArray = (byte[]) bundle.getSerializable("photoByteArray");
+            updateProductData = (UpdateProductData) bundle.getSerializable("updateProductData");
+            productInformation = (String) bundle.getSerializable("productInformation");
         }
     }
 
     View inflatedView;
     ImageView imageView_updateProduct;
-    TextView textView_producer;
-    TextView textView_productNameAndSize;
-    TextView textView_averagePrice;
+    TextView textView_productInformation;
     EditText editText_newPrice;
     TextView textView_updateProduct;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         inflatedView = inflater.inflate(R.layout.fragment_update_product, container, false);
-        textView_producer = inflatedView.findViewById(R.id.textView_producer);
-        textView_productNameAndSize = inflatedView.findViewById(R.id.textView_product_name_and_size);
-        textView_averagePrice = inflatedView.findViewById(R.id.textView_average_price);
+        imageView_updateProduct = inflatedView.findViewById(R.id.imageView_update_product);
+        textView_productInformation = inflatedView.findViewById(R.id.textView_product_information);
         editText_newPrice = inflatedView.findViewById(R.id.editText_new_price);
         textView_updateProduct = inflatedView.findViewById(R.id.textView_update_product);
 
-        imageView_updateProduct = inflatedView.findViewById(R.id.imageView_update_product);
+        updateProductService = new UpdateProductService();
 
+        textView_productInformation.setText(productInformation);
         setImageView();
-
-        /*
-        textView_producer.setText(updateProduct.getProducer());
-        String productNameAndSize = updateProduct.getName() + ", " +
-                updateProduct.getSize() + " " + updateProduct.getSizeType();
-        textView_productNameAndSize.setText(productNameAndSize);
-        textView_averagePrice.setText(Float.toString(updateProduct.getAveragePrice()) + " kn");
-
 
         textView_updateProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,35 +101,30 @@ public class UpdateProductFragment extends Fragment {
                     Toast.makeText(getContext(), "Unesite novu cijenu proizvoda", Toast.LENGTH_SHORT).show();
                 } else {
                     Float newPrice = Float.valueOf(editText_newPrice.getText().toString());
-                    Float averagePrice = updateProduct.getAveragePrice();
-                    if (newPrice > TOP_LIMIT_FOR_CORRECT_PRICE_FACTOR * averagePrice ||
-                            newPrice < BOTTOM_LIMIT_FOR_CORRECT_PRICE_FACTOR * averagePrice) {
-                        Toast.makeText(getContext(), "Zbog velike izmjene cijene, proizvod se šalje na potvrdu prije spremanja.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Integer productUpdates = updateProduct.getProductUpdates();
-                        averagePrice = averagePrice * productUpdates + newPrice;
-                        averagePrice /= ++productUpdates;
-                        updateProduct.setAveragePrice(averagePrice);
-                        updateProductDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-                        updateProduct.setPriceChangeDate(updateProductDate);
-                        updateProduct.setPrice(newPrice);
-                        updateProduct.setUserId(HomeActivity.user.getUserId());
-                        saveUpdatedProduct(updateProduct);
-                    }
-
+                    updateProductData.setPrice(newPrice);
+                    updateProduct();
                 }
             }
         });
 
-        */
+
         return inflatedView;
     }
 
     private void setImageView() {
-
         Bitmap bitmap = BitmapFactory.decodeByteArray(photoByteArray, 0, photoByteArray.length);
         imageView_updateProduct.setImageBitmap(bitmap);
+    }
 
+    private void updateProduct() {
+        updateProductService.updateProduct(this, updateProductData);
+    }
+
+    public static void updatedProduct(UpdateProductFragment updateProductFragment, Boolean success) {
+        if (success)
+            updateProductFragment.goToEnterBarcodeFragment(updateProductFragment.PRODUCT_UPDATE_SUCCESSFUL);
+        else
+            Toast.makeText(updateProductFragment.getContext(), updateProductFragment.PRODUCT_UPDATE_FAILED, Toast.LENGTH_SHORT).show();
     }
 
     /*

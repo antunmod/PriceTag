@@ -17,6 +17,13 @@ public class AddPrice implements Serializable{
 	private Short userId;
 	private Float price;
 
+	public AddPrice(Short productSpecificId, Short storeSpecificId, Short userId, Float price) {
+		this.productSpecificId = productSpecificId;
+		this.storeSpecificId = storeSpecificId;
+		this.userId = userId;
+		this.price = price;
+	}
+
 	public Short getProductSpecificId() {
 		return productSpecificId;
 	}

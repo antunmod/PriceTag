@@ -104,6 +104,10 @@ public interface RestServiceClient {
     @POST("add/storeProductStore")
     Call<Boolean> addStoreProductStore(@Body AddStoreProductStore addStoreProductStore);
 
+    @Headers("Content-Type: application/json")
+    @GET("products/productInformation")
+    Call<ResponseBody> getBasicProductInformationForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
+
     /*
         Searching for products.
     */
@@ -123,7 +127,6 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("products/productSpecificId")
     Call<Short> getProductSpecificIdForBarcode(@Query("barcode") String barcode);
-
 
     @Headers("Content-Type: application/json")
     @GET("categories")
@@ -179,7 +182,6 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("sizes")
     Call<List<String>> getSizeTypes();
-
 
     /*
         Calls for handling user data.

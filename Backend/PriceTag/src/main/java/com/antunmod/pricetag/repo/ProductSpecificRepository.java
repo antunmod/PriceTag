@@ -46,4 +46,16 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			String producerName,
 			String productName,
 			String storeName);
+
+	@Query(value = "SELECT CONCAT(producer.name, " +
+			"' ', " +
+			"product.name, " +
+			"' ',  " +
+			"TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from size)), ' ', type) " +
+			"FROM product " +
+			"JOIN producer ON product.producer_id = producer.id " +
+			"JOIN product_specific on product.id = product_specific.product_id " +
+			"JOIN product_size ON product_specific.size_id = product_size.id " + 
+			"WHERE product_specific.id = ?1", nativeQuery = true)
+	String getBasicProductInformationForProductSpecificId(Short productSpecificId);
 }

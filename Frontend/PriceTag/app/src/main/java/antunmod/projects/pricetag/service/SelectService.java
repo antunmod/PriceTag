@@ -1,10 +1,12 @@
 package antunmod.projects.pricetag.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +75,7 @@ public class SelectService {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 ArrayList<String> categoriesList = (ArrayList) response.body();
                 if (categoriesList != null) {
-                    SelectFragment.foundCategoriesForSectorNameStatic(selectFragment, categoriesList);
+                    SelectFragment.foundCategoriesForSectorName(selectFragment, categoriesList);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -262,7 +264,7 @@ public class SelectService {
             public void onResponse(Call<Short> call, Response<Short> response) {
                 Short productSpecificId = response.body();
                 if (productSpecificId != null) {
-                    selectFragment.foundProductSpecificId(selectFragment, productSpecificId);
+                    selectFragment.foundProductSpecificIdForBarcode(selectFragment, productSpecificId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
@@ -270,6 +272,31 @@ public class SelectService {
 
             @Override
             public void onFailure(Call<Short> call, Throwable t) {
+                SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
+
+    public void findBasicProductInformationForProductSpecificId(final SelectFragment selectFragment, Short productSpecificId) {
+        Call<ResponseBody> call = restServiceClient.getBasicProductInformationForProductSpecificId(productSpecificId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String productInformation = null;
+                try {
+                    productInformation = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (productInformation != null) {
+                    selectFragment.foundBasicProductInformation(selectFragment, productInformation);
+                } else {
+                    SelectFragment.setErrorString(ERROR_STRING);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });

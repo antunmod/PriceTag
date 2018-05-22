@@ -26,7 +26,6 @@ import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.User;
 import antunmod.projects.pricetag.view.fragment.EnterBarcodeFragment;
 import antunmod.projects.pricetag.view.fragment.EnterProductSizeFragment;
-import antunmod.projects.pricetag.view.fragment.PhotoAndPriceFragment;
 import antunmod.projects.pricetag.view.fragment.RecentProductsFragment;
 import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
@@ -38,8 +37,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SelectFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
         SelectProductFragment.OnFragmentInteractionListener, AddProductFragment.OnFragmentInteractionListener,
-        EnterProductSizeFragment.OnFragmentInteractionListener, PhotoAndPriceFragment.OnFragmentInteractionListener,
-        EnterNewDataFragment.OnFragmentInteractionListener {
+        EnterProductSizeFragment.OnFragmentInteractionListener{
 
     public static User user;
 
@@ -82,13 +80,8 @@ public class HomeActivity extends AppCompatActivity
                 if (!handled)
                     super.onBackPressed();
 
-            } else if (f instanceof UpdateProductFragment ||
-                    f instanceof PhotoAndPriceFragment) {
-                super.onBackPressed();
-            } else if (f instanceof AddProductFragment) {
+            } else if (f instanceof AddProductFragment ||f instanceof UpdateProductFragment) {
                 getSupportFragmentManager().popBackStack();
-            } else if (f instanceof EnterNewDataFragment) {
-                handled = ((EnterNewDataFragment) f).onBackPressed();
             }
         }
 

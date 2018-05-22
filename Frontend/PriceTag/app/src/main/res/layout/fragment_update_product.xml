@@ -20,41 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView_producer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_producer_definition"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_update_product" />
-
-    <TextView
-        android:id="@+id/textView_product_name_and_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_product_name_and_size_definition"
-        app:layout_constraintTop_toBottomOf="@+id/textView_producer" />
-
-    <TextView
-        android:id="@+id/textView_average_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_average_price_definition"
-        app:layout_constraintTop_toBottomOf="@+id/textView_product_name_and_size" />
-
     <EditText
         android:id="@+id/editText_new_price"
         android:layout_width="wrap_content"
@@ -66,54 +31,34 @@
         android:inputType="numberDecimal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_average_price" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_product_information" />
 
-
-
-    <TextView
-        android:id="@+id/textView_producer_definition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="50dp"
-        android:text="Proizvođač:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_update_product" />
-
-    <TextView
-        android:id="@+id/textView_product_name_and_size_definition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="25dp"
-        android:text="Proizvod:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_producer_definition" />
-
-    <TextView
-        android:id="@+id/textView_average_price_definition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="25dp"
-        android:text="Prosječna cijena:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_product_name_and_size_definition" />
 
     <TextView
         android:id="@+id/textView_update_product"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="80dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:text="Ažuriraj cijenu"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_price" />
+
+    <TextView
+        android:id="@+id/textView_product_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="@color/colorPrimary"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_update_product" />
 
 </android.support.constraint.ConstraintLayout>

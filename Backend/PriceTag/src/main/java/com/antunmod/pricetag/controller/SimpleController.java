@@ -93,6 +93,13 @@ public class SimpleController {
 		return new ResponseEntity<Short>(productSpecificId, HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@GetMapping("/products/productInformation")
+	public ResponseEntity<String> getBasicProductInformationForProductSpecificId(@RequestParam("productSpecificId") Short productSpecificId) {
+		String productInformation = simpleService.getBasicProductInformationForProductSpecificId(productSpecificId);
+		return new ResponseEntity<String>(productInformation, HttpStatus.OK);
+	}
+	
 
 	@ResponseBody
 	@GetMapping("/sizes/sizeValue")
