@@ -1,12 +1,27 @@
 package antunmod.projects.pricetag;
 
-import android.text.style.UpdateAppearance;
-
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import antunmod.projects.pricetag.model.User;
+import antunmod.projects.pricetag.transfer.AddPrice;
+import antunmod.projects.pricetag.transfer.AddProducer;
+import antunmod.projects.pricetag.transfer.AddProduct;
+import antunmod.projects.pricetag.transfer.AddProductSpecific;
+import antunmod.projects.pricetag.transfer.AddStoreProducer;
+import antunmod.projects.pricetag.transfer.AddStoreProduct;
+import antunmod.projects.pricetag.transfer.AddStoreProductSpecific;
+import antunmod.projects.pricetag.transfer.AddStoreProductStore;
+import antunmod.projects.pricetag.transfer.AddStoreSpecificProducer;
+import antunmod.projects.pricetag.transfer.AddStoreSpecificProduct;
+import antunmod.projects.pricetag.transfer.AddStoreSpecificProductSpecific;
+import antunmod.projects.pricetag.transfer.AddStoreSpecificProductStore;
+import antunmod.projects.pricetag.transfer.SearchFilter;
+import antunmod.projects.pricetag.transfer.SearchProductData;
+import antunmod.projects.pricetag.transfer.StoreProductPrice;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,51 +29,104 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Created by antun on 1/6/2018.
+ *  RestServiceClient containing Calls to the server.
  */
 
 public interface RestServiceClient {
 
-    /*@Headers("Content-Type: application/json")
-    @GET("users")
-    Call<List<User>> getUsers();*/
+    String serverIP = "http://192.168.1.4:8000/";
+
+    /*
+        Adding products to an existing store location.
+    */
 
     @Headers("Content-Type: application/json")
-    @GET("users")
-    Call<User> loginUser(@Query("username") String username);
+    @POST("add/productSpecific")
+    Call<Short> addProductSpecific(@Body AddProductSpecific addProductSpecific);
 
     @Headers("Content-Type: application/json")
-    @GET("users")
-    Call<User> loginUser(@Query("username") String username, @Query("password") String password);
+    @POST("add/product")
+    Call<Short> addProduct(@Body AddProduct addProduct);
 
     @Headers("Content-Type: application/json")
-    @POST("users")
-    Call<User> registerUser(@Body User user);
+    @POST("add/producer")
+    Call<Short> addProducer(@Body AddProducer addProducer);
+
+    /*
+        Adding products to a new store location.
+    */
 
     @Headers("Content-Type: application/json")
-    @GET("sizes")
-    Call<List<String>> getSizeTypes();
+    @POST("add/storeSpecificProductSpecific")
+    Call<Short> addStoreSpecificProductSpecific(@Body AddStoreSpecificProductSpecific addStoreSpecificProductSpecific);
 
     @Headers("Content-Type: application/json")
-    @POST("products")
-    Call<Boolean> addProduct(@Body AddProduct addProduct);
+    @POST("add/storeSpecificProduct")
+    Call<Short> addStoreSpecificProduct(@Body AddStoreSpecificProduct addStoreSpecificProduct);
 
     @Headers("Content-Type: application/json")
-    @POST("photos")
-    Call<Integer> addPhoto(@Body byte[] photo);
+    @POST("add/storeSpecificProducer")
+    Call<Short> addStoreSpecificProducer(@Body AddStoreSpecificProducer addStoreSpecificProducer);
+
+    /*
+        Adding products to a new store.
+    */
 
     @Headers("Content-Type: application/json")
-    @POST("productStore")
-    Call<Long> addProductStore(@Body ProductStore productStore);
+    @POST("add/storeProductSpecific")
+    Call<Short> addStoreProductSpecific(@Body AddStoreProductSpecific addStoreProductSpecific);
 
     @Headers("Content-Type: application/json")
-    @GET("sectors")
-    Call<List<String>> getAllSectorNames();
+    @POST("add/storeProduct")
+    Call<Short> addStoreProduct(@Body AddStoreProduct addStoreProduct);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeProducer")
+    Call<Short> addStoreProducer(@Body AddStoreProducer addStoreProducer);
+
+
+    /*
+        Updating products.
+    */
+
+    @Headers("Content-Type: application/json")
+    @POST("add/price")
+    Call<Boolean> addPrice(@Body AddPrice addPrice);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeSpecificProductStore")
+    Call<Boolean> addStoreSpecificProductStore(@Body AddStoreSpecificProductStore addStoreSpecificProductStore);
+
+    @Headers("Content-Type: application/json")
+    @POST("add/storeProductStore")
+    Call<Boolean> addStoreProductStore(@Body AddStoreProductStore addStoreProductStore);
+
+    @Headers("Content-Type: application/json")
+    @GET("products/productInformation")
+    Call<ResponseBody> getBasicProductInformationForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
+
+    /*
+        Searching for products.
+    */
+
+    @Headers("Content-Type: application/json")
+    @POST("search")
+    Call<List<SearchProductData>> getProducts(@Body SearchFilter searchFilter);
+
+    @Headers("Content-Type: application/json")
+    @GET("search/locations")
+    Call<List<StoreProductPrice>> getLocationsForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
+
+    /*
+        Simple GET calls while adding a new product.
+    */
+
+    @Headers("Content-Type: application/json")
+    @GET("products/productSpecificId")
+    Call<Short> getProductSpecificIdForBarcode(@Query("barcode") String barcode);
 
     @Headers("Content-Type: application/json")
     @GET("categories")
@@ -69,71 +137,80 @@ public interface RestServiceClient {
     Call<List<String>> getSubcategoriesForCategoryName(@Query("categoryName") String categoryName);
 
     @Headers("Content-Type: application/json")
+    @GET("subcategories/id")
+    Call<Short> getSubcategoryIdForCategoryAndSubcategoryName(@Query("categoryName") String categoryName,
+                                                                @Query("subcategoryName") String subcategoryName);
+
+    @Headers("Content-Type: application/json")
     @GET("producers")
     Call<List<String>> getProducersForSubcategoryName(@Query("subcategoryName") String subcategoryName);
 
     @Headers("Content-Type: application/json")
+    @GET("producers/id")
+    Call<Short> getProducerId(@Query("producerName") String producerName);
+
+    @Headers("Content-Type: application/json")
     @GET("products/productNames")
-    Call<List<String>> getProductNamesForSubcategoryNameAndProducer(@Query("subcategoryName") String subcategoryName,
+    Call<List<String>> getProductNamesForSubcategoryAndProducerName(@Query("subcategoryName") String subcategoryName,
                                                                     @Query("producer") String producer);
 
     @Headers("Content-Type: application/json")
     @GET("products/productId")
-    Call<Integer> getProductIdForProducerAndProductName(@Query("producer") String producer,
+    Call<Short> getProductIdForProducerAndProductName(@Query("producer") String producer,
                                                         @Query("productName") String productName);
-
-    @Headers("Content-Type: application/json")
-    @GET("sizes/sizeValue")
-    Call<List<String>> getSizeValuesForProductId(@Query("productId") int productId);
-
-    @Headers("Content-Type: application/json")
-    @GET("products/photo")
-    Call<String> getPhotoForProductIdAndSize(@Query("productId") int productId, @Query("size") String size);
-
-    @Headers("Content-Type: application/json")
-    @GET("subcategories/id")
-    Call<Integer> getSubcategoryIdForCategoryAndSubcategoryName(@Query("categoryName") String categoryName,
-                                                                @Query("subcategoryName") String subcategoryName);
 
     @Headers("Content-Type: application/json")
     @GET("stores")
     Call<List<String>> getStoreNames();
 
     @Headers("Content-Type: application/json")
+    @GET("stores/id")
+    Call<Short> getStoreId(@Query("storeName") String storeName);
+
+    @Headers("Content-Type: application/json")
+    @GET("sizes/sizeValue")
+    Call<List<String>> getSizeValuesForProductId(@Query("productId") Short productId);
+
+    @Headers("Content-Type: application/json")
     @GET("stores/locations")
     Call<List<String>> getStoreLocations(@Query("storeName") String selectedStore);
 
     @Headers("Content-Type: application/json")
-    @GET("products")
-    Call<UpdateProduct> getUpdateProductForBarcodeAndStoreAddress(@Query("barcode") String barcode,
-                                                                  @Query("storeAddress") String storeAddress);
-
-    @Headers("Content-Type: application/json")
-    @GET("photos/photo")
-    Call<Byte[]> getPhotoByteArray(@Query("photoId") int photoId);
-
-    @Headers("Content-Type: application/json")
-    @POST("subcategoryProduct")
-    Call<Boolean> addSubcategoryProduct(@Query("subcategoryName") String subcategoryName,
-                                        @Query("productId") int productId);
-
-    @Headers("Content-Type: application/json")
-    @POST("productStore/update")
-    Call<Boolean> saveUpdatedProduct(@Body UpdateProduct updateProduct);
-
-    @Headers("Content-Type: application/json")
-    @POST("users/updatePoints")
-    Call<Integer> awardPointsToUserForUserId(@Query("userId") long userId);
-
-    @Headers("Content-Type: application/json")
     @GET("stores/address")
-    Call<Integer> getStoreIdForAddress(@Query("storeAddress") String selectedStoreAddress);
+    Call<Short> getStoreSpecificIdForAddress(@Query("storeAddress") String selectedStoreAddress);
+
+    @Headers("Content-Type: application/json")
+    @GET("sizes")
+    Call<List<String>> getSizeTypes();
+
+    /*
+        Calls for handling user data.
+    */
+
+    @Headers("Content-Type: application/json")
+    @GET("users")
+    Call<User> loginUser(@Query("name") String name, @Query("password") String password);
+
+    @Headers("Content-Type: application/json")
+    @POST("users")
+    Call<User> registerUser(@Body User user);
+
+    /*
+        Calls for handling photos.
+     */
+
+    @Headers("Content-Type: application/json")
+    @POST("photos")
+    Call<Boolean> addImage(@Body Byte[] imageArray, @Query("productSpecificId") Short productSpecificId);
+
+    @Headers("Content-Type: application/json")
+    @GET("photos")
+    Call<ResponseBody> getEncodedImageForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
 
 
-    public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.6:8000/")
-            .addConverterFactory(GsonConverterFactory.create())
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(serverIP)
+            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().setLenient().create()))
             .build();
-
 
 }
