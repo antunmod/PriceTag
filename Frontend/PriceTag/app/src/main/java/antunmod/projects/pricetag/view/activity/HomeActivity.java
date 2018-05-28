@@ -25,19 +25,16 @@ import antunmod.projects.pricetag.view.fragment.AddProductFragment;
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.User;
 import antunmod.projects.pricetag.view.fragment.EnterBarcodeFragment;
-import antunmod.projects.pricetag.view.fragment.EnterProductSizeFragment;
 import antunmod.projects.pricetag.view.fragment.RecentProductsFragment;
 import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
-import antunmod.projects.pricetag.view.fragment.SelectProductFragment;
 import antunmod.projects.pricetag.view.fragment.UpdateProductFragment;
 
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SelectFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
-        SelectProductFragment.OnFragmentInteractionListener, AddProductFragment.OnFragmentInteractionListener,
-        EnterProductSizeFragment.OnFragmentInteractionListener{
+        AddProductFragment.OnFragmentInteractionListener{
 
     public static User user;
 
