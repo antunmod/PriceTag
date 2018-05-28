@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import antunmod.projects.pricetag.view.fragment.AddCategorizationFragment;
 import antunmod.projects.pricetag.view.fragment.AddProductFragment;
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.User;
@@ -151,10 +150,6 @@ public class HomeActivity extends AppCompatActivity
         FragmentManager manager = getSupportFragmentManager();
 
         switch (id) {
-            case (R.id.add_categorization):
-                AddCategorizationFragment addCategorizationFragment = new AddCategorizationFragment();
-                manager.beginTransaction().replace(R.id.layout_for_fragment, addCategorizationFragment).commit();
-                break;
             case (R.id.add_product):
                 EnterBarcodeFragment findProductForBarcodeFragment = new EnterBarcodeFragment();
                 manager.beginTransaction().replace(R.id.layout_for_fragment, findProductForBarcodeFragment).commit();
