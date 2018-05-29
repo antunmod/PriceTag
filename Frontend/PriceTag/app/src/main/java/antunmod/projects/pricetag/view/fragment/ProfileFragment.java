@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.model.ProductData;
+import antunmod.projects.pricetag.service.HomeService;
+import antunmod.projects.pricetag.transfer.UserInformation;
 import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 /**
@@ -21,14 +24,11 @@ import antunmod.projects.pricetag.view.activity.HomeActivity;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    UserInformation userInformation;
 
     private OnFragmentInteractionListener mListener;
 
@@ -57,9 +57,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+        Bundle bundle = this.getArguments();
+
+        // Set values
+        if (bundle != null) {
+            userInformation = (UserInformation) bundle.getSerializable("userInformation");
         }
     }
 
@@ -70,6 +73,9 @@ public class ProfileFragment extends Fragment {
     TextView textView_rating;
     TextView textView_userType;
     TextView textView_signupDate;
+    TextView textView_feedbacksGiven;
+    TextView textView_feedbacksReceived;
+
 
 
     @Override
@@ -77,18 +83,25 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_profile, container, false);
+
         textView_name = inflatedView.findViewById(R.id.textView_name);
         textView_email = inflatedView.findViewById(R.id.textView_email);
         textView_points = inflatedView.findViewById(R.id.textView_points);
         textView_rating = inflatedView.findViewById(R.id.textView_rating);
         textView_userType = inflatedView.findViewById(R.id.textView_user_type);
         textView_signupDate = inflatedView.findViewById(R.id.textView_signup_date);
+        textView_feedbacksGiven = inflatedView.findViewById(R.id.textView_feedbacks_given);
+        textView_feedbacksReceived = inflatedView.findViewById(R.id.textView_feedbacks_received);
 
-        textView_name.setText(HomeActivity.user.getName());
-        textView_email.setText(HomeActivity.user.getEmail());
-        textView_points.setText(HomeActivity.user.getPoints().toString());
-        textView_rating.setText(HomeActivity.user.getRating().toString());
-        textView_signupDate.setText(HomeActivity.user.getSignupDate());
+
+        textView_name.setText(userInformation.getName());
+        textView_email.setText(userInformation.getEmail());
+        textView_points.setText(userInformation.getPoints().toString());
+        textView_rating.setText(userInformation.getInformationValidity());
+        textView_userType.setText(userInformation.getDescription());
+        textView_signupDate.setText(userInformation.getSignupDate());
+        textView_feedbacksGiven.setText(userInformation.getFeedbacksGiven().toString());
+        textView_feedbacksReceived.setText(userInformation.getFeedbacksReceived().toString());
 
 
 

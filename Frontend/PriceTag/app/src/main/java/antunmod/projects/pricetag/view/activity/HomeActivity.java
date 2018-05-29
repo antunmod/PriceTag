@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import antunmod.projects.pricetag.service.HomeService;
+import antunmod.projects.pricetag.transfer.UserInformation;
 import antunmod.projects.pricetag.view.fragment.AddProductFragment;
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.User;
@@ -37,6 +39,7 @@ public class HomeActivity extends AppCompatActivity
         AddProductFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
 
     public static User user;
+    private HomeService homeService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         user = (User) getIntent().getSerializableExtra("user");
+        homeService = new HomeService();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -164,8 +168,7 @@ public class HomeActivity extends AppCompatActivity
                 manager.beginTransaction().replace(R.id.layout_for_fragment, searchFragment).commit();
                 break;
             case (R.id.profile):
-                ProfileFragment profileFragment = new ProfileFragment();
-                manager.beginTransaction().replace(R.id.layout_for_fragment, profileFragment).commit();
+                homeService.findUserInformation(this, user.getId());
                 break;
         }
 
@@ -190,16 +193,19 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    protected void swapFragment(Fragment fragment) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.layout_for_fragment, fragment);
-        transaction.commit();
-    }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
         Toast.makeText(getApplicationContext(), "Tu sam", Toast.LENGTH_SHORT).show();
+    }
+
+    public void foundUserInformation(UserInformation userInformation) {
+        FragmentManager manager = getSupportFragmentManager();
+        ProfileFragment profileFragment = new ProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("userInformation", userInformation);
+        profileFragment.setArguments(bundle);
+
+        manager.beginTransaction().replace(R.id.layout_for_fragment, profileFragment).commit();
     }
 
     public interface OnBackPressedListener {

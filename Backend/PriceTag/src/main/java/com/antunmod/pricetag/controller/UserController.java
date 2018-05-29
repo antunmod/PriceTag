@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.antunmod.pricetag.model.database.User;
+import com.antunmod.pricetag.model.transfer.UserInformation;
 import com.antunmod.pricetag.service.UserService;
 
 @RestController
@@ -41,6 +42,13 @@ public class UserController {
 			return new ResponseEntity<User>(new User(), HttpStatus.OK);
 
 		return new ResponseEntity<User>(savedUser, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping("/information")
+	public ResponseEntity<UserInformation> getUserInformation(@RequestParam("id") Short id) {
+		UserInformation userInformation= userService.getUserInformation(id);
+		return new ResponseEntity<UserInformation>(userInformation, HttpStatus.OK);
 	}
 
 	/*

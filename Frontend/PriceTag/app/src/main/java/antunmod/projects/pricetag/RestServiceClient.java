@@ -21,6 +21,7 @@ import antunmod.projects.pricetag.transfer.AddStoreSpecificProductStore;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
+import antunmod.projects.pricetag.transfer.UserInformation;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -207,6 +208,12 @@ public interface RestServiceClient {
     @GET("photos")
     Call<ResponseBody> getEncodedImageForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
 
+    /*
+        Profile tab calls
+     */
+    @Headers("Content-Type: application/json")
+    @GET("users/information")
+    Call<UserInformation> getUserInformation(@Query("id") Short id);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(serverIP)

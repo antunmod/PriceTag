@@ -3,6 +3,9 @@ package com.antunmod.pricetag.model.transfer;
 import java.io.Serializable;
 import java.sql.Date;
 
+/*
+ * A class containing user information which will be shown on Profile tab.
+ */
 public class UserInformation implements Serializable{
 
 	private String name;

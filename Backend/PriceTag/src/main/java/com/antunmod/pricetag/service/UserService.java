@@ -47,16 +47,6 @@ public class UserService {
 					((BigInteger) o[4]).intValue(), ((BigInteger) o[5]).intValue(), (String) o[6],
 					(Date) o[7]);
 		}
-		//objectInformation[0];
-		/*System.out.println(objectInformation.length);
-		System.out.println(objectInformation[0].toString());
-		//System.out.println(objectInformation[1]);
-
-		String a = (String) objectInformation.get;
-		UserInformation userInformation = new UserInformation((String) objectInformation[0],
-				(String) objectInformation[1], (Short) objectInformation[2], (String) objectInformation[3],
-				(Integer) objectInformation[4], (Integer) objectInformation[5], (Short) objectInformation[6],
-				(String) objectInformation[7]);*/
 		return userInformation;
 	}
 
