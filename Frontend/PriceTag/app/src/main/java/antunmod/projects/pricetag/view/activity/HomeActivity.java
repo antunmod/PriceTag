@@ -24,6 +24,7 @@ import antunmod.projects.pricetag.view.fragment.AddProductFragment;
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.User;
 import antunmod.projects.pricetag.view.fragment.EnterBarcodeFragment;
+import antunmod.projects.pricetag.view.fragment.ProfileFragment;
 import antunmod.projects.pricetag.view.fragment.RecentProductsFragment;
 import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
@@ -33,7 +34,7 @@ import antunmod.projects.pricetag.view.fragment.UpdateProductFragment;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SelectFragment.OnFragmentInteractionListener, UpdateProductFragment.OnFragmentInteractionListener,
-        AddProductFragment.OnFragmentInteractionListener{
+        AddProductFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
 
     public static User user;
 
@@ -161,6 +162,10 @@ public class HomeActivity extends AppCompatActivity
             case (R.id.search):
                 SearchFragment searchFragment = new SearchFragment();
                 manager.beginTransaction().replace(R.id.layout_for_fragment, searchFragment).commit();
+                break;
+            case (R.id.profile):
+                ProfileFragment profileFragment = new ProfileFragment();
+                manager.beginTransaction().replace(R.id.layout_for_fragment, profileFragment).commit();
                 break;
         }
 

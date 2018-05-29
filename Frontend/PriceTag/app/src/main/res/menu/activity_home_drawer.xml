@@ -8,9 +8,6 @@
             android:id="@+id/add_product"
             android:title="Dodaj proizvod" />
         <item
-            android:id="@+id/add_categorization"
-            android:title="Predloži kategorizaciju" />
-        <item
             android:id="@+id/recent"
             android:title="Nedavno izmjenjeno" />
         <item
@@ -24,9 +21,6 @@
             <item
                 android:id="@+id/profile"
                 android:title="Profil" />
-            <item
-                android:id="@+id/settings"
-                android:title="Postavke" />
         </menu>
     </item>
 

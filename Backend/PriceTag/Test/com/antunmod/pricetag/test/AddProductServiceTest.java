@@ -38,11 +38,11 @@ public class AddProductServiceTest {
 	 */
 	@Before
 	public void setupProductData() {
-		String barcode = "1111111111111";
+		String barcode = "12345678910";
 		Short userId = 2;
 		Float price = 29.99f;
 		String productDescription = "";
-		String photoURI = "dummy/test/photo/URI";
+		String photoURI = "dummyURI";
 		Float productSize = 1.65f;
 		String productSizeString = "l";
 		BaseProduct baseProduct = new BaseProduct(barcode, userId, price, productDescription, 

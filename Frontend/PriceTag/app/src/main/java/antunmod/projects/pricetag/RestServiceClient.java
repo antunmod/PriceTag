@@ -37,7 +37,7 @@ import retrofit2.http.Query;
 
 public interface RestServiceClient {
 
-    String serverIP = "http://192.168.1.4:8000/";
+    String serverIP = "http://192.168.1.3:8000/";
 
     /*
         Adding products to an existing store location.
