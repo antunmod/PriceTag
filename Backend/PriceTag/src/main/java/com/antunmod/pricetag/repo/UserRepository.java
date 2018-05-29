@@ -1,5 +1,7 @@
 package com.antunmod.pricetag.repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -18,4 +20,14 @@ public interface UserRepository extends JpaRepository<User, Short> {
 
 	User findById(Short id);
 
+	
+	@Query(value = "SELECT user.name, user.email, user.points, " + 
+			"CONCAT(TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from 100*rating)), '%') AS information_validity, " + 
+			"(select count(*) FROM information_feedback WHERE information_provider_user_id = ?1) AS feedbacks_received, " + 
+			"(select count(*) FROM information_feedback WHERE feedback_provider_user_id = ?1) AS feedbacks_given, " + 
+			"user_type.description, user.signup_date " + 
+			"FROM user JOIN user_type ON user.user_type_id = user_type.id " +
+			"WHERE user.id = ?1 LIMIT 1", nativeQuery = true)
+	List<Object[]> findUserInformation(Short id);
+	
 }

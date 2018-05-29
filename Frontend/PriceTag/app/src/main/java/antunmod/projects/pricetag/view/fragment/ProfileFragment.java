@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,11 +63,36 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    View inflatedView;
+    TextView textView_name;
+    TextView textView_email;
+    TextView textView_points;
+    TextView textView_rating;
+    TextView textView_userType;
+    TextView textView_signupDate;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        inflatedView = inflater.inflate(R.layout.fragment_profile, container, false);
+        textView_name = inflatedView.findViewById(R.id.textView_name);
+        textView_email = inflatedView.findViewById(R.id.textView_email);
+        textView_points = inflatedView.findViewById(R.id.textView_points);
+        textView_rating = inflatedView.findViewById(R.id.textView_rating);
+        textView_userType = inflatedView.findViewById(R.id.textView_user_type);
+        textView_signupDate = inflatedView.findViewById(R.id.textView_signup_date);
+
+        textView_name.setText(HomeActivity.user.getName());
+        textView_email.setText(HomeActivity.user.getEmail());
+        textView_points.setText(HomeActivity.user.getPoints().toString());
+        textView_rating.setText(HomeActivity.user.getRating().toString());
+        textView_signupDate.setText(HomeActivity.user.getSignupDate());
+
+
+
+        return inflatedView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

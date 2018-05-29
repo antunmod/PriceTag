@@ -109,6 +109,10 @@ public class User implements Serializable {
 		this.userType = userType;
 	}
 
+	public String getSignupDate() {
+		return signupDate;
+	}
+
 	public static String getDateString() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
