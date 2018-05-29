@@ -128,6 +128,8 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	
-	
+	public String getSignupDate() {
+		return signupDate;
+	}
 
 }
