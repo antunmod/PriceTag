@@ -313,7 +313,7 @@ public class AddProductFragment extends Fragment {
                     Map result = cloudinary.uploader().upload(photoFile.getAbsolutePath(),
                             ObjectUtils.asMap("transformation",
                             new Transformation().width(2000).height(1000).crop("limit")));
-                    String uri = (String)result.get("public_id");
+                    String uri = (String)result.get("url");
                     productData.getBaseProduct().setPhotoURI(uri);
                     addNewProduct();
                 } catch (IOException e) {

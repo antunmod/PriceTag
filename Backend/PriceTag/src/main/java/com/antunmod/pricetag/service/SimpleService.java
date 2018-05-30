@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.antunmod.pricetag.model.database.Store;
+import com.antunmod.pricetag.model.transfer.ProductInformation;
 import com.antunmod.pricetag.repo.CategoryRepository;
 import com.antunmod.pricetag.repo.ProducerRepository;
 import com.antunmod.pricetag.repo.ProductRepository;
@@ -130,13 +131,12 @@ public class SimpleService {
 		return NOT_FOUND_SHORT;
 	}
 	
-	public String getBasicProductInformationForProductSpecificId(Short productSpecificId) {
-		String productInformation = productSpecificRepository.getBasicProductInformationForProductSpecificId(productSpecificId);
-		if (productInformation != null) {
-			return productInformation;
-
-		}
-		return null;
+	public ProductInformation getProductInformationForBarcode(String barcode) {
+		List<Object[]> objectList= productSpecificRepository.getProductInformationForBarcode(barcode);
+		ProductInformation productInformation = null;
+		for (Object[] o : objectList) 
+			productInformation = new ProductInformation((Short) o[0], (String) o[1], (String)o[2]);
+		return productInformation;
 	}
 
 	public List<String> getSizeValuesForProductId(Short productId) {

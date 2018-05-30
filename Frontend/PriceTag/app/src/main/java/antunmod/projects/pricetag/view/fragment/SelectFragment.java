@@ -28,6 +28,7 @@ import antunmod.projects.pricetag.model.UpdateProductData;
 import antunmod.projects.pricetag.service.SearchService;
 import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.service.UtilService;
+import antunmod.projects.pricetag.transfer.ProductInformation;
 
 import static antunmod.projects.pricetag.view.activity.HomeActivity.user;
 
@@ -57,7 +58,6 @@ public class SelectFragment extends Fragment {
     private static List<String> subcategoryList;
     private static List<String> producerList;
     private static List<String> productList;
-    private static List<String> sizeList;
 
     /*
         Names of selected Sector, Category and Subcategory.
@@ -73,8 +73,7 @@ public class SelectFragment extends Fragment {
      */
     private static ProductData productData;
 
-    private byte[] updateProductByteArray;
-
+    private ProductInformation productInformation;
     /*
         TextView text.
      */
@@ -173,7 +172,7 @@ public class SelectFragment extends Fragment {
         });
 
         setFragment();
-        findProductSpecificIdForBarcode();
+        findProductInformationForBarcode();
         return inflatedView;
     }
 
@@ -275,10 +274,11 @@ public class SelectFragment extends Fragment {
     private void setArrayList() {
         switch (title) {
             case STORE_ADDRESS:
-                if (productData.getProductSpecificId() != null && productData.getProductSpecificId() != NOT_FOUND_SHORT)
-                    findEncodedImageForProductSpecificId();
-                else
+                // The barcode is new
+                if (productInformation == null)
                     findCategoriesForSectorName(SUPERMARKETS);
+                else
+                    goToUpdateProductFragment();
                 break;
             case SECTOR:
                 categoryList = new ArrayList<>();
@@ -430,43 +430,23 @@ public class SelectFragment extends Fragment {
         }
     }
 
-
-
-    private void findProductSpecificIdForBarcode() {
-        selectService.findProductSpecificIdForBarcode(this, productData.getBaseProduct().getBarcode());
+    private void findProductInformationForBarcode() {
+        selectService.findProductInformationForBarcode(this, productData.getBaseProduct().getBarcode());
 
     }
 
-    public void foundProductSpecificIdForBarcode(SelectFragment selectFragment, Short productSpecificId) {
-        selectFragment.setProductSpecificId(productSpecificId);
+    public void foundProductInformationForBarcode(SelectFragment selectFragment, ProductInformation productInformation) {
+        selectFragment.productInformation = productInformation;
     }
 
-    private void findEncodedImageForProductSpecificId() {
-        searchService.findEncodedImageForProductSpecificId(this, productData.getProductSpecificId());
-
-    }
-
-    public static void foundEncodedImageForProductSpecificId(SelectFragment selectFragment, String encodedImage) {
-        selectFragment.updateProductByteArray= Base64.decode(encodedImage, Base64.DEFAULT);
-        selectFragment.findBasicProductInformation();
-    }
-
-    private void findBasicProductInformation() {
-        selectService.findBasicProductInformationForProductSpecificId(this, productData.getProductSpecificId());
-    }
-
-    public static void foundBasicProductInformation(SelectFragment selectFragment, String productInformation) {
-        selectFragment.goToUpdateProductFragment(productInformation);
-    }
-
-    private void goToUpdateProductFragment(String productInformation) {
+    private void goToUpdateProductFragment() {
         Bundle bundle = new Bundle();
-        if (!productData.getStoreName().equals(newStoreName))
+        if (productData.getStoreName() != null && !productData.getStoreName().equals(newStoreName))
             productData.setStoreName(null);
-        if (!productData.getStoreAddress().equals(newStoreAddress))
+        if (productData.getStoreAddress() != null && !productData.getStoreAddress().equals(newStoreAddress))
             productData.setStoreId(null);
-        bundle.putSerializable("photoByteArray", updateProductByteArray);
         UpdateProductData updateProductData = new UpdateProductData(productData);
+        productData.setProductSpecificId(productInformation.getProductSpecificId());
         bundle.putSerializable("updateProductData", updateProductData);
         bundle.putSerializable("productInformation", productInformation);
         UpdateProductFragment updateProductFragment = new UpdateProductFragment();
@@ -507,10 +487,11 @@ public class SelectFragment extends Fragment {
 
         productData.setStoreSpecificId(storeSpecificId);
         selectFragment.closeProgressAndCheckForErrors();
-        if (productData.getProductSpecificId() == null || productData.getProductSpecificId() == selectFragment.NOT_FOUND_SHORT)
+        // If the barcode is new find categories
+        if (selectFragment.productInformation == null)
             selectFragment.findCategoriesForSectorName(selectFragment.SUPERMARKETS);
         else
-            selectFragment.findEncodedImageForProductSpecificId();
+            selectFragment.goToUpdateProductFragment();
     }
 
     private void findCategoriesForSectorName(String sectorName) {
@@ -728,12 +709,6 @@ public class SelectFragment extends Fragment {
     /*
         The following are getters and setters used while doing retrofit calls
      */
-
-    public static void setSizeList(List<String> newSizeList) {sizeList = newSizeList;}
-
-    private void setProductSpecificId(Short productSpecificId) {
-        productData.setProductSpecificId(productSpecificId);
-    }
 
     public static void setErrorString(String error) {
         errorString = error;

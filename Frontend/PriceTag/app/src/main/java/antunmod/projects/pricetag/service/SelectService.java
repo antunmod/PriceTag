@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import antunmod.projects.pricetag.RestServiceClient;
+import antunmod.projects.pricetag.transfer.ProductInformation;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -175,26 +176,6 @@ public class SelectService {
         });
     }
 
-    public void findSizeValuesForProductId(Short productId) {
-
-        Call<List<String>> call = restServiceClient.getSizeValuesForProductId(productId);
-        call.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                List<String> sizeList = response.body();
-                if (sizeList != null) {
-                    SelectFragment.setSizeList(sizeList);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                SelectFragment.setErrorString(ERROR_STRING);
-            }
-        });
-
-    }
-
     public void findSubcategoryIdForCategoryAndSubcategoryName(final SelectFragment selectFragment, String categoryName, String subcategoryName) {
 
         Call<Short> call = restServiceClient.getSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
@@ -257,46 +238,21 @@ public class SelectService {
         });
     }
 
-    public void findProductSpecificIdForBarcode(final SelectFragment selectFragment, String barcode) {
-        Call<Short> call = restServiceClient.getProductSpecificIdForBarcode(barcode);
-        call.enqueue(new Callback<Short>() {
+    public void findProductInformationForBarcode(final SelectFragment selectFragment, String barcode) {
+        Call<ProductInformation> call = restServiceClient.getProductInformationForBarcode(barcode);
+        call.enqueue(new Callback<ProductInformation>() {
             @Override
-            public void onResponse(Call<Short> call, Response<Short> response) {
-                Short productSpecificId = response.body();
-                if (productSpecificId != null) {
-                    selectFragment.foundProductSpecificIdForBarcode(selectFragment, productSpecificId);
-                } else {
-                    SelectFragment.setErrorString(ERROR_STRING);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Short> call, Throwable t) {
-                SelectFragment.setErrorString(ERROR_STRING);
-            }
-        });
-    }
-
-    public void findBasicProductInformationForProductSpecificId(final SelectFragment selectFragment, Short productSpecificId) {
-        Call<ResponseBody> call = restServiceClient.getBasicProductInformationForProductSpecificId(productSpecificId);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String productInformation = null;
-                try {
-                    productInformation = response.body().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            public void onResponse(Call<ProductInformation> call, Response<ProductInformation> response) {
+                ProductInformation productInformation = response.body();
                 if (productInformation != null) {
-                    selectFragment.foundBasicProductInformation(selectFragment, productInformation);
+                    selectFragment.foundProductInformationForBarcode(selectFragment, productInformation);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ProductInformation> call, Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });

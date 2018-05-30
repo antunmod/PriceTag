@@ -119,35 +119,5 @@ public class SearchService {
         });
     }
 
-    public void findEncodedImageForProductSpecificId(final Fragment fragment, Short productSpecificId) {
-        Call<ResponseBody> call = restServiceClient.getEncodedImageForProductSpecificId(productSpecificId);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String imageArray = null;
-                try {
-                    imageArray = response.body().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (fragment instanceof SelectFragment) {
-                    SelectFragment selectFragment = (SelectFragment) fragment;
-                    selectFragment.foundEncodedImageForProductSpecificId(selectFragment, imageArray);
-                }
-                else {
-                    SearchFragment searchFragment = (SearchFragment) fragment;
-                    if (imageArray != null && !imageArray.isEmpty()) {
-                        SearchFragment.foundEncodedImage(searchFragment, imageArray);
-                    } else {
-                        searchFragment.findNextImage();
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                SelectFragment.setErrorString(ERROR_STRING);
-            }
-        });
-    }
 }

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.antunmod.pricetag.PriceTagApplication;
+import com.antunmod.pricetag.model.transfer.ProductInformation;
 import com.antunmod.pricetag.service.SimpleService;
 
 /*
@@ -54,6 +55,7 @@ public class SimpleServiceTest {
 	private final Integer SUNFLOWER_OIL_PRICE_ID = 1;
 	private final Integer FIRST_RATING_INFORMATION_FEEDBACK_ID = 1;
 	private final String FIRST_RATING_INFORMATION_FEEDBACK_STRING = "P";
+	private final String BARCODE = "1111";
 	
 
 	@Autowired
@@ -132,6 +134,12 @@ public class SimpleServiceTest {
 	public void testGetSizeTypes() {
 		ArrayList<String> sizeTypeList = new ArrayList<>(simpleService.getSizeTypes());
 		assertTrue(sizeTypeList.contains(LITER_STRING));
+	}
+	
+	@Test
+	public void testGetProductInformationForBarcode() {
+		ProductInformation productInformation = simpleService.getProductInformationForBarcode(BARCODE);
+		assertTrue(productInformation != null && productInformation.getPhotoURI().length() > 50);
 	}
 
 }

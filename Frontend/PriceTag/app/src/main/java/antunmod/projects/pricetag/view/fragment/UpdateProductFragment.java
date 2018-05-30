@@ -16,9 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.UpdateProductData;
 import antunmod.projects.pricetag.service.UpdateProductService;
+import antunmod.projects.pricetag.transfer.ProductInformation;
 
 
 /**
@@ -42,7 +45,7 @@ public class UpdateProductFragment extends Fragment {
 
     private byte[] photoByteArray;
     private UpdateProductData updateProductData;
-    private String productInformation;
+    private ProductInformation productInformation;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,7 +72,7 @@ public class UpdateProductFragment extends Fragment {
         if (bundle != null) {
             photoByteArray = (byte[]) bundle.getSerializable("photoByteArray");
             updateProductData = (UpdateProductData) bundle.getSerializable("updateProductData");
-            productInformation = (String) bundle.getSerializable("productInformation");
+            productInformation = (ProductInformation) bundle.getSerializable("productInformation");
         }
     }
 
@@ -91,8 +94,8 @@ public class UpdateProductFragment extends Fragment {
 
         updateProductService = new UpdateProductService();
 
-        textView_productInformation.setText(productInformation);
-        setImageView();
+        textView_productInformation.setText(productInformation.getProductDescription());
+        Picasso.with(getContext()).load(productInformation.getPhotoURI()).into(imageView_updateProduct);
 
         textView_updateProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,10 +114,7 @@ public class UpdateProductFragment extends Fragment {
         return inflatedView;
     }
 
-    private void setImageView() {
-        Bitmap bitmap = BitmapFactory.decodeByteArray(photoByteArray, 0, photoByteArray.length);
-        imageView_updateProduct.setImageBitmap(bitmap);
-    }
+
 
     private void updateProduct() {
         updateProductService.updateProduct(this, updateProductData);

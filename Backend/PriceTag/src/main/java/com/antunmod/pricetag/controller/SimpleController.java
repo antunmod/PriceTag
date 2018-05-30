@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.antunmod.pricetag.model.transfer.ProductInformation;
 import com.antunmod.pricetag.service.SimpleService;
 
 /*
@@ -95,9 +96,9 @@ public class SimpleController {
 	
 	@ResponseBody
 	@GetMapping("/products/productInformation")
-	public ResponseEntity<String> getBasicProductInformationForProductSpecificId(@RequestParam("productSpecificId") Short productSpecificId) {
-		String productInformation = simpleService.getBasicProductInformationForProductSpecificId(productSpecificId);
-		return new ResponseEntity<String>(productInformation, HttpStatus.OK);
+	public ResponseEntity<ProductInformation> getProductInformationForBarcode(@RequestParam("barcode") String barcode) {
+		ProductInformation productInformation = simpleService.getProductInformationForBarcode(barcode);
+		return new ResponseEntity<ProductInformation>(productInformation, HttpStatus.OK);
 	}
 	
 

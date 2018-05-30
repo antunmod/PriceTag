@@ -130,8 +130,8 @@ public class SearchFragment extends Fragment {
     }
 
     public void findNextImage() {
-        if (productNumber < searchProductDataList.size())
-            searchService.findEncodedImageForProductSpecificId(this, searchProductDataList.get(productNumber++).getProductSpecificId());
+        //if (productNumber < searchProductDataList.size())
+            //searchService.findEncodedImageForProductSpecificId(this, searchProductDataList.get(productNumber++).getProductSpecificId());
         }
 
     public static void foundEncodedImage(SearchFragment searchFragment, String encodedImage) {

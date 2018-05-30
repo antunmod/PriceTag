@@ -18,6 +18,7 @@ import antunmod.projects.pricetag.transfer.AddStoreSpecificProducer;
 import antunmod.projects.pricetag.transfer.AddStoreSpecificProduct;
 import antunmod.projects.pricetag.transfer.AddStoreSpecificProductSpecific;
 import antunmod.projects.pricetag.transfer.AddStoreSpecificProductStore;
+import antunmod.projects.pricetag.transfer.ProductInformation;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
@@ -126,8 +127,8 @@ public interface RestServiceClient {
     */
 
     @Headers("Content-Type: application/json")
-    @GET("products/productSpecificId")
-    Call<Short> getProductSpecificIdForBarcode(@Query("barcode") String barcode);
+    @GET("products/productInformation")
+    Call<ProductInformation> getProductInformationForBarcode(@Query("barcode") String barcode);
 
     @Headers("Content-Type: application/json")
     @GET("categories")

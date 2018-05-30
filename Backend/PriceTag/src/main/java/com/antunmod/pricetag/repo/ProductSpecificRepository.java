@@ -3,10 +3,10 @@ package com.antunmod.pricetag.repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.antunmod.pricetag.model.database.ProductSpecific;
+import com.antunmod.pricetag.model.transfer.ProductInformation;
 
 public interface ProductSpecificRepository extends JpaRepository<ProductSpecific, Short>{
 
@@ -47,7 +47,9 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			String productName,
 			String storeName);
 
-	@Query(value = "SELECT CONCAT(producer.name, " +
+	@Query(value = "SELECT product_specific.id, " + 
+			"photo_URI, " +
+			"CONCAT(producer.name, " +
 			"' ', " +
 			"product.name, " +
 			"' ',  " +
@@ -56,6 +58,6 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			"JOIN producer ON product.producer_id = producer.id " +
 			"JOIN product_specific on product.id = product_specific.product_id " +
 			"JOIN product_size ON product_specific.size_id = product_size.id " + 
-			"WHERE product_specific.id = ?1", nativeQuery = true)
-	String getBasicProductInformationForProductSpecificId(Short productSpecificId);
+			"WHERE barcode = ?1", nativeQuery = true)
+	List<Object[]> getProductInformationForBarcode(String barcode);
 }
