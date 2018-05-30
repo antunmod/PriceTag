@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,8 +22,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
@@ -30,6 +40,8 @@ import antunmod.projects.pricetag.model.User;
 import antunmod.projects.pricetag.service.AddProductService;
 import antunmod.projects.pricetag.service.UtilService;
 import antunmod.projects.pricetag.view.activity.HomeActivity;
+
+import static android.app.Activity.RESULT_CANCELED;
 
 
 /**
@@ -103,6 +115,7 @@ public class AddProductFragment extends Fragment {
     private static List<String> sizeTypeList;
 
     private Uri imageURI;
+    File photoFile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -134,7 +147,8 @@ public class AddProductFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (fieldsAreValid()) {
-                        addNewProduct();
+                        //addNewProduct();
+                    addPhoto();
                 }
             }
         });
@@ -146,22 +160,38 @@ public class AddProductFragment extends Fragment {
 
     public void callCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        //start camera intent
-        startActivityForResult(intent, CAMERA_REQUEST);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(intent, CAMERA_REQUEST);
+            }
+        }
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-
-            Bitmap bmp = (Bitmap) data.getExtras().get("data");
+            /*BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
+            imageView_addProduct.setImageBitmap(bitmap);*/
+            /*Bitmap bmp = (Bitmap) data.getExtras().get("data");
 
             if (bmp.getHeight() > bmp.getWidth()) {
                 Toast.makeText(getContext(), "Orijentacija slike mora biti horizontalna!", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
             photo = byteArrayOutputStream.toByteArray();
@@ -171,14 +201,31 @@ public class AddProductFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0,
                     photo.length);
 
-            // convert byte array to Bitmap
 
-                /*Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0,
-                        photo.length);*/
-
-            imageView_addProduct.setImageBitmap(bitmap);
+            imageView_addProduct.setImageBitmap(bitmap);*/
             pictureSet = true;
+
+
+        } else if (resultCode == RESULT_CANCELED) {
+            // User cancelled the image capture
+            //finish();
         }
+
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String imageFileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        return image;
     }
 
     private void setProducerAndProductName() {
@@ -247,12 +294,11 @@ public class AddProductFragment extends Fragment {
         productData.getBaseProduct().setSize(Float.parseFloat(editText_size.getText().toString()));
         productData.getBaseProduct().setSizeUnit(spinner_size.getSelectedItem().toString());
         productData.getBaseProduct().setDescription(editText_productDescription.getText().toString());
-        User user = HomeActivity.user;
 
     }
 
     private void addProduct() {
-        startProgress();
+        //startProgress();
         addProductService.addProduct(this, productData);
     }
 
@@ -261,18 +307,38 @@ public class AddProductFragment extends Fragment {
             addProductFragment.outputString("Proizvod nije dodan, pokušajte ponovo");
             return;
         }
-        else
-            addProductFragment.addPhoto(productSpecificId);
+        Toast.makeText(addProductFragment.getContext(), "uspjeh", Toast.LENGTH_SHORT).show();
     }
 
-    private void addPhoto(Short productSpecificId) {
-        Byte[] byteArray = new Byte[photo.length];
+    private void addPhoto() {
+        final Map config = new HashMap();
+        config.put("cloud_name", "antunmod");
+        config.put("api_key", "367855928352147");
+        config.put("api_secret", "9Y45IQdgDo_sHUvviRdwaZb8ej4");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloudinary cloudinary = new Cloudinary(config);
+                try {
+                    Map result = cloudinary.uploader().upload(photoFile.getAbsolutePath(), ObjectUtils.emptyMap());
+                    String uri = (String)result.get("public_id");
+                    productData.getBaseProduct().setPhotoURI(uri);
+                    addNewProduct();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        Toast.makeText(getContext(), "evo ga", Toast.LENGTH_SHORT).show();
+        /*Byte[] byteArray = new Byte[photo.length];
         int i = 0;
         for (byte b : photo)
             byteArray[i++] = b;
 
 
-        addProductService.saveImage(this, byteArray, productSpecificId);
+        addProductService.saveImage(this, byteArray, productSpecificId);*/
     }
 
     public static void addedPhoto(AddProductFragment addProductFragment, Boolean success) {
@@ -347,9 +413,6 @@ public class AddProductFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public static void setProductAdded(Boolean newProductAdded) {
-
-    }
 
     public static void setErrorString(String error) {
         errorString = error;
