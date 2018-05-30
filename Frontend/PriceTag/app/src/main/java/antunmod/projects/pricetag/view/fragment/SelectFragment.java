@@ -363,6 +363,7 @@ public class SelectFragment extends Fragment {
                 break;
             case STORE_ADDRESS:
                 productData.setStoreAddress(selected);
+                productData.setStoreName(null);
                 findStoreSpecificId(selected);
                 break;
             case SECTOR:

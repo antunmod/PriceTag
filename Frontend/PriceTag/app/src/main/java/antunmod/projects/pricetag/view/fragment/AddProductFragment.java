@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -61,6 +63,7 @@ public class AddProductFragment extends Fragment {
     private static final Float MAX_SIZE_VALUE = (float) 1000.0;
     private static final Float MAX_PRICE_VALUE = (float) 10000.0;
     private static final Short NON_EXISTING_PRODUCT_ID = 0;
+    private static final String PRODUCT_ADDED = "Uspješno ste dodali proizvod";
 
     private static ProductData productData;
     private byte[] photo;
@@ -181,28 +184,15 @@ public class AddProductFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            /*BitmapFactory.Options options = new BitmapFactory.Options();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
-            imageView_addProduct.setImageBitmap(bitmap);*/
-            /*Bitmap bmp = (Bitmap) data.getExtras().get("data");
-
-            if (bmp.getHeight() > bmp.getWidth()) {
+            if (bitmap.getHeight() > bitmap.getWidth()) {
                 Toast.makeText(getContext(), "Orijentacija slike mora biti horizontalna!", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            photo = byteArrayOutputStream.toByteArray();
-
-            // convert byte array to Bitmap
-
-            Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0,
-                    photo.length);
-
-
-            imageView_addProduct.setImageBitmap(bitmap);*/
+            imageView_addProduct.setImageBitmap(bitmap);
             pictureSet = true;
 
 
@@ -307,7 +297,7 @@ public class AddProductFragment extends Fragment {
             addProductFragment.outputString("Proizvod nije dodan, pokušajte ponovo");
             return;
         }
-        Toast.makeText(addProductFragment.getContext(), "uspjeh", Toast.LENGTH_SHORT).show();
+        addProductFragment.goToEnterBarcodeFragment(PRODUCT_ADDED);
     }
 
     private void addPhoto() {
@@ -320,7 +310,9 @@ public class AddProductFragment extends Fragment {
             public void run() {
                 Cloudinary cloudinary = new Cloudinary(config);
                 try {
-                    Map result = cloudinary.uploader().upload(photoFile.getAbsolutePath(), ObjectUtils.emptyMap());
+                    Map result = cloudinary.uploader().upload(photoFile.getAbsolutePath(),
+                            ObjectUtils.asMap("transformation",
+                            new Transformation().width(2000).height(1000).crop("limit")));
                     String uri = (String)result.get("public_id");
                     productData.getBaseProduct().setPhotoURI(uri);
                     addNewProduct();
@@ -331,7 +323,6 @@ public class AddProductFragment extends Fragment {
         });
         thread.start();
 
-        Toast.makeText(getContext(), "evo ga", Toast.LENGTH_SHORT).show();
         /*Byte[] byteArray = new Byte[photo.length];
         int i = 0;
         for (byte b : photo)

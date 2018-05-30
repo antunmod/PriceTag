@@ -1,10 +1,13 @@
 package antunmod.projects.pricetag.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.ByteBuffer;
 
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.widget.Toast;
@@ -334,31 +337,13 @@ public class AddProductService {
         return bitmap;
     }
 
-    public Bitmap getScaledImageBitmap(AddProductFragment addProductFragment, Uri imageURI) {
-        Bitmap d = getImageBitmap(addProductFragment, imageURI);
-        int nh = (int) ( d.getHeight() * (512.0 / d.getWidth()) );
-        Bitmap scaled = Bitmap.createScaledBitmap(d, 512, nh, true);
-        return scaled;
+    public Bitmap getCompressedBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+        Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+        return compressed;
     }
 
-    public byte[] getImage(AddProductFragment addProductFragment, Uri imageURI)
-    {
-       Bitmap bitmap = getImageBitmap(addProductFragment, imageURI);
 
-        int size = bitmap.getRowBytes() * bitmap.getHeight();
-        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
-        bitmap.copyPixelsToBuffer(byteBuffer);
-        return byteBuffer.array();
-    }
-
-    public byte[] getScaledImage(AddProductFragment addProductFragment, Uri imageURI)
-    {
-        Bitmap bitmap = getScaledImageBitmap(addProductFragment, imageURI);
-
-        int size = bitmap.getRowBytes() * bitmap.getHeight();
-        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
-        bitmap.copyPixelsToBuffer(byteBuffer);
-        return byteBuffer.array();
-    }
 
 }
