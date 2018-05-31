@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,10 +36,8 @@ import java.util.Map;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
-import antunmod.projects.pricetag.model.User;
 import antunmod.projects.pricetag.service.AddProductService;
 import antunmod.projects.pricetag.service.UtilService;
-import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 import static android.app.Activity.RESULT_CANCELED;
 
@@ -127,7 +123,7 @@ public class AddProductFragment extends Fragment {
         this.inflatedView = inflater.inflate(R.layout.fragment_add_product, container, false);
 
         imageView_addProduct = inflatedView.findViewById(R.id.imageView_add_product);
-        textView_producer = inflatedView.findViewById(R.id.textView_producer);
+        textView_producer = inflatedView.findViewById(R.id.textView_product);
         textView_productName = inflatedView.findViewById(R.id.textView_product_name);
         editText_productDescription = inflatedView.findViewById(R.id.editText_product_description);
         editText_size = inflatedView.findViewById(R.id.editText_size);

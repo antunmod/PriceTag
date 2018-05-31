@@ -18,7 +18,7 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 	ProductSpecific findByBarcode(String barcode);
 	
 	@Query(value = "SELECT DISTINCT product_specific.id, " + 
-			"photo_URI, " + 
+			"image_URI, " + 
 			"producer.name AS producer_name, " + 
 			"product.name AS product_name, " + 
 			"product_specific.description, " + 
@@ -48,7 +48,7 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			String storeName);
 
 	@Query(value = "SELECT product_specific.id, " + 
-			"photo_URI, " +
+			"image_URI, " +
 			"CONCAT(producer.name, " +
 			"' ', " +
 			"product.name, " +

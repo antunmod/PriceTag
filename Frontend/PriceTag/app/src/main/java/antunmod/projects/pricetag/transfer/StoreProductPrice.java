@@ -19,4 +19,19 @@ public class StoreProductPrice {
 		this.userRating = userRating;
 	}
 
+	public String getStoreName() {
+		return storeName;
+	}
+
+	public String getStoreAddress() {
+		return storeAddress;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public String getUserRating() {
+		return userRating;
+	}
 }

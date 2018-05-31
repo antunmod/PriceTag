@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -112,8 +113,19 @@ public class SearchFragment extends Fragment {
         });
 
         searchService = new SearchService();
-
         searchFilter = new SearchFilter();
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the GridView selected/clicked item text
+                SearchProductData searchProductData = searchProductDataList.get(position);
+                Toast.makeText(getContext(), searchProductData.getProductSpecificId()+"", Toast.LENGTH_SHORT).show();
+                // Display the selected/clicked item text and position on TextView
+
+            }
+        });
+
         showFilterDialog();
 
         return inflatedView;

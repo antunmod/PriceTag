@@ -7,8 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.transfer.StoreProductPrice;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +56,9 @@ public class ProductFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
+    ArrayList<StoreProductPrice> storeProductPriceList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,4 +114,46 @@ public class ProductFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public class ListViewAdapter extends BaseAdapter {
+
+        ArrayList<StoreProductPrice> storeProductPriceList;
+        public ListViewAdapter(ArrayList<StoreProductPrice> storeProductPriceList) {
+            this.storeProductPriceList = storeProductPriceList;
+        }
+
+        @Override
+        public int getCount() {
+            return storeProductPriceList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.store_product_price_list_item, null);
+
+            TextView textView_storeName = view.findViewById(R.id.textView_store_name);
+            TextView textView_storeAddress = view.findViewById(R.id.textView_store_address);
+            TextView textView_price = view.findViewById(R.id.textView_price);
+            TextView textView_userRating = view.findViewById(R.id.textView_user_rating);
+
+            textView_storeName.setText(storeProductPriceList.get(i).getStoreName());
+            textView_storeAddress.setText(storeProductPriceList.get(i).getStoreAddress());
+            textView_price.setText(storeProductPriceList.get(i).getPrice());
+            textView_userRating.setText(storeProductPriceList.get(i).getUserRating());
+
+
+            return view;
+        }
+    }
+
 }

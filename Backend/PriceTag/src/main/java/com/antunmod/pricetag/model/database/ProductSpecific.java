@@ -42,7 +42,7 @@ public class ProductSpecific implements Serializable {
 	 * Contains location of the folder which contains ProductSpecific thumbnail and
 	 * photo.
 	 */
-	@Column(name = "photo_URI")
+	@Column(name = "image_URI")
 	private String photoURI;
 
 	@Column(name = "size")
