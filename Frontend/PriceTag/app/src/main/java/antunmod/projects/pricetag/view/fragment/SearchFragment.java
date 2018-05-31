@@ -35,6 +35,7 @@ import antunmod.projects.pricetag.service.SearchService;
 import antunmod.projects.pricetag.service.UtilService;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
+import antunmod.projects.pricetag.transfer.StoreProductPrice;
 
 
 /**
@@ -118,17 +119,20 @@ public class SearchFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the GridView selected/clicked item text
                 SearchProductData searchProductData = searchProductDataList.get(position);
-                Toast.makeText(getContext(), searchProductData.getProductSpecificId()+"", Toast.LENGTH_SHORT).show();
-                // Display the selected/clicked item text and position on TextView
-
+                if (searchProductData != null)
+                    getLocationsForProductSpecificId(searchProductData.getProductSpecificId());
             }
         });
 
         showFilterDialog();
 
         return inflatedView;
+    }
+
+    private void getLocationsForProductSpecificId(Short productSpecificId) {
+        searchService.getLocationsForProductSpecificId(this, productSpecificId);
+
     }
 
     private void resetValues() {
@@ -336,6 +340,20 @@ public class SearchFragment extends Fragment {
         spinner.setAdapter(adapter);
     }
 
+    public static void foundLocations(SearchFragment searchFragment, ArrayList<StoreProductPrice> storeProductPriceList) {
+        searchFragment.goToProductFragment(storeProductPriceList);
+    }
 
+    private void goToProductFragment(ArrayList<StoreProductPrice> storeProductPriceList) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("storeProductPriceList", storeProductPriceList);
+        ProductFragment productFragment = new ProductFragment();
+        productFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, productFragment)
+                .addToBackStack("searchFragment")
+                .commit();
+    }
 
 }

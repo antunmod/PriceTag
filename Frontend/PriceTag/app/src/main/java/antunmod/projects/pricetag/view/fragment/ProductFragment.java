@@ -13,7 +13,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.model.ProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
+
+import static antunmod.projects.pricetag.view.activity.HomeActivity.user;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,9 +66,11 @@ public class ProductFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        Bundle bundle = this.getArguments();
+
+
+        if (bundle != null) {
+            storeProductPriceList = (ArrayList<StoreProductPrice>) bundle.getSerializable("storeProductPriceList");
         }
     }
 

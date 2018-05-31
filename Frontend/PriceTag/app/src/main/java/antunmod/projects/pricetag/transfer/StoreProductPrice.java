@@ -1,10 +1,12 @@
 package antunmod.projects.pricetag.transfer;
 
+import java.io.Serializable;
+
 /*
  * The StoreProductPrice class contains most recent price and user rating for a specific product in a specific store.
  * 
  */
-public class StoreProductPrice {
+public class StoreProductPrice implements Serializable{
 
 	private String storeName;
 	private String storeAddress;
