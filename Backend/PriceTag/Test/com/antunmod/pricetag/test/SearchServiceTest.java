@@ -44,14 +44,11 @@ public class SearchServiceTest {
 
 	@Test
 	public void testGetProducts() {
-		Boolean contained = false;
+		Boolean correct = false;
 		ArrayList<SearchProductData> searchProductDataList = searchService.getProducts(searchFilter);
-		for (SearchProductData searchProductData : searchProductDataList) {
-			if (searchProductData.getProductSize().equals(LITER))
-				contained = true;
-			break;
-		}
-		assertTrue(contained);
+		if (searchProductDataList != null && searchProductDataList.size() > 0)
+			correct = true;
+		assertTrue(correct);
 	}
 
 	@Test
@@ -62,6 +59,15 @@ public class SearchServiceTest {
 		if (storeProductPriceList.size() > 0)
 			success = true;
 		assertTrue(success);
+	}
+	
+	@Test
+	public void testGetRecentProducts() {
+		Boolean correct = false;
+		ArrayList<SearchProductData> searchProductDataList = searchService.getRecentProducts();
+		if (searchProductDataList != null && searchProductDataList.size() > 0)
+			correct = true;
+		assertTrue(correct);
 	}
 
 }

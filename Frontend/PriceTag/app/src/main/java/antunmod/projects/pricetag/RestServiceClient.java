@@ -122,6 +122,10 @@ public interface RestServiceClient {
     @GET("search/locations")
     Call<List<StoreProductPrice>> getLocationsForProductSpecificId(@Query("productSpecificId") Short productSpecificId);
 
+    @Headers("Content-Type: application/json")
+    @GET("search/recent")
+    Call<List<SearchProductData>> getRecentProducts();
+
     /*
         Simple GET calls while adding a new product.
     */

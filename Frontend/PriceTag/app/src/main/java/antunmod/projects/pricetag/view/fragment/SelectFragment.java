@@ -317,8 +317,6 @@ public class SelectFragment extends Fragment {
             case STORE_ADDRESS:
                 newStoreAddress = newValue;
                 productData.setStoreAddress(newStoreAddress);
-                if (productData.getStoreName() != null && !productData.getStoreName().equals(newStoreName))
-                    productData.setStoreName(null);
                 break;
             case SECTOR:
                 newSectorName = newValue;
@@ -364,7 +362,6 @@ public class SelectFragment extends Fragment {
                 break;
             case STORE_ADDRESS:
                 productData.setStoreAddress(selected);
-                productData.setStoreName(null);
                 findStoreSpecificId(selected);
                 break;
             case SECTOR:
@@ -442,10 +439,7 @@ public class SelectFragment extends Fragment {
 
     private void goToUpdateProductFragment() {
         Bundle bundle = new Bundle();
-        if (productData.getStoreName() != null && !productData.getStoreName().equals(newStoreName))
-            productData.setStoreName(null);
-        if (productData.getStoreAddress() != null && !productData.getStoreAddress().equals(newStoreAddress))
-            productData.setStoreId(null);
+        updateProductData();
         productData.setProductSpecificId(productInformation.getProductSpecificId());
         UpdateProductData updateProductData = new UpdateProductData(productData);
         bundle.putSerializable("updateProductData", updateProductData);
@@ -457,6 +451,13 @@ public class SelectFragment extends Fragment {
                 .replace(R.id.layout_for_fragment, updateProductFragment)
                 .addToBackStack("selectFragment")
                 .commit();
+    }
+
+    private void updateProductData() {
+        if (productData.getStoreName() != null && !productData.getStoreName().equals(newStoreName))
+            productData.setStoreName(null);
+        if (productData.getStoreAddress() != null && !productData.getStoreAddress().equals(newStoreAddress))
+            productData.setStoreId(null);
     }
 
     private void findStoreId(String storeName) {
@@ -620,6 +621,7 @@ public class SelectFragment extends Fragment {
     }
 
     private void goToAddProductFragment() {
+        updateProductData();
         Bundle bundle = new Bundle();
         bundle.putSerializable("productData", productData);
         AddProductFragment addProductFragment = new AddProductFragment();
@@ -647,7 +649,6 @@ public class SelectFragment extends Fragment {
                 updateFragment(STORE_ADDRESS, storeAddressList);
                 break;
             case CATEGORY:
-                productData.setStoreId(null);
                 updateFragment(STORE_ADDRESS, storeAddressList);
                 break;
             case SUBCATEGORY:

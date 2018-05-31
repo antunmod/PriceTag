@@ -42,4 +42,11 @@ public class SearchController {
 		return new ResponseEntity<ArrayList<StoreProductPrice>>(storeProductPricelist, HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@GetMapping("/recent")
+	public ResponseEntity<ArrayList<SearchProductData>> getRecentProducts() {
+		ArrayList<SearchProductData> searchProductDataList = searchService.getRecentProducts();
+		return new ResponseEntity<ArrayList<SearchProductData>>(searchProductDataList, HttpStatus.OK);
+	}
+	
 }

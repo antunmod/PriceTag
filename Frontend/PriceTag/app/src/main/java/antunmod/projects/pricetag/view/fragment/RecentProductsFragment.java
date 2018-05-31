@@ -1,6 +1,8 @@
 package antunmod.projects.pricetag.view.fragment;
 
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,11 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.util.ArrayList;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.GridViewAdapter;
 import antunmod.projects.pricetag.model.ImageItem;
+import antunmod.projects.pricetag.service.RecentProductsService;
+import antunmod.projects.pricetag.transfer.SearchProductData;
 
 
 /**
@@ -31,7 +38,10 @@ public class RecentProductsFragment extends Fragment {
     ArrayList<ImageItem> imageItems;
 
     View inflatedView;
+    private Integer productNumber = 0;
 
+    private ArrayList<SearchProductData> searchProductDataList;
+    private RecentProductsService recentProductsService = new RecentProductsService();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +50,68 @@ public class RecentProductsFragment extends Fragment {
         inflatedView = inflater.inflate(R.layout.fragment_recent_products, container, false);
 
         gridView = inflatedView.findViewById(R.id.gridView);
+        findProducts();
         return inflatedView;
+    }
+
+    private void findProducts() {
+        recentProductsService.findRecentProducts(this);
+        imageItems = new ArrayList<>();
+    }
+
+    public static void foundRecentProducts(RecentProductsFragment recentProductsFragment, ArrayList<SearchProductData> searchProductDataList) {
+        recentProductsFragment.searchProductDataList = searchProductDataList;
+        recentProductsFragment.findNextImage();
+    }
+
+    public void findNextImage() {
+        if (productNumber < searchProductDataList.size()) {
+            SearchProductData searchProductData = searchProductDataList.get(productNumber);
+
+            // Throw away dummy objects
+            if (searchProductData.getImageURI().length() < 30) {
+                productNumber++;
+                findNextImage();
+                return;
+            }
+            Picasso.with(getContext()).load(searchProductData.getImageURI()).into(new Target() {
+
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    updateGridView(bitmap);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
+        }
+
+    }
+
+
+    private void updateGridView(Bitmap bitmap) {
+
+        SearchProductData searchProductData = searchProductDataList.get(productNumber);
+        String text = searchProductData.getProducerName() + " " + searchProductData.getProductName() + " " +
+                searchProductData.getProductDescription() + " " + searchProductData.getProductSize();
+        ImageItem imageItem = new ImageItem(bitmap, text);
+
+        imageItems.add(imageItem);
+        setGridView(imageItems);
+        productNumber++;
+        findNextImage();
+    }
+
+    private void setGridView(ArrayList<ImageItem> imageItems) {
+        gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, imageItems);
+        gridView.setAdapter(gridViewAdapter);
     }
 
 }

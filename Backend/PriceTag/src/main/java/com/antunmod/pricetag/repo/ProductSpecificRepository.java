@@ -60,4 +60,26 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			"JOIN product_size ON product_specific.size_id = product_size.id " + 
 			"WHERE barcode = ?1", nativeQuery = true)
 	List<Object[]> getProductInformationForBarcode(String barcode);
+	
+	@Query(value = "SELECT DISTINCT product_specific.id, " + 
+			"image_URI, " + 
+			"producer.name AS producer_name, " + 
+			"product.name AS product_name, " + 
+			"product_specific.description, " + 
+			"CONCAT(TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from size)), ' ', type) AS size " + 
+			"FROM category " + 
+			"JOIN category_subcategory ON category.id = category_subcategory.category_id " + 
+			"JOIN subcategory ON subcategory.id = category_subcategory.subcategory_id " + 
+			"JOIN subcategory_product ON subcategory.id = subcategory_product.subcategory_id " + 
+			"JOIN product ON product.id = subcategory_product.product_id " + 
+			"JOIN producer ON producer.id = product.producer_id " + 
+			"JOIN product_specific ON product_specific.product_id = product.id " + 
+			"JOIN product_size ON product_size.id = product_specific.size_id " + 
+			"JOIN product_store ON product_store.product_specific_id= product_specific.id " + 
+			"JOIN store_specific ON store_specific.id = product_store.store_specific_id " + 
+			"JOIN store ON store.id = store_specific.store_id " +
+			"JOIN price ON price.product_store_id = product_store.id " + 
+			"ORDER BY price.price_change_date " +
+			"LIMIT 20", nativeQuery = true)
+	List<Object[]> findRecentProducts();
 }

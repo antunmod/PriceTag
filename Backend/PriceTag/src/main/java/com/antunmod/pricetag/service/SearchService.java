@@ -58,4 +58,17 @@ public class SearchService {
 		return storeProductPriceList;
 	}
 	
+	/*
+	 * This method will return all products in the database for the given filter.
+	 */
+	public ArrayList<SearchProductData> getRecentProducts() {
+		List<Object[]> objectArrayList = productSpecificRepository.findRecentProducts();
+		ArrayList<SearchProductData> searchProductDataList = new ArrayList<>();
+		for (Object[] o : objectArrayList) {
+			searchProductDataList.add(new SearchProductData(
+					(Short)o[0], (String)o[1], (String)o[2], (String)o[3], (String)o[4], (String)o[5]));
+		}
+		return searchProductDataList;
+	}
+	
 }
