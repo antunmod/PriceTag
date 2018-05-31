@@ -8,12 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
+import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
 
 import static antunmod.projects.pricetag.view.activity.HomeActivity.user;
@@ -62,6 +67,12 @@ public class ProductFragment extends Fragment {
 
 
     ArrayList<StoreProductPrice> storeProductPriceList;
+    SearchProductData searchProductData;
+    View inflatedView;
+    ImageView imageView;
+    TextView textView_product;
+    TextView textView_producer;
+    ListView listView_storeProductPrice;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,7 @@ public class ProductFragment extends Fragment {
 
         if (bundle != null) {
             storeProductPriceList = (ArrayList<StoreProductPrice>) bundle.getSerializable("storeProductPriceList");
+            searchProductData = (SearchProductData) bundle.getSerializable("searchProductData");
         }
     }
 
@@ -78,7 +90,25 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product, container, false);
+        inflatedView = inflater.inflate(R.layout.fragment_product, container, false);
+
+        imageView = inflatedView.findViewById(R.id.imageView_product);
+        textView_product = inflatedView.findViewById(R.id.textView_product);
+        textView_producer = inflatedView.findViewById(R.id.textView_producer);
+        listView_storeProductPrice = inflatedView.findViewById(R.id.listView_store_product_price);
+
+        Picasso.with(getContext()).load(searchProductData.getImageURI()).into(imageView);
+
+        ListViewAdapter listViewAdapter = new ListViewAdapter();
+        listView_storeProductPrice.setAdapter(listViewAdapter);
+
+        String productName = searchProductData.getProductName();
+        if (!searchProductData.getProductDescription().isEmpty())
+            productName += " " + searchProductData.getProductDescription();
+        productName += " " + searchProductData.getProductSize();
+        textView_product.setText(productName);
+        textView_producer.setText(searchProductData.getProducerName());
+        return inflatedView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -122,11 +152,6 @@ public class ProductFragment extends Fragment {
 
     public class ListViewAdapter extends BaseAdapter {
 
-        ArrayList<StoreProductPrice> storeProductPriceList;
-        public ListViewAdapter(ArrayList<StoreProductPrice> storeProductPriceList) {
-            this.storeProductPriceList = storeProductPriceList;
-        }
-
         @Override
         public int getCount() {
             return storeProductPriceList.size();
@@ -153,9 +178,9 @@ public class ProductFragment extends Fragment {
 
             textView_storeName.setText(storeProductPriceList.get(i).getStoreName());
             textView_storeAddress.setText(storeProductPriceList.get(i).getStoreAddress());
-            textView_price.setText(storeProductPriceList.get(i).getPrice());
+            String price = storeProductPriceList.get(i).getPrice() + " kn";
+            textView_price.setText(price);
             textView_userRating.setText(storeProductPriceList.get(i).getUserRating());
-
 
             return view;
         }

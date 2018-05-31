@@ -49,6 +49,8 @@ public class SearchService {
 	public ArrayList<StoreProductPrice> getLocationsForProductSpecificId(Short productSpecificId) {
 		List<Object[]> objectArrayList = priceRepository.findLocationsForProductSpecificId(productSpecificId);
 		ArrayList<StoreProductPrice> storeProductPriceList = new ArrayList<>();
+
+		
 		for (Object[] o : objectArrayList) {
 			storeProductPriceList.add(new StoreProductPrice(
 					(String)o[0], (String)o[1], (String)o[2].toString(), (String)o[3]));

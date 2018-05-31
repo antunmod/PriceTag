@@ -63,6 +63,8 @@ public class SearchFragment extends Fragment {
     private SearchFilter searchFilter;
     private ArrayList<SearchProductData> searchProductDataList;
 
+    private SearchProductData selectedProductData;
+
     private GridViewAdapter gridViewAdapter;
 
     ArrayList<ImageItem> imageItems;
@@ -119,9 +121,9 @@ public class SearchFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchProductData searchProductData = searchProductDataList.get(position);
-                if (searchProductData != null)
-                    getLocationsForProductSpecificId(searchProductData.getProductSpecificId());
+                selectedProductData = searchProductDataList.get(position);
+                if (selectedProductData != null)
+                    getLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
             }
         });
 
@@ -347,6 +349,7 @@ public class SearchFragment extends Fragment {
     private void goToProductFragment(ArrayList<StoreProductPrice> storeProductPriceList) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("storeProductPriceList", storeProductPriceList);
+        bundle.putSerializable("searchProductData", selectedProductData);
         ProductFragment productFragment = new ProductFragment();
         productFragment.setArguments(bundle);
         getFragmentManager()
