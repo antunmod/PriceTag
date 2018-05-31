@@ -40,6 +40,9 @@ import com.antunmod.pricetag.repo.SubcategoryProductRepository;
 public class AddProductService {
 
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private ProductSpecificRepository productSpecificRepository;
 	@Autowired
 	private ProductStoreRepository productStoreRepository;
@@ -58,6 +61,8 @@ public class AddProductService {
 	@Autowired
 	private SizeRepository sizeRepository;
 
+	private Integer pointsToBeAwarded = 0;
+	
 	public AddProductService() {
 	}
 
@@ -94,6 +99,9 @@ public class AddProductService {
 			productSpecificRepository.delete(productSpecific);
 			return false;
 		}
+		
+		pointsToBeAwarded += 3;
+		userService.awardPointsToUser(addProductSpecific.getBaseProduct().getUserId(), pointsToBeAwarded);
 
 		return true;
 	}
@@ -118,6 +126,8 @@ public class AddProductService {
 			return false;
 		}
 
+		pointsToBeAwarded += 2;
+		
 		/*
 		 * If the product specific wasn't saved, delete product and subcategory product
 		 * and return false.
@@ -141,9 +151,13 @@ public class AddProductService {
 		Producer producer = producerRepository.save(newProducer);
 		if (producer == null)
 			return false;
+		
+		pointsToBeAwarded += 2;
+
 		/*
 		 * If the product wasn't saved, delete producer from database and return false.
 		 */
+		
 		if (!saveProduct(addProducer.toAddProduct(producer.getId()))) {
 			producerRepository.delete(producer);
 			return false;
@@ -161,6 +175,8 @@ public class AddProductService {
 		if (storeSpecific == null) {
 			return false;
 		}
+
+		pointsToBeAwarded += 2;
 
 		/*
 		 * If the productSpecific wasn't saved, delete storeSpecific from database and
@@ -184,6 +200,8 @@ public class AddProductService {
 			return false;
 		}
 
+		pointsToBeAwarded += 2;
+		
 		/*
 		 * If the product wasn't saved, delete storeSpecific from database and return
 		 * false.
@@ -206,6 +224,9 @@ public class AddProductService {
 		if (storeSpecific == null) {
 			return false;
 		}
+		
+		pointsToBeAwarded += 2;
+		
 		/*
 		 * If the producer wasn't saved, delete storeSpecific from database and return
 		 * false.
@@ -228,6 +249,8 @@ public class AddProductService {
 			return false;
 		}
 
+		pointsToBeAwarded += 2;
+		
 		/*
 		 * If the storeSpecificProductSpecific wasn't saved, delete store from database
 		 * and return false.
@@ -250,6 +273,8 @@ public class AddProductService {
 			return false;
 		}
 
+		pointsToBeAwarded += 2;
+
 		/*
 		 * If the storeSpecificProduct wasn't saved, delete store from database and
 		 * return false.
@@ -270,6 +295,8 @@ public class AddProductService {
 		if (store == null) {
 			return false;
 		}
+
+		pointsToBeAwarded += 2;
 
 		/*
 		 * If the storeSpecificProducer wasn't saved, delete store from database and
@@ -298,6 +325,10 @@ public class AddProductService {
 		 */
 		if (price == null)
 			return false;
+		
+		pointsToBeAwarded += 2;
+		userService.awardPointsToUser(addPrice.getUserId(), pointsToBeAwarded);
+		
 		return true;
 	}
 
@@ -318,7 +349,7 @@ public class AddProductService {
 			storeSpecificRepository.delete(storeSpecific);
 			return false;
 		}
-
+		
 		Price price = priceRepository.save(addStoreSpecificProductStore.toPrice(productStore.getId()));
 		/*
 		 * Price wasn't saved, remove productStore and storeSpecific from database and
@@ -329,6 +360,11 @@ public class AddProductService {
 			storeSpecificRepository.delete(storeSpecific);
 			return false;
 		}
+		
+		pointsToBeAwarded += 2;
+		userService.awardPointsToUser(addStoreSpecificProductStore.getUserId(), pointsToBeAwarded);
+
+		
 		return true;
 
 	}
@@ -339,6 +375,8 @@ public class AddProductService {
 			return false;
 		}
 
+		pointsToBeAwarded += 2;
+		
 		/*
 		 * If the storeSpecificProductStore wasn't saved, delete store from database and
 		 * return false.

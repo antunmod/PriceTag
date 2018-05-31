@@ -156,7 +156,7 @@ public class UpdateProductFragment extends Fragment {
         });
     }*/
 
-    private void goToEnterBarcodeFragment(String toastString) {
+    private void goToEnterBarcodeFragment(String outputMessage) {
 
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction trans = manager.beginTransaction();
@@ -165,9 +165,10 @@ public class UpdateProductFragment extends Fragment {
 
         // Pop enterBarcode, selectStore and selectStoreLocation Back Stack
         manager.popBackStack();
+        manager.popBackStack();
 
         Bundle bundle = new Bundle();
-        bundle.putString("toastString", toastString);
+        bundle.putString("outputMessage", outputMessage);
         EnterBarcodeFragment enterBarcodeFragment = new EnterBarcodeFragment();
         enterBarcodeFragment.setArguments(bundle);
         getFragmentManager()

@@ -32,8 +32,5 @@ public class AddStoreProductStore implements Serializable{
 	public String getStoreName() {
 		return storeName;
 	}
-	
-	public AddStoreSpecificProductStore toAddStoreSpecificProductStore(Short storeId) {
-		return new AddStoreSpecificProductStore(storeId, storeAddress, userId, price);
-	}
+
 }

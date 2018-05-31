@@ -47,6 +47,6 @@ public class AddStoreProductStore implements Serializable{
 	}
 
 	public AddStoreSpecificProductStore toAddStoreSpecificProductStore(Short storeId) {
-		return new AddStoreSpecificProductStore(storeId, storeAddress, userId, price);
+		return new AddStoreSpecificProductStore(productSpecificId, storeId, storeAddress, userId, price);
 	}
 }

@@ -50,5 +50,12 @@ public class UserService {
 		}
 		return userInformation;
 	}
+	
+	public void awardPointsToUser(Short userId, Integer points) {
+		User user = userRepository.findById(userId);
+		Integer newUserPoints = user.getPoints() + points;
+		user.setPoints(newUserPoints.shortValue());
+		userRepository.save(user);
+	}
 
 }

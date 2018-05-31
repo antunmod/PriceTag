@@ -51,7 +51,7 @@ public class UpdateProductData implements Serializable{
     }
 
     public AddStoreSpecificProductStore toAddStoreSpecificProductStore() {
-        return new AddStoreSpecificProductStore(storeId, storeAddress, userId, price);
+        return new AddStoreSpecificProductStore(productSpecificId, storeId, storeAddress, userId, price);
     }
 
     public AddPrice toAddPrice() {

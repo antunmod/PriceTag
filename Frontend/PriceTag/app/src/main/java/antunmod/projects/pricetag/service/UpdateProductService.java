@@ -24,6 +24,10 @@ public class UpdateProductService {
     private UpdateProductData updateProductData;
     private final String UPDATE_PRODUCT_ERROR = "Došlo je do greške, pokušajte ponovo";
 
+    public UpdateProductService() {
+        restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
+    }
+
     public void updateProduct(UpdateProductFragment updateProductFragment, UpdateProductData updateProductData) {
         this.updateProductData = updateProductData;
 

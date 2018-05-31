@@ -20,8 +20,9 @@ public class AddStoreSpecificProductStore implements Serializable{
 	private Short userId;
 	private Float price;
 
-	public AddStoreSpecificProductStore(Short storeId, String storeAddress, Short userId, Float price) {
+	public AddStoreSpecificProductStore(Short productSpecificId, Short storeId, String storeAddress, Short userId, Float price) {
 		super();
+		this.productSpecificId = productSpecificId;
 		this.storeId = storeId;
 		this.storeAddress = storeAddress;
 		this.userId = userId;

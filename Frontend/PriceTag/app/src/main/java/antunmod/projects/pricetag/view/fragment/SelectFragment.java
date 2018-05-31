@@ -317,8 +317,7 @@ public class SelectFragment extends Fragment {
             case STORE_ADDRESS:
                 newStoreAddress = newValue;
                 productData.setStoreAddress(newStoreAddress);
-                findStoreId(productData.getStoreName());
-                if (!productData.getStoreName().equals(newStoreName))
+                if (productData.getStoreName() != null && !productData.getStoreName().equals(newStoreName))
                     productData.setStoreName(null);
                 break;
             case SECTOR:
@@ -357,9 +356,11 @@ public class SelectFragment extends Fragment {
             case STORE:
                 if (newStoreName != null && selected.equals(newStoreName))
                     updateFragment(STORE_ADDRESS, storeAddressList = new ArrayList<>());
-                else
+                else {
                     productData.setStoreName(selected);
+                    findStoreId(selected);
                     findStoreAddresses(selected);
+                }
                 break;
             case STORE_ADDRESS:
                 productData.setStoreAddress(selected);
@@ -445,8 +446,8 @@ public class SelectFragment extends Fragment {
             productData.setStoreName(null);
         if (productData.getStoreAddress() != null && !productData.getStoreAddress().equals(newStoreAddress))
             productData.setStoreId(null);
-        UpdateProductData updateProductData = new UpdateProductData(productData);
         productData.setProductSpecificId(productInformation.getProductSpecificId());
+        UpdateProductData updateProductData = new UpdateProductData(productData);
         bundle.putSerializable("updateProductData", updateProductData);
         bundle.putSerializable("productInformation", productInformation);
         UpdateProductFragment updateProductFragment = new UpdateProductFragment();
@@ -613,7 +614,7 @@ public class SelectFragment extends Fragment {
                 stringList
         );
         listView_select.setAdapter(listViewAdapter);
-        if (stringList.isEmpty() && (title.equals(PRODUCT) || title.equals(STORE) || title.equals(STORE_ADDRESS))) {
+        if (stringList.isEmpty() && (title.equals(PRODUCT)  || title.equals(PRODUCER) || title.equals(STORE) || title.equals(STORE_ADDRESS))) {
             fab_addNew.performClick();
         }
     }
