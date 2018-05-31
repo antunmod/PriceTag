@@ -35,7 +35,7 @@ public class SearchProductData implements Serializable{
 		return productSpecificId;
 	}
 
-	public String getPhotoURI() {
+	public String getImageURI() {
 		return imageURI;
 	}
 

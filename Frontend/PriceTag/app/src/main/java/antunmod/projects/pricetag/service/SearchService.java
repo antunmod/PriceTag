@@ -106,7 +106,7 @@ public class SearchService {
         call.enqueue(new Callback<List<SearchProductData>>() {
             @Override
             public void onResponse(Call<List<SearchProductData>> call, Response<List<SearchProductData>> response) {
-                ArrayList<SearchProductData> searchProductDataList = (ArrayList) response.body();
+                ArrayList<SearchProductData> searchProductDataList = (ArrayList<SearchProductData>) response.body();
                 if (searchProductDataList != null) {
                     SearchFragment.foundProducts(searchFragment, searchProductDataList);
                 }

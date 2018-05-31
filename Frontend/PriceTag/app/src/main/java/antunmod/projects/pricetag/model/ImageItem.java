@@ -24,4 +24,12 @@ public class ImageItem {
     public String getText() {
         return text;
     }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setImage(Bitmap bitmap) {
+        this.image = image;
+    }
 }

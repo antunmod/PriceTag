@@ -4,6 +4,7 @@ package antunmod.projects.pricetag.view.fragment;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,9 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,25 +134,47 @@ public class SearchFragment extends Fragment {
     }
 
     public void findNextImage() {
-        //if (productNumber < searchProductDataList.size())
-            //searchService.findEncodedImageForProductSpecificId(this, searchProductDataList.get(productNumber++).getProductSpecificId());
+        if (productNumber < searchProductDataList.size()) {
+            SearchProductData searchProductData = searchProductDataList.get(productNumber);
+
+            // Throw away dummy objects
+            if (searchProductData.getImageURI().length() < 30) {
+                productNumber++;
+                findNextImage();
+                return;
+            }
+            Picasso.with(getContext()).load(searchProductData.getImageURI()).into(new Target() {
+
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    updateGridView(bitmap);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
         }
 
-    public static void foundEncodedImage(SearchFragment searchFragment, String encodedImage) {
-        searchFragment.updateGridView(encodedImage);
-    }
+        }
 
-    private void updateGridView(String encodedImage) {
 
-        byte[] byteArray = Base64.decode(encodedImage, Base64.DEFAULT);
-        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        SearchProductData searchProductData = searchProductDataList.get(productNumber - 1);
+    private void updateGridView(Bitmap bitmap) {
+
+        SearchProductData searchProductData = searchProductDataList.get(productNumber);
         String text = searchProductData.getProducerName() + " " + searchProductData.getProductName() + " " +
                 searchProductData.getProductDescription() + " " + searchProductData.getProductSize();
-        ImageItem imageItem = new ImageItem(bmp, text);
+        ImageItem imageItem = new ImageItem(bitmap, text);
 
         imageItems.add(imageItem);
         setGridView(imageItems);
+        productNumber++;
         findNextImage();
     }
 

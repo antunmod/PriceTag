@@ -43,7 +43,6 @@ public class UpdateProductFragment extends Fragment {
 
     private UpdateProductService updateProductService;
 
-    private byte[] photoByteArray;
     private UpdateProductData updateProductData;
     private ProductInformation productInformation;
 
@@ -70,7 +69,6 @@ public class UpdateProductFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            photoByteArray = (byte[]) bundle.getSerializable("photoByteArray");
             updateProductData = (UpdateProductData) bundle.getSerializable("updateProductData");
             productInformation = (ProductInformation) bundle.getSerializable("productInformation");
         }
@@ -127,35 +125,6 @@ public class UpdateProductFragment extends Fragment {
             Toast.makeText(updateProductFragment.getContext(), updateProductFragment.PRODUCT_UPDATE_FAILED, Toast.LENGTH_SHORT).show();
     }
 
-    /*
-    private void saveUpdatedProduct(UpdateProduct updateProduct) {
-
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Boolean> call = restServiceClient.saveUpdatedProduct(updateProduct);
-        call.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                boolean productWasSaved = response.body();
-                if (response.body() != null) {
-                    //awardPointsToUser();
-                    String toastString = "Proizvod " + (productWasSaved ? " je " : " nije ") + "spremljen";
-                    if (!productWasSaved) {
-                        Toast.makeText(getContext(), toastString, Toast.LENGTH_SHORT).show();
-                    } else {
-                        goToEnterBarcodeFragment(toastString);
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
-
     private void goToEnterBarcodeFragment(String outputMessage) {
 
         FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -176,30 +145,6 @@ public class UpdateProductFragment extends Fragment {
                 .replace(R.id.layout_for_fragment, enterBarcodeFragment)
                 .commit();
     }
-
-    /*
-    private void awardPointsToUser() {
-
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<Integer> call = restServiceClient.awardPointsToUserForUserId(updateProduct.getUserId());
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Integer numberOfPoints = response.body();
-                if (response.body() != null) {
-                    Toast.makeText(getContext(), "Dodijeljeno vam je " + numberOfPoints + "bodova.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Nešto je pošlo po krivu. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

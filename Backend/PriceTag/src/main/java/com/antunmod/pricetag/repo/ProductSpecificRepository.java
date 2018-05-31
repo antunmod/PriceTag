@@ -17,7 +17,7 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 	
 	ProductSpecific findByBarcode(String barcode);
 	
-	@Query(value = "SELECT product_specific.id, " + 
+	@Query(value = "SELECT DISTINCT product_specific.id, " + 
 			"photo_URI, " + 
 			"producer.name AS producer_name, " + 
 			"product.name AS product_name, " + 
