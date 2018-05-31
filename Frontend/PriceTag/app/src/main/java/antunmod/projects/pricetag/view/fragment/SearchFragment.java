@@ -3,12 +3,10 @@ package antunmod.projects.pricetag.view.fragment;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,7 +121,7 @@ public class SearchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedProductData = searchProductDataList.get(position);
                 if (selectedProductData != null)
-                    getLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
+                    findLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
             }
         });
 
@@ -132,9 +130,12 @@ public class SearchFragment extends Fragment {
         return inflatedView;
     }
 
-    private void getLocationsForProductSpecificId(Short productSpecificId) {
+    private void findLocationsForProductSpecificId(Short productSpecificId) {
         searchService.getLocationsForProductSpecificId(this, productSpecificId);
+    }
 
+    public static void foundLocations(SearchFragment searchFragment, ArrayList<StoreProductPrice> storeProductPriceList) {
+        searchFragment.goToProductFragment(storeProductPriceList);
     }
 
     private void resetValues() {
@@ -340,10 +341,6 @@ public class SearchFragment extends Fragment {
     private static void updateSpinner(SearchFragment searchFragment, Spinner spinner, List<String> dataList) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(searchFragment.getContext(), android.R.layout.simple_spinner_dropdown_item, dataList);
         spinner.setAdapter(adapter);
-    }
-
-    public static void foundLocations(SearchFragment searchFragment, ArrayList<StoreProductPrice> storeProductPriceList) {
-        searchFragment.goToProductFragment(storeProductPriceList);
     }
 
     private void goToProductFragment(ArrayList<StoreProductPrice> storeProductPriceList) {

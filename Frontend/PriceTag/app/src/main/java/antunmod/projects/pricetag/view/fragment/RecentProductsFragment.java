@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.squareup.picasso.Picasso;
@@ -20,6 +21,7 @@ import antunmod.projects.pricetag.model.GridViewAdapter;
 import antunmod.projects.pricetag.model.ImageItem;
 import antunmod.projects.pricetag.service.RecentProductsService;
 import antunmod.projects.pricetag.transfer.SearchProductData;
+import antunmod.projects.pricetag.transfer.StoreProductPrice;
 
 
 /**
@@ -42,6 +44,7 @@ public class RecentProductsFragment extends Fragment {
 
     private ArrayList<SearchProductData> searchProductDataList;
     private RecentProductsService recentProductsService = new RecentProductsService();
+    private SearchProductData selectedProductData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +53,15 @@ public class RecentProductsFragment extends Fragment {
         inflatedView = inflater.inflate(R.layout.fragment_recent_products, container, false);
 
         gridView = inflatedView.findViewById(R.id.gridView);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedProductData = searchProductDataList.get(position);
+                if (selectedProductData != null)
+                    findLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
+            }
+        });
+
         findProducts();
         return inflatedView;
     }
@@ -112,6 +124,14 @@ public class RecentProductsFragment extends Fragment {
     private void setGridView(ArrayList<ImageItem> imageItems) {
         gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, imageItems);
         gridView.setAdapter(gridViewAdapter);
+    }
+
+    private void findLocationsForProductSpecificId(Short productSpecificId) {
+        //recentProductsService.getLocationsForProductSpecificId(this, productSpecificId);
+    }
+
+    public static void foundLocations(SearchFragment searchFragment, ArrayList<StoreProductPrice> storeProductPriceList) {
+        //searchFragment.goToProductFragment(storeProductPriceList);
     }
 
 }

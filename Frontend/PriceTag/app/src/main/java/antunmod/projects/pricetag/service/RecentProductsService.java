@@ -7,7 +7,6 @@ import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.view.fragment.RecentProductsFragment;
-import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
