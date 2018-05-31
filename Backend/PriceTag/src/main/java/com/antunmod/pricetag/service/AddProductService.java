@@ -102,6 +102,7 @@ public class AddProductService {
 		
 		pointsToBeAwarded += 3;
 		userService.awardPointsToUser(addProductSpecific.getBaseProduct().getUserId(), pointsToBeAwarded);
+		pointsToBeAwarded = 0;
 
 		return true;
 	}
@@ -328,6 +329,7 @@ public class AddProductService {
 		
 		pointsToBeAwarded += 2;
 		userService.awardPointsToUser(addPrice.getUserId(), pointsToBeAwarded);
+		pointsToBeAwarded = 0;
 		
 		return true;
 	}
@@ -361,9 +363,9 @@ public class AddProductService {
 			return false;
 		}
 		
-		pointsToBeAwarded += 2;
+		pointsToBeAwarded += 4;
 		userService.awardPointsToUser(addStoreSpecificProductStore.getUserId(), pointsToBeAwarded);
-
+		pointsToBeAwarded = 0;
 		
 		return true;
 
