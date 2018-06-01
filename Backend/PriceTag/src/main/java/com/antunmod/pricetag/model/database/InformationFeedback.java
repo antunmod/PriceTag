@@ -23,6 +23,9 @@ public class InformationFeedback implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "price_id")
+	private Integer priceId;
+	
 	@Column(name = "information_provider_user_id")
 	private Short informationProviderUserId;
 
@@ -39,11 +42,16 @@ public class InformationFeedback implements Serializable {
 	public InformationFeedback() {
 	}
 
-	public InformationFeedback(Short informationProviderUserId, Short feedbackProviderUserId, String feedback) {
+	public InformationFeedback(Integer priceId, Short informationProviderUserId, Short feedbackProviderUserId, String feedback) {
 		super();
+		this.priceId = priceId;
 		this.informationProviderUserId = informationProviderUserId;
 		this.feedbackProviderUserId = feedbackProviderUserId;
 		this.feedback = feedback;
+	}
+	
+	public Integer getPriceId() {
+		return priceId;
 	}
 	
 	public String getFeedback() {
