@@ -15,7 +15,8 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
 	
 	Price findByUserIdAndPriceChangeDate(Short userId, String priceChangeDate);
 
-	@Query(value = "SELECT store.name, " + 
+	@Query(value = "SELECT price.id, " + 
+			"store.name, " + 
 			"store_specific.address, " + 
 			"price.price, " + 
 			"CONCAT(CAST((100*user.rating) AS DECIMAL(4,1)), " + 

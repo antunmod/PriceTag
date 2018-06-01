@@ -8,17 +8,24 @@ import java.io.Serializable;
  */
 public class StoreProductPrice implements Serializable{
 
+	private Integer priceId;
+
 	private String storeName;
 	private String storeAddress;
 	private String price;
 	private String userRating;
 
-	public StoreProductPrice(String storeName, String storeAddress, String price, String userRating) {
+	public StoreProductPrice(Integer priceId, String storeName, String storeAddress, String price, String userRating) {
 		super();
+		this.priceId = priceId;
 		this.storeName = storeName;
 		this.storeAddress = storeAddress;
 		this.price = price;
 		this.userRating = userRating;
+	}
+
+	public Integer getPriceId() {
+		return priceId;
 	}
 
 	public String getStoreName() {

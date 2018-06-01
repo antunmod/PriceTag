@@ -1,6 +1,6 @@
-DROP SCHEMA test;
-CREATE SCHEMA test;
-USE test;
+DROP SCHEMA pricetag;
+CREATE SCHEMA pricetag;
+USE pricetag;
 
 /*
 User can be an admin or just a regular user. Admins have to be added by other admins.
@@ -93,11 +93,13 @@ CREATE TABLE product_specific(
 	product_id SMALLINT NOT NULL,
 	barcode VARCHAR(15) NOT NULL,
 	description VARCHAR(30) DEFAULT '',
-	photo_URI VARCHAR(50) DEFAULT '',
+	image_URI VARCHAR(120) DEFAULT '',
 	size DECIMAL(7,3) NOT NULL,
 	size_id TINYINT NOT NULL,
 
-	CONSTRAINT unique_product_specific UNIQUE (id, size),
+	CONSTRAINT unique_product_specific UNIQUE (product_id, description, size, size_id),
+	CONSTRAINT unique_barcode UNIQUE (barcode),
+	CONSTRAINT unique_image_URI UNIQUE (image_URI),
 	CONSTRAINT fk_product_specific_product FOREIGN KEY (product_id) REFERENCES product (id)
 		ON UPDATE CASCADE,	
 	CONSTRAINT fk_product_specific_size FOREIGN KEY (size_id) REFERENCES product_size(id)
@@ -171,10 +173,12 @@ CREATE TABLE subcategory_product(
 -- Feedback stores feedback from user in form POSITIVE(P) and NEGATIVE(N).
 CREATE TABLE information_feedback(
 	id INT AUTO_INCREMENT PRIMARY KEY,
+	price_id INT NOT NULL,
 	information_provider_user_id SMALLINT NOT NULL,
 	feedback_provider_user_id SMALLINT NOT NULL,
 	feedback CHAR(1) NOT NULL,
 
+	CONSTRAINT fk_information_feedback_price_id FOREIGN KEY (price_id) REFERENCES price (id),
 	CONSTRAINT fk_information_feedback_information_provider_user FOREIGN KEY (information_provider_user_id) REFERENCES user (id),
 	CONSTRAINT fk_information_feedback_feedback_provider_user FOREIGN KEY (feedback_provider_user_id) REFERENCES user (id)
 	);

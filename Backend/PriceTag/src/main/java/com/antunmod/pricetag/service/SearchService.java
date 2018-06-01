@@ -53,7 +53,7 @@ public class SearchService {
 		
 		for (Object[] o : objectArrayList) {
 			storeProductPriceList.add(new StoreProductPrice(
-					(String)o[0], (String)o[1], (String)o[2].toString(), (String)o[3]));
+					(Integer) o[0], (String)o[1], (String)o[2], (String)o[3].toString(), (String)o[4]));
 		}
 		return storeProductPriceList;
 	}

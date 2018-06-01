@@ -783,7 +783,6 @@ INSERT INTO producer (name)
 INSERT INTO producer (name)
 	VALUES ('Karlovačko');
 
-
 -- PRODUCT
 INSERT INTO product(name, producer_id)
 	VALUES ('Suncokretovo ulje', 1);
@@ -794,44 +793,6 @@ INSERT INTO product(name, producer_id)
 INSERT INTO product(name, producer_id)
 	VALUES ('Ekstra djevičansko maslinovo ulje', 1);
 
--- PRODUCT SPECIFIC
--- treba vratit not null ogranicenje na thumbnail i photo uri
-INSERT INTO product_specific(product_id, barcode, size, product_size_id)
-	VALUES (1, '3858882210010', 1, 4);
-INSERT INTO product_specific(product_id, barcode, size, product_size_id)
-	VALUES (1, '3858882211345', 3, 4);
-INSERT INTO product_specific(product_id, barcode, product_size, product_size_id)
-	VALUES (2, '3859891496105', 1, 2);
-INSERT INTO product_specific(product_id, barcode, product_size, product_size_id)
-	VALUES (3, '3850103001957', 1.854, 4);
-INSERT INTO product_specific(product_id, barcode, product_size, product_size_id)
-	VALUES (4, '3858882211574', 0.5, 4);
-
--- PRODUCT STORE
-INSERT INTO product_store(product_specific_id, store_specific_id)
-	VALUES (1, 1);
-INSERT INTO product_store(product_specific_id, store_specific_id)
-	VALUES (2, 1);
-INSERT INTO product_store(product_specific_id, store_specific_id)
-	VALUES (3, 2);
-INSERT INTO product_store(product_specific_id, store_specific_id)
-	VALUES (4, 2);
-INSERT INTO product_store(product_specific_id, store_specific_id)
-	VALUES (5, 1);
-
--- PRICE
-INSERT INTO price(product_store_id, user_id, price, price_change_date)
-	VALUES (1, 1, 9.15, '2018-03-27');
-INSERT INTO price(product_store_id, user_id, price, price_change_date)
-	VALUES (2, 2, 29.99, '2018-03-27');
-INSERT INTO price(product_store_id, user_id, price, price_change_date)
-	VALUES (3, 1, 5.49, '2018-03-27');
-INSERT INTO price(product_store_id, user_id, price, price_change_date)
-	VALUES (4, 3, 22.99, '2018-04-24');
-INSERT INTO price(product_store_id, user_id, price, price_change_date)
-	VALUES (5, 3, 39.99, '2018-04-24');
-
-
 -- SUBCATEGORY PRODUCT
 INSERT INTO subcategory_product(subcategory_id, product_id)
 	VALUES (36, 1);
@@ -841,15 +802,3 @@ INSERT INTO subcategory_product(subcategory_id, product_id)
 	VALUES (33, 3);
 INSERT INTO subcategory_product(subcategory_id, product_id)
 	VALUES (36, 4);
-
-
-INSERT INTO information_feedback (information_provider_user_id, feedback_provider_user_id, feedback)
-	VALUES (1, 2, 'P');
-INSERT INTO information_feedback (information_provider_user_id, feedback_provider_user_id, feedback)
-	VALUES (1, 2, 'P');
-INSERT INTO information_feedback (information_provider_user_id, feedback_provider_user_id, feedback)
-	VALUES (1, 3, 'P');
-INSERT INTO information_feedback (information_provider_user_id, feedback_provider_user_id, feedback)
-	VALUES (2, 1, 'N');
-INSERT INTO information_feedback (information_provider_user_id, feedback_provider_user_id, feedback)
-	VALUES (2, 3, 'P');
