@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class StoreProductPrice implements Serializable{
 
 	private Integer priceId;
-
 	private String storeName;
 	private String storeAddress;
 	private String price;

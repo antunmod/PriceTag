@@ -36,4 +36,8 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
 			"GROUP BY store_specific.address " + 
 			"ORDER BY price.price, store.name, store_specific.address", nativeQuery = true)
 	List<Object[]> findLocationsForProductSpecificId(Short productSpecificId);
+	
+	@Query(value = "SELECT user_id FROM price WHERE id = ?1", nativeQuery = true)
+	Short findUserIdForId(Integer priceId);
+	
 }

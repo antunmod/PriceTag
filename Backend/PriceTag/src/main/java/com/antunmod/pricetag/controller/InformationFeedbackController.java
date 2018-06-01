@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,16 @@ public class InformationFeedbackController {
 			@RequestParam("priceId") Integer priceId) {
 		InformationFeedback informationFeedback = informationFeedbackService.getInformationFeedbackForUserAndPriceId(userId, priceId);
 		return new ResponseEntity<InformationFeedback>(informationFeedback, HttpStatus.OK);
+	}
+	
+	/*
+	 * This mapping will save new InformationFeedback
+	 */
+	@ResponseBody
+	@PostMapping("/save")
+	public ResponseEntity<Boolean> saveInformationFeedback(@RequestBody InformationFeedback informationFeedback) {
+		Boolean success = informationFeedbackService.saveInformationFeedback(informationFeedback);
+		return new ResponseEntity<Boolean>(success, HttpStatus.OK);
 	}
 	
 }

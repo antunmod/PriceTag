@@ -25,14 +25,27 @@ public class InformationFeedbackServiceTest {
 	private final Short TEST_USER_ID = 2;
 	private final Integer TEST_PRICE_ID = 1;
 	
-	@Test
+	private final Short NEW_USER_ID = 2;
+	private final Integer NEW_PRICE_ID = 1;
+	private final String NEW_FEEDBACK = "P";
+	
+	
+	//@Test
 	public void testGetInformationFeedbackForUserAndPriceId() {
-		Boolean correct = false;
+		Boolean success = false;
 		InformationFeedback informationFeedback = informationFeedbackService.getInformationFeedbackForUserAndPriceId(
 					TEST_USER_ID, TEST_PRICE_ID);
 		if (informationFeedback != null)
-			correct = true;
-		assertTrue(correct);
+			success = true;
+		assertTrue(success);
+	}
+	
+	@Test
+	public void testSaveInformationFeedback() {
+		Boolean success = false;
+		InformationFeedback informationFeedback = new InformationFeedback(NEW_PRICE_ID, NEW_USER_ID, NEW_FEEDBACK);
+		success = informationFeedbackService.saveInformationFeedback(informationFeedback);
+		assertTrue(success);
 	}
 
 }

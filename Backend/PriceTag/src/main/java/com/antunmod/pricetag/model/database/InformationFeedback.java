@@ -50,12 +50,34 @@ public class InformationFeedback implements Serializable {
 		this.feedback = feedback;
 	}
 	
+	public InformationFeedback(Integer priceId, Short feedbackProviderUserId, String feedback) {
+		this.priceId = priceId;
+		this.feedbackProviderUserId = feedbackProviderUserId;
+		this.feedback = feedback;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public Short getInformationProviderUserId() {
+		return informationProviderUserId;
+	}
+
+	public Short getFeedbackProviderUserId() {
+		return feedbackProviderUserId;
+	}
+
 	public Integer getPriceId() {
 		return priceId;
 	}
 	
 	public String getFeedback() {
 		return feedback;
+	}
+	
+	public void setInformationProviderUserId(Short informationProviderUserId) {
+		this.informationProviderUserId = informationProviderUserId;
 	}
 
 }
