@@ -1,5 +1,6 @@
 package antunmod.projects.pricetag.view.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,10 +8,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -102,6 +109,13 @@ public class ProductFragment extends Fragment {
         ListViewAdapter listViewAdapter = new ListViewAdapter();
         listView_storeProductPrice.setAdapter(listViewAdapter);
 
+        listView_storeProductPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showInformationFeedbackDialog();
+            }
+        });
+
         String productName = searchProductData.getProductName();
         if (!searchProductData.getProductDescription().isEmpty())
             productName += " " + searchProductData.getProductDescription();
@@ -184,6 +198,17 @@ public class ProductFragment extends Fragment {
 
             return view;
         }
+    }
+
+    public void showInformationFeedbackDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.information_feedback_dialog);
+
+        final TextView textView_no = dialog.findViewById(R.id.textView_no);
+        final TextView textView_yes = dialog.findViewById(R.id.textView_yes);
+
+        dialog.show();
     }
 
 }
