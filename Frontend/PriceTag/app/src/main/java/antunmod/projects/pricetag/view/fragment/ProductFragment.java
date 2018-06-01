@@ -2,33 +2,31 @@ package antunmod.projects.pricetag.view.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.model.ProductData;
+import antunmod.projects.pricetag.service.ProductService;
+import antunmod.projects.pricetag.transfer.InformationFeedback;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
-
-import static antunmod.projects.pricetag.view.activity.HomeActivity.user;
+import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,6 +79,14 @@ public class ProductFragment extends Fragment {
     TextView textView_producer;
     ListView listView_storeProductPrice;
 
+    private final String NEGATIVE_FEEDBACK = "N";
+    private final String POSITIVE_FEEDBACK = "P";
+
+    private ProductService productService;
+
+    private InformationFeedback informationFeedbackForSelected;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +105,8 @@ public class ProductFragment extends Fragment {
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_product, container, false);
 
+        productService = new ProductService();
+
         imageView = inflatedView.findViewById(R.id.imageView_product);
         textView_product = inflatedView.findViewById(R.id.textView_product);
         textView_producer = inflatedView.findViewById(R.id.textView_producer);
@@ -111,8 +119,8 @@ public class ProductFragment extends Fragment {
 
         listView_storeProductPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showInformationFeedbackDialog();
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                findInformationFeedbackForUserAndPriceId(position);
             }
         });
 
@@ -123,6 +131,17 @@ public class ProductFragment extends Fragment {
         textView_product.setText(productName);
         textView_producer.setText(searchProductData.getProducerName());
         return inflatedView;
+    }
+
+    private void findInformationFeedbackForUserAndPriceId(int position) {
+        productService.getInformationFeedbackForUserAndPriceId(this, HomeActivity.user.getId(),
+                storeProductPriceList.get(position).getPriceId());
+    }
+
+    public static void foundInformationFeedback(ProductFragment productFragment, InformationFeedback informationFeedback) {
+        productFragment.informationFeedbackForSelected = informationFeedback;
+        productFragment.showInformationFeedbackDialog();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -208,7 +227,40 @@ public class ProductFragment extends Fragment {
         final TextView textView_no = dialog.findViewById(R.id.textView_no);
         final TextView textView_yes = dialog.findViewById(R.id.textView_yes);
 
+        if (informationFeedbackForSelected != null) {
+            GradientDrawable gd = new GradientDrawable();
+            gd.setColor(0x00000000); // Changes this drawbale to use a single color instead of a gradient
+            gd.setCornerRadius(5);
+            gd.setStroke(2, 0xFFFF0000);
+            switch(informationFeedbackForSelected.getFeedback()) {
+
+                case "P": textView_yes.setBackground(gd);
+                        break;
+                case "N": textView_no.setBackground(gd);
+            }
+        }
+
+        textView_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                saveInformationFeedback(NEGATIVE_FEEDBACK);
+            }
+        });
+
+        textView_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                saveInformationFeedback(POSITIVE_FEEDBACK);
+            }
+        });
+
         dialog.show();
+    }
+
+    private void saveInformationFeedback(String positive_feedback) {
+
     }
 
 }

@@ -12,7 +12,7 @@ public interface InformationFeedbackRepository extends JpaRepository<Information
 	InformationFeedback findById(Integer id);
 	
 	@Query(value = "SELECT * FROM information_feedback " +
-			"WHERE information_provider_user_id = ?1 " +
+			"WHERE feedback_provider_user_id = ?1 " +
 			"AND price_id = ?2", nativeQuery = true)
 	InformationFeedback findByUserAndPriceId(Short userId, Integer priceId);
 

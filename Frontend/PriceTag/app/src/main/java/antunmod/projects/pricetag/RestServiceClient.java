@@ -18,6 +18,7 @@ import antunmod.projects.pricetag.transfer.AddStoreSpecificProducer;
 import antunmod.projects.pricetag.transfer.AddStoreSpecificProduct;
 import antunmod.projects.pricetag.transfer.AddStoreSpecificProductSpecific;
 import antunmod.projects.pricetag.transfer.AddStoreSpecificProductStore;
+import antunmod.projects.pricetag.transfer.InformationFeedback;
 import antunmod.projects.pricetag.transfer.ProductInformation;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
@@ -219,6 +220,18 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("users/information")
     Call<UserInformation> getUserInformation(@Query("id") Short id);
+
+    /*
+        InformationFeedback calls
+     */
+    @Headers("Content-Type: application/json")
+    @GET("informationFeedback")
+    Call<InformationFeedback> getInformationFeedbackForUserAndPriceId(@Query("userId") Short userId,
+                                                                      @Query("priceId") Integer priceId);
+
+    @Headers("Content-Type: application/json")
+    @POST("informationFeedback/save")
+    Call<Boolean> saveInformationFeedback(@Body InformationFeedback informationFeedback);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(serverIP)
