@@ -76,6 +76,10 @@ public class InformationFeedback implements Serializable {
 		return feedback;
 	}
 	
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
+	}
+	
 	public void setInformationProviderUserId(Short informationProviderUserId) {
 		this.informationProviderUserId = informationProviderUserId;
 	}

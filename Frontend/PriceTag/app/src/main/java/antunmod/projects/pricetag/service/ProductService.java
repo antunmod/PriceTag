@@ -37,23 +37,23 @@ public class ProductService {
             }
         });
     }
-/*
+
     public void saveInformationFeedback(final ProductFragment productFragment, InformationFeedback informationFeedback) {
-        Call<Boolean> call = restServiceClient.getCategoriesForSectorName(sectorName);
-        call.enqueue(new Callback<List<String>>() {
+        Call<Boolean> call = restServiceClient.saveInformationFeedback(informationFeedback);
+        call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                ArrayList<String> categoriesList = (ArrayList) response.body();
-                if (categoriesList != null) {
-                    SearchFragment.foundCategories(searchFragment, categoriesList);
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Boolean success = response.body();
+                if (success != null) {
+                    ProductFragment.savedInformationFeedback(productFragment, success);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<Boolean> call, Throwable t) {
                 //SearchFragment.setErrorString(ERROR_STRING);
             }
         });
-    }*/
+    }
 
 }

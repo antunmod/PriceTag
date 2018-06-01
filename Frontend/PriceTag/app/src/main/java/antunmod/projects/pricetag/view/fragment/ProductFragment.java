@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -79,12 +80,22 @@ public class ProductFragment extends Fragment {
     TextView textView_producer;
     ListView listView_storeProductPrice;
 
+    /*
+        Contains dialog copy for dismissing dialog after receiving response from server.
+     */
+    private Dialog dialog;
+
     private final String NEGATIVE_FEEDBACK = "N";
     private final String POSITIVE_FEEDBACK = "P";
+    private final String FEEDBACK_ADDED = "Vaša ocjena je zabilježena";
+    private final String FEEDBACK_NOT_ADDED = "Vaša ocjena nije zabilježena";
+    private final String CANNOT_RATE_YOUR_PROUDUCT_UPDATE = "Ne možete ocjenjivati proizvod koji ste dodali";
+
 
     private ProductService productService;
 
     private InformationFeedback informationFeedbackForSelected;
+    private StoreProductPrice selectedStoreProductPrice;
 
 
     @Override
@@ -120,7 +131,12 @@ public class ProductFragment extends Fragment {
         listView_storeProductPrice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                findInformationFeedbackForUserAndPriceId(position);
+                if (HomeActivity.user.getId().equals(storeProductPriceList.get(position).getUserId()))
+                    Toast.makeText(getContext(), CANNOT_RATE_YOUR_PROUDUCT_UPDATE, Toast.LENGTH_SHORT).show();
+                else {
+                    selectedStoreProductPrice = storeProductPriceList.get(position);
+                    findInformationFeedbackForUserAndPriceId(position);
+                }
             }
         });
 
@@ -221,13 +237,14 @@ public class ProductFragment extends Fragment {
 
     public void showInformationFeedbackDialog() {
         final Dialog dialog = new Dialog(getContext());
+        this.dialog = dialog;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.information_feedback_dialog);
 
         final TextView textView_no = dialog.findViewById(R.id.textView_no);
         final TextView textView_yes = dialog.findViewById(R.id.textView_yes);
 
-        if (informationFeedbackForSelected != null) {
+        if (informationFeedbackForSelected.getFeedback() != null) {
             GradientDrawable gd = new GradientDrawable();
             gd.setColor(0x00000000); // Changes this drawbale to use a single color instead of a gradient
             gd.setCornerRadius(5);
@@ -243,23 +260,36 @@ public class ProductFragment extends Fragment {
         textView_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
-                saveInformationFeedback(NEGATIVE_FEEDBACK);
+                if (informationFeedbackForSelected.getFeedback() == null || (informationFeedbackForSelected.getFeedback() != null
+                        && !informationFeedbackForSelected.getFeedback().equals(NEGATIVE_FEEDBACK)))
+                    saveInformationFeedback(NEGATIVE_FEEDBACK);
             }
         });
 
         textView_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
-                saveInformationFeedback(POSITIVE_FEEDBACK);
+                if (informationFeedbackForSelected.getFeedback() == null || (informationFeedbackForSelected.getFeedback() != null
+                        && !informationFeedbackForSelected.getFeedback().equals(POSITIVE_FEEDBACK)))
+                    saveInformationFeedback(POSITIVE_FEEDBACK);
             }
         });
 
         dialog.show();
     }
 
-    private void saveInformationFeedback(String positive_feedback) {
+    private void saveInformationFeedback(String feedback) {
+        InformationFeedback informationFeedback = new InformationFeedback(selectedStoreProductPrice.getPriceId(),
+                informationFeedbackForSelected.getInformationProviderUserId(), HomeActivity.user.getId(), feedback);
+        productService.saveInformationFeedback(this, informationFeedback);
+    }
+
+    public static void savedInformationFeedback(ProductFragment productFragment, Boolean success) {
+        productFragment.dialog.dismiss();
+        String output = productFragment.FEEDBACK_NOT_ADDED;
+        if (success)
+            output = productFragment.FEEDBACK_ADDED;
+        Toast.makeText(productFragment.getContext(), output, Toast.LENGTH_SHORT).show();
 
     }
 

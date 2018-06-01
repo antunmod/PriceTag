@@ -24,6 +24,8 @@ public class InformationFeedbackService {
 	 */
 	public InformationFeedback getInformationFeedbackForUserAndPriceId(Short userId, Integer priceId) {
 		InformationFeedback informationFeedback = informationFeedbackRepository.findByUserAndPriceId(userId, priceId);
+		if (informationFeedback == null)
+			informationFeedback = new InformationFeedback();
 		return informationFeedback;
 	}
 	
@@ -34,6 +36,13 @@ public class InformationFeedbackService {
 		if (informationFeedback.getFeedback() == null || informationFeedback.getFeedbackProviderUserId() == null || 
 				informationFeedback.getPriceId() == null)
 			return false;
+		InformationFeedback existingFeedback = informationFeedbackRepository.findByUserAndPriceId(informationFeedback.getFeedbackProviderUserId(),
+				informationFeedback.getPriceId());
+		if (existingFeedback != null) {
+			existingFeedback.setFeedback(informationFeedback.getFeedback());
+			informationFeedbackRepository.save(existingFeedback);
+			return true;
+		}
 		Short informationProviderUserId = priceRepository.findUserIdForId(informationFeedback.getPriceId());
 		informationFeedback.setInformationProviderUserId(informationProviderUserId);
 		InformationFeedback savedInformationFeedback = informationFeedbackRepository.save(informationFeedback);

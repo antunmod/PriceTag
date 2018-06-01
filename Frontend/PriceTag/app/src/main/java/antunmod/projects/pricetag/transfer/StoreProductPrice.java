@@ -9,14 +9,16 @@ import java.io.Serializable;
 public class StoreProductPrice implements Serializable{
 
 	private Integer priceId;
+	private Short userId;
 	private String storeName;
 	private String storeAddress;
 	private String price;
 	private String userRating;
 
-	public StoreProductPrice(Integer priceId, String storeName, String storeAddress, String price, String userRating) {
+	public StoreProductPrice(Integer priceId, Short userId, String storeName, String storeAddress, String price, String userRating) {
 		super();
 		this.priceId = priceId;
+		this.userId = userId;
 		this.storeName = storeName;
 		this.storeAddress = storeAddress;
 		this.price = price;
@@ -25,6 +27,10 @@ public class StoreProductPrice implements Serializable{
 
 	public Integer getPriceId() {
 		return priceId;
+	}
+
+	public Short getUserId() {
+		return userId;
 	}
 
 	public String getStoreName() {
