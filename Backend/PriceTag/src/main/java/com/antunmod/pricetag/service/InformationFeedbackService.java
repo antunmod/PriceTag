@@ -46,7 +46,7 @@ public class InformationFeedbackService {
 		Short informationProviderUserId = priceRepository.findUserIdForId(informationFeedback.getPriceId());
 		informationFeedback.setInformationProviderUserId(informationProviderUserId);
 		InformationFeedback savedInformationFeedback = informationFeedbackRepository.save(informationFeedback);
-		return informationFeedback != null;
+		return savedInformationFeedback != null;
 	}
 	
 }

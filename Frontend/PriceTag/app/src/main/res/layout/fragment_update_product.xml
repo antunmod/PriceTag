@@ -15,7 +15,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
         android:src="@drawable/ic_menu_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,16 +37,16 @@
     <TextView
         android:id="@+id/textView_update_product"
         android:layout_width="0dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="51dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:text="Ažuriraj cijenu"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_new_price" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/textView_product_information"
@@ -55,8 +54,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:gravity="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

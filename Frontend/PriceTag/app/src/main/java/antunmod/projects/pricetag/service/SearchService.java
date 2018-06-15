@@ -11,6 +11,7 @@ import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
+import antunmod.projects.pricetag.view.fragment.RecentProductsFragment;
 import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
 import okhttp3.ResponseBody;
@@ -120,14 +121,17 @@ public class SearchService {
         });
     }
 
-    public void getLocationsForProductSpecificId(final SearchFragment searchFragment, Short productSpecificId) {
+    public void getLocationsForProductSpecificId(final Fragment fragment, Short productSpecificId) {
         Call<List<StoreProductPrice>> call = restServiceClient.getLocationsForProductSpecificId(productSpecificId);
         call.enqueue(new Callback<List<StoreProductPrice>>() {
             @Override
             public void onResponse(Call<List<StoreProductPrice>> call, Response<List<StoreProductPrice>> response) {
                 ArrayList<StoreProductPrice> storeProductPriceList = (ArrayList<StoreProductPrice>) response.body();
                 if (storeProductPriceList != null) {
-                    SearchFragment.foundLocations(searchFragment, storeProductPriceList);
+                    if (fragment instanceof SearchFragment)
+                        SearchFragment.foundLocations( (SearchFragment) fragment, storeProductPriceList);
+                    else
+                        RecentProductsFragment.foundLocations( (RecentProductsFragment) fragment, storeProductPriceList);
                 }
             }
 

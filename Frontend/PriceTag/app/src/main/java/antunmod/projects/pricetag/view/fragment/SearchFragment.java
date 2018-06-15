@@ -124,8 +124,10 @@ public class SearchFragment extends Fragment {
                     findLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
             }
         });
-
-        showFilterDialog();
+        if (imageItems != null)
+            setGridView(imageItems);
+        else
+            showFilterDialog();
 
         return inflatedView;
     }

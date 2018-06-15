@@ -24,7 +24,6 @@ public class HomeService {
     }
 
     public void findUserInformation(final HomeActivity homeActivity, Short id) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
         Call<UserInformation> call = restServiceClient.getUserInformation(HomeActivity.user.getId());
         call.enqueue(new Callback<UserInformation>() {
             @Override

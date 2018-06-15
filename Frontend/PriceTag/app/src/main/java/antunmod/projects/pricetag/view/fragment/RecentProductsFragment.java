@@ -20,6 +20,8 @@ import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.GridViewAdapter;
 import antunmod.projects.pricetag.model.ImageItem;
 import antunmod.projects.pricetag.service.RecentProductsService;
+import antunmod.projects.pricetag.service.SearchService;
+import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
 
@@ -44,6 +46,7 @@ public class RecentProductsFragment extends Fragment {
 
     private ArrayList<SearchProductData> searchProductDataList;
     private RecentProductsService recentProductsService = new RecentProductsService();
+    private SearchService searchService = new SearchService();
     private SearchProductData selectedProductData;
 
     @Override
@@ -61,8 +64,10 @@ public class RecentProductsFragment extends Fragment {
                     findLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
             }
         });
-
-        findProducts();
+        if (imageItems != null)
+            setGridView(imageItems);
+        else
+            findProducts();
         return inflatedView;
     }
 
@@ -127,11 +132,23 @@ public class RecentProductsFragment extends Fragment {
     }
 
     private void findLocationsForProductSpecificId(Short productSpecificId) {
-        //recentProductsService.getLocationsForProductSpecificId(this, productSpecificId);
+        searchService.getLocationsForProductSpecificId(this, productSpecificId);
     }
 
-    public static void foundLocations(SearchFragment searchFragment, ArrayList<StoreProductPrice> storeProductPriceList) {
-        //searchFragment.goToProductFragment(storeProductPriceList);
+    public static void foundLocations(RecentProductsFragment recentProductsFragment, ArrayList<StoreProductPrice> storeProductPriceList) {
+        recentProductsFragment.goToProductFragment(storeProductPriceList);
     }
 
+    private void goToProductFragment(ArrayList<StoreProductPrice> storeProductPriceList) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("storeProductPriceList", storeProductPriceList);
+        bundle.putSerializable("searchProductData", selectedProductData);
+        ProductFragment productFragment = new ProductFragment();
+        productFragment.setArguments(bundle);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_for_fragment, productFragment)
+                .addToBackStack("recentProductsFragment")
+                .commit();
+    }
 }
