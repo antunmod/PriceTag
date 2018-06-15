@@ -196,21 +196,18 @@ CREATE TRIGGER trig_check_information_feedback BEFORE INSERT ON information_feed
     END;
 | delimiter ;
 
--- A trigger for updating user rating upon each product update rating by another user
--- DROP TRIGGER trig_update_user_rating;
 delimiter |
-CREATE TRIGGER trig_update_user_rating AFTER INSERT ON information_feedback
-	FOR EACH ROW 
-    BEGIN
+CREATE PROCEDURE procedure_update_rating (IN ID SMALLINT)
+BEGIN
 
-    DECLARE done INT DEFAULT 0;
+DECLARE done INT DEFAULT 0;
     DECLARE counter INT DEFAULT 0;
     DECLARE sum DECIMAL(4,3) DEFAULT 0;
     DECLARE feed CHAR(1);
     DECLARE feedback_ID SMALLINT;
     DECLARE rating DECIMAL(4,3) DEFAULT 0;
     DECLARE cur CURSOR FOR SELECT feedback_provider_user_id, feedback
-		FROM information_feedback WHERE information_provider_user_id = NEW.information_provider_user_id;
+		FROM information_feedback WHERE information_provider_user_id = id;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
     
     OPEN cur;
@@ -224,7 +221,26 @@ CREATE TRIGGER trig_update_user_rating AFTER INSERT ON information_feedback
 		END LOOP;
 	CLOSE cur;
     
-	UPDATE user SET user.rating = 0.5 + sum/counter/2 WHERE user.id = NEW.information_provider_user_id;
-    
+	UPDATE user SET user.rating = 0.5 + sum/counter/2 WHERE user.id = id;
+
+END
+| delimiter ;
+
+
+-- A trigger for updating user rating upon new information feedback
+delimiter |
+CREATE TRIGGER trig_update_user_rating AFTER INSERT ON information_feedback
+	FOR EACH ROW 
+    BEGIN
+    CALL procedure_update_rating (NEW.information_provider_user_id);    
+	END;
+| delimiter ;
+
+-- A trigger for updating user rating upon information feedback update
+delimiter |
+CREATE TRIGGER trig_update_user_rating2 AFTER UPDATE ON information_feedback
+	FOR EACH ROW 
+    BEGIN
+    CALL procedure_update_rating (NEW.information_provider_user_id);    
 	END;
 | delimiter ;
