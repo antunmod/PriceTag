@@ -61,6 +61,8 @@ public class SearchFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+
     private SearchService searchService;
 
     private final String SUPERMARKETS = "Supermarketi";
@@ -232,20 +234,24 @@ public class SearchFragment extends Fragment {
 
         Button btn_saveFilter = dialog.findViewById(R.id.btn_save_filter);
 
-        if (categoriesList == null) {
-            categoriesList = new ArrayList<>(emptyList);
+        if (spinner_category.getAdapter() == null) {
+            if (categoriesList == null)
+                categoriesList = new ArrayList<>(emptyList);
             updateSpinner(this, spinner_category, categoriesList);
         }
-        if (subcategoriesList == null) {
-            subcategoriesList = new ArrayList<>(emptyList);
+        if (spinner_subcategory.getAdapter() == null) {
+            if (subcategoriesList == null)
+                subcategoriesList = new ArrayList<>(emptyList);
             updateSpinner(this, spinner_subcategory, subcategoriesList);
         }
-        if (producersList == null) {
-            producersList = new ArrayList<>(emptyList);
+        if (spinner_producer.getAdapter() == null) {
+            if (producersList == null)
+                producersList = new ArrayList<>(emptyList);
             updateSpinner(this, spinner_producer, producersList);
         }
-        if (storesList == null) {
-            storesList = new ArrayList<>(emptyList);
+        if (spinner_store.getAdapter() == null) {
+            if (storesList == null)
+                storesList = new ArrayList<>(emptyList);
             updateSpinner(this, spinner_store, storesList);
         }
 
