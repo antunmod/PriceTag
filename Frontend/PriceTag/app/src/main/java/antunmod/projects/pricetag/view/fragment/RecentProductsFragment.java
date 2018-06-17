@@ -38,6 +38,7 @@ public class RecentProductsFragment extends Fragment {
 
     private GridView gridView;
     private GridViewAdapter gridViewAdapter;
+    private Target target;
 
     ArrayList<ImageItem> imageItems;
 
@@ -54,6 +55,19 @@ public class RecentProductsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_recent_products, container, false);
+
+        target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                updateGridView(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {}
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {}
+        };
 
         gridView = inflatedView.findViewById(R.id.gridView);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,23 +105,7 @@ public class RecentProductsFragment extends Fragment {
                 findNextImage();
                 return;
             }
-            Picasso.with(getContext()).load(searchProductData.getImageURI()).into(new Target() {
-
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    updateGridView(bitmap);
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
-            });
+            Picasso.with(getContext()).load(searchProductData.getImageURI()).into(target);
         }
 
     }

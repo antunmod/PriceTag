@@ -44,6 +44,9 @@ public class SearchFragment extends Fragment {
     private final String IMAGE_FOLDER_LOCATION = "C:/Users/antun/Documents/Projekti/PriceTag - Photos/";
     private final String IMAGE_NAME = "original.jpg";
 
+    private Target target;
+    private Dialog dialog;;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -87,6 +90,28 @@ public class SearchFragment extends Fragment {
 
         this.inflatedView = inflater.inflate(R.layout.fragment_search, container, false);
 
+        target = new Target() {
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                updateGridView(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+
+        dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.filter_dialog);
+
         btn_search = inflatedView.findViewById(R.id.btn_search);
         editText_productName = inflatedView.findViewById(R.id.editText_product_name);
         gridView = inflatedView.findViewById(R.id.gridView);
@@ -108,7 +133,6 @@ public class SearchFragment extends Fragment {
         fab_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resetValues();
                 showFilterDialog();
             }
         });
@@ -164,23 +188,7 @@ public class SearchFragment extends Fragment {
                 findNextImage();
                 return;
             }
-            Picasso.with(getContext()).load(searchProductData.getImageURI()).into(new Target() {
-
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    updateGridView(bitmap);
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
-            });
+            Picasso.with(getContext()).load(searchProductData.getImageURI()).into(target);
         }
 
         }
@@ -206,9 +214,6 @@ public class SearchFragment extends Fragment {
 
 
     public void showFilterDialog() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.filter_dialog);
 
         final CheckBox checkBox_category = dialog.findViewById(R.id.checkBox_category);
         final CheckBox checkBox_subcategory = dialog.findViewById(R.id.checkBox_subcategory);
