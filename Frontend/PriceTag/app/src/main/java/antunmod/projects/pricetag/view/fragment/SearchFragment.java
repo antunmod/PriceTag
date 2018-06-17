@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -46,6 +47,15 @@ public class SearchFragment extends Fragment {
 
     private Target target;
     private Dialog dialog;;
+    private String defaultString = "-";
+
+    private List<String> categoriesList;
+    private List<String> subcategoriesList;
+    private List<String> producersList;
+    private List<String> storesList;
+
+    private List<String> emptyList;
+    private SearchFragment searchFragment;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -72,11 +82,6 @@ public class SearchFragment extends Fragment {
 
     View inflatedView;
 
-    CheckBox checkBox_category;
-    CheckBox checkBox_subcategory;
-    CheckBox checkBox_producer;
-    CheckBox checkBox_store;
-
     Spinner spinner_category;
     Spinner spinner_subcategory;
     Spinner spinner_producer;
@@ -89,6 +94,8 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         this.inflatedView = inflater.inflate(R.layout.fragment_search, container, false);
+
+        searchFragment = this;
 
         target = new Target() {
 
@@ -116,6 +123,9 @@ public class SearchFragment extends Fragment {
         editText_productName = inflatedView.findViewById(R.id.editText_product_name);
         gridView = inflatedView.findViewById(R.id.gridView);
         fab_filter = inflatedView.findViewById(R.id.fab_filter);
+
+        emptyList = new ArrayList<>();
+        emptyList.add(defaultString);
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,80 +225,95 @@ public class SearchFragment extends Fragment {
 
     public void showFilterDialog() {
 
-        final CheckBox checkBox_category = dialog.findViewById(R.id.checkBox_category);
-        final CheckBox checkBox_subcategory = dialog.findViewById(R.id.checkBox_subcategory);
-        final CheckBox checkBox_producer = dialog.findViewById(R.id.checkBox_producer);
-        final CheckBox checkBox_store = dialog.findViewById(R.id.checkBox_store);
-
         final Spinner spinner_category = dialog.findViewById(R.id.spinner_category);
         final Spinner spinner_subcategory = dialog.findViewById(R.id.spinner_subcategory);
         final Spinner spinner_producer = dialog.findViewById(R.id.spinner_producer);
         final Spinner spinner_store = dialog.findViewById(R.id.spinner_store);
 
-        /*spinner_category.setEnabled(false);
-        spinner_subcategory.setEnabled(false);
-        spinner_producer.setEnabled(false);
-        spinner_store.setEnabled(false);*/
-
-
         Button btn_saveFilter = dialog.findViewById(R.id.btn_save_filter);
 
+        if (categoriesList == null) {
+            categoriesList = new ArrayList<>(emptyList);
+            updateSpinner(this, spinner_category, categoriesList);
+        }
+        if (subcategoriesList == null) {
+            subcategoriesList = new ArrayList<>(emptyList);
+            updateSpinner(this, spinner_subcategory, subcategoriesList);
+        }
+        if (producersList == null) {
+            producersList = new ArrayList<>(emptyList);
+            updateSpinner(this, spinner_producer, producersList);
+        }
+        if (storesList == null) {
+            storesList = new ArrayList<>(emptyList);
+            updateSpinner(this, spinner_store, storesList);
+        }
 
-        checkBox_category.setOnClickListener(new View.OnClickListener() {
+        spinner_category.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (!checkBox_category.isChecked())
-                    return;
-                findCategories();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && spinner_category.getSelectedItem().equals(defaultString))
+                    findCategories();
+                return false;
             }
         });
 
-        checkBox_subcategory.setOnClickListener(new View.OnClickListener() {
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                if (!checkBox_subcategory.isChecked())
-                    return;
-                if (!checkBox_category.isChecked()) {
-                    Toast.makeText(getContext(), "Prvo odaberite kategoriju", Toast.LENGTH_SHORT).show();
-                    checkBox_subcategory.setChecked(false);
-                    return;
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (spinner_category.getSelectedItem().toString().equals(defaultString)) {
+                    subcategoriesList = new ArrayList<>(emptyList);
+                    updateSpinner(searchFragment, spinner_subcategory, subcategoriesList);
                 }
-                findSubcategoriesForCategoryName(spinner_category.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
-        checkBox_producer.setOnClickListener(new View.OnClickListener() {
+        spinner_subcategory.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (!checkBox_producer.isChecked())
-                    return;
-                findProducers();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (spinner_category.getSelectedItem().equals(defaultString))
+                        Toast.makeText(getContext(), "Kategorija mora biti odabrana", Toast.LENGTH_SHORT).show();
+                    else if (spinner_subcategory.getSelectedItem().equals(defaultString)) {
+                        findSubcategoriesForCategoryName(spinner_category.getSelectedItem().toString());
+
+                    }
+                }
+                return false;
             }
         });
 
-        checkBox_store.setOnClickListener(new View.OnClickListener() {
+        spinner_producer.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (!checkBox_store.isChecked())
-                    return;
-                findStores();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && spinner_producer.getSelectedItem().equals(defaultString))
+                    findProducers();
+                return false;
+            }
+        });
+
+        spinner_store.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && spinner_store.getSelectedItem().equals(defaultString))
+                    findStores();
+                return false;
             }
         });
 
         btn_saveFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkBox_category.isChecked())
-                    searchFilter.setCategoryName(spinner_category.getSelectedItem().toString());
 
-                if (checkBox_subcategory.isChecked())
-                    searchFilter.setSubcategoryName(spinner_subcategory.getSelectedItem().toString());
+                searchFilter.setCategoryName(spinner_category.getSelectedItem().equals(defaultString)? "" : spinner_category.getSelectedItem().toString());
+                searchFilter.setSubcategoryName(spinner_subcategory.getSelectedItem().equals(defaultString)? "" : spinner_subcategory.getSelectedItem().toString());
+                searchFilter.setProducerName(spinner_producer.getSelectedItem().equals(defaultString)? "" : spinner_producer.getSelectedItem().toString());
+                searchFilter.setStoreName(spinner_store.getSelectedItem().equals(defaultString)? "" : spinner_store.getSelectedItem().toString());
 
-                if (checkBox_producer.isChecked())
-                    searchFilter.setProducerName(spinner_producer.getSelectedItem().toString());
-
-                if (checkBox_store.isChecked())
-                    searchFilter.setStoreName(spinner_store.getSelectedItem().toString());
                 dialog.dismiss();
             }
         });
@@ -296,10 +321,6 @@ public class SearchFragment extends Fragment {
         /*
             Set copies of final objects.
          */
-        this.checkBox_category = checkBox_category;
-        this.checkBox_subcategory = checkBox_subcategory;
-        this.checkBox_producer = checkBox_producer;
-        this.checkBox_store = checkBox_store;
 
         this.spinner_category = spinner_category;
         this.spinner_subcategory = spinner_subcategory;
@@ -315,7 +336,9 @@ public class SearchFragment extends Fragment {
     }
 
     public static void foundCategories(SearchFragment searchFragment, List<String> categoryList) {
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_category, categoryList);
+        searchFragment.categoriesList = new ArrayList<>(searchFragment.emptyList);
+        searchFragment.categoriesList.addAll(categoryList);
+        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_category, searchFragment.categoriesList);
     }
 
     private void findSubcategoriesForCategoryName(String categoryName) {
@@ -323,18 +346,21 @@ public class SearchFragment extends Fragment {
     }
 
     public static void foundSubcategoriesForCategoryName(SearchFragment searchFragment, List<String> subcategoryList) {
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_subcategory, subcategoryList);
+        searchFragment.subcategoriesList = new ArrayList<>(searchFragment.emptyList);
+        searchFragment.subcategoriesList.addAll(subcategoryList);
+        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_subcategory, searchFragment.subcategoriesList);
     }
 
     private void findProducers() {
-        String subcategoryName = "";
-        if (checkBox_subcategory.isChecked())
-            subcategoryName = spinner_subcategory.getSelectedItem().toString();
+        String selectedSubcategory = spinner_subcategory.getSelectedItem().toString();
+        String subcategoryName = selectedSubcategory.equals(defaultString) ? "" : selectedSubcategory;
         searchService.findProducers(this, subcategoryName);
     }
 
     public static void foundProducers(SearchFragment searchFragment, List<String> producerList) {
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_producer, producerList);
+        searchFragment.producersList = new ArrayList<>(searchFragment.emptyList);
+        searchFragment.producersList.addAll(producerList);
+        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_producer, searchFragment.producersList);
     }
 
     private void findStores() {
@@ -342,7 +368,9 @@ public class SearchFragment extends Fragment {
     }
 
     public static void foundStores(SearchFragment searchFragment, List<String> storeList) {
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_store, storeList);
+        searchFragment.storesList = new ArrayList<>(searchFragment.emptyList);
+        searchFragment.storesList.addAll(storeList);
+        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_store, searchFragment.storesList);
     }
 
     private static void updateSpinner(SearchFragment searchFragment, Spinner spinner, List<String> dataList) {
