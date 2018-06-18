@@ -8,11 +8,16 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 /**
    Util service for methods used by multiple Fragments and Activities.
  */
 public class UtilService {
+
+    private static final String SERVER_ERROR_STRING = "Povezivanje s poslužiteljem nije moguće, pokušajte kasnije";
+    protected static final String NON_EXISTING_ACCOUNT = "Nije pronađen račun za unesene informacije";
+    public static final String LOGIN_ERROR = "Korisnik s unesenim korisničkim imenom i lozinkom ne postoji!";
 
 
     /**
@@ -62,6 +67,14 @@ public class UtilService {
 
     public static boolean sqlInjectionTest(String string) {
         return string.contains(";") || string.contains("\"") || string.contains(")");
+    }
+
+    public static void toastServerError(Context context) {
+        Toast.makeText(context, SERVER_ERROR_STRING, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void toastError(Context context, String text) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
 }

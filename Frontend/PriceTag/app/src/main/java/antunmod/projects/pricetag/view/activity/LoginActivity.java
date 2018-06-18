@@ -13,6 +13,8 @@ import android.widget.Toast;
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.model.User;
+import antunmod.projects.pricetag.service.UserService;
+import antunmod.projects.pricetag.service.UtilService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,12 +28,16 @@ public class LoginActivity extends AppCompatActivity {
     EditText editText_username;
     EditText editText_password;
 
+    private UserService userService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        userService = new UserService();
 
         editText_username = findViewById(R.id.editText_username);
         editText_password = findViewById(R.id.editText_password);
@@ -81,30 +87,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginUser(String username, final String password) {
-        RestServiceClient restServiceClient = RestServiceClient.retrofit.create(RestServiceClient.class);
-        Call<User> call = restServiceClient.loginUser(username, password);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User user = response.body();
-                if (user != null && user.getName() != null) {
-
-                    Intent loginIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                    loginIntent.putExtra("user", user);
-                    startActivity(loginIntent);
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Korisnik s unesenim korisničkim imenom i lozinkom ne postoji!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        userService.loginUser(this, username, password);
     }
 
+    public static void userFound(LoginActivity loginActivity, User user) {
+        loginActivity.goToHomeActivity(user);
+    }
 
+    private void goToHomeActivity(User user) {
+        Intent loginIntent = new Intent(this, HomeActivity.class);
+        loginIntent.putExtra("user", user);
+        startActivity(loginIntent);
+    }
 
 }
