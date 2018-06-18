@@ -11,9 +11,12 @@ import android.widget.Toast;
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.model.User;
+import antunmod.projects.pricetag.service.UtilService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static antunmod.projects.pricetag.service.UtilService.sqlInjectionTest;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -94,7 +97,5 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
     }
 
-    private boolean sqlInjectionTest(String string) {
-        return string.contains(";") || string.contains("\"") || string.contains(")");
-    }
+
 }

@@ -50,21 +50,13 @@ public class UserController {
 		UserInformation userInformation= userService.getUserInformation(id);
 		return new ResponseEntity<UserInformation>(userInformation, HttpStatus.OK);
 	}
-
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/awardPoints") public ResponseEntity<Boolean>
-	 * awardPointsToUserForUserId(@RequestParam("userId") long userId,
-	 * 
-	 * @RequestParam("points") Short points) { User user, savedUser; user =
-	 * userRepository.findByUserId(userId);
-	 * 
-	 * user.setPoints(user.getPoints() + points); savedUser =
-	 * userRepository.save(user); if (savedUser.getPoints() <= user.getPoints()) {
-	 * return new ResponseEntity<Boolean>(false, HttpStatus.OK); }
-	 * 
-	 * return new ResponseEntity<Boolean>(true, HttpStatus.OK); }
-	 */
+	
+	@ResponseBody
+	@GetMapping("/requestPassword")
+	public ResponseEntity<Boolean> sendPasswordToEmail(@RequestParam("username") String username,
+			@RequestParam("email") String email) {
+		Boolean passwordSent = userService.sendPasswordToEmail(username, email);
+		return new ResponseEntity<Boolean>(passwordSent, HttpStatus.OK);
+	}
 
 }

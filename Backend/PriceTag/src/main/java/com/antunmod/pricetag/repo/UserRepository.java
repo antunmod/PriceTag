@@ -30,4 +30,6 @@ public interface UserRepository extends JpaRepository<User, Short> {
 			"WHERE user.id = ?1 LIMIT 1", nativeQuery = true)
 	List<Object[]> findUserInformation(Short id);
 	
+	@Query(value = "SELECT password FROM user WHERE name = ?1 AND email = ?2", nativeQuery = true)
+	String findPasswordForUsernameAndEmail(String username, String email);
 }

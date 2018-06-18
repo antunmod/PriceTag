@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,6 +105,7 @@ public class AddProductFragment extends Fragment {
     private Spinner spinner_size;
     private EditText editText_price;
     private TextView textView_addProduct;
+    private ProgressBar progress;
 
     private String sizeString;
     private String priceString;
@@ -130,6 +132,7 @@ public class AddProductFragment extends Fragment {
         spinner_size = inflatedView.findViewById(R.id.spinner_size);
         editText_price = inflatedView.findViewById(R.id.editText_price);
         textView_addProduct = inflatedView.findViewById(R.id.textView_add_product);
+        progress = inflatedView.findViewById(R.id.progress);
 
         addProductService = new AddProductService();
         utilService = new UtilService();
@@ -146,7 +149,8 @@ public class AddProductFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (fieldsAreValid()) {
-                        //addNewProduct();
+                    textView_addProduct.setVisibility(View.GONE);
+                    progress.setVisibility(View.VISIBLE);
                     addPhoto();
                 }
             }
@@ -293,6 +297,7 @@ public class AddProductFragment extends Fragment {
             addProductFragment.outputString("Proizvod nije dodan, pokušajte ponovo");
             return;
         }
+        addProductFragment.progress.setVisibility(View.GONE);
         addProductFragment.goToEnterBarcodeFragment(PRODUCT_ADDED);
     }
 
@@ -318,14 +323,6 @@ public class AddProductFragment extends Fragment {
             }
         });
         thread.start();
-
-        /*Byte[] byteArray = new Byte[photo.length];
-        int i = 0;
-        for (byte b : photo)
-            byteArray[i++] = b;
-
-
-        addProductService.saveImage(this, byteArray, productSpecificId);*/
     }
 
     private void goToEnterBarcodeFragment(String outputMessage) {

@@ -41,7 +41,7 @@ import retrofit2.http.Query;
 public interface RestServiceClient {
 
     //String serverIP = " https://pricetag-1701.herokuapp.com/";
-    String serverIP = " http://192.168.1.3:8080/";
+    String serverIP = " http://192.168.1.2:8080/";
 
     /*
         Adding products to an existing store location.
@@ -202,6 +202,10 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @POST("users")
     Call<User> registerUser(@Body User user);
+
+    @Headers("Content-Type: application/json")
+    @GET("users/requestPassword")
+    Call<Boolean> sendPasswordToEmail(@Query("username") String username, @Query("email") String email);
 
     /*
         Calls for handling photos.

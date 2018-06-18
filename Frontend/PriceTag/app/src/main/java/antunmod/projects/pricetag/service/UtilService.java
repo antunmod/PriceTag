@@ -60,4 +60,8 @@ public class UtilService {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
+    public static boolean sqlInjectionTest(String string) {
+        return string.contains(";") || string.contains("\"") || string.contains(")");
+    }
+
 }

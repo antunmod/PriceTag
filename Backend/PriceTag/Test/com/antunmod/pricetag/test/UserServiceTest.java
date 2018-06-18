@@ -65,7 +65,7 @@ public class UserServiceTest {
 		assertTrue(true);
 	}
 	
-	@Test
+	//@Test
 	public void testGetUserInformation() {
 		Boolean success = false;
 		UserInformation userInformation = userService.getUserInformation(REGULAR_USER_ID);
@@ -74,4 +74,9 @@ public class UserServiceTest {
 		assertTrue(success);
 	}
 	
+	@Test
+	public void testSendPasswordToEmail() {
+		Boolean success = userService.sendPasswordToEmail(System.getenv("ADMIN_USERNAME"), System.getenv("ADMIN_EMAIL"));
+		assertTrue(success);
+	}
 }
