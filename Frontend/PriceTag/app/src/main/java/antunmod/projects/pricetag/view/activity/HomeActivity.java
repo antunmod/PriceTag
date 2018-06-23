@@ -83,7 +83,11 @@ public class HomeActivity extends AppCompatActivity
                 if (!handled)
                     super.onBackPressed();
 
-            } else if (f instanceof AddProductFragment ||f instanceof UpdateProductFragment || f instanceof ProductFragment) {
+            } else if (f instanceof AddProductFragment) {
+                if (! ((AddProductFragment) f).getProductBeingAdded())
+                    getSupportFragmentManager().popBackStack();
+            }
+            else if (f instanceof AddProductFragment ||f instanceof UpdateProductFragment || f instanceof ProductFragment) {
                 getSupportFragmentManager().popBackStack();
             }
         }

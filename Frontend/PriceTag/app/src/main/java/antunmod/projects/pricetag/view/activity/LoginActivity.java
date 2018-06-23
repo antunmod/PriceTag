@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView textView_CreateAnAccount;
     EditText editText_username;
     EditText editText_password;
+    static LoginActivity loginActivity;
 
     private UserService userService;
 
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        loginActivity = this;
         userService = new UserService();
 
         editText_username = findViewById(R.id.editText_username);
@@ -98,6 +100,10 @@ public class LoginActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(this, HomeActivity.class);
         loginIntent.putExtra("user", user);
         startActivity(loginIntent);
+    }
+
+    public static void serverInHibernation() {
+        UtilService.toastServerError(LoginActivity.loginActivity);
     }
 
 }

@@ -67,6 +67,8 @@ public class AddProductFragment extends Fragment {
     boolean pictureSet = false;
     private static String errorString;
 
+    private Boolean productBeingAdded;
+
     private UtilService utilService;
     private AddProductService addProductService;
 
@@ -124,6 +126,9 @@ public class AddProductFragment extends Fragment {
 
         this.inflatedView = inflater.inflate(R.layout.fragment_add_product, container, false);
 
+        productBeingAdded = false;
+
+
         imageView_addProduct = inflatedView.findViewById(R.id.imageView_add_product);
         textView_producer = inflatedView.findViewById(R.id.textView_product);
         textView_productName = inflatedView.findViewById(R.id.textView_product_name);
@@ -151,6 +156,7 @@ public class AddProductFragment extends Fragment {
                 if (fieldsAreValid()) {
                     textView_addProduct.setVisibility(View.GONE);
                     progress.setVisibility(View.VISIBLE);
+                    productBeingAdded = true;
                     addPhoto();
                 }
             }
@@ -396,5 +402,7 @@ public class AddProductFragment extends Fragment {
         errorString = error;
     }
 
-
+    public Boolean getProductBeingAdded() {
+        return productBeingAdded;
+    }
 }

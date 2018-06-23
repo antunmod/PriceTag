@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import antunmod.projects.pricetag.R;
+import antunmod.projects.pricetag.service.SelectService;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,6 +22,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        SelectService selectService = new SelectService();
+        selectService.pingServer();
+
         splashTimer = new Timer();
         splashTimer.schedule(new TimerTask()
         {
@@ -32,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, DELAY);
         scheduled = true;
+
     }
 
     @Override

@@ -40,8 +40,8 @@ import retrofit2.http.Query;
 
 public interface RestServiceClient {
 
-    //String serverIP = " https://pricetag-1701.herokuapp.com/";
-    String serverIP = " http://192.168.1.2:8080/";
+    String serverIP = " https://price-tag-app.herokuapp.com/";
+    //String serverIP = " http://192.168.1.2:8080/";
 
     /*
         Adding products to an existing store location.
@@ -135,6 +135,10 @@ public interface RestServiceClient {
     @Headers("Content-Type: application/json")
     @GET("products/productInformation")
     Call<ProductInformation> getProductInformationForBarcode(@Query("barcode") String barcode);
+
+    @Headers("Content-Type: application/json")
+    @GET("sectors")
+    Call<List<String>> getSectors();
 
     @Headers("Content-Type: application/json")
     @GET("categories")

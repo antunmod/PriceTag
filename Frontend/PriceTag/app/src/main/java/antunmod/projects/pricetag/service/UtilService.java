@@ -15,7 +15,7 @@ import android.widget.Toast;
  */
 public class UtilService {
 
-    private static final String SERVER_ERROR_STRING = "Povezivanje s poslužiteljem nije moguće, pokušajte kasnije";
+    private static final String SERVER_ERROR_STRING = "Poslužitelj je u stanju hibernacije, pričekajte malo pa pokušajte ponovo";
     protected static final String NON_EXISTING_ACCOUNT = "Nije pronađen račun za unesene informacije";
     public static final String LOGIN_ERROR = "Korisnik s unesenim korisničkim imenom i lozinkom ne postoji!";
 

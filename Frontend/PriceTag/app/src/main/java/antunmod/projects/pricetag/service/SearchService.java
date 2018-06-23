@@ -11,6 +11,8 @@ import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.transfer.SearchFilter;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
+import antunmod.projects.pricetag.view.activity.HomeActivity;
+import antunmod.projects.pricetag.view.activity.SplashActivity;
 import antunmod.projects.pricetag.view.fragment.RecentProductsFragment;
 import antunmod.projects.pricetag.view.fragment.SearchFragment;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
@@ -44,7 +46,7 @@ public class SearchService {
 
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
-                //SearchFragment.setErrorString(ERROR_STRING);
+                UtilService.toastServerError(searchFragment.getContext());
             }
         });
     }

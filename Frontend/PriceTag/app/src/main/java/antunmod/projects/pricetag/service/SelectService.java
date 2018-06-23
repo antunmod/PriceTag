@@ -6,6 +6,8 @@ import java.util.List;
 
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.transfer.ProductInformation;
+import antunmod.projects.pricetag.view.activity.HomeActivity;
+import antunmod.projects.pricetag.view.activity.LoginActivity;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -65,6 +67,20 @@ public class SelectService {
             @Override
             public void onFailure(Call<Short> call, Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
+            }
+        });
+    }
+
+    public void pingServer() {
+        Call<List<String>> call = restServiceClient.getSectors();
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
             }
         });
     }
