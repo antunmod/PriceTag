@@ -38,7 +38,7 @@
         </activity>
         <activity
             android:name=".view.activity.ForgotYourPasswordActivity"
-            android:label="Zboravljena lozinka"
+            android:label="Zaboravljena lozinka"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.CreateAccountActivity"

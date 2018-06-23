@@ -62,6 +62,8 @@ public class AddProductFragment extends Fragment {
     private static final Short NON_EXISTING_PRODUCT_ID = 0;
     private static final String PRODUCT_ADDED = "Uspješno ste dodali proizvod";
 
+    private final String SELECT_FRAGMENT_TAG = "selectFragment";
+
     private static ProductData productData;
     private byte[] photo;
     boolean pictureSet = false;
@@ -338,9 +340,9 @@ public class AddProductFragment extends Fragment {
         trans.remove(this);
         trans.commit();
 
-        // Pop fragments on BackStack
-        manager.popBackStack();
-        manager.popBackStack();
+        Fragment fragment = manager.findFragmentByTag(SELECT_FRAGMENT_TAG);
+        while (fragment != null)
+            manager.beginTransaction().remove(fragment).commit();
 
         Bundle bundle = new Bundle();
         bundle.putString("outputMessage", outputMessage);

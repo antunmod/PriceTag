@@ -629,7 +629,7 @@ public class SelectFragment extends Fragment {
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_for_fragment, addProductFragment)
-                .addToBackStack("selectProduct")
+                .addToBackStack("selectFragment")
                 .commit();
     }
 
