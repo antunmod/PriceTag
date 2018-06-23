@@ -79,7 +79,7 @@ public interface ProductSpecificRepository extends JpaRepository<ProductSpecific
 			"JOIN store_specific ON store_specific.id = product_store.store_specific_id " + 
 			"JOIN store ON store.id = store_specific.store_id " +
 			"JOIN price ON price.product_store_id = product_store.id " + 
-			"ORDER BY price.price_change_date " +
+			"ORDER BY price.id DESC " +
 			"LIMIT 20", nativeQuery = true)
 	List<Object[]> findRecentProducts();
 }
