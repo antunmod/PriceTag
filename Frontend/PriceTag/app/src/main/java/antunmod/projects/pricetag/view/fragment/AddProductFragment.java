@@ -1,17 +1,25 @@
 package antunmod.projects.pricetag.view.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +49,8 @@ import antunmod.projects.pricetag.service.AddProductService;
 import antunmod.projects.pricetag.service.UtilService;
 
 import static android.app.Activity.RESULT_CANCELED;
+import static android.content.ContentValues.TAG;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 
 /**
@@ -56,11 +66,14 @@ public class AddProductFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private final String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.CAMERA, Manifest.permission.INTERNET};
     private static final Integer CAMERA_REQUEST = 1;
     private static final Float MAX_SIZE_VALUE = (float) 1000.0;
     private static final Float MAX_PRICE_VALUE = (float) 10000.0;
     private static final Short NON_EXISTING_PRODUCT_ID = 0;
     private static final String PRODUCT_ADDED = "Uspješno ste dodali proizvod";
+    private static final int STORAGE_REQUEST_CODE = 1;
 
     private final String SELECT_FRAGMENT_TAG = "selectFragment";
 
@@ -73,6 +86,7 @@ public class AddProductFragment extends Fragment {
 
     private UtilService utilService;
     private AddProductService addProductService;
+    public static AddProductFragment addProductFragment;
 
     public AddProductFragment() {
         // Required empty public constructor
@@ -130,6 +144,7 @@ public class AddProductFragment extends Fragment {
 
         productBeingAdded = false;
 
+        addProductFragment = this;
 
         imageView_addProduct = inflatedView.findViewById(R.id.imageView_add_product);
         textView_producer = inflatedView.findViewById(R.id.textView_product);
@@ -147,7 +162,7 @@ public class AddProductFragment extends Fragment {
         imageView_addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callCamera();
+                checkPermissions();
             }
         });
 
@@ -169,37 +184,66 @@ public class AddProductFragment extends Fragment {
         return inflatedView;
     }
 
-    public void callCamera() {
+    public static void callCamera() throws IOException {
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Create the File where the photo should go
-            photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
+        if (intent.resolveActivity(addProductFragment.getActivity().getPackageManager()) != null) {
+            String imageFileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            File storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+            File image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+            addProductFragment.photoFile = image;
+            if (image != null) {
+                Uri uri = null;
+                if (Build.VERSION.SDK_INT < 23) {
+                    uri = Uri.fromFile(image);
+                } else {
+                    uri = FileProvider.getUriForFile(
+                            addProductFragment.getContext(),
+                            addProductFragment.getContext()
+                                    .getPackageName() + ".provider", image);
+                }
+
+                if (uri == null) {
+                    Toast.makeText(addProductFragment.getContext(), "Uri wasn't set", Toast.LENGTH_SHORT).show();
+                }
+
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
-                startActivityForResult(intent, CAMERA_REQUEST);
+                        uri);
+                addProductFragment.startActivityForResult(intent, CAMERA_REQUEST);
             }
         }
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
+            options.inSampleSize = 5;
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            ExifInterface exif = null;
+            try {
+                exif = new ExifInterface(photoFile.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (exif == null)
+                return;
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+
             Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
-            if (bitmap.getHeight() > bitmap.getWidth()) {
+            if (orientation == 6) {
                 Toast.makeText(getContext(), "Orijentacija slike mora biti horizontalna!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            imageView_addProduct.setBackgroundResource(android.R.color.transparent);
+            imageView_addProduct.setAdjustViewBounds(true);
+            imageView_addProduct.setScaleType(ImageView.ScaleType.CENTER);
             imageView_addProduct.setImageBitmap(bitmap);
             pictureSet = true;
 
@@ -211,20 +255,38 @@ public class AddProductFragment extends Fragment {
 
     }
 
-    private File createImageFile() throws IOException {
+    private void checkPermissions() {
         // Create an image file name
-        String imageFileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        if (Build.VERSION.SDK_INT >= 23) {
+            int write = ContextCompat.checkSelfPermission(this.getContext(), permissions[0]);
+            /*if (write == PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getContext(), "falseeeeeeee", Toast.LENGTH_SHORT).show();*/
 
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
+            int read = ContextCompat.checkSelfPermission(this.getContext(), permissions[1]);
+            /*if (read == PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getContext(), "false", Toast.LENGTH_SHORT).show();*/
+
+            int camera = ContextCompat.checkSelfPermission(this.getContext(), permissions[2]);
+            int internet = ContextCompat.checkSelfPermission(this.getContext(), permissions[3]);
+            if (write != PackageManager.PERMISSION_GRANTED || read != PackageManager.PERMISSION_GRANTED ||
+                    camera != PackageManager.PERMISSION_GRANTED || internet != PackageManager.PERMISSION_GRANTED)
+                requestPermissions(permissions, STORAGE_REQUEST_CODE);
+            //Toast.makeText(getContext(), "Došlo je do greške", Toast.LENGTH_SHORT).show();
+            //requestPermissions(, STORAGE_REQUEST_CODE);
+            //File write logic here*/
+        }
+        try {
+            callCamera();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
+
 
     private void setProducerAndProductName() {
         textView_producer.setText(productData.getProducerName());
@@ -321,8 +383,8 @@ public class AddProductFragment extends Fragment {
                 try {
                     Map result = cloudinary.uploader().upload(photoFile.getAbsolutePath(),
                             ObjectUtils.asMap("transformation",
-                            new Transformation().width(2000).height(1000).crop("limit")));
-                    String uri = (String)result.get("url");
+                                    new Transformation().width(2000).height(1000).crop("limit")));
+                    String uri = (String) result.get("url");
                     productData.getBaseProduct().setPhotoURI(uri);
                     addNewProduct();
                 } catch (IOException e) {
@@ -407,4 +469,5 @@ public class AddProductFragment extends Fragment {
     public Boolean getProductBeingAdded() {
         return productBeingAdded;
     }
+
 }

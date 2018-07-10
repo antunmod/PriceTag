@@ -1,6 +1,8 @@
 package antunmod.projects.pricetag.view.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
 
 import antunmod.projects.pricetag.service.HomeService;
@@ -223,5 +226,29 @@ public class HomeActivity extends AppCompatActivity
          * @return true if the App can be closed, false otherwise
          */
         boolean onBackPressed();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        Toast.makeText(getApplicationContext(), permissions[0] + permissions[1], Toast.LENGTH_SHORT).show();
+        if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                && permissions[1].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            Toast.makeText(this, grantResults[0] + "\n" + grantResults[1] + "\n" + grantResults.length,
+                    Toast.LENGTH_SHORT).show();
+            boolean granted = true;
+            for (int i = 0; i < grantResults.length; ++i) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED)
+                    granted = false;
+            }
+            //Toast.makeText(this, Boolean.toString(granted), Toast.LENGTH_SHORT).show();
+
+            if (granted)
+                try {
+                    AddProductFragment.callCamera();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 }
