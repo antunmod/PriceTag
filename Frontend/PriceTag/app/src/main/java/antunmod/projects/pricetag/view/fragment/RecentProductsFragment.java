@@ -50,6 +50,8 @@ public class RecentProductsFragment extends Fragment {
     private SearchService searchService = new SearchService();
     private SearchProductData selectedProductData;
 
+    private Runnable updateAdapterOnUiThread;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,10 +65,12 @@ public class RecentProductsFragment extends Fragment {
             }
 
             @Override
-            public void onBitmapFailed(Drawable errorDrawable) {}
+            public void onBitmapFailed(Drawable errorDrawable) {
+            }
 
             @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {}
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+            }
         };
 
         gridView = inflatedView.findViewById(R.id.gridView);
@@ -78,10 +82,19 @@ public class RecentProductsFragment extends Fragment {
                     findLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
             }
         });
-        if (imageItems != null)
-            setGridView(imageItems);
-        else
+
+        updateAdapterOnUiThread = new Runnable() {
+            @Override
+            public void run() {
+                gridViewAdapter.notifyDataSetChanged();
+
+            }
+        };
+
+        if (imageItems == null) {
             findProducts();
+        }
+        setGridView(imageItems);
         return inflatedView;
     }
 
@@ -119,7 +132,8 @@ public class RecentProductsFragment extends Fragment {
         ImageItem imageItem = new ImageItem(bitmap, text);
 
         imageItems.add(imageItem);
-        setGridView(imageItems);
+
+        updateAdapterOnUiThread.run();
         productNumber++;
         findNextImage();
     }
