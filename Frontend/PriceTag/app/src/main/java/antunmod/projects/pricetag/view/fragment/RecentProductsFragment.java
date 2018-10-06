@@ -21,7 +21,6 @@ import antunmod.projects.pricetag.model.GridViewAdapter;
 import antunmod.projects.pricetag.model.ImageItem;
 import antunmod.projects.pricetag.service.RecentProductsService;
 import antunmod.projects.pricetag.service.SearchService;
-import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
 
@@ -50,7 +49,7 @@ public class RecentProductsFragment extends Fragment {
     private SearchService searchService = new SearchService();
     private SearchProductData selectedProductData;
 
-    private Runnable updateAdapterOnUiThread;
+    private Runnable updateGridViewOnUiThread;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,17 +82,17 @@ public class RecentProductsFragment extends Fragment {
             }
         });
 
-        updateAdapterOnUiThread = new Runnable() {
+        updateGridViewOnUiThread = new Runnable() {
             @Override
             public void run() {
                 gridViewAdapter.notifyDataSetChanged();
-
             }
         };
 
         if (imageItems == null) {
             findProducts();
         }
+
         setGridView(imageItems);
         return inflatedView;
     }
@@ -133,7 +132,8 @@ public class RecentProductsFragment extends Fragment {
 
         imageItems.add(imageItem);
 
-        updateAdapterOnUiThread.run();
+        updateGridViewOnUiThread.run();
+
         productNumber++;
         findNextImage();
     }

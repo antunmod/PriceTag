@@ -15,7 +15,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
@@ -46,7 +45,7 @@ public class SearchFragment extends Fragment {
     private final String IMAGE_NAME = "original.jpg";
 
     private Target target;
-    private Dialog dialog;;
+    private Dialog dialog;
     private String defaultString = "-";
 
     private List<String> categoriesList;
@@ -60,7 +59,6 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
         // Required empty public constructor
     }
-
 
 
     private SearchService searchService;
@@ -90,6 +88,8 @@ public class SearchFragment extends Fragment {
     Spinner spinner_store;
 
     Integer productNumber = 0;
+
+    private Runnable updateGridViewOnUiThread;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,14 +133,21 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 searchFilter.setProductName(editText_productName.getText().toString());
-                setGridView(new ArrayList<ImageItem>());
+                imageItems = new ArrayList<>();
+                setGridView(imageItems);
                 productNumber = 0;
                 UtilService.hideKeyboardFrom(getContext(), getView());
                 findProducts();
             }
         });
 
-        //gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_layout, getData());
+        updateGridViewOnUiThread = new Runnable() {
+            @Override
+            public void run() {
+                gridViewAdapter.notifyDataSetChanged();
+            }
+        };
+
 
         fab_filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,10 +167,12 @@ public class SearchFragment extends Fragment {
                     findLocationsForProductSpecificId(selectedProductData.getProductSpecificId());
             }
         });
-        if (imageItems != null)
+
+        if (imageItems != null) {
             setGridView(imageItems);
-        else
+        } else {
             showFilterDialog();
+        }
 
         return inflatedView;
     }
@@ -182,7 +191,6 @@ public class SearchFragment extends Fragment {
 
     private void findProducts() {
         searchService.findProducts(this, searchFilter);
-        imageItems = new ArrayList<>();
     }
 
     public static void foundProducts(SearchFragment searchFragment, ArrayList<SearchProductData> searchProductDataList) {
@@ -203,7 +211,7 @@ public class SearchFragment extends Fragment {
             Picasso.with(getContext()).load(searchProductData.getImageURI()).into(target);
         }
 
-        }
+    }
 
 
     private void updateGridView(Bitmap bitmap) {
@@ -214,7 +222,9 @@ public class SearchFragment extends Fragment {
         ImageItem imageItem = new ImageItem(bitmap, text);
 
         imageItems.add(imageItem);
-        setGridView(imageItems);
+
+        updateGridViewOnUiThread.run();
+
         productNumber++;
         findNextImage();
     }
@@ -315,10 +325,10 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                searchFilter.setCategoryName(spinner_category.getSelectedItem().equals(defaultString)? "" : spinner_category.getSelectedItem().toString());
-                searchFilter.setSubcategoryName(spinner_subcategory.getSelectedItem().equals(defaultString)? "" : spinner_subcategory.getSelectedItem().toString());
-                searchFilter.setProducerName(spinner_producer.getSelectedItem().equals(defaultString)? "" : spinner_producer.getSelectedItem().toString());
-                searchFilter.setStoreName(spinner_store.getSelectedItem().equals(defaultString)? "" : spinner_store.getSelectedItem().toString());
+                searchFilter.setCategoryName(spinner_category.getSelectedItem().equals(defaultString) ? "" : spinner_category.getSelectedItem().toString());
+                searchFilter.setSubcategoryName(spinner_subcategory.getSelectedItem().equals(defaultString) ? "" : spinner_subcategory.getSelectedItem().toString());
+                searchFilter.setProducerName(spinner_producer.getSelectedItem().equals(defaultString) ? "" : spinner_producer.getSelectedItem().toString());
+                searchFilter.setStoreName(spinner_store.getSelectedItem().equals(defaultString) ? "" : spinner_store.getSelectedItem().toString());
 
                 dialog.dismiss();
             }
@@ -344,7 +354,7 @@ public class SearchFragment extends Fragment {
     public static void foundCategories(SearchFragment searchFragment, List<String> categoryList) {
         searchFragment.categoriesList = new ArrayList<>(searchFragment.emptyList);
         searchFragment.categoriesList.addAll(categoryList);
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_category, searchFragment.categoriesList);
+        SearchFragment.updateSpinner(searchFragment, searchFragment.spinner_category, searchFragment.categoriesList);
     }
 
     private void findSubcategoriesForCategoryName(String categoryName) {
@@ -354,7 +364,7 @@ public class SearchFragment extends Fragment {
     public static void foundSubcategoriesForCategoryName(SearchFragment searchFragment, List<String> subcategoryList) {
         searchFragment.subcategoriesList = new ArrayList<>(searchFragment.emptyList);
         searchFragment.subcategoriesList.addAll(subcategoryList);
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_subcategory, searchFragment.subcategoriesList);
+        SearchFragment.updateSpinner(searchFragment, searchFragment.spinner_subcategory, searchFragment.subcategoriesList);
     }
 
     private void findProducers() {
@@ -366,7 +376,7 @@ public class SearchFragment extends Fragment {
     public static void foundProducers(SearchFragment searchFragment, List<String> producerList) {
         searchFragment.producersList = new ArrayList<>(searchFragment.emptyList);
         searchFragment.producersList.addAll(producerList);
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_producer, searchFragment.producersList);
+        SearchFragment.updateSpinner(searchFragment, searchFragment.spinner_producer, searchFragment.producersList);
     }
 
     private void findStores() {
@@ -376,7 +386,7 @@ public class SearchFragment extends Fragment {
     public static void foundStores(SearchFragment searchFragment, List<String> storeList) {
         searchFragment.storesList = new ArrayList<>(searchFragment.emptyList);
         searchFragment.storesList.addAll(storeList);
-        searchFragment.updateSpinner(searchFragment, searchFragment.spinner_store, searchFragment.storesList);
+        SearchFragment.updateSpinner(searchFragment, searchFragment.spinner_store, searchFragment.storesList);
     }
 
     private static void updateSpinner(SearchFragment searchFragment, Spinner spinner, List<String> dataList) {
