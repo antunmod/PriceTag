@@ -78,7 +78,7 @@ public class SearchFragment extends Fragment {
 
     private GridViewAdapter gridViewAdapter;
 
-    ArrayList<ImageItem> imageItems;
+    private ArrayList<ImageItem> imageItems;
 
     View inflatedView;
 
@@ -135,18 +135,13 @@ public class SearchFragment extends Fragment {
                 searchFilter.setProductName(editText_productName.getText().toString());
                 imageItems = new ArrayList<>();
                 setGridView(imageItems);
+                updateGridViewOnUiThread = UtilService.createUpdateGridViewRunner(gridViewAdapter);
                 productNumber = 0;
                 UtilService.hideKeyboardFrom(getContext(), getView());
                 findProducts();
             }
         });
 
-        updateGridViewOnUiThread = new Runnable() {
-            @Override
-            public void run() {
-                gridViewAdapter.notifyDataSetChanged();
-            }
-        };
 
 
         fab_filter.setOnClickListener(new View.OnClickListener() {
@@ -170,8 +165,7 @@ public class SearchFragment extends Fragment {
 
         if (imageItems != null) {
             setGridView(imageItems);
-        } else {
-            showFilterDialog();
+            updateGridViewOnUiThread = UtilService.createUpdateGridViewRunner(gridViewAdapter);
         }
 
         return inflatedView;

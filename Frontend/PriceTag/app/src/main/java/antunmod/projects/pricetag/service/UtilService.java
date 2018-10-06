@@ -10,14 +10,16 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import antunmod.projects.pricetag.model.GridViewAdapter;
+
 /**
    Util service for methods used by multiple Fragments and Activities.
  */
 public class UtilService {
 
     private static final String SERVER_ERROR_STRING = "Poslužitelj je u stanju hibernacije, pričekajte malo pa pokušajte ponovo";
-    protected static final String NON_EXISTING_ACCOUNT = "Nije pronađen račun za unesene informacije";
-    public static final String LOGIN_ERROR = "Korisnik s unesenim korisničkim imenom i lozinkom ne postoji!";
+    static final String NON_EXISTING_ACCOUNT = "Nije pronađen račun za unesene informacije";
+    static final String LOGIN_ERROR = "Korisnik s unesenim korisničkim imenom i lozinkom ne postoji!";
 
 
     /**
@@ -75,6 +77,15 @@ public class UtilService {
 
     public static void toastError(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
+    public static Runnable createUpdateGridViewRunner(final GridViewAdapter gridViewAdapter) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                gridViewAdapter.notifyDataSetChanged();
+            }
+        };
     }
 
 }

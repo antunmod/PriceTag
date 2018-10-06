@@ -21,6 +21,7 @@ import antunmod.projects.pricetag.model.GridViewAdapter;
 import antunmod.projects.pricetag.model.ImageItem;
 import antunmod.projects.pricetag.service.RecentProductsService;
 import antunmod.projects.pricetag.service.SearchService;
+import antunmod.projects.pricetag.service.UtilService;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
 
@@ -82,18 +83,13 @@ public class RecentProductsFragment extends Fragment {
             }
         });
 
-        updateGridViewOnUiThread = new Runnable() {
-            @Override
-            public void run() {
-                gridViewAdapter.notifyDataSetChanged();
-            }
-        };
 
         if (imageItems == null) {
             findProducts();
         }
 
         setGridView(imageItems);
+        updateGridViewOnUiThread = UtilService.createUpdateGridViewRunner(gridViewAdapter);
         return inflatedView;
     }
 
