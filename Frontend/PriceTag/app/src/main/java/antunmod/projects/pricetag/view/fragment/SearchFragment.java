@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import antunmod.projects.pricetag.R;
@@ -41,61 +42,55 @@ import antunmod.projects.pricetag.transfer.StoreProductPrice;
  */
 public class SearchFragment extends Fragment {
 
-    private final String IMAGE_FOLDER_LOCATION = "C:/Users/antun/Documents/Projekti/PriceTag - Photos/";
-    private final String IMAGE_NAME = "original.jpg";
-
     private Target target;
-    private Dialog dialog;
-    private String defaultString = "-";
 
     private List<String> categoriesList;
     private List<String> subcategoriesList;
     private List<String> producersList;
     private List<String> storesList;
 
-    private List<String> emptyList;
+
     private SearchFragment searchFragment;
+    private SearchService searchService;
+
+    /*
+       UI element variables
+     */
+    private EditText editText_productName;
+    private GridView gridView;
+    private ArrayList<SearchProductData> searchProductDataList;
+    private SearchProductData selectedProductData;
+
+    private ArrayList<ImageItem> imageItems;
+
+    private GridViewAdapter gridViewAdapter;
+
+    /*
+        Filter dialog variables
+     */
+    private Dialog dialog;
+    private SearchFilter searchFilter;
+    private Spinner spinner_category;
+    private Spinner spinner_subcategory;
+    private Spinner spinner_producer;
+    private Spinner spinner_store;
+
+    private List<String> emptyList;
+    private String defaultString = "-";
+
+    private Integer productNumber = 0;
+
+    private Runnable updateGridViewOnUiThread;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-
-    private SearchService searchService;
-
-    private final String SUPERMARKETS = "Supermarketi";
-
-    private final String ERROR_STRING = "Došlo je do greške";
-
-    private Button btn_search;
-    private EditText editText_productName;
-    private GridView gridView;
-    private FloatingActionButton fab_filter;
-    private SearchFilter searchFilter;
-    private ArrayList<SearchProductData> searchProductDataList;
-
-    private SearchProductData selectedProductData;
-
-    private GridViewAdapter gridViewAdapter;
-
-    private ArrayList<ImageItem> imageItems;
-
-    View inflatedView;
-
-    Spinner spinner_category;
-    Spinner spinner_subcategory;
-    Spinner spinner_producer;
-    Spinner spinner_store;
-
-    Integer productNumber = 0;
-
-    private Runnable updateGridViewOnUiThread;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        this.inflatedView = inflater.inflate(R.layout.fragment_search, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_search, container, false);
 
         searchFragment = this;
 
@@ -121,13 +116,12 @@ public class SearchFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.filter_dialog);
 
-        btn_search = inflatedView.findViewById(R.id.btn_search);
+        Button btn_search = inflatedView.findViewById(R.id.btn_search);
         editText_productName = inflatedView.findViewById(R.id.editText_product_name);
         gridView = inflatedView.findViewById(R.id.gridView);
-        fab_filter = inflatedView.findViewById(R.id.fab_filter);
+        FloatingActionButton fab_filter = inflatedView.findViewById(R.id.fab_filter);
 
-        emptyList = new ArrayList<>();
-        emptyList.add(defaultString);
+        emptyList = Collections.singletonList(defaultString);
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +135,6 @@ public class SearchFragment extends Fragment {
                 findProducts();
             }
         });
-
 
 
         fab_filter.setOnClickListener(new View.OnClickListener() {
@@ -342,6 +335,7 @@ public class SearchFragment extends Fragment {
 
 
     private void findCategories() {
+        String SUPERMARKETS = "Supermarketi";
         searchService.findCategoriesForSectorName(this, SUPERMARKETS);
     }
 
