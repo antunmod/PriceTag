@@ -13,12 +13,13 @@
         android:layout_marginTop="28dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="Cijena"
+        android:hint="@string/price"
         android:inputType="numberDecimal"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_size" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_size"
+        tools:ignore="Autofill" />
 
     <TextView
         android:id="@+id/textView_add_product"
@@ -27,7 +28,7 @@
         android:layout_marginTop="8dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
-        android:text="Dodaj proizvod"
+        android:text="@string/add_product"
         android:textColor="@color/colorPrimary"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +46,6 @@
         android:adjustViewBounds="true"
         android:background="@drawable/ic_menu_camera"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:contentDescription="AddProductImage"
         android:cropToPadding="true"
         android:outlineProvider="background"
         android:scaleType="fitXY"
@@ -53,7 +53,8 @@
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,UnusedAttribute" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -70,16 +71,16 @@
         android:id="@+id/editText_size"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="84dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="Veličina"
+        android:hint="@string/size"
         android:inputType="numberDecimal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_product_description" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_product_description"
+        tools:ignore="Autofill" />
 
     <Spinner
         android:id="@+id/spinner_size"
@@ -101,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:hint="Proizvođač"
+        android:hint="@string/producer"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@android:color/black"
@@ -116,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:hint="Proizvod"
+        android:hint="@string/product"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@android:color/black"
@@ -149,10 +150,11 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="Opis proizvoda"
+        android:hint="@string/product_description"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_product_name" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_product_name"
+        tools:ignore="Autofill" />
 
 </android.support.constraint.ConstraintLayout>

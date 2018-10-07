@@ -5,9 +5,6 @@
     android:layout_height="match_parent"
     tools:context="antunmod.projects.pricetag.view.fragment.UpdateProductFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <ImageView
         android:id="@+id/imageView_update_product"
         android:layout_width="291dp"
@@ -18,7 +15,8 @@
         android:src="@drawable/ic_menu_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <EditText
         android:id="@+id/editText_new_price"
@@ -27,11 +25,12 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="Nova cijena"
+        android:hint="@string/new_price"
         android:inputType="numberDecimal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_product_information" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_product_information"
+        tools:ignore="Autofill" />
 
 
     <TextView
@@ -40,7 +39,7 @@
         android:layout_height="51dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
-        android:text="Ažuriraj cijenu"
+        android:text="@string/update_price"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

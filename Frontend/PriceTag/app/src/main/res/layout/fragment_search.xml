@@ -15,10 +15,11 @@
         android:layout_marginTop="20dp"
         android:ems="12"
         android:gravity="center_horizontal"
-        android:hint="@string/ime_proizvoda"
+        android:hint="@string/product_name"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill" />
 
     <Button
         android:id="@+id/btn_search"
@@ -57,7 +58,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="40dp"
         android:clickable="true"
         android:focusable="true"
