@@ -1,15 +1,13 @@
 package antunmod.projects.pricetag.service;
 
-import java.io.IOException;
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import antunmod.projects.pricetag.RestServiceClient;
 import antunmod.projects.pricetag.transfer.ProductInformation;
-import antunmod.projects.pricetag.view.activity.HomeActivity;
-import antunmod.projects.pricetag.view.activity.LoginActivity;
 import antunmod.projects.pricetag.view.fragment.SelectFragment;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +31,7 @@ public class SelectService {
         Call<List<String>> call = restServiceClient.getStoreLocations(selectedStore);
         call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
                 ArrayList<String> storeAddresses = (ArrayList<String>) response.body();
                 if (storeAddresses != null) {
                     SelectFragment.foundStoreAddressesStatic(selectFragment, storeAddresses);
@@ -43,7 +41,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -54,7 +52,7 @@ public class SelectService {
         Call<Short> call = restServiceClient.getStoreSpecificIdForAddress(storeAddress);
         call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Short> call, Response<Short> response) {
+            public void onResponse(@NonNull Call<Short> call, @NonNull Response<Short> response) {
                 Short storeId = response.body();
 
                 if (storeId != null) {
@@ -65,7 +63,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<Short> call, Throwable t) {
+            public void onFailure(@NonNull Call<Short> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -75,12 +73,12 @@ public class SelectService {
         Call<List<String>> call = restServiceClient.getSectors();
         call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
 
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
             }
         });
     }
@@ -89,7 +87,7 @@ public class SelectService {
         Call<List<String>> call = restServiceClient.getCategoriesForSectorName(sectorName);
         call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
                 ArrayList<String> categoriesList = (ArrayList) response.body();
                 if (categoriesList != null) {
                     SelectFragment.foundCategoriesForSectorName(selectFragment, categoriesList);
@@ -99,7 +97,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -109,7 +107,7 @@ public class SelectService {
         Call<List<String>> call = restServiceClient.getSubcategoriesForCategoryName(categoryName);
         call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
                 ArrayList<String> subcategoriesList = (ArrayList) response.body();
                 if (subcategoriesList != null) {
                     SelectFragment.foundSubcategoriesForSectorName(selectFragment, subcategoriesList);
@@ -119,7 +117,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -129,7 +127,7 @@ public class SelectService {
         Call<List<String>> call = restServiceClient.getProducersForSubcategoryName(subcategoryName);
         call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
                 ArrayList<String> producersList = (ArrayList) response.body();
                 if (producersList != null) {
                     SelectFragment.foundProducersForSubcategoryName(selectFragment, producersList);
@@ -140,7 +138,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
 
@@ -152,7 +150,7 @@ public class SelectService {
         Call<List<String>> call = restServiceClient.getProductNamesForSubcategoryAndProducerName(subcategoryName, producerName);
         call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
                 ArrayList<String> productsList = (ArrayList) response.body();
                 if (productsList != null) {
                     SelectFragment.foundProductsForSubcategoryAndProducerName(selectFragment, productsList);
@@ -163,7 +161,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
 
@@ -176,7 +174,7 @@ public class SelectService {
         Call<Short> call = restServiceClient.getProductIdForProducerAndProductName(producerName, productName);
         call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Short> call, Response<Short> response) {
+            public void onResponse(@NonNull Call<Short> call, @NonNull Response<Short> response) {
                 Short productId = response.body();
                 if (productId != null) {
                     SelectFragment.foundProductIdForProducerAndProductName(selectFragment, productId);
@@ -186,7 +184,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<Short> call, Throwable t) {
+            public void onFailure(@NonNull Call<Short> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -197,7 +195,7 @@ public class SelectService {
         Call<Short> call = restServiceClient.getSubcategoryIdForCategoryAndSubcategoryName(categoryName, subcategoryName);
         call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Short> call, Response<Short> response) {
+            public void onResponse(@NonNull Call<Short> call, @NonNull Response<Short> response) {
                 Short subcategoryId = response.body();
                 if (subcategoryId != null) {
                     SelectFragment.foundSubcategoryIdForCategoryAndSubcategoryName(selectFragment, subcategoryId);
@@ -207,7 +205,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<Short> call, Throwable t) {
+            public void onFailure(@NonNull Call<Short> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -218,17 +216,17 @@ public class SelectService {
         Call<Short> call = restServiceClient.getStoreId(storeName);
         call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Short> call, Response<Short> response) {
+            public void onResponse(@NonNull Call<Short> call, @NonNull Response<Short> response) {
                 Short storeId = response.body();
                 if (storeId != null) {
-                    selectFragment.foundStoreId(selectFragment, storeId);
+                    SelectFragment.foundStoreId(selectFragment, storeId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
             }
 
             @Override
-            public void onFailure(Call<Short> call, Throwable t) {
+            public void onFailure(@NonNull Call<Short> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -238,17 +236,17 @@ public class SelectService {
         Call<Short> call = restServiceClient.getProducerId(producerName);
         call.enqueue(new Callback<Short>() {
             @Override
-            public void onResponse(Call<Short> call, Response<Short> response) {
+            public void onResponse(@NonNull Call<Short> call, @NonNull Response<Short> response) {
                 Short producerId = response.body();
                 if (producerId != null) {
-                    selectFragment.foundProducerId(selectFragment, producerId);
+                    SelectFragment.foundProducerId(selectFragment, producerId);
                 } else {
                     SelectFragment.setErrorString(ERROR_STRING);
                 }
             }
 
             @Override
-            public void onFailure(Call<Short> call, Throwable t) {
+            public void onFailure(@NonNull Call<Short> call, @NonNull Throwable t) {
                 SelectFragment.setErrorString(ERROR_STRING);
             }
         });
@@ -258,7 +256,7 @@ public class SelectService {
         Call<ProductInformation> call = restServiceClient.getProductInformationForBarcode(barcode);
         call.enqueue(new Callback<ProductInformation>() {
             @Override
-            public void onResponse(Call<ProductInformation> call, Response<ProductInformation> response) {
+            public void onResponse(@NonNull Call<ProductInformation> call, @NonNull Response<ProductInformation> response) {
                 ProductInformation productInformation = response.body();
                 if (productInformation != null) {
                     selectFragment.foundProductInformationForBarcode(selectFragment, productInformation);
@@ -268,8 +266,7 @@ public class SelectService {
             }
 
             @Override
-            public void onFailure(Call<ProductInformation> call, Throwable t) {
-                SelectFragment.setErrorString(ERROR_STRING);
+            public void onFailure(@NonNull Call<ProductInformation> call, @NonNull Throwable t) {
             }
         });
     }

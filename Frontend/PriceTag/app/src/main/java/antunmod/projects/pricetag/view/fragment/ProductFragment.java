@@ -1,12 +1,12 @@
 package antunmod.projects.pricetag.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.service.ProductService;
+import antunmod.projects.pricetag.service.UtilService;
 import antunmod.projects.pricetag.transfer.InformationFeedback;
 import antunmod.projects.pricetag.transfer.SearchProductData;
 import antunmod.projects.pricetag.transfer.StoreProductPrice;
@@ -108,6 +109,9 @@ public class ProductFragment extends Fragment {
             storeProductPriceList = (ArrayList<StoreProductPrice>) bundle.getSerializable("storeProductPriceList");
             searchProductData = (SearchProductData) bundle.getSerializable("searchProductData");
         }
+
+        UtilService.hideKeyboard(getActivity());
+
     }
 
     @Override
@@ -216,6 +220,7 @@ public class ProductFragment extends Fragment {
             return 0;
         }
 
+        @SuppressLint({"ViewHolder", "InflateParams"})
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.store_product_price_list_item, null);

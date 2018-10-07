@@ -592,6 +592,8 @@ public class SelectFragment extends Fragment {
         }
         textView_select.setText(newTitle);
         addValuesToListView(stringList);
+        UtilService.hideKeyboard(getActivity());
+
     }
 
     private void addValuesToListView(List<String> stringList) {
