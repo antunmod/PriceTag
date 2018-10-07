@@ -132,7 +132,7 @@ public class SearchFragment extends Fragment {
                 setGridView(imageItems);
                 updateGridViewOnUiThread = UtilService.createUpdateGridViewRunner(gridViewAdapter);
                 productNumber = 0;
-                UtilService.hideKeyboardFrom(getContext(), Objects.requireNonNull(getView()));
+                UtilService.hideKeyboard(getActivity());
                 findProducts();
             }
         });
@@ -161,6 +161,8 @@ public class SearchFragment extends Fragment {
             setGridView(imageItems);
             updateGridViewOnUiThread = UtilService.createUpdateGridViewRunner(gridViewAdapter);
         }
+
+        UtilService.hideKeyboard(getActivity());
 
         return inflatedView;
     }

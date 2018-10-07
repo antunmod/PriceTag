@@ -2,6 +2,7 @@ package antunmod.projects.pricetag.view.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import java.util.List;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.RestServiceClient;
-import antunmod.projects.pricetag.service.UtilService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +56,7 @@ public class EnterBarcodeFragment extends Fragment {
                     Call<List<String>> call = restServiceClient.getStoreNames();
                     call.enqueue(new Callback<List<String>>() {
                         @Override
-                        public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                        public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
                             List<String> storeList = response.body();
                             if (storeList != null && storeList.size() > 0) {
                                 goToSelectFragment(storeList);
@@ -67,7 +67,7 @@ public class EnterBarcodeFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<List<String>> call, Throwable t) {
+                        public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
                             Toast.makeText(getContext(), "Došlo je do greške. Pokušajte ponovo.", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -90,9 +90,8 @@ public class EnterBarcodeFragment extends Fragment {
     }
 
     private void goToSelectFragment(List<String> storeList) {
-        UtilService.hideKeyboardFrom(getContext(), getView());
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList("storeList", (ArrayList) storeList);
+        bundle.putStringArrayList("storeList", (ArrayList<String>) storeList);
         bundle.putString("barcode", barcode);
         SelectFragment selectFragment = new SelectFragment();
         selectFragment.setArguments(bundle);

@@ -89,6 +89,9 @@ public class RecentProductsFragment extends Fragment {
 
         setGridView(imageItems);
         updateGridViewOnUiThread = UtilService.createUpdateGridViewRunner(gridViewAdapter);
+
+        UtilService.hideKeyboard(getActivity());
+
         return inflatedView;
     }
 

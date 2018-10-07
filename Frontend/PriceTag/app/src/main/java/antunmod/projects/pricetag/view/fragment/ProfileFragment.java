@@ -1,5 +1,6 @@
 package antunmod.projects.pricetag.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import antunmod.projects.pricetag.R;
-import antunmod.projects.pricetag.model.ProductData;
-import antunmod.projects.pricetag.service.HomeService;
+import antunmod.projects.pricetag.service.UtilService;
 import antunmod.projects.pricetag.transfer.UserInformation;
-import antunmod.projects.pricetag.view.activity.HomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +77,7 @@ public class ProfileFragment extends Fragment {
 
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class ProfileFragment extends Fragment {
         textView_feedbacksGiven.setText(userInformation.getFeedbacksGiven().toString());
         textView_feedbacksReceived.setText(userInformation.getFeedbacksReceived().toString());
 
-
+        UtilService.hideKeyboard(getActivity());
 
         return inflatedView;
     }

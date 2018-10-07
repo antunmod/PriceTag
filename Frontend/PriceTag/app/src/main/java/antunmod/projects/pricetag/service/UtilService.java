@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import antunmod.projects.pricetag.model.GridViewAdapter;
 
 /**
-   Util service for methods used by multiple Fragments and Activities.
+ * Util service for methods used by multiple Fragments and Activities.
  */
 public class UtilService {
 
@@ -23,7 +25,7 @@ public class UtilService {
 
 
     /**
-      Shows the progress and hides the current view.
+     * Shows the progress and hides the current view.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public static void showProgress(final boolean show, final View currentView, final View loadingView) {
@@ -57,14 +59,22 @@ public class UtilService {
         }
     }
 
-    public static void hideKeyboardFrom(Context context, View view) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
 
     public static void showKeyboardIn(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        Objects.requireNonNull(imm).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            assert inputManager != null;
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     public static boolean sqlInjectionTest(String string) {
@@ -75,7 +85,7 @@ public class UtilService {
         Toast.makeText(context, SERVER_ERROR_STRING, Toast.LENGTH_SHORT).show();
     }
 
-    public static void toastError(Context context, String text) {
+    static void toastError(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 

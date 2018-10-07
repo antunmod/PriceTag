@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import java.util.List;
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.ProductData;
 import antunmod.projects.pricetag.model.UpdateProductData;
-import antunmod.projects.pricetag.service.SearchService;
 import antunmod.projects.pricetag.service.SelectService;
 import antunmod.projects.pricetag.service.UtilService;
 import antunmod.projects.pricetag.transfer.ProductInformation;
@@ -38,13 +36,9 @@ import static antunmod.projects.pricetag.view.activity.HomeActivity.user;
  */
 public class SelectFragment extends Fragment {
 
-    private final Short NOT_FOUND_SHORT = -1;
-
     private OnFragmentInteractionListener mListener;
 
     private SelectService selectService;
-    private UtilService utilService;
-    private SearchService searchService;
 
     private final String SUPERMARKETS = "Supermarketi";
 
@@ -134,7 +128,6 @@ public class SelectFragment extends Fragment {
 
     }
 
-    private View inflatedView;
     private ListView listView_select;
     private TextView textView_select;
     private FloatingActionButton fab_addNew;
@@ -144,11 +137,9 @@ public class SelectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        this.inflatedView = inflater.inflate(R.layout.fragment_layout_select, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_layout_select, container, false);
 
         selectService = new SelectService();
-        utilService = new UtilService();
-        searchService = new SearchService();
 
         listView_select = inflatedView.findViewById(R.id.listView_select);
         textView_select = inflatedView.findViewById(R.id.textView_new_data);
@@ -249,10 +240,9 @@ public class SelectFragment extends Fragment {
                 String newValue = et.getText().toString();
                 if (newValue.isEmpty()) {
                     Toast.makeText(getContext(), "Unesite vrijednost", Toast.LENGTH_SHORT).show();
-                } else if (getListViewItems()!= null && getListViewItems().contains(newValue)) {
+                } else if (getListViewItems() != null && getListViewItems().contains(newValue)) {
                     Toast.makeText(getContext(), "Unesena vrijednost već se postoji", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     saveNewValue(newValue);
                     setArrayList();
                 }
@@ -263,7 +253,6 @@ public class SelectFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(getContext(), "Nije dodano", Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -352,7 +341,7 @@ public class SelectFragment extends Fragment {
 
         switch (title) {
             case STORE:
-                if (newStoreName != null && selected.equals(newStoreName))
+                if (selected.equals(newStoreName))
                     updateFragment(STORE_ADDRESS, storeAddressList = new ArrayList<>());
                 else {
                     productData.setStoreName(selected);
@@ -365,26 +354,26 @@ public class SelectFragment extends Fragment {
                 findStoreSpecificId(selected);
                 break;
             case SECTOR:
-                if (newSectorName != null && selected.equals(newSectorName))
+                if (selected.equals(newSectorName))
                     updateFragment(CATEGORY, categoryList = new ArrayList<>());
                 else
                     findCategoriesForSectorName(selected);
                 break;
             case CATEGORY:
-                if (newCategoryName != null && selected.equals(newCategoryName))
+                if (selected.equals(newCategoryName))
                     updateFragment(SUBCATEGORY, subcategoryList = new ArrayList<>());
                 else
                     findSubcategoriesForCategoryName(selected);
                 break;
             case SUBCATEGORY:
-                if (newSubcategoryName != null && selected.equals(newSubcategoryName))
+                if (selected.equals(newSubcategoryName))
                     updateFragment(PRODUCER, producerList = new ArrayList<>());
                 else
                     findProducersForSubcategoryName(selected);
                 break;
             case PRODUCER:
                 productData.setProducerName(selected);
-                if (newProducerName != null && selected.equals(newProducerName)) {
+                if (selected.equals(newProducerName)) {
                     if (productList != null && productList.contains(newProductName))
                         updateFragment(PRODUCT, productList);
                     else
@@ -396,7 +385,7 @@ public class SelectFragment extends Fragment {
                 break;
             case PRODUCT:
                 productData.setProductName(selected);
-                if (newProductName != null && selected.equals(newProductName)) {
+                if (selected.equals(newProductName)) {
                     findSubcategoryIdForCategoryAndSubcategoryName();
                 } else {
                     findProductIdForProducerAndProductName(selected);
@@ -409,7 +398,7 @@ public class SelectFragment extends Fragment {
     }
 
     private void findStoreAddresses(String selectedStore) {
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findStoreAddresses(this, selectedStore);
     }
 
@@ -419,9 +408,9 @@ public class SelectFragment extends Fragment {
     }
 
     public void foundStoreAddresses() {
-        utilService.showProgress(false, listView_select, progressBar_loading);
+        UtilService.showProgress(false, listView_select, progressBar_loading);
         if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT).show();
             errorString = null;
         } else {
             updateFragment(STORE_ADDRESS, storeAddressList);
@@ -461,7 +450,7 @@ public class SelectFragment extends Fragment {
     }
 
     private void findStoreId(String storeName) {
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findStoreId(this, storeName);
     }
 
@@ -471,17 +460,17 @@ public class SelectFragment extends Fragment {
     }
 
     private void closeProgressAndCheckForErrors() {
-        utilService.showProgress(false, listView_select, progressBar_loading);
+        UtilService.showProgress(false, listView_select, progressBar_loading);
 
         if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT).show();
             errorString = null;
         }
     }
 
     private void findStoreSpecificId(String storeAddress) {
 
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findStoreSpecificId(this, storeAddress);
     }
 
@@ -506,8 +495,8 @@ public class SelectFragment extends Fragment {
     }
 
     private void findSubcategoriesForCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        SelectFragment.categoryName = categoryName;
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findSubcategoriesForCategoryName(this, categoryName);
     }
 
@@ -517,8 +506,8 @@ public class SelectFragment extends Fragment {
     }
 
     private void findProducersForSubcategoryName(String subcategoryName) {
-        this.subcategoryName = subcategoryName;
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        SelectFragment.subcategoryName = subcategoryName;
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findProducersForSubcategoryName(this, subcategoryName);
     }
 
@@ -529,14 +518,13 @@ public class SelectFragment extends Fragment {
 
     private void findProductsForSubcategoryAndProducerName(String producerName) {
         productData.setProducerName(producerName);
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findProductsForSubcategoryAndProducerName(this, subcategoryName, producerName);
 
-        utilService.showProgress(false, listView_select, progressBar_loading);
+        UtilService.showProgress(false, listView_select, progressBar_loading);
         if (errorString != null) {
-            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT).show();
             errorString = null;
-        } else {
         }
     }
 
@@ -546,7 +534,7 @@ public class SelectFragment extends Fragment {
     }
 
     public void closeProgressAndUpdateFragment(String title, List<String> stringList) {
-        utilService.showProgress(false, listView_select, progressBar_loading);
+        UtilService.showProgress(false, listView_select, progressBar_loading);
         updateFragment(title, stringList);
 
     }
@@ -555,7 +543,7 @@ public class SelectFragment extends Fragment {
         If the product being added is a new product, find subcategoryId and go to AddProductFragment.
      */
     private void findSubcategoryIdForCategoryAndSubcategoryName() {
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findSubcategoryIdForCategoryAndSubcategoryName(this, categoryName, subcategoryName);
     }
 
@@ -575,12 +563,12 @@ public class SelectFragment extends Fragment {
         productData.setProducerId(producerId);
         selectFragment.goToAddProductFragment();
     }
-    
+
     /*
         If the product being added exists in DB, find its id.
      */
     private void findProductIdForProducerAndProductName(String productName) {
-        utilService.showProgress(true, listView_select, progressBar_loading);
+        UtilService.showProgress(true, listView_select, progressBar_loading);
         selectService.findProductIdForProducerAndProductName(this, productData.getProducerName(), productName);
     }
 
@@ -596,11 +584,10 @@ public class SelectFragment extends Fragment {
 
         title = newTitle;
         if (newTitle.equals(SECTOR) || newTitle.equals(CATEGORY) || newTitle.equals(SUBCATEGORY)) {
-            if (fab_addNew.getVisibility()!= View.GONE)
+            if (fab_addNew.getVisibility() != View.GONE)
                 fab_addNew.setVisibility(View.GONE);
-        }
-        else {
-            if (fab_addNew.getVisibility()!= View.VISIBLE)
+        } else {
+            if (fab_addNew.getVisibility() != View.VISIBLE)
                 fab_addNew.setVisibility(View.VISIBLE);
         }
         textView_select.setText(newTitle);
@@ -615,7 +602,7 @@ public class SelectFragment extends Fragment {
                 stringList
         );
         listView_select.setAdapter(listViewAdapter);
-        if (stringList.isEmpty() && (title.equals(PRODUCT)  || title.equals(PRODUCER) || title.equals(STORE) || title.equals(STORE_ADDRESS))) {
+        if (stringList.isEmpty() && (title.equals(PRODUCT) || title.equals(PRODUCER) || title.equals(STORE) || title.equals(STORE_ADDRESS))) {
             fab_addNew.performClick();
         }
     }
@@ -689,8 +676,6 @@ public class SelectFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
 
 
     /**
