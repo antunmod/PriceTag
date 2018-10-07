@@ -40,9 +40,8 @@ public class RecentProductsFragment extends Fragment {
     private GridViewAdapter gridViewAdapter;
     private Target target;
 
-    ArrayList<ImageItem> imageItems;
+    private ArrayList<ImageItem> imageItems;
 
-    View inflatedView;
     private Integer productNumber = 0;
 
     private ArrayList<SearchProductData> searchProductDataList;
@@ -56,7 +55,7 @@ public class RecentProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        inflatedView = inflater.inflate(R.layout.fragment_recent_products, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_recent_products, container, false);
 
         target = new Target() {
             @Override
@@ -120,12 +119,7 @@ public class RecentProductsFragment extends Fragment {
 
 
     private void updateGridView(Bitmap bitmap) {
-
-        SearchProductData searchProductData = searchProductDataList.get(productNumber);
-        String text = searchProductData.getProducerName() + " " + searchProductData.getProductName() + " " +
-                searchProductData.getProductDescription() + " " + searchProductData.getProductSize();
-        ImageItem imageItem = new ImageItem(bitmap, text);
-
+        ImageItem imageItem = new ImageItem(bitmap);
         imageItems.add(imageItem);
 
         updateGridViewOnUiThread.run();

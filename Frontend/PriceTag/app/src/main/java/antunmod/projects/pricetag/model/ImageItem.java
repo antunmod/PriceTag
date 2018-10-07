@@ -8,28 +8,18 @@ import android.graphics.Bitmap;
 public class ImageItem {
 
     private Bitmap image;
-    private String text;
 
-    public ImageItem() {}
 
-    public ImageItem(Bitmap image, String text) {
+    public ImageItem(Bitmap image) {
         this.image = image;
-        this.text = text;
     }
 
     public Bitmap getImage() {
         return image;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 
     public void setImage(Bitmap bitmap) {
-        this.image = image;
+        this.image = bitmap;
     }
 }

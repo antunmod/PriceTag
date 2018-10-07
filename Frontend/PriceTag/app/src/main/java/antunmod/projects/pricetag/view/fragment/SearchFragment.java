@@ -26,6 +26,7 @@ import com.squareup.picasso.Target;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import antunmod.projects.pricetag.R;
 import antunmod.projects.pricetag.model.GridViewAdapter;
@@ -131,7 +132,7 @@ public class SearchFragment extends Fragment {
                 setGridView(imageItems);
                 updateGridViewOnUiThread = UtilService.createUpdateGridViewRunner(gridViewAdapter);
                 productNumber = 0;
-                UtilService.hideKeyboardFrom(getContext(), getView());
+                UtilService.hideKeyboardFrom(getContext(), Objects.requireNonNull(getView()));
                 findProducts();
             }
         });
@@ -203,10 +204,7 @@ public class SearchFragment extends Fragment {
 
     private void updateGridView(Bitmap bitmap) {
 
-        SearchProductData searchProductData = searchProductDataList.get(productNumber);
-        String text = searchProductData.getProducerName() + " " + searchProductData.getProductName() + " " +
-                searchProductData.getProductDescription() + " " + searchProductData.getProductSize();
-        ImageItem imageItem = new ImageItem(bitmap, text);
+        ImageItem imageItem = new ImageItem(bitmap);
 
         imageItems.add(imageItem);
 
@@ -255,6 +253,7 @@ public class SearchFragment extends Fragment {
         spinner_category.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                Objects.requireNonNull(getView()).performClick();
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && spinner_category.getSelectedItem().equals(defaultString))
                     findCategories();
                 return false;
@@ -278,6 +277,7 @@ public class SearchFragment extends Fragment {
         spinner_subcategory.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                Objects.requireNonNull(getView()).performClick();
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     if (spinner_category.getSelectedItem().equals(defaultString))
                         Toast.makeText(getContext(), "Kategorija mora biti odabrana", Toast.LENGTH_SHORT).show();
@@ -293,6 +293,7 @@ public class SearchFragment extends Fragment {
         spinner_producer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                Objects.requireNonNull(getView()).performClick();
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && spinner_producer.getSelectedItem().equals(defaultString))
                     findProducers();
                 return false;
@@ -302,6 +303,7 @@ public class SearchFragment extends Fragment {
         spinner_store.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                Objects.requireNonNull(getView()).performClick();
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && spinner_store.getSelectedItem().equals(defaultString))
                     findStores();
                 return false;

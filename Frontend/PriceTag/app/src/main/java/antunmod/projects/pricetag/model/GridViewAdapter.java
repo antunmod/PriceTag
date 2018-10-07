@@ -20,7 +20,7 @@ import antunmod.projects.pricetag.R;
 public class GridViewAdapter extends ArrayAdapter {
     private Context context;
     private int layoutResourceId;
-    private ArrayList data = new ArrayList();
+    private ArrayList data;
 
     public GridViewAdapter(Context context, int layoutResourceId, ArrayList data) {
         super (context, layoutResourceId, data);
@@ -30,7 +30,8 @@ public class GridViewAdapter extends ArrayAdapter {
     }
 
     @Override
-    public View getView (int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView (int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
         ViewHolder holder;
 
@@ -38,14 +39,13 @@ public class GridViewAdapter extends ArrayAdapter {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ViewHolder();
-            holder.imageTitle = (TextView) row.findViewById(R.id.text);
-            holder.image = (ImageView) row.findViewById(R.id.image);
+            holder.imageTitle = row.findViewById(R.id.text);
+            holder.image = row.findViewById(R.id.image);
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
         ImageItem item = (ImageItem) data.get(position);
-        holder.imageTitle.setText(item.getText());
         holder.image.setImageBitmap(item.getImage());
         return row;
     }
