@@ -6,39 +6,38 @@
     tools:context="antunmod.projects.pricetag.view.fragment.SearchFragment">
 
 
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="20dp"
-        android:text="PRETRAŽI"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editText_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:ems="10"
+        android:ems="12"
         android:gravity="center_horizontal"
-        android:hint="Naziv proizvoda"
+        android:hint="@string/ime_proizvoda"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/btn_search"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:text="@string/search"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridView
         android:id="@+id/gridView"
-        android:layout_width="382dp"
-        android:layout_height="500dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="15dp"
         android:clickable="true"
         android:columnWidth="180dp"
         android:drawSelectorOnTop="true"
@@ -59,15 +58,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="450dp"
+        android:layout_marginBottom="40dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_filter"
         android:tint="@android:color/background_light"
         app:backgroundTint="@color/colorPrimary"
         app:elevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_search" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
