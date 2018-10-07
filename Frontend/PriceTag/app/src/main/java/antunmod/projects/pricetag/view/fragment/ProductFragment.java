@@ -236,6 +236,7 @@ public class ProductFragment extends Fragment {
             textView_price.setText(price);
             textView_userRating.setText(storeProductPriceList.get(i).getUserRating());
 
+
             return view;
         }
     }
