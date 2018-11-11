@@ -1,5 +1,5 @@
 # PriceTag
-An application for tracking prices in stores. The application is based on crowdsourcing. It was made as a bachelor's theses at Computer Science at the Faculty of Electrical Engineering and Computing of the University of Zagreb. For this project I was mentored by prof. dr. sc. Dejan Škvorc.
+An application for tracking prices in stores. The application is based on crowdsourcing. It was made as a bachelor's theses at Computer Science at the Faculty of Electrical Engineering and Computing of the University of Zagreb. In this project I was mentored by prof. dr. sc. Dejan Škvorc.
 
 The app provides the following functionalities:
 - adding a new product with name, image, producer name, description, price and store in which it was found
